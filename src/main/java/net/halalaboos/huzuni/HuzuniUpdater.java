@@ -20,7 +20,8 @@ public final class HuzuniUpdater extends Thread {
 	public void run() {
 		String version = "";
 		try {
-			version = FileUtils.readURL(new URL("http://halalaboos.net/huzuni/version"));
+			version = FileUtils.readURL(new URL("https://huzuni.github.io/version"));
+			System.out.println(version);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}

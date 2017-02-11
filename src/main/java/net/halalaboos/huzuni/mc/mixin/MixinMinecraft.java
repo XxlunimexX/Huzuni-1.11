@@ -22,9 +22,6 @@ import javax.annotation.Nullable;
 	@Shadow public GuiScreen currentScreen;
 
 	@Shadow
-	public abstract void setIngameFocus();
-
-	@Shadow
 	public boolean skipRenderWorld;
 
 	@Shadow

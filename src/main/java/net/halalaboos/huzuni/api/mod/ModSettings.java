@@ -40,11 +40,13 @@ public class ModSettings extends Node {
 
 	@Override
 	public void save(JsonObject json) throws IOException {
+		super.save(json);
 		json.addProperty("displayName", displayName);
 	}
 
 	@Override
 	public void load(JsonObject json) throws IOException {
+		super.load(json);
 		if (hasNode(json)) {
 			displayName = json.get("displayName").getAsString();
 		}

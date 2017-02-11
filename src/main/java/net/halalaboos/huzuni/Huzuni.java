@@ -41,7 +41,7 @@ public enum Huzuni {
 	INSTANCE;
 	
 	public static final String VERSION = "Huzuni 5.0", MCVERSION = "1.10.2";
-	
+
 	public static final Logger LOGGER = LogManager.getLogger("Huzuni");
 	
 	private final Patcher patcher = new Patcher();
@@ -81,17 +81,8 @@ public enum Huzuni {
 	private File saveFolder = null;
 
 	/**
-	 * Modified game files:
-	 * RenderPlayer
-	 * 
 	 * For capes:
 	 * AbstractClientPlayer
-	 * 
-	 * FOR XRAY ALONE, WE HAVE:
-	 * BlockModelRenderer
-	 * Block
-	 * VisGraph
-	 * VertexBuffer
 	 * 
 	 * THIS NEEDS TO BE FIXED.
 	 * */
