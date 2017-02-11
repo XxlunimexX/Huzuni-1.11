@@ -1,0 +1,84 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = 'SpongePowered'
+            url = 'http://repo.spongepowered.org/maven'
+        }
+    }
+    dependencies {
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT"
+        classpath 'org.spongepowered:mixingradle:0.4-SNAPSHOT'
+    }
+}
+
+apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: 'org.spongepowered.mixin'
+
+version = modVersion
+group = modGroup
+archivesBaseName = modBaseName
+
+minecraft {
+    version = project.forgeVersion
+    runDir = "run"
+    mappings = project.mcpVersion
+}
+
+repositories {
+    maven {
+        name = 'spongepowered-repo'
+        url = 'http://repo.spongepowered.org/maven/'
+    }
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.spongepowered:mixin:0.6.4-SNAPSHOT") {
+        exclude module: "launchwrapper"
+        exclude module: "guava"
+    }
+}
+
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include "mcmod.info"
+
+        // replace version and mcversion
+        expand "version": project.version, "mcversion": project.minecraft.version
+    }
+
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude "mcmod.info"
+    }
+    rename '(.+_at.cfg)', 'META-INF/$1'
+}
+
+sourceSets {
+    main {
+        output.resourcesDir = output.classesDir
+        refMap = "mixins.huzuni.refmap.json"
+    }
+}
+
+jar {
+    manifest {
+        attributes(
+                "MixinConfigs": 'mixins.huzuni.json',
+                "tweakClass": 'org.spongepowered.asm.launch.MixinTweaker',
+                "TweakOrder": 0,
+                'FMLAT': 'huzuni_at.cfg')
+    }
+}
+
+idea { module { inheritOutputDirs = true } }

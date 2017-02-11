@@ -1,0 +1,16 @@
+[
+{
+  "modid": "huzuni",
+  "name": "Huzuni",
+  "description": "Huzuni - Forge Edition! (wow).",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Halalaboos", "brendan"],
+  "credits": "ZachShelly for giving us hope",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
