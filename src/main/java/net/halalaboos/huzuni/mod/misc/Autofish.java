@@ -4,6 +4,8 @@ import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.network.play.server.SPacketEntityVelocity;
@@ -37,14 +39,18 @@ public class Autofish extends BasicMod {
 		if (event.type == PacketEvent.Type.READ) {
 			if (event.getPacket() instanceof SPacketSpawnObject) {
 				SPacketSpawnObject packet = (SPacketSpawnObject)event.getPacket();
-				if (packet.getEntityID() == 90 && packet.getEntityID() == mc.player.getEntityId()) {
+				if (packet.getEntityID() == 90 && packet.getData() == mc.player.getEntityId()) {
 					idFish = packet.getEntityID();
 				}
 			} else if (event.getPacket() instanceof SPacketEntityVelocity) {
 				SPacketEntityVelocity packetEntityVelocity = (SPacketEntityVelocity)event.getPacket();
-				if (packetEntityVelocity.getEntityID() == idFish && packetEntityVelocity.getMotionY() != 0) {
-					recastRod();
-					idFish = -420;
+				Entity packetEntity = mc.world.getEntityByID(packetEntityVelocity.getEntityID());
+				if (packetEntity != null && packetEntity instanceof EntityFishHook) {
+					EntityFishHook fish = (EntityFishHook)packetEntity;
+					if (fish.motionX == 0 && fish.motionY < -0.02 && fish.motionZ == 0) {
+						recastRod();
+						idFish = -420;
+					}
 				}
 			}
 		}
@@ -54,7 +60,7 @@ public class Autofish extends BasicMod {
      * Recasts the rod.
      * */
 	private void recastRod() {
-		CPacketAnimation packetAnimation = new CPacketAnimation();
+		CPacketAnimation packetAnimation = new CPacketAnimation(EnumHand.MAIN_HAND);
 		CPacketPlayerTryUseItem packetTryUse = new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND);
 
 		mc.getConnection().sendPacket(packetAnimation);
