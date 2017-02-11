@@ -58,7 +58,7 @@ public final class Autofarm extends BasicMod {
 		@Override
 		public boolean shouldResetBlock() {
 			IBlockState blockState = getBlockState();
-			return mode.getSelected() == 3 ? !isDirt(blockState) : (mode.getSelected() == 2 ? ((BlockCrops) blockState.getBlock()).getMetaFromState(blockState) >= ((BlockCrops) blockState.getBlock()).getMaxAge() : super.shouldResetBlock());
+			return mode.getSelected() == 3 ? !isDirt(blockState) : (mode.getSelected() == 2 ? blockState.getBlock().getMetaFromState(blockState) >= ((BlockCrops) blockState.getBlock()).getMaxAge() : super.shouldResetBlock());
 		}
 	};
 	
