@@ -130,12 +130,9 @@ public class Nametags extends BasicMod implements Renderer {
 	
 	private String getPing(EntityPlayer entity) {
 		NetworkPlayerInfo playerInfo = mc.getConnection().getPlayerInfo(entity.getUniqueID());
-		if (playerInfo != null) {
-			int ping = playerInfo.getResponseTime();
-			TextFormatting pingFormat = getFormatted(ping >= 100 && ping < 150, ping >= 150 && ping < 200, ping >= 200);
-			return (this.ping.isEnabled() ? " " + pingFormat + ping + "ms" : "");
-		} else
-			return "";
+		int ping = playerInfo.getResponseTime();
+		TextFormatting pingFormat = getFormatted(ping >= 100 && ping < 150, ping >= 150 && ping < 200, ping >= 200);
+		return (this.ping.isEnabled() ? " " + pingFormat + ping + "ms" : "");
 	}
 	
 	private int getColor(EntityPlayer entity, float distance, boolean friend, boolean sneaking) {
@@ -182,25 +179,19 @@ public class Nametags extends BasicMod implements Renderer {
 		int totalItems = 0;
 		GlStateManager.pushMatrix();
 		for (int i = 0; i < 4; i++)
-			if (player.inventory.armorItemInSlot(i) != null)
-				totalItems++;
-		if (player.getHeldItem(EnumHand.MAIN_HAND) != null)
 			totalItems++;
+		totalItems++;
 		int itemSize = 18, center = (-itemSize / 2), halfTotalSize = ((totalItems * itemSize) / 2 - itemSize) + (itemSize / 2), count = 0;
-		if (player.getHeldItem(EnumHand.MAIN_HAND) != null) {
-			draw3dItem(player.getHeldItem(EnumHand.MAIN_HAND), (center - halfTotalSize) + itemSize * count + 2, (int) rY - 16, 0);
-			if (enchants.isEnabled())
-				renderEnchantments(player.getHeldItem(EnumHand.MAIN_HAND), (center - halfTotalSize) + itemSize * count + 2, (int) rY - 16, 0.5F);
-			count++;
-		}
+		draw3dItem(player.getHeldItem(EnumHand.MAIN_HAND), (center - halfTotalSize) + itemSize * count + 2, (int) rY - 16, 0);
+		if (enchants.isEnabled())
+			renderEnchantments(player.getHeldItem(EnumHand.MAIN_HAND), (center - halfTotalSize) + itemSize * count + 2, (int) rY - 16, 0.5F);
+		count++;
 		for (int i = 4; i > 0; i--) {
 			ItemStack armor = player.inventory.armorItemInSlot(i - 1);
-			if (armor != null) {
-				draw3dItem(armor, (center - halfTotalSize) + itemSize * count, (int) rY - 16, 0);
-				if (enchants.isEnabled())
-					renderEnchantments(armor, (center - halfTotalSize) + itemSize * count, (int) rY - 16, 0.5F);
-				count++;
-			}
+			draw3dItem(armor, (center - halfTotalSize) + itemSize * count, (int) rY - 16, 0);
+			if (enchants.isEnabled())
+				renderEnchantments(armor, (center - halfTotalSize) + itemSize * count, (int) rY - 16, 0.5F);
+			count++;
 		}
 		GlStateManager.popMatrix();
 	}
@@ -213,7 +204,7 @@ public class Nametags extends BasicMod implements Renderer {
 				NBTTagCompound compound = enchantments.getCompoundTagAt(j);
 				GlStateManager.pushMatrix();
 				GlStateManager.scale(scale, scale, scale);
-				if (compound != null && Enchantment.getEnchantmentByID(compound.getByte("id")) != null)
+				if (Enchantment.getEnchantmentByID(compound.getByte("id")) != null)
 					mc.fontRenderer.drawStringWithShadow(Enchantment.getEnchantmentByID(compound.getByte("id")).getTranslatedName(compound.getByte("lvl")).substring(0, 4) + " " + compound.getByte("lvl"), x * scaleInverse, ((int) y + (increment * j)) * scaleInverse, 0xFFFFFF);
 				GlStateManager.popMatrix();
 			}

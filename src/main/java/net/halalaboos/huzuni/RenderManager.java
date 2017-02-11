@@ -71,7 +71,6 @@ public final class RenderManager {
         GlStateManager.enableTexture2D();
 		GlStateManager.enableDepth();
 		GlStateManager.depthMask(true);
-		GlStateManager.disableBlend();
 		GlStateManager.enableAlpha();
 		GlStateManager.popMatrix();
 	}

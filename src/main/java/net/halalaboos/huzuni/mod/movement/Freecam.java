@@ -74,8 +74,6 @@ public class Freecam extends BasicMod {
 					event.setCancelled(true);
 			}
 			mc.player.setSprinting(false);
-			mc.player.renderArmPitch += 200;
-			mc.player.renderArmYaw += 180;
 			mc.player.capabilities.isFlying = true;
 			if (fakePlayer != null)
 				fakePlayer.setHealth(mc.player.getHealth());
@@ -87,6 +85,8 @@ public class Freecam extends BasicMod {
 		event.setMotionX(event.getMotionX() * speed.getValue());
 		event.setMotionY(event.getMotionY() * speed.getValue());
 		event.setMotionZ(event.getMotionZ() * speed.getValue());
+		mc.player.renderArmPitch += 200;
+		mc.player.renderArmYaw += 180;
 	}
 
 }

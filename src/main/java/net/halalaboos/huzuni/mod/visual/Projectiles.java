@@ -117,14 +117,9 @@ public class Projectiles extends BasicMod implements Renderer {
         if (text != null) {
         	GlStateManager.pushMatrix();
         	RenderUtils.prepareBillboarding((float) (x - mc.getRenderManager().viewerPosX), (float) (y - mc.getRenderManager().viewerPosY), (float) (z - mc.getRenderManager().viewerPosZ), true);
-        	GlStateManager.enableTexture2D();
-			GlStateManager.enableDepth();
-			GlStateManager.depthMask(true);
+
         	mc.fontRenderer.drawStringWithShadow(text, -mc.fontRenderer.getStringWidth(text) / 2, 1, 0xFFFFFFF);
-        	GlStateManager.disableTexture2D();
-			GlStateManager.disableDepth();
-			GlStateManager.depthMask(false);
-            GlStateManager.popMatrix();
+			GlStateManager.popMatrix();
         }
         GLManager.glColor(0F, 1F, 0F, 1F);
     	VertexBuffer renderer = tessellator.getBuffer();
