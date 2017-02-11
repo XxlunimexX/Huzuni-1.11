@@ -40,7 +40,7 @@ import java.io.File;
 public enum Huzuni {
 	INSTANCE;
 	
-	public static final String VERSION = "Huzuni Dev 16", MCVERSION = "1.10.2";
+	public static final String VERSION = "Huzuni 5.0", MCVERSION = "1.10.2";
 	
 	public static final Logger LOGGER = LogManager.getLogger("Huzuni");
 	
