@@ -2,8 +2,8 @@ package net.halalaboos.huzuni.mod.mining;
 
 import net.halalaboos.huzuni.api.event.LoadWorldEvent;
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.EventUpdate;
-import net.halalaboos.huzuni.api.event.EventUpdate.Type;
+import net.halalaboos.huzuni.api.event.UpdateEvent;
+import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Mode;
@@ -127,7 +127,7 @@ public final class Autofarm extends BasicMod {
 	}
 
 	@EventMethod
-	public void onUpdate(EventUpdate event) {
+	public void onUpdate(UpdateEvent event) {
 		if (huzuni.lookManager.hasPriority(this) && event.type == Type.PRE) {
 			mineTask.setReset(silent.isEnabled());
 			placeTask.setReset(silent.isEnabled());

@@ -1,8 +1,8 @@
 package net.halalaboos.huzuni.mod.combat;
 
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.EventUpdate;
-import net.halalaboos.huzuni.api.event.EventUpdate.Type;
+import net.halalaboos.huzuni.api.event.UpdateEvent;
+import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Toggleable;
@@ -53,7 +53,7 @@ public class Bowaimbot extends BasicMod {
 	
 
 	@EventMethod
-	public void onUpdate(EventUpdate event) {
+	public void onUpdate(UpdateEvent event) {
 		if (!isUsingBow() || event.type == Type.POST)
 			return;
 		target = MinecraftUtils.getClosestEntity(reach.getValue(), 2.5F, invisible.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled(), checkAge.isEnabled());

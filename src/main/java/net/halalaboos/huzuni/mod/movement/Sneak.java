@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.mod.movement;
 
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.EventUpdate;
+import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.minecraft.client.settings.KeyBinding;
@@ -29,7 +29,7 @@ public class Sneak extends BasicMod {
 	}
 
 	@EventMethod
-	public void onUpdate(EventUpdate event) {
+	public void onUpdate(UpdateEvent event) {
 		KeyBinding.setKeyBindState(mc.gameSettings.keyBindSneak.getKeyCode(), true);
 	}
 

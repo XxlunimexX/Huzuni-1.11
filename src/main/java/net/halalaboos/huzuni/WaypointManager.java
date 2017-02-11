@@ -63,7 +63,7 @@ public final class WaypointManager extends JsonFileHandler {
 
 	@Override
 	protected void load(JsonObject object) throws IOException {
-		if (waypoints.isObject(object))
+		if (waypoints.hasNode(object))
 			waypoints.load(object);
 	}
 	

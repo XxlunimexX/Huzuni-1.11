@@ -46,14 +46,14 @@ public class Team extends Node {
     }
     
 	@Override
-	public void save(JsonObject object) throws IOException {
-		object.addProperty(getName(), teamIndex);
+	public void save(JsonObject json) throws IOException {
+		json.addProperty(getName(), teamIndex);
 	}
 
 	@Override
-	public void load(JsonObject object) throws IOException {
-		if (isObject(object)) {
-			teamIndex = object.get(getName()).getAsNumber().intValue();
+	public void load(JsonObject json) throws IOException {
+		if (hasNode(json)) {
+			teamIndex = json.get(getName()).getAsNumber().intValue();
 		}
 	}
 	

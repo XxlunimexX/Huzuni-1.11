@@ -20,16 +20,16 @@ public class StringNode extends Node {
 	}
 	
 	@Override
-	public void save(JsonObject object) throws IOException {
-		super.save(object);
-		object.addProperty(getName(), text);
+	public void save(JsonObject json) throws IOException {
+		super.save(json);
+		json.addProperty(getName(), text);
 	}
 
 	@Override
-	public void load(JsonObject object) throws IOException {
-		super.load(object);
-		if (isObject(object)) {
-			text = object.get(getName()).getAsString();
+	public void load(JsonObject json) throws IOException {
+		super.load(json);
+		if (hasNode(json)) {
+			text = json.get(getName()).getAsString();
 		}
 	}
 

@@ -8,11 +8,11 @@ package net.halalaboos.huzuni.api.event;
  * @version 1.0
  * @since 3/25/14
  */
-public class EventUpdate extends CancellableEvent {
+public class UpdateEvent extends CancellableEvent {
 
 	public final Type type;
 
-	public EventUpdate(Type type) {
+	public UpdateEvent(Type type) {
 		this.type = type;
 	}
 

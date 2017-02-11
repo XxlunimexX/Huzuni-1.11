@@ -1,8 +1,8 @@
 package net.halalaboos.huzuni.mod.movement;
 
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.EventUpdate;
-import net.halalaboos.huzuni.api.event.EventUpdate.Type;
+import net.halalaboos.huzuni.api.event.UpdateEvent;
+import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Mode;
@@ -52,7 +52,7 @@ public class Scaffold extends BasicMod {
 	}
 	
 	@EventMethod
-	public void onUpdate(EventUpdate event) {
+	public void onUpdate(UpdateEvent event) {
 		if (huzuni.lookManager.hasPriority(this) && count <= 0) {
 			if (event.type == Type.PRE) {
 				switch (mode.getSelected()) {

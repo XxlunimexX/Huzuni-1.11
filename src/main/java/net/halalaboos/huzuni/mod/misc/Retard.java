@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.mod.misc;
 
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.EventUpdate;
+import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Mode;
@@ -44,8 +44,8 @@ public class Retard extends BasicMod {
 	}
 
 	@EventMethod
-	public void onUpdate(EventUpdate event) {
-		if (event.type == EventUpdate.Type.PRE) {
+	public void onUpdate(UpdateEvent event) {
+		if (event.type == UpdateEvent.Type.PRE) {
 			if (huzuni.lookManager.hasPriority(this)) {
 				switch (modeYaw.getSelected()) {
 				case 0:

@@ -45,17 +45,17 @@ public class PluginData extends Node {
 			Type type = new TypeToken<ArrayList<JsonObject>>() {}.getType();
 			List<JsonObject> list = gson.fromJson(reader, type);
 			for (JsonObject object : list) {
-				if (name.isObject(object))
+				if (name.hasNode(object))
 					name.load(object);
-				if (description.isObject(object))
+				if (description.hasNode(object))
 					description.load(object);
-				if (author.isObject(object))
+				if (author.hasNode(object))
 					author.load(object);
-				if (classPath.isObject(object))
+				if (classPath.hasNode(object))
 					classPath.load(object);
-				if (version.isObject(object))
+				if (version.hasNode(object))
 					version.load(object);
-				if (mcVersion.isObject(object))
+				if (mcVersion.hasNode(object))
 					mcVersion.load(object);
 			}
 		} catch (Exception e) {
@@ -130,20 +130,20 @@ public class PluginData extends Node {
 	}
 	
 	@Override
-	public boolean isObject(JsonObject object) {
-		return object.get("Type") != null && object.get("Type").equals("PluginData");
+	public boolean hasNode(JsonObject json) {
+		return json.get("Type") != null && json.get("Type").equals("PluginData");
 	}
 	
 	@Override
-	public void save(JsonObject object) throws IOException {
-		object.addProperty("Type", "PluginData");
-		super.save(object);
+	public void save(JsonObject json) throws IOException {
+		json.addProperty("Type", "PluginData");
+		super.save(json);
 	}
 
 	@Override
-	public void load(JsonObject object) throws IOException {
-		if (isObject(object)) {
-			super.load(object);
+	public void load(JsonObject json) throws IOException {
+		if (hasNode(json)) {
+			super.load(json);
 		}
 	}
 	

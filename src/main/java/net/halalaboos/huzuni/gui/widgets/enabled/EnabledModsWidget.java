@@ -159,8 +159,8 @@ public class EnabledModsWidget extends BackgroundWidget {
 		listOrganization.getSelectedItem().organize(renderList);
 	}
 	
-	public void load(JsonObject object) throws IOException {
-		super.load(object);
+	public void load(JsonObject json) throws IOException {
+		super.load(json);
 		this.organizeMods();
 	}
 	

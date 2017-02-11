@@ -16,16 +16,16 @@ public class Toggleable extends Node {
 	}
 	
 	@Override
-	public void save(JsonObject object) throws IOException {
-		super.save(object);
-		object.addProperty(getName(), enabled);
+	public void save(JsonObject json) throws IOException {
+		super.save(json);
+		json.addProperty(getName(), enabled);
 	}
 
 	@Override
-	public void load(JsonObject object) throws IOException {
-		super.load(object);
-		if (isObject(object)) {
-			enabled = object.get(getName()).getAsBoolean();
+	public void load(JsonObject json) throws IOException {
+		super.load(json);
+		if (hasNode(json)) {
+			enabled = json.get(getName()).getAsBoolean();
 		}
 	}
 	

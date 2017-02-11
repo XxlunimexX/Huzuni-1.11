@@ -41,7 +41,7 @@ public final class ModManager extends JsonFileHandler {
 	@Override
 	protected void load(JsonObject object) throws IOException {
 		for (Mod mod : mods) {
-			if (mod.isObject(object)) {
+			if (mod.hasNode(object)) {
 				mod.load(object);
 				return;
 			}

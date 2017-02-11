@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.mod.movement;
 
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.EventUpdate;
+import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 
@@ -26,7 +26,7 @@ public class Fastladder extends BasicMod {
 	}
 
 	@EventMethod
-	public void onUpdate(EventUpdate event) {
+	public void onUpdate(UpdateEvent event) {
         float multiplier = 0.25F;
         if (mc.player.isOnLadder() && mc.player.movementInput.moveForward != 0) {
             mc.player.motionY = multiplier;

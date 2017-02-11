@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.mod.visual;
 
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.EventUpdate;
+import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.minecraft.potion.Potion;
@@ -33,7 +33,7 @@ public class Brightness extends BasicMod {
 	}
 
 	@EventMethod
-	public void onUpdate(EventUpdate event) {
+	public void onUpdate(UpdateEvent event) {
 		int duration = 1000000;
 		PotionEffect nightVision = new PotionEffect(this.nightVision, duration, 1);
 		nightVision.setPotionDurationMax(true);

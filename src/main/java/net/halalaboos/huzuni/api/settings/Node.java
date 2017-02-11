@@ -22,19 +22,19 @@ public class Node implements Nameable, Saveable {
 	}
 	
 	@Override
-	public void save(JsonObject object) throws IOException {
+	public void save(JsonObject json) throws IOException {
 		for (Node child : children)
-			child.save(object);
+			child.save(json);
 	}
 
 	@Override
-	public void load(JsonObject object) throws IOException {
+	public void load(JsonObject json) throws IOException {
 		for (Node child : children)
-			child.load(object);
+			child.load(json);
 	}
 	
-	public boolean isObject(JsonObject object) {
-		return object.get(name) != null;
+	public boolean hasNode(JsonObject json) {
+		return json.get(name) != null;
 	}
 
 	@Override

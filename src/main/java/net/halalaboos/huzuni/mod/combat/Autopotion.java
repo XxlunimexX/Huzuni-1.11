@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.mod.combat;
 
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.EventUpdate;
+import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Toggleable;
@@ -78,7 +78,7 @@ public class Autopotion extends BasicMod {
 	}
 	
 	@EventMethod
-	public void onUpdate(EventUpdate event) {
+	public void onUpdate(UpdateEvent event) {
 		if (mc.currentScreen != null)
 			return;
 		switch (event.type) {

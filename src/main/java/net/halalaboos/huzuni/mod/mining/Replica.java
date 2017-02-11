@@ -3,8 +3,8 @@ package net.halalaboos.huzuni.mod.mining;
 import net.halalaboos.huzuni.RenderManager.Renderer;
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.event.MouseClickEvent;
-import net.halalaboos.huzuni.api.event.EventUpdate;
-import net.halalaboos.huzuni.api.event.EventUpdate.Type;
+import net.halalaboos.huzuni.api.event.UpdateEvent;
+import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicCommand;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
@@ -102,7 +102,7 @@ public final class Replica extends BasicMod implements Renderer {
 	}
 	
 	@EventMethod
-	public void onUpdate(EventUpdate event) {
+	public void onUpdate(UpdateEvent event) {
 		if (event.type == Type.PRE) {
 			if (placeTask.hasBlock() && placeTask.isWithinDistance() && !placeTask.shouldResetBlock()) {
 				placeTask.setPlaceDelay((int) placeDelay.getValue());

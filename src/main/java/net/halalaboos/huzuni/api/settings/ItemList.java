@@ -21,23 +21,23 @@ public abstract class ItemList <I extends Nameable> extends Node {
 	}
 	
 	@Override
-	public void save(JsonObject object) throws IOException {
-		super.save(object);
+	public void save(JsonObject json) throws IOException {
+		super.save(json);
 		JsonArray array = new JsonArray();
 		for (I item : items) {
 			JsonObject itemObject = new JsonObject();
 			saveItem(itemObject, item);
 			array.add(itemObject);
 		}
-		object.add(getName(), array);
+		json.add(getName(), array);
 
 	}
 
 	@Override
-	public void load(JsonObject object) throws IOException {
-		super.load(object);
-		if (isObject(object)) {
-			JsonArray objects = object.getAsJsonArray(getName());
+	public void load(JsonObject json) throws IOException {
+		super.load(json);
+		if (hasNode(json)) {
+			JsonArray objects = json.getAsJsonArray(getName());
 			for (int i = 0; i < objects.size(); i++) {
 				JsonObject itemObject = (JsonObject) objects.get(i);
 				items.add(loadItem(itemObject));
@@ -46,8 +46,8 @@ public abstract class ItemList <I extends Nameable> extends Node {
 	}
 	
 	@Override
-	public boolean isObject(JsonObject object) {
-		return object.getAsJsonArray(getName()) != null;
+	public boolean hasNode(JsonObject json) {
+		return json.getAsJsonArray(getName()) != null;
 	}
 	
 	protected abstract void saveItem(JsonObject object, I item);

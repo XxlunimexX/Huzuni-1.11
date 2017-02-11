@@ -187,35 +187,35 @@ public abstract class Widget extends Node {
 	}
 	
 	@Override
-	public boolean isObject(JsonObject object) {
-		JsonElement name = object.get("name");
+	public boolean hasNode(JsonObject json) {
+		JsonElement name = json.get("name");
 		return name == null ? false : name.getAsString().equals(getName());
 	}
 	
 	@Override
-	public void load(JsonObject object) throws IOException {
-		super.load(object);
-		if (isObject(object)) {
-			setEnabled(object.get("enabled").getAsBoolean());
-			setX(object.get("x").getAsInt());
-			setY(object.get("y").getAsInt());
-			String glue = object.get("glue").getAsString();
+	public void load(JsonObject json) throws IOException {
+		super.load(json);
+		if (hasNode(json)) {
+			setEnabled(json.get("enabled").getAsBoolean());
+			setX(json.get("x").getAsInt());
+			setY(json.get("y").getAsInt());
+			String glue = json.get("glue").getAsString();
 			if (!WidgetGlue.loadGlue(this, menuManager, glue))
-				setGlue(ScreenGlue.load(object.get("glue").getAsString()));
+				setGlue(ScreenGlue.load(json.get("glue").getAsString()));
 		}
 	}
 
 	@Override
-	public void save(JsonObject object) throws IOException {
-		super.save(object);
-		object.addProperty("name", getName());
-		object.addProperty("enabled", isEnabled());
-		object.addProperty("x", x);
-		object.addProperty("y", y);
+	public void save(JsonObject json) throws IOException {
+		super.save(json);
+		json.addProperty("name", getName());
+		json.addProperty("enabled", isEnabled());
+		json.addProperty("x", x);
+		json.addProperty("y", y);
 		if (glue instanceof ScreenGlue)
-			object.addProperty("glue", ((ScreenGlue) glue).name());
+			json.addProperty("glue", ((ScreenGlue) glue).name());
 		else if (glue instanceof WidgetGlue) {
-			object.addProperty("glue", WidgetGlue.getName(((WidgetGlue) glue)));
+			json.addProperty("glue", WidgetGlue.getName(((WidgetGlue) glue)));
 		}
 	}	
 	

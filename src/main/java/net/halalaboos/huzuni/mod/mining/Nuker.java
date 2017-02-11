@@ -3,8 +3,8 @@ package net.halalaboos.huzuni.mod.mining;
 import net.halalaboos.huzuni.api.event.LoadWorldEvent;
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.event.MouseClickEvent;
-import net.halalaboos.huzuni.api.event.EventUpdate;
-import net.halalaboos.huzuni.api.event.EventUpdate.Type;
+import net.halalaboos.huzuni.api.event.UpdateEvent;
+import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Toggleable;
@@ -16,11 +16,9 @@ import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.translation.I18n;
 import org.lwjgl.input.Keyboard;
 
 public final class Nuker extends BasicMod {
@@ -75,7 +73,7 @@ public final class Nuker extends BasicMod {
 	}
 
 	@EventMethod
-	public void onUpdate(EventUpdate event) {
+	public void onUpdate(UpdateEvent event) {
 		if (huzuni.lookManager.hasPriority(this) && event.type == Type.PRE) {
 			mineTask.setReset(silent.isEnabled());
 			mineTask.setMineDelay((int) mineDelay.getValue());

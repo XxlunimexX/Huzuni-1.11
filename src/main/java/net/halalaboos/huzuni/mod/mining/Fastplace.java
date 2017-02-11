@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.mod.mining;
 
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.EventUpdate;
+import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Value;
@@ -30,7 +30,7 @@ public class Fastplace extends BasicMod {
 	}
 
 	@EventMethod
-	public void onUpdate(EventUpdate event) {
+	public void onUpdate(UpdateEvent event) {
     	float speed = this.speed.getValue();
         if (mc.rightClickDelayTimer > (4 - (byte) speed))
             mc.rightClickDelayTimer = (4 - (byte) speed);

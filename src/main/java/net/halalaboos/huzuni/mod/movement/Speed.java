@@ -2,8 +2,8 @@ package net.halalaboos.huzuni.mod.movement;
 
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.event.PlayerMoveEvent;
-import net.halalaboos.huzuni.api.event.EventUpdate;
-import net.halalaboos.huzuni.api.event.EventUpdate.Type;
+import net.halalaboos.huzuni.api.event.UpdateEvent;
+import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Mode;
@@ -57,7 +57,7 @@ public class Speed extends BasicMod {
 	}
 	
 	@EventMethod
-	public void onUpdate(EventUpdate event) {
+	public void onUpdate(UpdateEvent event) {
 		if (event.type == Type.PRE) {
 			boolean modifyMovement = shouldModifyMovement();
 			mode.getSelectedItem().onUpdate(this, mc, event);
@@ -109,7 +109,7 @@ public class Speed extends BasicMod {
         }
 
         @Override
-        public void onUpdate(Speed speed, Minecraft mc, EventUpdate event) {
+        public void onUpdate(Speed speed, Minecraft mc, UpdateEvent event) {
             mc.player.setSprinting(speed.shouldModifyMovement());
         }
 
@@ -129,7 +129,7 @@ public class Speed extends BasicMod {
         }
 
         @Override
-        public void onUpdate(Speed speed, Minecraft mc, EventUpdate event) {
+        public void onUpdate(Speed speed, Minecraft mc, UpdateEvent event) {
 
         }
 
@@ -154,7 +154,7 @@ public class Speed extends BasicMod {
         /**
          * Invoked before and after sending motion updates.
          * */
-        public abstract void onUpdate(Speed speed, Minecraft mc, EventUpdate event);
+        public abstract void onUpdate(Speed speed, Minecraft mc, UpdateEvent event);
 
         /**
          * Invoked when the player moves.

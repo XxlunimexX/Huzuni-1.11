@@ -86,24 +86,24 @@ public class Mod extends Node {
 	}
 
 	@Override
-	public boolean isObject(JsonObject object) {
-		JsonElement name = object.get("name");
+	public boolean hasNode(JsonObject json) {
+		JsonElement name = json.get("name");
 		return name == null ? false : name.getAsString().equals(getName());
 	}
 
 	@Override
-	public void load(JsonObject object) throws IOException {
-		super.load(object);
-		if (isObject(object)) {
-			setEnabled(object.get("enabled").getAsBoolean());
+	public void load(JsonObject json) throws IOException {
+		super.load(json);
+		if (hasNode(json)) {
+			setEnabled(json.get("enabled").getAsBoolean());
 		}
 	}
 
 	@Override
-	public void save(JsonObject object) throws IOException {
-		super.save(object);
-		object.addProperty("name", getName());
-		object.addProperty("enabled", isEnabled());
+	public void save(JsonObject json) throws IOException {
+		super.save(json);
+		json.addProperty("name", getName());
+		json.addProperty("enabled", isEnabled());
 	}
 	
 }

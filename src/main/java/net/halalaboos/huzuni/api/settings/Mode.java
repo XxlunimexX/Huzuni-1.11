@@ -22,16 +22,16 @@ public class Mode <I> extends Node {
 	}
 	
 	@Override
-	public void save(JsonObject object) throws IOException {
-		super.save(object);
-		object.addProperty(getName(), selectedItem);
+	public void save(JsonObject json) throws IOException {
+		super.save(json);
+		json.addProperty(getName(), selectedItem);
 	}
 
 	@Override
-	public void load(JsonObject object) throws IOException {
-		super.load(object);
-		if (this.isObject(object))
-			setSelectedItem(object.get(getName()).getAsInt());
+	public void load(JsonObject json) throws IOException {
+		super.load(json);
+		if (this.hasNode(json))
+			setSelectedItem(json.get(getName()).getAsInt());
 	}
 	
 	public int getSelected() {

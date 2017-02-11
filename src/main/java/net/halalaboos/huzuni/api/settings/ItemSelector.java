@@ -52,13 +52,13 @@ public class ItemSelector <T> extends Node {
 	}
 
 	@Override
-	public boolean isObject(JsonObject object) {
-		return object.getAsJsonArray(getName()) != null;
+	public boolean hasNode(JsonObject json) {
+		return json.getAsJsonArray(getName()) != null;
 	}
 
 	@Override
-	public void save(JsonObject object) throws IOException {
-		super.save(object);
+	public void save(JsonObject json) throws IOException {
+		super.save(json);
 		JsonArray array = new JsonArray();
 		for (int i = 0; i < itemDatas.size(); i++) {
 			if (itemDatas.get(i).isEnabled()) {
@@ -67,14 +67,14 @@ public class ItemSelector <T> extends Node {
 				array.add(itemObject);
 			}
 		}
-		object.add(getName(), array);
+		json.add(getName(), array);
 	}
 
 	@Override
-	public void load(JsonObject object) throws IOException {
-		super.load(object);
-		if (isObject(object)) {
-			JsonArray values = object.get(getName()).getAsJsonArray();
+	public void load(JsonObject json) throws IOException {
+		super.load(json);
+		if (hasNode(json)) {
+			JsonArray values = json.get(getName()).getAsJsonArray();
 			for (JsonElement element : values) {
 				JsonObject itemObject = (JsonObject) element;
 				

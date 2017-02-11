@@ -34,19 +34,19 @@ public class ModSettings extends Node {
 	}
 
 	@Override
-	public boolean isObject(JsonObject object) {
-		return mod.isObject(object);
+	public boolean hasNode(JsonObject json) {
+		return mod.hasNode(json);
 	}
 
 	@Override
-	public void save(JsonObject object) throws IOException {
-		object.addProperty("displayName", displayName);
+	public void save(JsonObject json) throws IOException {
+		json.addProperty("displayName", displayName);
 	}
 
 	@Override
-	public void load(JsonObject object) throws IOException {
-		if (isObject(object)) {
-			displayName = object.get("displayName").getAsString();
+	public void load(JsonObject json) throws IOException {
+		if (hasNode(json)) {
+			displayName = json.get("displayName").getAsString();
 		}
 	}
 

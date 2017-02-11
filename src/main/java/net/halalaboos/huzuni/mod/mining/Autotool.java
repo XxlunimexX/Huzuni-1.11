@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.mod.mining;
 
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.event.PacketEvent;
-import net.halalaboos.huzuni.api.event.EventUpdate;
+import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Toggleable;
@@ -127,7 +127,7 @@ public class Autotool extends BasicMod {
 	}
 	
 	@EventMethod
-	public void onUpdate(EventUpdate event) {
+	public void onUpdate(UpdateEvent event) {
 		if (!mc.gameSettings.keyBindAttack.isKeyDown() && digging) {
 			this.blockState = null;
 			this.position = null;

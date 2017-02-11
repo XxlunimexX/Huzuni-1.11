@@ -28,16 +28,16 @@ public class Value extends Node {
 	}
 
 	@Override
-	public void save(JsonObject object) throws IOException {
-		super.save(object);
-		object.addProperty(getName(), value);
+	public void save(JsonObject json) throws IOException {
+		super.save(json);
+		json.addProperty(getName(), value);
 	}
 
 	@Override
-	public void load(JsonObject object) throws IOException {
-		super.load(object);
-		if (isObject(object)) {
-			value = object.get(getName()).getAsNumber().floatValue();
+	public void load(JsonObject json) throws IOException {
+		super.load(json);
+		if (hasNode(json)) {
+			value = json.get(getName()).getAsNumber().floatValue();
 		}
 	}
 	

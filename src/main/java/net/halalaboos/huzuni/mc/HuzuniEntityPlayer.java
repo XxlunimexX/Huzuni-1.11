@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.mc;
 
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.event.PlayerMoveEvent;
-import net.halalaboos.huzuni.api.event.EventUpdate;
+import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -19,8 +19,8 @@ public class HuzuniEntityPlayer extends EntityPlayerSP {
 	
 	private static final Huzuni huzuni = Huzuni.INSTANCE;
 	
-	private static final EventUpdate preMotionUpdateEvent = new EventUpdate(EventUpdate.Type.PRE),
-			postMotionUpdateEvent = new EventUpdate(EventUpdate.Type.POST);
+	private static final UpdateEvent preMotionUpdateEvent = new UpdateEvent(UpdateEvent.Type.PRE),
+			postMotionUpdateEvent = new UpdateEvent(UpdateEvent.Type.POST);
 	
 	private static final PlayerMoveEvent playerMoveEvent = new PlayerMoveEvent(0D, 0D, 0D);
 

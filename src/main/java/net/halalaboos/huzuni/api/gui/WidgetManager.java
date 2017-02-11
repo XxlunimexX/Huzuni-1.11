@@ -215,7 +215,7 @@ public class WidgetManager extends JsonFileHandler {
 	@Override
 	protected void load(JsonObject object) throws IOException {
 		for (Widget widget : widgets) {
-			if (widget.isObject(object)) {
+			if (widget.hasNode(object)) {
 				widget.load(object);
 				return;
 			}

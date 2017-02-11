@@ -2,8 +2,8 @@ package net.halalaboos.huzuni.mod.combat;
 
 import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.EventUpdate;
-import net.halalaboos.huzuni.api.event.EventUpdate.Type;
+import net.halalaboos.huzuni.api.event.UpdateEvent;
+import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.ItemList;
@@ -31,9 +31,9 @@ public class Autoarmor extends BasicMod {
 	public final ItemList<EnchantmentItem> enchantmentOrder = new ItemList<EnchantmentItem>("Enchantment Priority", "Put each armor enchantment into an order of importance (first being most important).") {
 
 		@Override
-		public void load(JsonObject object) throws IOException {
+		public void load(JsonObject json) throws IOException {
 			this.clearChildren();
-			super.load(object);
+			super.load(json);
 		}
 		@Override
 		protected void saveItem(JsonObject object, EnchantmentItem enchantmentItem) {
@@ -82,7 +82,7 @@ public class Autoarmor extends BasicMod {
 	}
 
 	@EventMethod
-	public void onUpdate(EventUpdate event) {
+	public void onUpdate(UpdateEvent event) {
 		if (mc.currentScreen != null || event.type == Type.POST)
     		return;
         List<Integer> armors = getArmor();
