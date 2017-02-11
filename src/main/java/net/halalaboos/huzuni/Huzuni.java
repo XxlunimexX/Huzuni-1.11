@@ -105,13 +105,7 @@ public enum Huzuni {
 		File folder = mc.mcDataDir;
 		mc.ingameGUI = new HuzuniIngameGui(mc);
 
-		try {
-			Font font = Font.createFont(Font.PLAIN, this.getClass().getResourceAsStream("/assets/huzuni/textures/Lato-Semibold.ttf"));
-			guiFontRenderer.setFont(font.deriveFont(18F), true);
-		} catch (Exception e) {
-			e.printStackTrace();
-			guiFontRenderer.setFont(new Font("Verdana", Font.PLAIN, 18), true);
-		}
+		guiFontRenderer.setFont(new Font("Verdana", Font.PLAIN, 18), true);
 		chatFontRenderer.setFont(new Font("Verdana", Font.PLAIN, 18), true);
 		guiManager.init();
 		modManager.init();
