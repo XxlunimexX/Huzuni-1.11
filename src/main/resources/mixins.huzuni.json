@@ -9,6 +9,9 @@
     "MixinNetworkManager",
     "MixinEntityRenderer",
     "MixinRenderPlayer",
+    "MixinBlockModelRenderer",
+    "MixinBlock",
+    "MixinVisGraph",
     "MixinMinecraft"
   ]
 }

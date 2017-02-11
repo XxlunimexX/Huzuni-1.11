@@ -33,7 +33,7 @@ public class Xray extends BasicMod {
     private Xray() {
 		super("Xray", "See stuff", Keyboard.KEY_X);
 		this.setCategory(Category.VISUAL);
-		this.addChildren(opacity, blockList);
+		this.addChildren(blockList);
 		blockList.addItem(new ItemStack(Items.WATER_BUCKET), Blocks.WATER, Blocks.FLOWING_WATER);
 		blockList.addItem(new ItemStack(Items.LAVA_BUCKET), Blocks.LAVA, Blocks.FLOWING_LAVA);
 		blockList.addItem(new ItemStack(Blocks.DIAMOND_ORE), Blocks.DIAMOND_ORE);

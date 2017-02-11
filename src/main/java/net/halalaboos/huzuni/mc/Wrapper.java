@@ -4,6 +4,8 @@ import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.event.KeyPressEvent;
 import net.halalaboos.huzuni.api.event.LoadWorldEvent;
 import net.halalaboos.huzuni.api.event.MouseClickEvent;
+import net.halalaboos.huzuni.mod.movement.Freecam;
+import net.halalaboos.huzuni.mod.visual.Xray;
 import net.minecraft.client.multiplayer.WorldClient;
 
 public final class Wrapper {
@@ -34,5 +36,9 @@ public final class Wrapper {
 	public static void keyTyped(int keyCode) {
 		huzuni.guiManager.widgetManager.keyTyped(keyCode);
 		huzuni.eventManager.invoke(new KeyPressEvent(keyCode));
+	}
+
+	public static boolean shouldIgnoreCulling() {
+		return Xray.INSTANCE.isEnabled() || Freecam.INSTANCE.isEnabled();
 	}
 }
