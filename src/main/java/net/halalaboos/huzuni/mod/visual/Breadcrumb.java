@@ -38,7 +38,7 @@ public class Breadcrumb extends BasicMod implements Renderer {
 	
 	public final Value opacity = new Value("Opacity", "%", 0F, 50F, 100F, 1F, "Opacity of the icon.");
 
-    public final Value bounce = new Value("Bounce", "" ,0F, 0F, 10F, "Amount the icon will bounce.");
+    public final Value bounce = new Value("Bounce" ,0F, 0F, 10F, "Amount the icon will bounce.");
 
     public final Value distance = new Value("Distance", " blocks", 1F, 15F, 30F, 1F, "Distance between each point.");
 

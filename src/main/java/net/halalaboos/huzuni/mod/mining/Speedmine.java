@@ -18,7 +18,7 @@ import org.lwjgl.input.Keyboard;
  * */
 public class Speedmine extends BasicMod {
 
-	public final Value speed = new Value("Mine speed", "", 1F, 1F, 2F, "Mine speed modifier");
+	public final Value speed = new Value("Mine speed", 1F, 1F, 2F, "Mine speed modifier");
 	
 	private boolean digging = false;
 	

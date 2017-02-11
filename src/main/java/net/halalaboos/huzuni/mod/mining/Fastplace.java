@@ -11,7 +11,7 @@ import net.halalaboos.huzuni.api.settings.Value;
  * */
 public class Fastplace extends BasicMod {
 	
-	public final Value speed = new Value("Speed", "", 1F, 2F, 4F, 1F, "Speed you will place blocks at");
+	public final Value speed = new Value("Speed", 1F, 2F, 4F, 1F, "Speed you will place blocks at");
 	
 	public Fastplace() {
 		super("Fast place", "Places blocks at a faster rate");

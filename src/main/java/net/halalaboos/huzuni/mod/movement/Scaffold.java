@@ -18,7 +18,7 @@ import net.minecraft.util.math.Vec3i;
  * */
 public class Scaffold extends BasicMod {
 		
-	public final Value placeDistance = new Value("Distance ", "", 1F, 3F, 4F, 1F, "Max distance you place blocks");
+	public final Value placeDistance = new Value("Distance ", " blocks", 1F, 3F, 4F, 1F, "Max distance you place blocks");
 
 	public final Mode<String> mode = new Mode<String>("Mode", "Movement mode", "Horizontal", "Vertical");
 	

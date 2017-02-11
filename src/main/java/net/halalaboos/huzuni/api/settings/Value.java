@@ -17,6 +17,14 @@ public class Value extends Node {
 	public Value(String name, String carot, float minValue, float value, float maxValue, String description) {
     	this(name, carot, minValue, value, maxValue, -1, description);
     }
+
+	public Value(String name, float minValue, float value, float maxValue, String description) {
+    	this(name, "", minValue, value, maxValue, -1, description);
+    }
+
+	public Value(String name, float minValue, float value, float maxValue, float incrementValue, String description) {
+    	this(name, "", minValue, value, maxValue, incrementValue, description);
+    }
     
 	public Value(String name, String carot, float minValue, float value, float maxValue, float incrementValue, String description) {
 		super(name, description);

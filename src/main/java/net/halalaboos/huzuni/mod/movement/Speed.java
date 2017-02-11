@@ -28,9 +28,9 @@ public class Speed extends BasicMod {
 
     public final Toggleable stairs = new Toggleable("Stairs", "Automagically jumps up stairs");
 
-    public final Value groundSpeed = new Value("Ground speed", "", 1F, 1F, 10F, "Movement speed on the ground");
+    public final Value groundSpeed = new Value("Ground speed", 1F, 1F, 10F, "Movement speed on the ground");
 
-    public final Value airSpeed = new Value("Air speed", "", 1F, 1F, 10F, "Movement speed in air");
+    public final Value airSpeed = new Value("Air speed", 1F, 1F, 10F, "Movement speed in air");
 	
 	public Speed() {
 		super("Speed", "Adjust player movement speed", Keyboard.KEY_M);
