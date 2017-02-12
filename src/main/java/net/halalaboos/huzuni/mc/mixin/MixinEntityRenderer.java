@@ -15,8 +15,9 @@ import static org.lwjgl.opengl.GL11.*;
 
 	@Final @Shadow private Minecraft mc;
 
-	@Inject(method = "renderWorldPass", at = @At(value = "INVOKE",
-			target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V"))
+	@Inject(method = "renderWorldPass", at = @At(value = "FIELD",
+			target = "Lnet/minecraft/client/renderer/EntityRenderer;renderHand:Z",
+			shift = At.Shift.BEFORE))
 	private void renderWorldPass(int pass, float partialTicks, long finishTimeNano, CallbackInfo ci) {
 		Huzuni.INSTANCE.renderManager.enableGlConstants();
 		Huzuni.INSTANCE.renderManager.renderWorld(partialTicks);

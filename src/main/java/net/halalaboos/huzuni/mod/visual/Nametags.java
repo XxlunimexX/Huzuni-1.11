@@ -100,7 +100,7 @@ public class Nametags extends BasicMod implements Renderer {
 		GlStateManager.scale(scale, scale, scale);
 		if (this.scale.isEnabled())
 			GlStateManager.translate(0F, -(scale), 0F);
-        GLManager.glColor(0F, 0F, 0F, (25F + opacity.getValue()) / 100F);
+        GLManager.glColor(0F, 0F, 0F, (opacity.getValue()) / 100F);
 		RenderUtils.drawBorderRect(-width / 2 - 2, -2, width / 2 + 2, 10, 2F);
 		GLManager.glColor(1F, 1F, 1F, 1F);
 		

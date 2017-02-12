@@ -115,10 +115,11 @@ public class Projectiles extends BasicMod implements Renderer {
         float gravity = getGravity(mode);
         
         if (text != null) {
-        	GlStateManager.pushMatrix();
-        	RenderUtils.prepareBillboarding((float) (x - mc.getRenderManager().viewerPosX), (float) (y - mc.getRenderManager().viewerPosY), (float) (z - mc.getRenderManager().viewerPosZ), true);
-
-        	mc.fontRenderer.drawStringWithShadow(text, -mc.fontRenderer.getStringWidth(text) / 2, 1, 0xFFFFFFF);
+			GlStateManager.pushMatrix();
+			RenderUtils.prepareBillboarding((float) (x - mc.getRenderManager().viewerPosX), (float) (y - mc.getRenderManager().viewerPosY), (float) (z - mc.getRenderManager().viewerPosZ), true);
+			GlStateManager.enableTexture2D();
+			mc.fontRenderer.drawStringWithShadow(text, -mc.fontRenderer.getStringWidth(text) / 2, 1, 0xFFFFFFF);
+			GlStateManager.disableTexture2D();
 			GlStateManager.popMatrix();
         }
         GLManager.glColor(0F, 1F, 0F, 1F);
