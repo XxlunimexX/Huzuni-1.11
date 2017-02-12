@@ -41,7 +41,7 @@ public class HuzuniMainMenu extends HuzuniScreen {
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, y + 72, 98, 20, I18n.format("menu.quit", new Object[0])));
         this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, y + 72));
         if (huzuni.settings.hasUpdate()) {
-        	this.buttonList.add(new HuzuniLink(6, this.width / 2 - mc.fontRenderer.getStringWidth(huzuni.settings.getNewestVersion()) / 2, y + 102, mc.fontRenderer.getStringWidth(huzuni.settings.getNewestVersion()), 15, huzuni.settings.getNewestVersion()));
+        	this.buttonList.add(new HuzuniLink(6, this.width / 2 - mc.fontRenderer.getStringWidth("Download") / 2, y + 102, mc.fontRenderer.getStringWidth("Download"), 15,"Download"));
         }
 	}
 
@@ -72,7 +72,7 @@ public class HuzuniMainMenu extends HuzuniScreen {
 		}
 		if (button.id == 6) {
 	        try {
-				Desktop.getDesktop().browse(new URL("http://halalaboos.net/huzuni.html").toURI());
+				Desktop.getDesktop().browse(new URL("http://huzuni.github.io").toURI());
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			}

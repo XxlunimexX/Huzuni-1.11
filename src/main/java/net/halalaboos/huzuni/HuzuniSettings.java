@@ -18,33 +18,33 @@ import java.util.UUID;
  * This could be considered a manager for the settings of the client.
  * */
 public final class HuzuniSettings extends JsonFileHandler {
-	
+
 	public final Node lineSettings = new Node("Line settings", "Adjust the settings applied to line rendering.");
-	
+
 	public final Value lineSize = new Value("Line Size", "", 0.2F, 1F, 10F, "Thickness of lines rendered in 3D");
-	
+
 	public final Toggleable lineSmooth = new Toggleable("Line Smooth", "Renders 3D lines smoothly");
-	
+
 	public final Toggleable infiniteLines = new Toggleable("Infinite Lines", "Render lines through the near plane");
 
 	public final Node menuSettings = new Node("Menu settings", "Adjust the settings applied to the menu.");
-	
+
 	public final Toggleable customChat = new Toggleable("Custom Chat Font", "Renders the chat with a custom font");
-	
+
 	public final Toggleable customFont = new Toggleable("Custom Menu Font", "Renders the menus with a custom font");
-	
+
 	public final Toggleable firstUse = new Toggleable("First Use", "Determines if this is the first use of the client!");
 
 	public final ColorNode menuColor = new ColorNode("Menu Color", new Color(0, 167, 255, 255), "Primary color rendered over the gui");
-	
+
 	public final Team team = new Team();
-	
+
 	public final KeyOpenMenu keyOpenMenu = new KeyOpenMenu();
-		
+
 	private Session lastSession = null;
-	
+
 	private String newestVersion = "";
-		
+
 	public HuzuniSettings(Huzuni huzuni) {
 		super(huzuni, null);
 	}
@@ -75,7 +75,7 @@ public final class HuzuniSettings extends JsonFileHandler {
 			huzuni.hotbarManager.load(object);
 		}
 	}
-	
+
 	public void init() {
 		lineSmooth.setEnabled(true);
 		infiniteLines.setEnabled(true);
@@ -86,7 +86,7 @@ public final class HuzuniSettings extends JsonFileHandler {
 		try {
 			UUID.fromString(Minecraft.getMinecraft().getSession().getPlayerID());
 			lastSession = Minecraft.getMinecraft().getSession();
-		} catch (Exception e) {	
+		} catch (Exception e) {
 		}
 	}
 
@@ -119,7 +119,7 @@ public final class HuzuniSettings extends JsonFileHandler {
 		}
 		return false;
 	}
-	
+
 	public Color getPrimaryColor() {
 		return menuColor.getColor();
 	}
@@ -139,11 +139,16 @@ public final class HuzuniSettings extends JsonFileHandler {
 	public void setNewestVersion(String newestVersion) {
 		this.newestVersion = newestVersion;
 	}
-	
+
 	/**
 	 * @return True if the client version is out of date.
 	 * */
 	public boolean hasUpdate() {
-		return !newestVersion.isEmpty() && !newestVersion.equals(Huzuni.VERSION);
+		try {
+			int buildNumber = Integer.parseInt(newestVersion);
+			return buildNumber > Huzuni.BUILD_NUMBER;
+		} catch (Exception e) {
+			return true;
+		}
 	}
 }

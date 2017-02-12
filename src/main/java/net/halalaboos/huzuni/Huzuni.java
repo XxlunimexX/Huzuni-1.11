@@ -39,8 +39,10 @@ import java.io.File;
  * */
 public enum Huzuni {
 	INSTANCE;
-	
-	public static final String VERSION = "Huzuni 5.0", MCVERSION = "1.10.2";
+
+	public static final int BUILD_NUMBER = 17;
+	public static final String NAME = "Huzuni", VERSION = NAME + " b" + BUILD_NUMBER;
+	public static final String MCVERSION = "1.11.2";
 
 	public static final Logger LOGGER = LogManager.getLogger("Huzuni");
 	

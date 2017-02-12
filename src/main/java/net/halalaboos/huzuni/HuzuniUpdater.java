@@ -6,7 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Downloads the latest version from http:/halalaboos.net/huzuni/version.
+ * Downloads the latest version from https://huzuni.github.io/version.
  * */
 public final class HuzuniUpdater extends Thread {
 
