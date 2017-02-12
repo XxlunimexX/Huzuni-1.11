@@ -96,7 +96,7 @@ public class Speed extends BasicMod {
      * @return True if the player's given circumstances are ideal for modifying movement.
      * */
 	public boolean shouldModifyMovement() {
-        return !mc.player.isSwingInProgress && !mc.player.capabilities.isFlying && mc.player.moveForward > 0 && !mc.player.isSneaking() && !mc.player.isCollidedHorizontally && mc.player.getFoodStats().getFoodLevel() > 6 && !mc.player.isInWater() && !mc.player.isInLava();
+        return !mc.player.capabilities.isFlying && mc.player.moveForward > 0 && !mc.player.isSneaking() && !mc.player.isCollidedHorizontally && mc.player.getFoodStats().getFoodLevel() > 6 && !mc.player.isInWater() && !mc.player.isInLava();
     }
 
     /**
