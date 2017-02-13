@@ -51,7 +51,7 @@ public class GuiManager {
 		widgetManager.addWidget(tabbedMenu);
 		Widget enabledMods = new EnabledModsWidget(widgetManager).setGlue(new WidgetGlue(WidgetGlue.BOTTOM_LEFT, tabbedMenu)).setEnabled(true);
 		widgetManager.addWidget(enabledMods);
-		widgetManager.addWidget(new NotificationWidget(widgetManager, notifications).setGlue(ScreenGlue.RIGHT).setY(26).setEnabled(true));
+		widgetManager.addWidget(new NotificationWidget(widgetManager, notifications).setGlue(ScreenGlue.TOP_AND_RIGHT).setEnabled(true));
 		widgetManager.addWidget(new CoordinatesWidget(widgetManager).setGlue(ScreenGlue.BOTTOM_AND_LEFT));
 		widgetManager.addWidget(new CompassWidget(widgetManager).setGlue(ScreenGlue.CENTER_TOP));
 		widgetManager.addWidget(new FPSWidget(widgetManager));
