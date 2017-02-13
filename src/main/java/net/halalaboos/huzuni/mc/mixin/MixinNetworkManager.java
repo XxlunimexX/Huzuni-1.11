@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 				PacketEvent event = new PacketEvent(PacketEvent.Type.READ, packet);
 				Huzuni.INSTANCE.eventManager.invoke(event);
 				Packet outPacket = event.getPacket();
-				if (event.isCancelled()) return;
+				if (event.isCancelled()) ci.cancel();
 				((Packet<INetHandler>)outPacket).processPacket(this.packetListener);
 			} catch (ThreadQuickExitException ignored) {}
 		}

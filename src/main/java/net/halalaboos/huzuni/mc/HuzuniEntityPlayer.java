@@ -57,7 +57,9 @@ public class HuzuniEntityPlayer extends EntityPlayerSP {
 		huzuni.clickManager.onUpdate(preMotionUpdateEvent);
 		huzuni.hotbarManager.onUpdate(preMotionUpdateEvent);
 		huzuni.lookManager.onUpdate(preMotionUpdateEvent);
-		super.onUpdateWalkingPlayer();
+		if (!Freecam.INSTANCE.isEnabled()) {
+			super.onUpdateWalkingPlayer();
+		}
 		huzuni.lookManager.onUpdate(postMotionUpdateEvent);
 		huzuni.hotbarManager.onUpdate(postMotionUpdateEvent);
 		huzuni.clickManager.onUpdate(postMotionUpdateEvent);

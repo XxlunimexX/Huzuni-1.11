@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 		if (packet == null) return;
 		PacketEvent packetEvent = new PacketEvent(PacketEvent.Type.SENT, packet);
 		Huzuni.INSTANCE.eventManager.invoke(packetEvent);
-		if (packetEvent.isCancelled()) return;
+		if (packetEvent.isCancelled()) ci.cancel();
 		netManager.sendPacket(packetEvent.getPacket());
 		ci.cancel();
 	}

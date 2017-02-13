@@ -75,7 +75,7 @@ public class Speedmine extends BasicMod {
 				IBlockState blockState = this.mc.world.getBlockState(position);
 				curBlockDamage += blockState.getPlayerRelativeBlockHardness(this.mc.player, this.mc.world, this.position) * (speed.getValue());
 				if (curBlockDamage >= 1.0F) {
-					mc.world.setBlockState(position, Blocks.AIR.getDefaultState(), 11);
+					mc.playerController.onPlayerDestroyBlock(position);
 					mc.getConnection().sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK, this.position, this.facing));
 					curBlockDamage = 0F;
 					digging = false;

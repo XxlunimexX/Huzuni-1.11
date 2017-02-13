@@ -8,6 +8,7 @@
     "MixinPlayerController",
     "MixinNetworkManager",
     "MixinEntityRenderer",
+    "MixinEntity",
     "MixinRenderPlayer",
     "MixinBlockModelRenderer",
     "MixinBlock",

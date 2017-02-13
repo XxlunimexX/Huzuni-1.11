@@ -148,7 +148,7 @@ public final class HuzuniSettings extends JsonFileHandler {
 			int buildNumber = Integer.parseInt(newestVersion);
 			return buildNumber > Huzuni.BUILD_NUMBER;
 		} catch (Exception e) {
-			return true;
+			return false; //If the update text isn't a number, then there was probably an error
 		}
 	}
 }

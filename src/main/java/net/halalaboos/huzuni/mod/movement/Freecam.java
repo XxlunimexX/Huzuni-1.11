@@ -8,8 +8,6 @@ import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Value;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraft.network.play.client.CPacketEntityAction;
-import net.minecraft.network.play.client.CPacketPlayer;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -41,7 +39,7 @@ public class Freecam extends BasicMod {
 	            fakePlayer.rotationYawHead = mc.player.rotationYawHead;
 				mc.world.addEntityToWorld(-69, fakePlayer);
 				mc.player.capabilities.isFlying = true;
-	        } else {
+			 } else {
 	        	if (fakePlayer != null && mc.player != null) {
 	        		mc.player.setPositionAndRotation(fakePlayer.posX, fakePlayer.posY, fakePlayer.posZ, fakePlayer.rotationYaw, fakePlayer.rotationPitch);
 	            	mc.world.removeEntityFromWorld(-69);
@@ -66,13 +64,6 @@ public class Freecam extends BasicMod {
 	@EventMethod
 	public void onPacket(PacketEvent event) {
 		if (event.type == PacketEvent.Type.SENT) {
-			if (event.getPacket() instanceof CPacketPlayer)
-				event.setCancelled(true);
-			if (event.getPacket() instanceof CPacketEntityAction) {
-				CPacketEntityAction packet = (CPacketEntityAction) event.getPacket();
-				if (packet.getAction() != CPacketEntityAction.Action.OPEN_INVENTORY)
-					event.setCancelled(true);
-			}
 			mc.player.setSprinting(false);
 			mc.player.capabilities.isFlying = true;
 			if (fakePlayer != null)
@@ -88,5 +79,4 @@ public class Freecam extends BasicMod {
 		mc.player.renderArmPitch += 200;
 		mc.player.renderArmYaw += 180;
 	}
-
 }
