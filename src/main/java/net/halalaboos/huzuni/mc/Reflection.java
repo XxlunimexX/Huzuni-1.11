@@ -31,6 +31,14 @@ public class Reflection {
 		session = setAccessible(Minecraft.class, "field_71449_j", "session");
 		timer = setAccessible(Minecraft.class, "field_71428_T", "timer");
 	}
+	static {
+		for(Field f : Minecraft.class.getDeclaredFields()) {
+			if(f.getType().equals(Session.class)) {
+				session = f;
+			}
+		}
+		session.setAccessible(true);
+	}
 
 	private static Field setAccessible(Class clazz, String name, String deobfName) {
 		try {
@@ -96,18 +104,10 @@ public class Reflection {
 	}
 
 	public static void setSession(Session _session) {
-		if (sessionObj == null) {
-			try {
-				sessionObj = (Session) Reflection.session.get(Minecraft.getMinecraft().session);
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		} else {
-			try {
-				session.set(sessionObj, _session);
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
+		try {
+			ReflectionHelper.setPrivateValue(Minecraft.class, Minecraft.getMinecraft(), _session, "field_71449_j", "session");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
