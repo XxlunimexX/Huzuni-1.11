@@ -5,10 +5,10 @@ import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
+import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.mc.Reflection;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -20,7 +20,9 @@ import org.lwjgl.input.Keyboard;
 public class Speedmine extends BasicMod {
 
 	public final Value speed = new Value("Mine speed", 1F, 1F, 2F, "Mine speed modifier");
-	
+	public final Value breakPercent = new Value("Break Percent", 0F, 97F, 100F, 1F, "Block damage percent to break at");
+	private final Toggleable noSlow = new Toggleable("No Slowdown", "Allows you to dig under yourself quicker.");
+
 	private boolean digging = false;
 	
 	private float curBlockDamage = 0;
@@ -32,7 +34,7 @@ public class Speedmine extends BasicMod {
 	public Speedmine() {
 		super("Speedmine", "Mines blocks at a faster rate", Keyboard.KEY_V);
 		this.setCategory(Category.MINING);
-		this.addChildren(speed);
+		this.addChildren(speed, breakPercent, noSlow);
 	}
 
 	@Override
@@ -73,8 +75,10 @@ public class Speedmine extends BasicMod {
 			}
 			if (digging) {
 				IBlockState blockState = this.mc.world.getBlockState(position);
-				curBlockDamage += blockState.getPlayerRelativeBlockHardness(this.mc.player, this.mc.world, this.position) * (speed.getValue());
-				if (curBlockDamage >= 1.0F) {
+				float multiplier = noSlow.isEnabled() && mc.player.fallDistance <= 1F
+						&& mc.player.fallDistance > 0 ? 5F : 1F;
+				curBlockDamage += blockState.getPlayerRelativeBlockHardness(this.mc.player, this.mc.world, this.position) * (speed.getValue()) * multiplier;
+				if (curBlockDamage >= breakPercent.getValue() / 100F) {
 					mc.playerController.onPlayerDestroyBlock(position);
 					mc.getConnection().sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK, this.position, this.facing));
 					curBlockDamage = 0F;
