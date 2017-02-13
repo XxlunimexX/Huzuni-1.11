@@ -103,11 +103,20 @@ public class Xray extends BasicMod {
 	protected void onDisable() {
 		mc.gameSettings.gammaSetting = brightness;
 	}
+
+	private void fastReload() {
+    	if (mc.world != null) {
+    		int x = (int) mc.player.posX;
+    		int z = (int) mc.player.posZ;
+    		int viewDistance = 16 * mc.gameSettings.renderDistanceChunks;
+			mc.world.markBlockRangeForRenderUpdate(x - viewDistance, 0, z - viewDistance, x + viewDistance, 256, z + viewDistance);
+		}
+	}
 	
 	@Override
 	public void toggle() {
 		super.toggle();
-		Minecraft.getMinecraft().renderGlobal.loadRenderers();
+		fastReload();
 	}
 	
 	public boolean isEnabled(Block block) {
