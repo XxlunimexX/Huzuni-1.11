@@ -3,6 +3,7 @@ package net.halalaboos.huzuni.gui.screen.account;
 import com.mojang.authlib.exceptions.AuthenticationException;
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
+import net.halalaboos.huzuni.mc.Reflection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.util.Session;
@@ -63,7 +64,7 @@ public class AccountSelectionList extends GuiListExtended {
 			try {
 				AccountListEntry account = getSelected();
 				Session session = MinecraftUtils.loginToMinecraft(account.getUsername(), account.getPassword());
-				Minecraft.getMinecraft().session = session;
+				Reflection.setSession(session);
 				Huzuni.INSTANCE.settings.setLastSession(session);
 				screen.setStatus(TextFormatting.YELLOW + "Success. " + session.getUsername());
 			} catch (AuthenticationException e) {

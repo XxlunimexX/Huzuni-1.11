@@ -2,6 +2,7 @@ package net.halalaboos.huzuni.mc.mixin;
 
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.gui.screen.HuzuniMainMenu;
+import net.halalaboos.huzuni.mc.Reflection;
 import net.halalaboos.huzuni.mc.Wrapper;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
@@ -27,12 +28,13 @@ import javax.annotation.Nullable;
 	@Shadow
 	public abstract void displayGuiScreen(@Nullable GuiScreen guiScreenIn);
 
-	@Inject(method = "init", at = @At("RETURN"))
+	@Inject(method = "run()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;init()V", shift = At.Shift.AFTER))
 	public void inject(CallbackInfo callbackInfo) {
+		Reflection.initFields();
 		Huzuni.INSTANCE.start();
 	}
 
-	@Inject(method = "runTickKeyboard", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Keyboard;getEventKeyState()Z"))
+	@Inject(method = "runTickKeyboard()V", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Keyboard;getEventKeyState()Z"))
 	public void onKeyPress(CallbackInfo ci) {
 		if (Keyboard.getEventKeyState()) {
 			int keyCode = Keyboard.getEventKey();
@@ -40,7 +42,7 @@ import javax.annotation.Nullable;
 		}
 	}
 
-	@Inject(method = "runTickMouse", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Mouse;getEventButton()I"))
+	@Inject(method = "runTickMouse()V", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Mouse;getEventButton()I"))
 	public void onMouseClick(CallbackInfo ci) {
 		if (Mouse.getEventButtonState()) {
 			Wrapper.onMouseClicked(Mouse.getEventButton());
@@ -54,14 +56,14 @@ import javax.annotation.Nullable;
 		}
 	}
 
-	@Inject(method = "runTick", at = @At("RETURN"))
+	@Inject(method = "runTick()V", at = @At("RETURN"))
 	public void runTick(CallbackInfo callbackInfo) {
 		if (this.currentScreen instanceof GuiMainMenu) {
 			displayGuiScreen(new HuzuniMainMenu());
 		}
 	}
 
-	@Inject(method = "shutdownMinecraftApplet", at = @At("HEAD"))
+	@Inject(method = "shutdownMinecraftApplet()V", at = @At("HEAD"))
 	public void onShutdown(CallbackInfo ci) {
 		Huzuni.INSTANCE.end();
 	}

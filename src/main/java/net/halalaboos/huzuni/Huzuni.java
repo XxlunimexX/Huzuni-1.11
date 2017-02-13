@@ -13,6 +13,7 @@ import net.halalaboos.huzuni.api.task.TaskManager;
 import net.halalaboos.huzuni.gui.GuiManager;
 import net.halalaboos.huzuni.gui.Notification;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
+import net.halalaboos.huzuni.mc.Reflection;
 import net.halalaboos.huzuni.mc.HuzuniIngameGui;
 import net.halalaboos.huzuni.meme.MemeManager;
 import net.halalaboos.huzuni.mod.Patcher;

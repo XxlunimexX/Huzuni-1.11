@@ -3,6 +3,7 @@ package net.halalaboos.huzuni.gui.screen.account;
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.util.FileUtils;
 import net.halalaboos.huzuni.gui.screen.HuzuniScreen;
+import net.halalaboos.huzuni.mc.Reflection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -61,7 +62,7 @@ public class HuzuniAccounts extends HuzuniScreen implements GuiYesNoCallback {
 		switch (button.id) {
 		case 0:
 			if (huzuni.settings.getLastSession() != null) {
-				mc.session = huzuni.settings.getLastSession();
+				Reflection.setSession(huzuni.settings.getLastSession());
 				setStatus(TextFormatting.YELLOW + mc.getSession().getUsername());
 			}
 			break;

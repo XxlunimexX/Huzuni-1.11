@@ -6,7 +6,11 @@ import net.halalaboos.huzuni.api.event.LoadWorldEvent;
 import net.halalaboos.huzuni.api.event.MouseClickEvent;
 import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.halalaboos.huzuni.mod.visual.Xray;
+import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
+import org.apache.logging.log4j.Level;
+
+import java.lang.reflect.Field;
 
 public final class Wrapper {
 

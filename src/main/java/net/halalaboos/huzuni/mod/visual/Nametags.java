@@ -129,10 +129,14 @@ public class Nametags extends BasicMod implements Renderer {
 	}
 	
 	private String getPing(EntityPlayer entity) {
-		NetworkPlayerInfo playerInfo = mc.getConnection().getPlayerInfo(entity.getUniqueID());
-		int ping = playerInfo.getResponseTime();
-		TextFormatting pingFormat = getFormatted(ping >= 100 && ping < 150, ping >= 150 && ping < 200, ping >= 200);
-		return (this.ping.isEnabled() ? " " + pingFormat + ping + "ms" : "");
+		try {
+			NetworkPlayerInfo playerInfo = mc.getConnection().getPlayerInfo(entity.getUniqueID());
+			int ping = playerInfo.getResponseTime();
+			TextFormatting pingFormat = getFormatted(ping >= 100 && ping < 150, ping >= 150 && ping < 200, ping >= 200);
+			return (this.ping.isEnabled() ? " " + pingFormat + ping + "ms" : "");
+		} catch (NullPointerException e) {
+			return "";
+		}
 	}
 	
 	private int getColor(EntityPlayer entity, float distance, boolean friend, boolean sneaking) {

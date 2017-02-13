@@ -13,11 +13,13 @@ buildscript {
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT"
         classpath 'org.spongepowered:mixingradle:0.4-SNAPSHOT'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
     }
 }
 
 apply plugin: "net.minecraftforge.gradle.forge"
 apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 version = modVersion
 group = modGroup
@@ -40,7 +42,6 @@ repositories {
 dependencies {
     compile("org.spongepowered:mixin:0.6.4-SNAPSHOT") {
         exclude module: "launchwrapper"
-        exclude module: "guava"
     }
 }
 
@@ -64,12 +65,27 @@ processResources {
     rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
-sourceSets {
-    main {
-        output.resourcesDir = output.classesDir
-        refMap = "mixins.huzuni.refmap.json"
+
+shadowJar {
+    dependencies {
+        include(dependency('org.spongepowered:mixin'))
+    }
+
+    classifier = 'full'
+}
+
+mixin {
+    add sourceSets.main, "mixins.huzuni.refmap.json"
+}
+
+reobf {
+    shadowJar {
+        mappingType = 'SEARGE'
+        classpath = sourceSets.main.compileClasspath
     }
 }
+
+build.dependsOn(shadowJar)
 
 jar {
     manifest {
@@ -77,8 +93,8 @@ jar {
                 "MixinConfigs": 'mixins.huzuni.json',
                 "tweakClass": 'org.spongepowered.asm.launch.MixinTweaker',
                 "TweakOrder": 0,
+                'FMLCorePluginContainsFMLMod': 'net.halalaboos.huzuni.mc.mixin.MixinLoader',
                 'FMLAT': 'huzuni_at.cfg')
     }
 }
-
-idea { module { inheritOutputDirs = true } }
+sourceCompatibility = targetCompatibility = "1.8"

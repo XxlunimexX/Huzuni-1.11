@@ -15,7 +15,7 @@ public class HuzuniIngameGui extends GuiIngame {
 	public HuzuniIngameGui(Minecraft mc) {
 		super(mc);
 		this.mc = mc;
-		this.persistantChatGUI = new GuiHuzuniChat(mc);
+		Reflection.setPersistantChatGUI(this, new GuiHuzuniChat(mc));
 	}
 
 	public void renderGameOverlay(float partialTicks) {

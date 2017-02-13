@@ -6,6 +6,7 @@ import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Value;
+import net.halalaboos.huzuni.mc.Reflection;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
@@ -67,7 +68,7 @@ public class Speedmine extends BasicMod {
 	public void onUpdate(UpdateEvent event) {
 		if (event.type == UpdateEvent.Type.PRE) {
 			if (mc.playerController.isInCreativeMode()) {
-				mc.playerController.blockHitDelay = 0;
+				Reflection.setBlockHitDelay(0, mc.playerController);
 				return;
 			}
 			if (digging) {

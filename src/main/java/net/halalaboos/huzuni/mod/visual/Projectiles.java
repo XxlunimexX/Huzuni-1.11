@@ -7,6 +7,7 @@ import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.halalaboos.huzuni.api.util.render.RenderUtils;
+import net.halalaboos.huzuni.mc.Reflection;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
@@ -91,7 +92,7 @@ public class Projectiles extends BasicMod implements Renderer {
 			for (Object o : mc.world.loadedEntityList) {
 				if (o instanceof EntityArrow) {
 					EntityArrow entity = (EntityArrow) o;
-					if (entity.isDead || entity.inGround)
+					if (entity.isDead || Reflection.getInGround(entity))
 						continue;
 					renderProjectile(1, -1, entity.posX, entity.posY, entity.posZ, entity.motionX, entity.motionY, entity.motionZ, entity.shootingEntity != null ? entity.shootingEntity.getName() : null);
 				}
