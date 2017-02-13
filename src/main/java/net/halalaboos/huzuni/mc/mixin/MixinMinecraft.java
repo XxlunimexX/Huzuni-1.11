@@ -30,7 +30,6 @@ import javax.annotation.Nullable;
 
 	@Inject(method = "run()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;init()V", shift = At.Shift.AFTER))
 	public void inject(CallbackInfo callbackInfo) {
-		Reflection.initFields();
 		Huzuni.INSTANCE.start();
 	}
 

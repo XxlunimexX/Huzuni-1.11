@@ -11,38 +11,68 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.lang.reflect.Field;
 
+/**
+ * This is used to make modifying private/final fields pretty simple.  For a while we were messing
+ * around with access transformers, but ran into some issues post-compiling, so for now we will be using
+ * reflection for the few fields that we need access to.
+ *
+ * There will be little to no performance impact from this, especially since we only look for the fields
+ * on startup.
+ */
 public class Reflection {
 
+	/**
+	 * Used for Speedmine, to adjust the delay between hitting blocks.
+	 *
+	 * Field: PlayerControllerMP#blockHitDelay
+	 */
 	private static Field blockHitDelay;
+
+	/**
+	 * Used to change the chat gui to the Huzuni one.
+	 *
+	 * Field: GuiIngame#persistantChatGUI
+	 */
 	private static Field persistantChatGUI;
+
+	/**
+	 * Used for Projectiles.
+	 *
+	 * Field: EntityArrow#inGround
+	 */
 	private static Field inGround;
+
+	/**
+	 * Used for Fastplace - we could get around this and have it be packet/tick based, but this
+	 * is a bit easier.
+	 *
+	 * Field: Minecraft#rightClickDelayTimer
+	 */
 	private static Field rightClickDelayTimer;
-	private static Field session;
+
+	/**
+	 * Used for the timer mod.
+	 *
+	 * Field: Minecraft#timer
+	 */
 	private static Field timer;
 
+	//Timer instance
 	private static Timer timerObj;
-	private static Session sessionObj;
 
-	public static void initFields() {
+	static {
 		blockHitDelay = setAccessible(PlayerControllerMP.class, "field_78781_i", "blockHitDelay");
 		persistantChatGUI = setAccessible(GuiIngame.class, "field_73840_e", "persistantChatGUI");
 		inGround = setAccessible(EntityArrow.class, "field_70254_i", "inGround");
 		rightClickDelayTimer = setAccessible(Minecraft.class, "field_71467_ac", "rightClickDelayTimer");
-		session = setAccessible(Minecraft.class, "field_71449_j", "session");
 		timer = setAccessible(Minecraft.class, "field_71428_T", "timer");
-	}
-	static {
-		for(Field f : Minecraft.class.getDeclaredFields()) {
-			if(f.getType().equals(Session.class)) {
-				session = f;
-			}
-		}
-		session.setAccessible(true);
 	}
 
 	private static Field setAccessible(Class clazz, String name, String deobfName) {
 		try {
-			return ReflectionHelper.findField(clazz, name, deobfName);
+			Field field = ReflectionHelper.findField(clazz, name, deobfName);
+			field.setAccessible(true);
+			return field;
 		} catch (ReflectionHelper.UnableToFindFieldException e) {
 			e.printStackTrace();
 			return null;

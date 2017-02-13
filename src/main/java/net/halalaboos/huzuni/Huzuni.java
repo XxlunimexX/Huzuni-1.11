@@ -42,7 +42,8 @@ public enum Huzuni {
 	INSTANCE;
 
 	public static final int BUILD_NUMBER = 18;
-	public static final String NAME = "Huzuni", VERSION = NAME + " 5.0.1";
+	public static String NAME = "Huzuni";
+	public static final String VERSION = NAME + " 5.0.1";
 	public static final String MCVERSION = "1.11.2";
 
 	public static final Logger LOGGER = LogManager.getLogger("Huzuni");
