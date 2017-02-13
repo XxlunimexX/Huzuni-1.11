@@ -18,7 +18,8 @@ public class Freecam extends BasicMod {
 	public static final Freecam INSTANCE = new Freecam();
 	
 	public final Value speed = new Value("Speed", "", 0.1F, 1F, 10F, "movement speed");
-	
+
+	private boolean oldFlying = false;
     private EntityOtherPlayerMP fakePlayer;
 	
 	private Freecam() {
@@ -32,6 +33,7 @@ public class Freecam extends BasicMod {
 		super.toggle();
 		if (mc.player != null && mc.world != null) {
 	        if (isEnabled()) {
+	        	oldFlying = mc.player.capabilities.isFlying;
 	            fakePlayer = new EntityOtherPlayerMP(mc.world, new GameProfile(mc.player.getUniqueID(), mc.player.getName()));
 	            fakePlayer.copyLocationAndAnglesFrom(mc.player);
 				fakePlayer.inventory = mc.player.inventory;
@@ -43,10 +45,10 @@ public class Freecam extends BasicMod {
 	        	if (fakePlayer != null && mc.player != null) {
 	        		mc.player.setPositionAndRotation(fakePlayer.posX, fakePlayer.posY, fakePlayer.posZ, fakePlayer.rotationYaw, fakePlayer.rotationPitch);
 	            	mc.world.removeEntityFromWorld(-69);
-	            	mc.player.capabilities.isFlying = false;
+	            	mc.player.capabilities.isFlying = oldFlying;
 	        	}
 	        	 if (mc.player != null)
-	                 mc.player.capabilities.isFlying = false;
+	                 mc.player.capabilities.isFlying = oldFlying;
 	        }
 		}
     }
