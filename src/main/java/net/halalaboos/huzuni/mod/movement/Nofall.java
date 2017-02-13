@@ -33,6 +33,7 @@ public class Nofall extends BasicMod {
 		} else {
 			if (mc.player.fallDistance > 3) {
 				mc.player.onGround = false;
+				mc.player.fallDistance = 0;
 			}
 		}
 	}
