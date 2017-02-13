@@ -16,11 +16,11 @@ import java.util.Map;
 public final class EventManager <T> {
 
 	private final Map<Class<?>, List<EventData<T>>> listeners = new HashMap<>();
-	
+
 	public EventManager() {
-		
+
 	}
-	
+
 	/**
 	 * Registers the specified listener for all event types.
 	 * */
@@ -40,7 +40,7 @@ public final class EventManager <T> {
 			}
 		}
 	}
-	
+
 	/**
 	 * Unregisters the specified listener from all event types.
 	 * */
@@ -54,7 +54,7 @@ public final class EventManager <T> {
 			}
 		}
 	}
-	
+
 	/**
 	 * @return True if the listener is already registered under the event type specified
 	 * */
@@ -68,7 +68,7 @@ public final class EventManager <T> {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @return True if the listener is already registered.
 	 * */
@@ -80,35 +80,37 @@ public final class EventManager <T> {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Invokes all event listeners listening to the given event.
 	 * @return The event object
 	 * */
 	public <E> E invoke(E event) {
-		if (listeners.containsKey(event.getClass())) {
-			List<EventData<T>> listeners = this.listeners.get(event.getClass());
-			for (int i = 0; i < listeners.size(); i++) {
-				EventData<T> eventData = listeners.get(i);
-				try {
-					eventData.method.invoke(eventData.listener, event);
-				} catch (Exception e) {
-					e.printStackTrace();
+		if (!listeners.isEmpty()) {
+			if (listeners.containsKey(event.getClass())) {
+				List<EventData<T>> listeners = this.listeners.get(event.getClass());
+				for (int i = 0; i < listeners.size(); i++) {
+					EventData<T> eventData = listeners.get(i);
+					try {
+						eventData.method.invoke(eventData.listener, event);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
 		return event;
 	}
-	
+
 	/**
 	 * Assigns methods as event methods; allowing for the {@link EventManager} to recognize it as such.
 	 * */
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.METHOD)
 	public @interface EventMethod {
-		
+
 	}
-	
+
 	/**
 	 * Contains an instance of the listener along with it's event {@link Method}
 	 * */
@@ -116,7 +118,7 @@ public final class EventManager <T> {
 	private class EventData <T> {
 		T listener;
 		Method method;
-		
+
 		EventData(T listener, Method method) {
 			this.listener = listener;
 			this.method = method;

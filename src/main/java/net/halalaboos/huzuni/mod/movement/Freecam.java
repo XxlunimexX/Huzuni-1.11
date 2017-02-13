@@ -64,21 +64,13 @@ public class Freecam extends BasicMod {
 	}
 
 	@EventMethod
-	public void onPacket(PacketEvent event) {
-		if (event.type == PacketEvent.Type.SENT) {
-			mc.player.setSprinting(false);
-			mc.player.capabilities.isFlying = true;
-			if (fakePlayer != null)
-				fakePlayer.setHealth(mc.player.getHealth());
-		}
-	}
-
-	@EventMethod
 	public void onPlayerMove(PlayerMoveEvent event) {
+		mc.player.setSprinting(false);
+		mc.player.capabilities.isFlying = true;
+		if (fakePlayer != null)
+			fakePlayer.setHealth(mc.player.getHealth());
 		event.setMotionX(event.getMotionX() * speed.getValue());
 		event.setMotionY(event.getMotionY() * speed.getValue());
 		event.setMotionZ(event.getMotionZ() * speed.getValue());
-		mc.player.renderArmPitch += 200;
-		mc.player.renderArmYaw += 180;
 	}
 }
