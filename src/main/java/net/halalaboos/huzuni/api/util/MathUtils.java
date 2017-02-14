@@ -26,7 +26,7 @@ public final class MathUtils {
 		double distX = Minecraft.getMinecraft().getRenderManager().viewerPosX - x;
 		double distY = Minecraft.getMinecraft().getRenderManager().viewerPosY - y;
 		double distZ = Minecraft.getMinecraft().getRenderManager().viewerPosZ - z;
-        return MathHelper.sqrt(distX * distX + distY * distY + distZ * distZ);
+        return net.halalaboos.mcwrapper.api.util.MathUtils.sqrt(distX * distX + distY * distY + distZ * distZ);
 	}
 	
 	public static double interpolate(double prev, double cur, double delta) {

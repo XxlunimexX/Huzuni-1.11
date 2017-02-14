@@ -77,12 +77,12 @@ public class Projectiles extends BasicMod implements Renderer {
             else if (item.getItem() instanceof ItemSplashPotion)
             	mode = 2;
 			
-			double posX = mc.getRenderManager().viewerPosX - (double) (MathHelper.cos(mc.player.rotationYaw / 180.0F * (float) Math.PI) * 0.16F),
+			double posX = mc.getRenderManager().viewerPosX - (double) (MathUtils.cos(mc.player.rotationYaw / 180.0F * (float) Math.PI) * 0.16F),
 	                posY = (mc.getRenderManager().viewerPosY + (double) mc.player.getEyeHeight()) - 0.10000000149011612D,
-	                posZ = mc.getRenderManager().viewerPosZ - (double) (MathHelper.sin(mc.player.rotationYaw / 180.0F * (float) Math.PI) * 0.16F),
-	                motionX = (double) (-MathHelper.sin(mc.player.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(mc.player.rotationPitch / 180.0F * (float) Math.PI)) * (mode == 1 ? 1.0 : 0.4),
-	                motionY = (double) (-MathHelper.sin(mc.player.rotationPitch / 180.0F * (float) Math.PI)) * (mode == 1 ? 1.0 : 0.4),
-	                motionZ = (double) (MathHelper.cos(mc.player.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(mc.player.rotationPitch / 180.0F * (float) Math.PI)) * (mode == 1 ? 1.0 : 0.4);
+	                posZ = mc.getRenderManager().viewerPosZ - (double) (MathUtils.sin(mc.player.rotationYaw / 180.0F * (float) Math.PI) * 0.16F),
+	                motionX = (double) (-MathUtils.sin(mc.player.rotationYaw / 180.0F * (float) Math.PI) * MathUtils.cos(mc.player.rotationPitch / 180.0F * (float) Math.PI)) * (mode == 1 ? 1.0 : 0.4),
+	                motionY = (double) (-MathUtils.sin(mc.player.rotationPitch / 180.0F * (float) Math.PI)) * (mode == 1 ? 1.0 : 0.4),
+	                motionZ = (double) (MathUtils.cos(mc.player.rotationYaw / 180.0F * (float) Math.PI) * MathUtils.cos(mc.player.rotationPitch / 180.0F * (float) Math.PI)) * (mode == 1 ? 1.0 : 0.4);
 			if (mc.player.getItemInUseCount() <= 0 && mode == 1)
 				velocity = 1F;
 			else

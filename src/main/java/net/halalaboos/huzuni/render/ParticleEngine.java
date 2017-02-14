@@ -5,10 +5,10 @@ package net.halalaboos.huzuni.render;
 
 import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.halalaboos.huzuni.api.util.render.Texture;
+import net.halalaboos.mcwrapper.api.util.MathUtils;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.GlStateManager.DestFactor;
 import net.minecraft.client.renderer.GlStateManager.SourceFactor;
-import net.minecraft.util.math.MathHelper;
 
 import java.util.Random;
 import java.util.Set;
@@ -49,7 +49,7 @@ public class ParticleEngine {
             float scale = ((particle.life) / (getMaxLife())) / 5;
             glScalef(scale, scale, scale);
             GLManager.glColor(1F, 1F, 1F, ((particle.life) / (getMaxLife())) / 5);
-            renderTexture(320, 32, particle.x * (1F / scale), particle.y * (1F / scale), 32, 32, 320 - (MathHelper.ceil((float) particle.life / (float) (getMaxLife() / 10F)) * 32), 0, 32, 32);
+            renderTexture(320, 32, particle.x * (1F / scale), particle.y * (1F / scale), 32, 32, 320 - (MathUtils.ceil(particle.life / (getMaxLife() / 10F)) * 32), 0, 32, 32);
             GlStateManager.popMatrix();
         }
     }

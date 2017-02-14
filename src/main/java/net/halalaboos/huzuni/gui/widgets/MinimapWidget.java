@@ -12,7 +12,6 @@ import net.halalaboos.mcwrapper.api.util.MathUtils;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
 
@@ -78,8 +77,8 @@ public class MinimapWidget extends Widget {
 			List<Waypoint> localWaypoints = huzuni.waypointManager.getLocalWaypoints();
 			for (int i = 0; i < localWaypoints.size(); i++) {
 				Waypoint waypoint = localWaypoints.get(i);
-				float distance = MathHelper.sqrt((float) (mc.player.posX - waypoint.getPosition().getX()) * (float) (mc.player.posX - waypoint.getPosition().getX()) + (float) (mc.player.posZ - waypoint.getPosition().getZ()) * (float) (mc.player.posZ - waypoint.getPosition().getZ()));
-				double angle = MathHelper.wrapDegrees(mc.player.rotationYaw - (Math.atan2(mc.getRenderManager().viewerPosZ - waypoint.getPosition().getZ(), mc.getRenderManager().viewerPosX - waypoint.getPosition().getX()) * 180.0D / Math.PI));
+				float distance = MathUtils.sqrt((float) (mc.player.posX - waypoint.getPosition().getX()) * (float) (mc.player.posX - waypoint.getPosition().getX()) + (float) (mc.player.posZ - waypoint.getPosition().getZ()) * (float) (mc.player.posZ - waypoint.getPosition().getZ()));
+				double angle = MathUtils.wrapDegrees(mc.player.rotationYaw - (Math.atan2(mc.getRenderManager().viewerPosZ - waypoint.getPosition().getZ(), mc.getRenderManager().viewerPosX - waypoint.getPosition().getX()) * 180.0D / Math.PI));
 				double wX = Math.cos(Math.toRadians(angle)) * distance;
 				double wY = -Math.sin(Math.toRadians(angle)) * distance;
 				GlStateManager.pushMatrix();

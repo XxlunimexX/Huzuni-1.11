@@ -6,6 +6,7 @@ import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
 import net.halalaboos.huzuni.Huzuni;
+import net.halalaboos.mcwrapper.api.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -229,7 +230,7 @@ public final class MinecraftUtils {
         float[] neededRotations = getRotationsNeeded(entity);
         if (neededRotations != null) {
             float neededYaw = getYawDifference(mc.player.rotationYaw % 360F, neededRotations[0]), neededPitch = (mc.player.rotationPitch % 360F) - neededRotations[1];
-			return MathHelper.sqrt(neededYaw * neededYaw + neededPitch * neededPitch);
+			return net.halalaboos.mcwrapper.api.util.MathUtils.sqrt(neededYaw * neededYaw + neededPitch * neededPitch);
         }
         return -1F;
     }
@@ -242,12 +243,12 @@ public final class MinecraftUtils {
         double ySize = y - (mc.player.posY + (double) mc.player.getEyeHeight());
         double zSize = z - mc.player.posZ;
         
-        double theta = (double) MathHelper.sqrt(xSize * xSize + zSize * zSize);
+        double theta = (double) net.halalaboos.mcwrapper.api.util.MathUtils.sqrt(xSize * xSize + zSize * zSize);
         float yaw = (float) (Math.atan2(zSize, xSize) * 180.0D / Math.PI) - 90.0F;
         float pitch = (float) (-(Math.atan2(ySize, theta) * 180.0D / Math.PI));
         return new float[] {
-        		(mc.player.rotationYaw + MathHelper.wrapDegrees(yaw - mc.player.rotationYaw)) % 360F,
-        		(mc.player.rotationPitch + MathHelper.wrapDegrees(pitch - mc.player.rotationPitch)) % 360F,
+        		(mc.player.rotationYaw + net.halalaboos.mcwrapper.api.util.MathUtils.wrapDegrees(yaw - mc.player.rotationYaw)) % 360F,
+        		(mc.player.rotationPitch + net.halalaboos.mcwrapper.api.util.MathUtils.wrapDegrees(pitch - mc.player.rotationPitch)) % 360F,
         };
 	}
 	
