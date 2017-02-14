@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.halalaboos.huzuni.render.PanoramaRenderer;
 import net.minecraft.realms.RealmsBridge;
+import net.minecraftforge.common.ForgeVersion;
 
 import java.awt.*;
 import java.io.IOException;
@@ -110,7 +111,10 @@ public class HuzuniMainMenu extends HuzuniScreen {
 		float titleX = width / 2 - 150, titleY = 20;
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		TITLE.render(titleX, titleY + 10, 300, 100);
-        this.drawString(fontRenderer, Huzuni.VERSION, width - fontRenderer.getStringWidth(Huzuni.VERSION) - 2, height - 12, 0xFFFFFF);
+		String forgeVersion = "Forge " + ForgeVersion.getVersion();
+		String huzuniVersion = Huzuni.VERSION + " (1.11.2)";
+		this.drawString(fontRenderer, huzuniVersion, width - fontRenderer.getStringWidth(huzuniVersion) - 2, height - 12, 0x3FFFFFFF);
+        this.drawString(fontRenderer, forgeVersion, width - fontRenderer.getStringWidth(forgeVersion) - 2, height - 24, 0x3FFFFFFF);
         if (huzuni.settings.hasUpdate())
             this.drawCenteredString(fontRenderer, "New version available!", width / 2, height / 4 + 142, 0xFFFFFF);
 	}
