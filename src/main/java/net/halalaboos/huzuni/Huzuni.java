@@ -201,6 +201,7 @@ public enum Huzuni {
 		commandManager.addCommand(new Lenny());
 		commandManager.addCommand(new Bind());
 		commandManager.addCommand(new Authors());
+		commandManager.addCommand(new Enchant());
 		keybindManager.addKeybind(settings.keyOpenMenu);
 	}
 
@@ -209,6 +210,10 @@ public enum Huzuni {
 	 * */
 	public void addChatMessage(String message) {
         addChatMessage(new TextComponentString(TextColor.BLUE + "[H] " + TextColor.GRAY + message));
+	}
+
+	public void addFormattedMessage(String message, Object... args) {
+		addChatMessage(String.format(message, args));
 	}
 
 	/**

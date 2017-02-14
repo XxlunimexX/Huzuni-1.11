@@ -1,6 +1,5 @@
 package net.halalaboos.huzuni.mod.commands;
 
-import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.mod.BasicCommand;
 import net.halalaboos.huzuni.api.mod.Mod;
 import net.halalaboos.mcwrapper.api.util.TextColor;
@@ -18,7 +17,7 @@ public class Authors extends BasicCommand {
 
 	@Override
 	protected void runCommand(String input, String[] args) throws Exception {
-		List<Mod> mods = Huzuni.INSTANCE.modManager.getMods();
+		List<Mod> mods = huzuni.modManager.getMods();
 		Map<String, String> authorMap = new HashMap<>();
 		for (Mod mod : mods) {
 			if (authorMap.containsKey(mod.getAuthor())) {
@@ -27,13 +26,13 @@ public class Authors extends BasicCommand {
 				authorMap.put(mod.getAuthor(), mod.getAuthor() + ": " + mod.getName() + ", ");
 			}
 		}
-		Huzuni.INSTANCE.addChatMessage(TextColor.BOLD + "TOTAL LIST OF AUTHORS: ");
+		huzuni.addChatMessage(TextColor.BOLD + "TOTAL LIST OF AUTHORS: ");
 		Set<String> authors = authorMap.keySet();
 		for (String author : authors) {
 			String modsList = authorMap.get(author);
 			int count = modsList.split(", ").length;
 			modsList = modsList.substring(0, modsList.length() - 2);
-			Huzuni.INSTANCE.addChatMessage(modsList + " (" + TextColor.GOLD + count + TextColor.RESET + ")");
+			huzuni.addChatMessage(modsList + " (" + TextColor.GOLD + count + TextColor.RESET + ")");
 		}
 
 	}
