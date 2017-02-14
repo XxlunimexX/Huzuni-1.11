@@ -3,7 +3,6 @@ package net.halalaboos.huzuni.gui.screen;
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.util.render.Texture;
 import net.halalaboos.huzuni.gui.screen.account.HuzuniAccounts;
-import net.halalaboos.huzuni.gui.screen.plugins.HuzuniPlugins;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -32,9 +31,7 @@ public class HuzuniMainMenu extends HuzuniScreen {
 		this.buttonList.clear();
 		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, y, I18n.format("menu.singleplayer", new Object[0])));
         this.buttonList.add(new GuiButton(2, this.width / 2 - 100, y + 24 * 1, I18n.format("menu.multiplayer", new Object[0])));
-        GuiButton pluginButton = new GuiButton(7, this.width / 2 + 2, y + 24 * 2, 98, 20, "Plugins");
-        // pluginButton.enabled = false;
-        this.buttonList.add(pluginButton);
+        this.buttonList.add(new GuiButton(7, this.width / 2 + 2, y + 24 * 2, 98, 20, I18n.format("fml.menu.mods")));
         this.buttonList.add(new GuiButton(3, this.width / 2 - 100, y + 24 * 2, 98, 20, "Accounts"));
 
 		this.buttonList.add(new GuiButton(0, this.width / 2 - 100, y + 72, 98, 20, I18n.format("menu.options", new Object[0])));
@@ -79,7 +76,7 @@ public class HuzuniMainMenu extends HuzuniScreen {
 		}
 		
 		if (button.id == 7) {
-			this.mc.displayGuiScreen(new HuzuniPlugins(this));
+			this.mc.displayGuiScreen(new net.minecraftforge.fml.client.GuiModList(this));
 
 		}
 	}

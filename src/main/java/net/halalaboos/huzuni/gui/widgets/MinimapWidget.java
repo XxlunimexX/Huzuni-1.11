@@ -58,7 +58,7 @@ public class MinimapWidget extends Widget {
 				continue;
 			
 			float distance = MathUtils.sqrt((float) (mc.player.posX - player.posX) * (float) (mc.player.posX - player.posX) + (float) (mc.player.posZ - player.posZ) * (float) (mc.player.posZ - player.posZ));
-			double angle = MathUtils.wrapDegrees(mc.player.rotationYaw - (Math.atan2(mc.getRenderManager().viewerPosZ - MathUtils.interpolate(player.prevPosZ, player.posZ, mc.timer.renderPartialTicks), mc.getRenderManager().viewerPosX - MathUtils.interpolate(player.prevPosX, player.posX, mc.timer.renderPartialTicks)) * 180.0D / Math.PI));
+			double angle = MathUtils.wrapDegrees(mc.player.rotationYaw - (Math.atan2(mc.getRenderManager().viewerPosZ - MathUtils.interpolate(player.prevPosZ, player.posZ, 1F), mc.getRenderManager().viewerPosX - MathUtils.interpolate(player.prevPosX, player.posX, 1F)) * 180.0D / Math.PI));
 			double pX = Math.cos(Math.toRadians(angle)) * distance;
 			double pY = -Math.sin(Math.toRadians(angle)) * distance;
 			boolean friend = huzuni.friendManager.isFriend(player.getName()), sneaking = player.isSneaking();
