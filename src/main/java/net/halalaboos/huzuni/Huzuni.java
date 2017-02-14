@@ -84,12 +84,6 @@ public enum Huzuni {
 
 	private File saveFolder = null;
 
-	/**
-	 * For capes:
-	 * AbstractClientPlayer
-	 * 
-	 * THIS NEEDS TO BE FIXED.
-	 * */
     Huzuni() {}
 
     /**

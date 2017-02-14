@@ -72,7 +72,7 @@ public class HuzuniMainMenu extends HuzuniScreen {
 		}
 		if (button.id == 6) {
 	        try {
-				Desktop.getDesktop().browse(new URL("http://huzuni.github.io").toURI());
+				Desktop.getDesktop().browse(new URL("http://halalaboos.net").toURI());
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			}
