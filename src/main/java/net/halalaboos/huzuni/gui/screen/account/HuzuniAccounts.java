@@ -4,12 +4,12 @@ import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.util.FileUtils;
 import net.halalaboos.huzuni.gui.screen.HuzuniScreen;
 import net.halalaboos.huzuni.mc.Reflection;
+import net.halalaboos.mcwrapper.api.util.TextColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.GuiYesNoCallback;
-import net.minecraft.util.text.TextFormatting;
 
 import javax.swing.*;
 import java.io.*;
@@ -63,7 +63,7 @@ public class HuzuniAccounts extends HuzuniScreen implements GuiYesNoCallback {
 		case 0:
 			if (huzuni.settings.getLastSession() != null) {
 				Reflection.setSession(huzuni.settings.getLastSession());
-				setStatus(TextFormatting.YELLOW + mc.getSession().getUsername());
+				setStatus(TextColor.YELLOW + mc.getSession().getUsername());
 			}
 			break;
 		case 1:

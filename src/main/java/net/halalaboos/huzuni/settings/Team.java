@@ -4,8 +4,8 @@ import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.api.gui.components.tree.TreeComponentFactory;
 import net.halalaboos.huzuni.api.settings.Node;
 import net.halalaboos.huzuni.gui.tree.components.TeamComponent;
+import net.halalaboos.mcwrapper.api.util.TextColor;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.text.TextFormatting;
 
 import java.io.IOException;
 
@@ -104,9 +104,9 @@ public class Team extends Node {
 	 * @return the hexadecimal color representing the team found within the given entities name.
 	 * */
 	public int getColor(String name) {
-		for (TextFormatting format : TextFormatting.values()) {
-			if (format.getFriendlyName().equals(name))
-				return colorCode[format.getColorIndex()];
+		for (TextColor format : TextColor.values()) {
+			if (format.getDisplayName().equals(name))
+				return colorCode[format.getIndex()];
 		}
 		return -1;
 	}

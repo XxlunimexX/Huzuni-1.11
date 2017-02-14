@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.mod.commands;
 
 import net.halalaboos.huzuni.api.mod.BasicCommand;
 import net.halalaboos.huzuni.api.mod.Mod;
-import net.minecraft.util.text.TextFormatting;
+import net.halalaboos.mcwrapper.api.util.TextColor;
 
 /**
  * @author brudin
@@ -19,7 +19,7 @@ public final class Mods extends BasicCommand {
 	protected void runCommand(String input, String[] args) {
 		String allMods = "Mods (" + huzuni.modManager.getMods().size() + "): ";
 		for (Mod mod : huzuni.modManager.getMods()) {
-			allMods += (mod.isEnabled() ? TextFormatting.GREEN : TextFormatting.RED) + mod.getName() + TextFormatting.RESET + ", ";
+			allMods += (mod.isEnabled() ? TextColor.GREEN : TextColor.RED) + mod.getName() + TextColor.RESET + ", ";
 		}
 		huzuni.addChatMessage(allMods.substring(0, allMods.length() - 2));
 	}

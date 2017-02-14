@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.api.settings;
 
 import com.google.gson.JsonObject;
-import net.minecraft.util.text.TextFormatting;
+import net.halalaboos.mcwrapper.api.util.TextColor;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -100,7 +100,7 @@ public class Mode <I> extends Node {
 	public String getItemNames() {
 		String list = "{ ";
 		for (int i = 0; i < items.length; i++) {
-			list += TextFormatting.YELLOW + getName(items[i]) + TextFormatting.RESET + ", ";
+			list += TextColor.YELLOW + getName(items[i]) + TextColor.RESET + ", ";
 		}
 		return list.substring(0, list.length() - 2) + " }";
 	}

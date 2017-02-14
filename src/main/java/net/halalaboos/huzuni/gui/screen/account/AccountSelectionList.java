@@ -4,10 +4,10 @@ import com.mojang.authlib.exceptions.AuthenticationException;
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.mc.Reflection;
+import net.halalaboos.mcwrapper.api.util.TextColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.util.Session;
-import net.minecraft.util.text.TextFormatting;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -66,9 +66,9 @@ public class AccountSelectionList extends GuiListExtended {
 				Session session = MinecraftUtils.loginToMinecraft(account.getUsername(), account.getPassword());
 				Reflection.setSession(session);
 				Huzuni.INSTANCE.settings.setLastSession(session);
-				screen.setStatus(TextFormatting.YELLOW + "Success. " + session.getUsername());
+				screen.setStatus(TextColor.YELLOW + "Success. " + session.getUsername());
 			} catch (AuthenticationException e) {
-				screen.setStatus(TextFormatting.RED + "Unsuccessful. " + e.getMessage());
+				screen.setStatus(TextColor.RED + "Unsuccessful. " + e.getMessage());
 			}
 		});
 	}

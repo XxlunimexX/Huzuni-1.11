@@ -4,7 +4,7 @@ import net.halalaboos.huzuni.api.mod.BasicCommand;
 import net.halalaboos.huzuni.api.mod.BasicKeybind;
 import net.halalaboos.huzuni.api.mod.Mod;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
-import net.minecraft.util.text.TextFormatting;
+import net.halalaboos.mcwrapper.api.util.TextColor;
 import org.lwjgl.input.Keyboard;
 
 public final class Bind extends BasicCommand {
@@ -27,7 +27,7 @@ public final class Bind extends BasicCommand {
 			BasicKeybind keybind = huzuni.modManager.getKeybind(mod);
 			if (keybind != null) {
 				keybind.setKeycode(keyCode);
-				String message = String.format("%s is now bound to %s!", mod.getName(), TextFormatting.GREEN + Keyboard.getKeyName(keyCode) + TextFormatting.RESET);
+				String message = String.format("%s is now bound to %s!", mod.getName(), TextColor.GREEN + Keyboard.getKeyName(keyCode) + TextColor.RESET);
 				huzuni.addNotification(NotificationType.INFO, "Bind Command", 5000, message);
 			} else {
 				huzuni.addNotification(NotificationType.ERROR, "Bind Command", 5000, String.format("%s is not a keybindable mod!", mod.getName()));

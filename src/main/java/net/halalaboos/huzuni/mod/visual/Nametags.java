@@ -9,6 +9,7 @@ import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.halalaboos.huzuni.api.util.render.RenderUtils;
 import net.halalaboos.mcwrapper.api.util.MathUtils;
+import net.halalaboos.mcwrapper.api.util.TextColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -21,7 +22,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
@@ -92,7 +92,7 @@ public class Nametags extends BasicMod implements Renderer {
 		if (scale < 1D || !this.scale.isEnabled())
 			scale = 1D;
 		
-		String text = (huzuni.friendManager.isFriend(entity.getName()) ? huzuni.friendManager.getAlias(entity.getName()) : entity.getDisplayName().getFormattedText()) + getHealth(entity) + (entity.isInvisibleToPlayer(mc.player) ? TextFormatting.BLUE + " [Invisible]" : "") + getPing(entity);
+		String text = (huzuni.friendManager.isFriend(entity.getName()) ? huzuni.friendManager.getAlias(entity.getName()) : entity.getDisplayName().getFormattedText()) + getHealth(entity) + (entity.isInvisibleToPlayer(mc.player) ? TextColor.BLUE + " [Invisible]" : "") + getPing(entity);
         int width = mc.fontRenderer.getStringWidth(text);
 		GlStateManager.pushMatrix();
 		RenderUtils.prepareBillboarding((float) x, (float) y + entity.height + 0.5F, (float) z, true);
@@ -123,7 +123,7 @@ public class Nametags extends BasicMod implements Renderer {
 	
 	private String getHealth(EntityPlayer entity) {
 		float healthPercentage = entity.getHealth() / entity.getMaxHealth();
-		TextFormatting healthFormat = getFormatted(healthPercentage > 0.5 && healthPercentage < 0.75, healthPercentage > 0.25 && healthPercentage <= 0.5, healthPercentage <= 0.25);
+		TextColor healthFormat = getFormatted(healthPercentage > 0.5 && healthPercentage < 0.75, healthPercentage > 0.25 && healthPercentage <= 0.5, healthPercentage <= 0.25);
 		return healthMode.getSelected() == 2 ? " " + healthFormat + String.format("%.2f", entity.getHealth()) : healthMode.getSelected() == 3 ? " " + healthFormat + (int) (healthPercentage * 100) + "%" : "";
 	}
 	
@@ -131,7 +131,7 @@ public class Nametags extends BasicMod implements Renderer {
 		try {
 			NetworkPlayerInfo playerInfo = mc.getConnection().getPlayerInfo(entity.getUniqueID());
 			int ping = playerInfo.getResponseTime();
-			TextFormatting pingFormat = getFormatted(ping >= 100 && ping < 150, ping >= 150 && ping < 200, ping >= 200);
+			TextColor pingFormat = getFormatted(ping >= 100 && ping < 150, ping >= 150 && ping < 200, ping >= 200);
 			return (this.ping.isEnabled() ? " " + pingFormat + ping + "ms" : "");
 		} catch (NullPointerException e) {
 			return "";
@@ -155,15 +155,15 @@ public class Nametags extends BasicMod implements Renderer {
 		}
 	}
 	
-	private TextFormatting getFormatted(boolean yellow, boolean gold, boolean red) {
+	private TextColor getFormatted(boolean yellow, boolean gold, boolean red) {
 		if (yellow)
-			return TextFormatting.YELLOW;
+			return TextColor.YELLOW;
 		else if (gold)
-			return TextFormatting.GOLD;
+			return TextColor.GOLD;
 		else if (red)
-			return TextFormatting.RED;
+			return TextColor.RED;
 		else
-			return TextFormatting.GREEN;
+			return TextColor.GREEN;
 	}
 	
 	private void draw3dItem(ItemStack itemStack, int x, int y, float delta) {

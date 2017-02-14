@@ -3,7 +3,7 @@ package net.halalaboos.huzuni.mod.commands;
 import net.halalaboos.huzuni.api.mod.BasicCommand;
 import net.halalaboos.huzuni.api.mod.Mod;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
-import net.minecraft.util.text.TextFormatting;
+import net.halalaboos.mcwrapper.api.util.TextColor;
 
 public final class Toggle extends BasicCommand {
 
@@ -21,7 +21,7 @@ public final class Toggle extends BasicCommand {
 	protected void runCommand(String input, String[] args) {
 		Mod mod = huzuni.modManager.getModIgnoreCase(args[0]);
 		mod.toggle();
-		String message = String.format("%s is now %s!", mod.getName(), (mod.isEnabled() ? TextFormatting.GREEN + "enabled" + TextFormatting.RESET : TextFormatting.RED + "disabled" + TextFormatting.RESET));
+		String message = String.format("%s is now %s!", mod.getName(), (mod.isEnabled() ? TextColor.GREEN + "enabled" + TextColor.RESET : TextColor.RED + "disabled" + TextColor.RESET));
 		huzuni.addChatMessage(message);
 		huzuni.addNotification(NotificationType.INFO, "Toggle Command", 5000, message);
 	}

@@ -1,10 +1,10 @@
 package net.halalaboos.huzuni.gui.screen.plugins;
 
 import net.halalaboos.huzuni.api.plugin.PluginData;
+import net.halalaboos.mcwrapper.api.util.TextColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.text.TextFormatting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class PluginSelectionList extends GuiListExtended {
 	
 	@Override
     protected void drawListHeader(int insideLeft, int insideTop, Tessellator tessellatorIn) {
-        String text = TextFormatting.UNDERLINE + "Plugins";
+        String text = TextColor.UNDERLINE + "Plugins";
         this.mc.fontRenderer.drawString(text, this.width / 2 - this.mc.fontRenderer.getStringWidth(text) / 2, Math.min(this.top + 3, insideTop), 16777215);
     }
 

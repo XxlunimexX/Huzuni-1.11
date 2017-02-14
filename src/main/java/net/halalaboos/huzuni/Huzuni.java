@@ -13,7 +13,6 @@ import net.halalaboos.huzuni.api.task.TaskManager;
 import net.halalaboos.huzuni.gui.GuiManager;
 import net.halalaboos.huzuni.gui.Notification;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
-import net.halalaboos.huzuni.mc.Reflection;
 import net.halalaboos.huzuni.mc.HuzuniIngameGui;
 import net.halalaboos.huzuni.meme.MemeManager;
 import net.halalaboos.huzuni.mod.Patcher;
@@ -25,10 +24,10 @@ import net.halalaboos.huzuni.mod.misc.chat.ChatMutator;
 import net.halalaboos.huzuni.mod.movement.*;
 import net.halalaboos.huzuni.mod.visual.*;
 import net.halalaboos.huzuni.render.font.MinecraftFontRenderer;
+import net.halalaboos.mcwrapper.api.util.TextColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -208,7 +207,7 @@ public enum Huzuni {
 	 * Prints the message to the in-game chat.
 	 * */
 	public void addChatMessage(String message) {
-        addChatMessage(new TextComponentString(TextFormatting.BLUE + "[H] " + TextFormatting.GRAY + message));
+        addChatMessage(new TextComponentString(TextColor.BLUE + "[H] " + TextColor.GRAY + message));
 	}
 
 	/**

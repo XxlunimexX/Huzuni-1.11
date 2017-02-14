@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.mojang.authlib.GameProfile;
 import net.halalaboos.huzuni.api.mod.BasicCommand;
 import net.halalaboos.huzuni.api.util.FileUtils;
-import net.minecraft.util.text.TextFormatting;
+import net.halalaboos.mcwrapper.api.util.TextColor;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -39,7 +39,7 @@ public final class UsernameHistory extends BasicCommand {
 						String output = "";
 						for (GameProfile profile : profiles)
 							output += "\"" + profile.getName() + "\", ";
-						huzuni.addChatMessage(TextFormatting.GOLD + name + TextFormatting.RESET + " has had the usernames: " + output.substring(0, output.length() - 2) + ".");
+						huzuni.addChatMessage(TextColor.GOLD + name + TextColor.RESET + " has had the usernames: " + output.substring(0, output.length() - 2) + ".");
 					}
 				} catch (Exception e) {
 					huzuni.addChatMessage("Failed to look up user.");

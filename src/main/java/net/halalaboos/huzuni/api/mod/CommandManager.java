@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.api.mod;
 
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
-import net.minecraft.util.text.TextFormatting;
+import net.halalaboos.mcwrapper.api.util.TextColor;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -95,9 +95,8 @@ public final class CommandManager {
 	private void listAliases(Command command) {
 		String aliasList = "Available aliases: ";
 		String[] aliases = command.getAliases();
-		for (int i = 0; i < aliases.length; i++) {
-			String alias = aliases[i];
-			aliasList+= TextFormatting.GOLD + alias + TextFormatting.GRAY + (i != aliases.length ? ", " : "");
+		for (String alias : aliases) {
+			aliasList += TextColor.GOLD + alias + TextColor.GRAY + ", ";
 		}
 		huzuni.addChatMessage(aliasList);
 	}
@@ -112,9 +111,9 @@ public final class CommandManager {
 			String[] args = input.contains(" ") ? getArguments(input.substring(input.indexOf(" ") + 1)) : null;
 			command.run(input, args);
 		} catch (Exception e) {
-			huzuni.addChatMessage("Improper usage of command '" + TextFormatting.RED + command.getAliases()[0] + TextFormatting.GRAY + "'!");
+			huzuni.addChatMessage("Improper usage of command '" + TextColor.RED + command.getAliases()[0] + TextColor.GRAY + "'!");
 			command.giveHelp();
-			huzuni.addNotification(NotificationType.ERROR, "Command Manager", 5000, "Improper usage of command '" + TextFormatting.RED + command.getAliases()[0] + TextFormatting.GRAY + "'!");
+			huzuni.addNotification(NotificationType.ERROR, "Command Manager", 5000, "Improper usage of command '" + TextColor.RED + command.getAliases()[0] + TextColor.GRAY + "'!");
 		}
 	}
 }

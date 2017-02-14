@@ -1,12 +1,11 @@
 package net.halalaboos.huzuni.gui.widgets.enabled;
 
-
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.gui.Theme;
 import net.halalaboos.huzuni.api.gui.widget.Glue;
 import net.halalaboos.huzuni.api.mod.BasicKeybind;
 import net.halalaboos.huzuni.api.mod.Mod;
-import net.minecraft.util.text.TextFormatting;
+import net.halalaboos.mcwrapper.api.util.TextColor;
 
 /**
  * The skidded style.
@@ -42,8 +41,8 @@ public class SkiddedStyle implements ModRenderStyle {
 	
 	private String formatName(Mod mod, boolean right) {
 		BasicKeybind keybind = Huzuni.INSTANCE.modManager.getKeybind(mod);
-		return right ? (mod.isEnabled() ? "on = " : "off = ") + (mod.isEnabled() ? TextFormatting.DARK_GREEN : TextFormatting.DARK_RED) + mod.getDisplayNameForRender() + TextFormatting.RESET + " = " + keybind.getKeyName() : 
-			keybind.getKeyName() + " = " + (mod.isEnabled() ? TextFormatting.DARK_GREEN : TextFormatting.DARK_RED) + mod.getDisplayNameForRender() + TextFormatting.RESET + " = " + (mod.isEnabled() ? "on" : "off");
+		return right ? (mod.isEnabled() ? "on = " : "off = ") + (mod.isEnabled() ? TextColor.DARK_GREEN : TextColor.DARK_RED) + mod.getDisplayNameForRender() + TextColor.RESET + " = " + keybind.getKeyName() : 
+			keybind.getKeyName() + " = " + (mod.isEnabled() ? TextColor.DARK_GREEN : TextColor.DARK_RED) + mod.getDisplayNameForRender() + TextColor.RESET + " = " + (mod.isEnabled() ? "on" : "off");
 	}
 
 	@Override

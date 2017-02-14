@@ -14,10 +14,10 @@ import net.halalaboos.huzuni.api.util.MathUtils;
 import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.halalaboos.huzuni.api.util.render.RenderUtils;
 import net.halalaboos.huzuni.api.util.render.Texture;
+import net.halalaboos.mcwrapper.api.util.TextColor;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.network.play.server.SPacketUpdateHealth;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextFormatting;
 
 import java.awt.*;
 
@@ -75,18 +75,18 @@ public class Waypoints extends Mod implements Renderer {
 					int y = (int) Double.parseDouble(args[2]);
 					int z = (int) Double.parseDouble(args[3]);
 					if (huzuni.waypointManager.addWaypoint(new Waypoint(name, new BlockPos(x, y, z)))) {
-						huzuni.addChatMessage(String.format("Waypoint '" + TextFormatting.RED + "%s" + TextFormatting.GRAY + "' added at %d, %d, %d", name, x, y, z));
+						huzuni.addChatMessage(String.format("Waypoint '" + TextColor.RED + "%s" + TextColor.GRAY + "' added at %d, %d, %d", name, x, y, z));
 						huzuni.waypointManager.save();
 					} else {
-						huzuni.addChatMessage(String.format("Waypoint '" + TextFormatting.RED + "%s" + TextFormatting.GRAY + "' already exists!", name));
+						huzuni.addChatMessage(String.format("Waypoint '" + TextColor.RED + "%s" + TextColor.GRAY + "' already exists!", name));
 					}
 				} else {
 					BlockPos position = mc.player.getPosition();
 					if (huzuni.waypointManager.addWaypoint(new Waypoint(name, position))) {
-						huzuni.addChatMessage(String.format("Waypoint '" + TextFormatting.RED + "%s" + TextFormatting.GRAY + "' added at %d, %d, %d", name, position.getX(), position.getY(), position.getZ()));
+						huzuni.addChatMessage(String.format("Waypoint '" + TextColor.RED + "%s" + TextColor.GRAY + "' added at %d, %d, %d", name, position.getX(), position.getY(), position.getZ()));
 						huzuni.waypointManager.save();
 					} else {
-						huzuni.addChatMessage(String.format("Waypoint '" + TextFormatting.RED + "%s" + TextFormatting.GRAY + "' already exists!", name));
+						huzuni.addChatMessage(String.format("Waypoint '" + TextColor.RED + "%s" + TextColor.GRAY + "' already exists!", name));
 					}
 				}
 			}
@@ -97,9 +97,9 @@ public class Waypoints extends Mod implements Renderer {
 			protected void runCommand(String input, String[] args) {
 				String name = args[0];
 				if (huzuni.waypointManager.removeWaypoint(name)) {
-					huzuni.addChatMessage(String.format("Waypoint '" + TextFormatting.RED + "%s" + TextFormatting.GRAY + "' removed!", name));
+					huzuni.addChatMessage(String.format("Waypoint '" + TextColor.RED + "%s" + TextColor.GRAY + "' removed!", name));
 				} else {
-					huzuni.addChatMessage(String.format("Waypoint '" + TextFormatting.RED + "%s" + TextFormatting.GRAY + "' does not exist!", name));
+					huzuni.addChatMessage(String.format("Waypoint '" + TextColor.RED + "%s" + TextColor.GRAY + "' does not exist!", name));
 				}
 			}
 			

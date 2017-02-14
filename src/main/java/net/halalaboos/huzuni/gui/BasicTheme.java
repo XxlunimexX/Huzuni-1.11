@@ -13,11 +13,11 @@ import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.halalaboos.huzuni.api.util.render.RenderUtils;
 import net.halalaboos.huzuni.gui.containers.SettingsContainer;
 import net.halalaboos.huzuni.gui.tree.components.TeamComponent;
+import net.halalaboos.mcwrapper.api.util.TextColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextFormatting;
 
 import java.awt.*;
 
@@ -138,7 +138,7 @@ public class BasicTheme extends Theme {
 		public void render(TextField textField) {
 			drawRect(textField.getX(), textField.getY(), textField.getWidth(), textField.getHeight(), false, false);
 			if (!textField.hasText())
-				drawString(TextFormatting.ITALIC + textField.getBackText(), textField.getX() + 2, textField.getY() + TextField.TEXT_HEIGHT / 2 - 1 - getStringHeight(textField.getBackText()) / 2, 0xAAAAAA);
+				drawString(TextColor.ITALIC + textField.getBackText(), textField.getX() + 2, textField.getY() + TextField.TEXT_HEIGHT / 2 - 1 - getStringHeight(textField.getBackText()) / 2, 0xAAAAAA);
 			drawString(textField.getRenderText(textField.isSelected()), textField.getX() + 2, textField.getY() + TextField.TEXT_HEIGHT / 2 - 1 - getStringHeight(textField.getRenderText(textField.isSelected())) / 2, 0xFFFFFF);
 		}
 		
@@ -217,7 +217,7 @@ public class BasicTheme extends Theme {
 		public void render(ItemListComponent nodeTreeComponent, boolean mouseOver, int x, int y, int width, int height) {
 			int mouseX = GLManager.getMouseX(), mouseY = GLManager.getMouseY();
 			drawRect(x, y, width, ItemListComponent.TEXT_HEIGHT, mouseOver && mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + ItemListComponent.TEXT_HEIGHT, nodeTreeComponent.isInternalExpanded());
-			drawString(TextFormatting.BOLD + nodeTreeComponent.getNode().getName(), x + 2, y, 0xFFFFFF);
+			drawString(TextColor.BOLD + nodeTreeComponent.getNode().getName(), x + 2, y, 0xFFFFFF);
 			
 			if (nodeTreeComponent.getNode().isExpandable() && (nodeTreeComponent.isInternalExpanded() || (mouseOver && mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + ItemListComponent.TEXT_HEIGHT)))
 				drawExpanded(x + width - ItemListComponent.TEXT_HEIGHT, y, ItemListComponent.TEXT_HEIGHT, nodeTreeComponent.isInternalExpanded());
@@ -254,7 +254,7 @@ public class BasicTheme extends Theme {
 		public void render(TaskManagerComponent nodeTreeComponent, boolean mouseOver, int x, int y, int width, int height) {
 			int mouseX = GLManager.getMouseX(), mouseY = GLManager.getMouseY();
 			drawRect(x, y, width, TaskManagerComponent.TEXT_HEIGHT, mouseOver && mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + TaskManagerComponent.TEXT_HEIGHT, nodeTreeComponent.isInternalExpanded());
-			drawString(TextFormatting.BOLD + nodeTreeComponent.getNode().getName(), x + 2, y, 0xFFFFFF);
+			drawString(TextColor.BOLD + nodeTreeComponent.getNode().getName(), x + 2, y, 0xFFFFFF);
 			
 			if (nodeTreeComponent.isInternalExpanded() || (mouseOver && mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + TaskManagerComponent.TEXT_HEIGHT))
 				drawExpanded(x + width - TaskManagerComponent.TEXT_HEIGHT, y, TaskManagerComponent.TEXT_HEIGHT, nodeTreeComponent.isInternalExpanded());
@@ -303,7 +303,7 @@ public class BasicTheme extends Theme {
 		@Override
 		public void render(ModeComponent nodeTreeComponent, boolean mouseOver, int x, int y, int width, int height) {
 			int mouseX = GLManager.getMouseX(), mouseY = GLManager.getMouseY();
-			drawString(TextFormatting.BOLD + nodeTreeComponent.getNode().getName(), x + 2, y, 0xFFFFFF);
+			drawString(TextColor.BOLD + nodeTreeComponent.getNode().getName(), x + 2, y, 0xFFFFFF);
 			y += ModeComponent.TEXT_HEIGHT;
 			drawRect(x, y, ModeComponent.CYCLER_HEIGHT, ModeComponent.CYCLER_HEIGHT, mouseOver && mouseX > x && mouseX < x + ModeComponent.CYCLER_HEIGHT && mouseY > y && mouseY < y + ModeComponent.CYCLER_HEIGHT, false);
 			drawArrow(x, y, ModeComponent.CYCLER_HEIGHT, false);
@@ -432,7 +432,7 @@ public class BasicTheme extends Theme {
 			if (nodeTreeComponent.getNode().hasChildren() && (mouseOver || nodeTreeComponent.isExpanded())) {
 				drawExpanded(x + width - height, y, height, nodeTreeComponent.isExpanded());
 			}
-			drawString(TextFormatting.BOLD + nodeTreeComponent.getNode().getName(), x + 2, y, 0xFFFFFF);
+			drawString(TextColor.BOLD + nodeTreeComponent.getNode().getName(), x + 2, y, 0xFFFFFF);
 		}
 		
 	}
