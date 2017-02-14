@@ -7,7 +7,7 @@ import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.halalaboos.huzuni.api.util.render.Texture;
-import net.minecraft.util.math.MathHelper;
+import net.halalaboos.mcwrapper.api.util.MathUtils;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -36,7 +36,7 @@ public class CompassWidget extends Widget {
 		this.setHeight(11);
 		theme.drawBorder(x, y, width, height, false);
 		theme.drawBackgroundRect(x, y, width, height, false);
-		int rotation = (int) MathHelper.wrapDegrees(mc.player.rotationYaw);
+		int rotation = (int) MathUtils.wrapDegrees(mc.player.rotationYaw);
 		
 		int offsetX = (int) this.width.getValue();
 		GLManager.glScissor(x + 1, y + 1, x + width - 1, y + height - 1);
@@ -57,7 +57,7 @@ public class CompassWidget extends Widget {
 		}
 		if (waypoints.isEnabled()) {
 			for (Waypoint waypoint : huzuni.waypointManager.getLocalWaypoints()) {
-				float waypointYaw = MathHelper.wrapDegrees((float) (Math.atan2(waypoint.getPosition().getZ() - mc.player.posZ, waypoint.getPosition().getX() - mc.player.posX) * 180.0D / Math.PI) - 90.0F);
+				float waypointYaw = MathUtils.wrapDegrees((float) (Math.atan2(waypoint.getPosition().getZ() - mc.player.posZ, waypoint.getPosition().getX() - mc.player.posX) * 180.0D / Math.PI) - 90.0F);
 				GLManager.glColor(waypoint.getColor());
 				location.render(x - rotation + offsetX + waypointYaw - 5, y, 10, 10);
 			}

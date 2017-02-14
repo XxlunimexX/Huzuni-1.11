@@ -6,9 +6,9 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Mode;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
-import net.halalaboos.huzuni.api.util.MathUtils;
 import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.halalaboos.huzuni.api.util.render.RenderUtils;
+import net.halalaboos.mcwrapper.api.util.MathUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -21,7 +21,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -89,7 +88,7 @@ public class Nametags extends BasicMod implements Renderer {
 		if (!Minecraft.isGuiEnabled() || entity == mc.getRenderManager().renderViewEntity || (!invisibles.isEnabled() && entity.isInvisible()))
 			return;
 		int color = getColor(entity, mc.player.getDistanceToEntity(entity), huzuni.friendManager.isFriend(entity.getName()), entity.isSneaking());
-		double scale = (MathUtils.getInterpolatedDistance(entity, delta) / 8D) / (1.5F + (2F - scaleValue.getValue()));
+		double scale = (net.halalaboos.huzuni.api.util.MathUtils.getInterpolatedDistance(entity, delta) / 8D) / (1.5F + (2F - scaleValue.getValue()));
 		if (scale < 1D || !this.scale.isEnabled())
 			scale = 1D;
 		
@@ -219,14 +218,14 @@ public class Nametags extends BasicMod implements Renderer {
 		int originX = -40;
 		int originY = -12;
 		float maxHealth = (float) entity.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getAttributeValue();
-		int health = MathHelper.ceil(entity.getHealth());
-		int absorptionAmount = MathHelper.ceil(entity.getAbsorptionAmount());
-		int i2 = MathHelper.ceil((maxHealth + (float) absorptionAmount) / 2.0F / 10.0F);
+		int health = net.halalaboos.mcwrapper.api.util.MathUtils.ceil(entity.getHealth());
+		int absorptionAmount = net.halalaboos.mcwrapper.api.util.MathUtils.ceil(entity.getAbsorptionAmount());
+		int i2 = MathUtils.ceil((maxHealth + (float) absorptionAmount) / 2.0F / 10.0F);
 		int j2 = Math.max(10 - (i2 - 2), 3);
 		int i3 = absorptionAmount;
 		int k3 = -1;
 		this.mc.getTextureManager().bindTexture(GuiIngame.ICONS);
-		for (int i = MathHelper.ceil((maxHealth + (float) absorptionAmount) / 2.0F) - 1; i >= 0; --i) {
+		for (int i = MathUtils.ceil((maxHealth + (float) absorptionAmount) / 2.0F) - 1; i >= 0; --i) {
 			int textureX = 16;
 			if (entity.isPotionActive(MobEffects.POISON))
 				textureX += 36;
@@ -235,7 +234,7 @@ public class Nametags extends BasicMod implements Renderer {
 			
 			int j4 = 0;
 
-			int k4 = MathHelper.ceil((float) (i + 1) / 10.0F) - 1;
+			int k4 = MathUtils.ceil((float) (i + 1) / 10.0F) - 1;
 			int x = originX + i % 10 * 8;
 			int y = originY - k4 * j2;
 			if (i3 <= 0 && i == k3) {

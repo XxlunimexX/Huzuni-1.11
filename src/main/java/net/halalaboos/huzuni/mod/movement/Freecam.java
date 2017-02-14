@@ -33,22 +33,22 @@ public class Freecam extends BasicMod {
 		super.toggle();
 		if (mc.player != null && mc.world != null) {
 	        if (isEnabled()) {
-	        	oldFlying = mc.player.capabilities.isFlying;
+	        	oldFlying = Flight.INSTANCE.isEnabled();
 	            fakePlayer = new EntityOtherPlayerMP(mc.world, new GameProfile(mc.player.getUniqueID(), mc.player.getName()));
 	            fakePlayer.copyLocationAndAnglesFrom(mc.player);
 				fakePlayer.inventory = mc.player.inventory;
 	            fakePlayer.setPositionAndRotation(mc.player.posX, mc.player.posY, mc.player.posZ, mc.player.rotationYaw, mc.player.rotationPitch);
 	            fakePlayer.rotationYawHead = mc.player.rotationYawHead;
 				mc.world.addEntityToWorld(-69, fakePlayer);
-				mc.player.capabilities.isFlying = true;
+				Flight.INSTANCE.setEnabled(true);
 			 } else {
 	        	if (fakePlayer != null && mc.player != null) {
 	        		mc.player.setPositionAndRotation(fakePlayer.posX, fakePlayer.posY, fakePlayer.posZ, fakePlayer.rotationYaw, fakePlayer.rotationPitch);
 	            	mc.world.removeEntityFromWorld(-69);
-	            	mc.player.capabilities.isFlying = oldFlying;
+					Flight.INSTANCE.setEnabled(oldFlying);
 	        	}
 	        	 if (mc.player != null)
-	                 mc.player.capabilities.isFlying = oldFlying;
+					 Flight.INSTANCE.setEnabled(oldFlying);
 	        }
 		}
     }
@@ -66,7 +66,7 @@ public class Freecam extends BasicMod {
 	@EventMethod
 	public void onPlayerMove(PlayerMoveEvent event) {
 		mc.player.setSprinting(false);
-		mc.player.capabilities.isFlying = true;
+		Flight.INSTANCE.setEnabled(true);
 		if (fakePlayer != null)
 			fakePlayer.setHealth(mc.player.getHealth());
 		event.setMotionX(event.getMotionX() * speed.getValue());

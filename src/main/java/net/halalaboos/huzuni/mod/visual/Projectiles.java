@@ -103,7 +103,7 @@ public class Projectiles extends BasicMod implements Renderer {
 	
 	private void renderProjectile(int mode, float velocity, double x, double y, double z, double motionX, double motionY, double motionZ, String text) {
 		if (velocity != -1) {
-			float theta = MathHelper.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
+			float theta = MathUtils.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
 	        motionX /= (double) theta;
 	        motionY /= (double) theta;
 	        motionZ /= (double) theta;

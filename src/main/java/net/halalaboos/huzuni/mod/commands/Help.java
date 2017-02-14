@@ -3,8 +3,8 @@ package net.halalaboos.huzuni.mod.commands;
 import net.halalaboos.huzuni.api.mod.BasicCommand;
 import net.halalaboos.huzuni.api.mod.Command;
 import net.halalaboos.huzuni.api.util.StringUtils;
+import net.halalaboos.mcwrapper.api.util.MathUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
@@ -101,8 +101,7 @@ public final class Help extends BasicCommand {
 	 * @return Amount of pages of commands we have.
 	 * */
 	private int getPages() {
-		boolean isDividedEvenly = false;
-		return MathHelper.ceil((float) (huzuni.commandManager.getCommands().size() - 1) / (float) COMMAND_PER_PAGE - (isDividedEvenly ? 1 : 0));
+		return MathUtils.ceil((float) (huzuni.commandManager.getCommands().size() - 1) / (float) COMMAND_PER_PAGE - 0);
 	}
 
 	private TextComponentString getPageMessage(int wantedPage, int pages) {

@@ -1,10 +1,9 @@
 package net.halalaboos.huzuni.gui.widgets;
 
-
 import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.api.settings.Value;
+import net.halalaboos.mcwrapper.api.util.MathUtils;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.MathHelper;
 
 /**
  * Renders the names of players within a given range.
@@ -30,7 +29,7 @@ public class TextRadarWidget extends BackgroundWidget {
 		for (int i = 0; i < mc.world.playerEntities.size(); i++) {
 			EntityPlayer player = mc.world.playerEntities.get(i);
 			if (mc.player != player) {
-				float distance = MathHelper.sqrt((float) (mc.player.posX - player.posX) * (float) (mc.player.posX - player.posX) + (float) (mc.player.posZ - player.posZ) * (float) (mc.player.posZ - player.posZ));
+				float distance = MathUtils.sqrt((float) (mc.player.posX - player.posX) * (float) (mc.player.posX - player.posX) + (float) (mc.player.posZ - player.posZ) * (float) (mc.player.posZ - player.posZ));
 				if (distance < this.distance.getValue()) {
 					String text = String.format("%s (%d)", player.getDisplayName().getFormattedText(), (int) distance);
 					int textWidth = theme.getStringWidth(text);

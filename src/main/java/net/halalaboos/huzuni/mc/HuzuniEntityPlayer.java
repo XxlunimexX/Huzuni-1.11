@@ -83,7 +83,7 @@ public class HuzuniEntityPlayer extends EntityPlayerSP {
 
 	@Override
 	public boolean isSpectator() {
-		return Freecam.INSTANCE.isEnabled() || super.isSpectator();
+		return super.isSpectator();
 	}
 	
 	@Override

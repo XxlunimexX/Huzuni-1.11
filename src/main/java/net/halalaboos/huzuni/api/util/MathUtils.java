@@ -50,26 +50,4 @@ public final class MathUtils {
             input = min;
         return input;
     }
-
-    /**
-     * Clamps the input between the maximum and minimum values.
-     * */
-    public static int clamp(int input, int max, int min) {
-        if (input > max)
-            input = max;
-        if (input < min)
-            input = min;
-        return input;
-    }
-
-    /**
-     * Clamps the input between the maximum and minimum values.
-     * */
-    public static double clamp(double input, double max, double min) {
-        if (input > max)
-            input = max;
-        if (input < min)
-            input = min;
-        return input;
-    }
 }

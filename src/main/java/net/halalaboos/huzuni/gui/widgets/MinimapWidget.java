@@ -5,10 +5,10 @@ import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.api.gui.widget.Widget;
 import net.halalaboos.huzuni.api.settings.Mode;
 import net.halalaboos.huzuni.api.settings.Toggleable;
-import net.halalaboos.huzuni.api.util.MathUtils;
 import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.halalaboos.huzuni.api.util.render.RenderUtils;
 import net.halalaboos.huzuni.api.util.render.Texture;
+import net.halalaboos.mcwrapper.api.util.MathUtils;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -58,8 +58,8 @@ public class MinimapWidget extends Widget {
 			if (mc.player == player)
 				continue;
 			
-			float distance = MathHelper.sqrt((float) (mc.player.posX - player.posX) * (float) (mc.player.posX - player.posX) + (float) (mc.player.posZ - player.posZ) * (float) (mc.player.posZ - player.posZ));
-			double angle = MathHelper.wrapDegrees(mc.player.rotationYaw - (Math.atan2(mc.getRenderManager().viewerPosZ - MathUtils.interpolate(player.prevPosZ, player.posZ, mc.timer.renderPartialTicks), mc.getRenderManager().viewerPosX - MathUtils.interpolate(player.prevPosX, player.posX, mc.timer.renderPartialTicks)) * 180.0D / Math.PI));
+			float distance = MathUtils.sqrt((float) (mc.player.posX - player.posX) * (float) (mc.player.posX - player.posX) + (float) (mc.player.posZ - player.posZ) * (float) (mc.player.posZ - player.posZ));
+			double angle = MathUtils.wrapDegrees(mc.player.rotationYaw - (Math.atan2(mc.getRenderManager().viewerPosZ - MathUtils.interpolate(player.prevPosZ, player.posZ, mc.timer.renderPartialTicks), mc.getRenderManager().viewerPosX - MathUtils.interpolate(player.prevPosX, player.posX, mc.timer.renderPartialTicks)) * 180.0D / Math.PI));
 			double pX = Math.cos(Math.toRadians(angle)) * distance;
 			double pY = -Math.sin(Math.toRadians(angle)) * distance;
 			boolean friend = huzuni.friendManager.isFriend(player.getName()), sneaking = player.isSneaking();
