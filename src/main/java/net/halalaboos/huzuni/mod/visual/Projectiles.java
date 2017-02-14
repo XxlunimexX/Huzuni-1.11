@@ -8,6 +8,7 @@ import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.halalaboos.huzuni.api.util.render.RenderUtils;
 import net.halalaboos.huzuni.mc.Reflection;
+import net.halalaboos.mcwrapper.api.util.MathUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
@@ -243,12 +244,12 @@ public class Projectiles extends BasicMod implements Renderer {
     }
 	
 	private boolean isInMaterial(AxisAlignedBB axisalignedBB, Material material) {
-        int chunkMinX = MathHelper.floor(axisalignedBB.minX);
-        int chunkMaxX = MathHelper.floor(axisalignedBB.maxX + 1.0D);
-        int chunkMinY = MathHelper.floor(axisalignedBB.minY);
-        int chunkMaxY = MathHelper.floor(axisalignedBB.maxY + 1.0D);
-        int chunkMinZ = MathHelper.floor(axisalignedBB.minZ);
-        int chunkMaxZ = MathHelper.floor(axisalignedBB.maxZ + 1.0D);
+        int chunkMinX = MathUtils.floor(axisalignedBB.minX);
+        int chunkMaxX = MathUtils.floor(axisalignedBB.maxX + 1.0D);
+        int chunkMinY = MathUtils.floor(axisalignedBB.minY);
+        int chunkMaxY = MathUtils.floor(axisalignedBB.maxY + 1.0D);
+        int chunkMinZ = MathUtils.floor(axisalignedBB.minZ);
+        int chunkMaxZ = MathUtils.floor(axisalignedBB.maxZ + 1.0D);
 
 		StructureBoundingBox structureBoundingBox = new StructureBoundingBox(chunkMinX, chunkMinY, chunkMinZ, chunkMaxX, chunkMaxY, chunkMaxZ);
         if (!mc.world.isAreaLoaded(structureBoundingBox)) {
@@ -259,8 +260,7 @@ public class Projectiles extends BasicMod implements Renderer {
                 for (int y = chunkMinY; y < chunkMaxY; ++y) {
                     for (int z = chunkMinZ; z < chunkMaxZ; ++z) {
 						IBlockState blockState = mc.world.getBlockState(new BlockPos(x, y, z));
-						Block block = blockState.getBlock();
-                        if (block != null && blockState.getMaterial() == material) {
+                        if (blockState.getMaterial() == material) {
                             double liquidHeight = (double) ((float) (y + 1) - BlockLiquid.getLiquidHeightPercent((Integer)blockState.getValue(BlockLiquid.LEVEL)));
                             if ((double) chunkMaxY >= liquidHeight)
                                 isWithin = true;

@@ -8,6 +8,7 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Mode;
 import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.api.task.PlaceTask;
+import net.halalaboos.mcwrapper.api.util.MathUtils;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -70,8 +71,8 @@ public class Scaffold extends BasicMod {
 					break;
 				case 1:
 					if (!mc.player.onGround && mc.player.movementInput.jump && mc.player.motionY > 0) {
-						BlockPos position = new BlockPos(mc.player.posX, Math.floor(mc.player.posY - 2), mc.player.posZ);
-						BlockPos above = new BlockPos(mc.player.posX, Math.floor(mc.player.posY - 1), mc.player.posZ);
+						BlockPos position = new BlockPos(mc.player.posX, MathUtils.floor(mc.player.posY - 2), mc.player.posZ);
+						BlockPos above = new BlockPos(mc.player.posX, MathUtils.floor(mc.player.posY - 1), mc.player.posZ);
 						if (mc.world.getBlockState(position).getBlock() != Blocks.AIR && mc.world.getBlockState(above).getBlock() == Blocks.AIR) {
 							placeTask.setBlock(position, EnumFacing.UP);
 							huzuni.lookManager.requestTask(this, placeTask);
