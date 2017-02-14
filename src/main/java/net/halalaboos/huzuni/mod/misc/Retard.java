@@ -26,7 +26,7 @@ public class Retard extends BasicMod {
     private boolean headbangUp = false, noLeft = false;
 	
 	public Retard() {
-		super("Retard", "Express your inner capabilities and spin your head around server-side");
+		super("Retard", "Look as if you were brendan on a lazy sunday afternoon.");
 		setCategory(Category.MISC);
 		addChildren(modeYaw, modePitch);
 		setAuthor("Halalaboos");
