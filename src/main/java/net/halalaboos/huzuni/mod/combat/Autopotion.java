@@ -208,7 +208,7 @@ public class Autopotion extends BasicMod {
      * */
 	private boolean isPotion(ItemStack itemStack) {
 		if (itemStack.getItem() instanceof ItemSplashPotion) {
-			for (PotionEffect effect : (List<PotionEffect>) PotionUtils.getEffectsFromStack(itemStack)) {
+			for (PotionEffect effect : PotionUtils.getEffectsFromStack(itemStack)) {
 				if (effect.getPotion() == health) {
 					return true;
 				}

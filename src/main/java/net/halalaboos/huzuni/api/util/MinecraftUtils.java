@@ -74,10 +74,8 @@ public final class MinecraftUtils {
     		return true;
     	if (animal && entity instanceof IAnimals && !(entity instanceof IMob))
     		return true;
-    	if (player && entity instanceof EntityPlayer)
-    		return true;
-    	return false;
-    }
+		return player && entity instanceof EntityPlayer;
+	}
 	
 	/**
 	 * @return True if the entity age is greater than or equal to 20
@@ -101,7 +99,7 @@ public final class MinecraftUtils {
 		for (int i = 0; i < mc.world.loadedEntityList.size(); i++) {
     		if (mc.world.loadedEntityList.get(i) instanceof EntityLivingBase) {
     			EntityLivingBase entity = (EntityLivingBase) mc.world.loadedEntityList.get(i);
-    			if (isAliveNotUs(entity) && checkType(entity, invisible, mob, animal, player) && checkTeam(entity) && checkProperties(entity) && (ageCheck ? checkAge(entity) : true)) {
+    			if (isAliveNotUs(entity) && checkType(entity, invisible, mob, animal, player) && checkTeam(entity) && checkProperties(entity) && (!ageCheck || checkAge(entity))) {
     				if (isFriend(entity))
     					continue;
     				if (currentEntity != null) {
@@ -125,7 +123,7 @@ public final class MinecraftUtils {
 		for (int i = 0; i < mc.world.loadedEntityList.size(); i++) {
     		if (mc.world.loadedEntityList.get(i) instanceof EntityLivingBase) {
     			EntityLivingBase entity = (EntityLivingBase) mc.world.loadedEntityList.get(i);
-    			if (isAliveNotUs(entity) && checkType(entity, invisible, mob, animal, player) && checkTeam(entity) && checkProperties(entity) && (ageCheck ? checkAge(entity) : true)) {
+    			if (isAliveNotUs(entity) && checkType(entity, invisible, mob, animal, player) && checkTeam(entity) && checkProperties(entity) && (!ageCheck || checkAge(entity))) {
     				if (isFriend(entity))
     					continue;
     				if (currentEntity != null) {
@@ -149,7 +147,7 @@ public final class MinecraftUtils {
 		for (int i = 0; i < mc.world.loadedEntityList.size(); i++) {
     		if (mc.world.loadedEntityList.get(i) instanceof EntityLivingBase) {
     			EntityLivingBase entity = (EntityLivingBase) mc.world.loadedEntityList.get(i);
-    			if (isAliveNotUs(entity) && checkType(entity, invisible, mob, animal, player) && checkTeam(entity) && checkProperties(entity) && (ageCheck ? checkAge(entity) : true)) {
+    			if (isAliveNotUs(entity) && checkType(entity, invisible, mob, animal, player) && checkTeam(entity) && checkProperties(entity) && (!ageCheck || checkAge(entity))) {
     				if (isFriend(entity))
     					continue;
     				if (currentEntity != null) {
@@ -169,7 +167,7 @@ public final class MinecraftUtils {
 	 * @return True if the entity is another player and does not contain any properties
 	 * */
 	public static boolean checkProperties(EntityLivingBase entity) {
-		return entity instanceof EntityPlayer ? ((EntityPlayer) entity).getGameProfile().getProperties().size() > 0 : true;
+		return !(entity instanceof EntityPlayer) || ((EntityPlayer) entity).getGameProfile().getProperties().size() > 0;
 	}
 
 	/**

@@ -158,7 +158,7 @@ public class WidgetGlue implements Glue {
 		float horizontalIntersection = 0, verticalIntersection = 0;
 		float distX = Math.abs(x - otherX), distX1 = Math.abs(otherX1 - x1), distY = Math.abs(y - otherY), distY1 = Math.abs(otherY1 - y1), 
 				distXCenter = Math.abs((current.getX() + current.getWidth() / 2) - (other.getX() + other.getWidth() / 2)),
-				distYCenter = Math.abs((current.getY() + current.getHeight() / 2) - (other.getY() + other.getHeight() / 2));;
+				distYCenter = Math.abs((current.getY() + current.getHeight() / 2) - (other.getY() + other.getHeight() / 2));
 		if ((x < otherX && x1 > otherX1) || (x > otherX && x1 < otherX1)) {
 			if (y < otherY1 && y > otherY)
 				if (distX < distX1 && distX < distXCenter)

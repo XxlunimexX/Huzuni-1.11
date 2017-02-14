@@ -170,7 +170,7 @@ public class Autotool extends BasicMod {
 		if (blockState.getMaterial().isToolNotRequired()) {
 			return true;
 		} else {
-			return item != null ? item.canHarvestBlock(blockState) : false;
+			return item != null && item.canHarvestBlock(blockState);
 		}
 	}
 

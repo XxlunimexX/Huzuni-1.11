@@ -72,7 +72,7 @@ public class MemeGenerator extends Thread {
                 downloader.start();
             }
 		} catch (Exception e) {
-			huzuni.LOGGER.log(Level.ERROR, String.format("Unable to connect to meme generator API! ERROR: %s", e.getMessage()));
+			Huzuni.LOGGER.log(Level.ERROR, String.format("Unable to connect to meme generator API! ERROR: %s", e.getMessage()));
 		}
 	}
 	

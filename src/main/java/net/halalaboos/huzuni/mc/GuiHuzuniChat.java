@@ -25,9 +25,9 @@ public class GuiHuzuniChat extends GuiNewChat {
 	private static final Logger LOGGER = LogManager.getLogger();
 	private final Minecraft mc;
 	private final Huzuni huzuni = Huzuni.INSTANCE;
-	private final List<String> sentMessages = Lists.<String> newArrayList();
-	private final List<ChatLine> chatLines = Lists.<ChatLine> newArrayList();
-	private final List<ChatLine> drawnChatLines = Lists.<ChatLine> newArrayList();
+	private final List<String> sentMessages = Lists.newArrayList();
+	private final List<ChatLine> chatLines = Lists.newArrayList();
+	private final List<ChatLine> drawnChatLines = Lists.newArrayList();
 	private int scrollPos;
 	private boolean isScrolled;
 
@@ -402,10 +402,10 @@ public class GuiHuzuniChat extends GuiNewChat {
     {
         int i = 0;
         ITextComponent itextcomponent = new TextComponentString("");
-        List<ITextComponent> list = Lists.<ITextComponent>newArrayList();
+        List<ITextComponent> list = Lists.newArrayList();
         List<ITextComponent> list1 = Lists.newArrayList(textComponent);
 
-        for (int j = 0; j < ((List<ITextComponent>)list1).size(); ++j)
+        for (int j = 0; j < list1.size(); ++j)
         {
             ITextComponent itextcomponent1 = list1.get(j);
             String s = itextcomponent1.getUnformattedComponentText();
@@ -527,7 +527,7 @@ public class GuiHuzuniChat extends GuiNewChat {
 			}
 
 			if (reverse) {
-				stringbuilder.insert(0, (char) c0);
+				stringbuilder.insert(0, c0);
 			} else {
 				stringbuilder.append(c0);
 			}

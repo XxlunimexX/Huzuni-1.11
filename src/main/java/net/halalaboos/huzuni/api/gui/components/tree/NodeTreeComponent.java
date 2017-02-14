@@ -42,7 +42,7 @@ public abstract class NodeTreeComponent <N extends Node> {
 	protected void loadChildren() {
 		children.clear();
 		if (this.node instanceof Node) {
-			List<Node> children = ((Node) this.node).getChildren();
+			List<Node> children = this.node.getChildren();
 			for (Node child : children) {
 				NodeTreeComponent<?> component = TreeComponentFactory.getComponent(child);
 				if (component != null)

@@ -189,7 +189,7 @@ public abstract class Widget extends Node {
 	@Override
 	public boolean hasNode(JsonObject json) {
 		JsonElement name = json.get("name");
-		return name == null ? false : name.getAsString().equals(getName());
+		return name != null && name.getAsString().equals(getName());
 	}
 	
 	@Override

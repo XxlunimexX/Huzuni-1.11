@@ -44,7 +44,7 @@ public class BasicSlider {
 	 * */
 	public void updateSliding() {
 		if (this.sliding && Mouse.isButtonDown(0)) {
-			this.sliderPercentage = (float) (GLManager.getMouseX() - x - (getBarSize() / 2F)) / (float) (getWidthForSlider());
+			this.sliderPercentage = (GLManager.getMouseX() - x - (getBarSize() / 2F)) / getWidthForSlider();
 			this.keepSafe();
 		} else
 			this.sliding = false;

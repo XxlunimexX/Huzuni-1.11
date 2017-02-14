@@ -32,12 +32,12 @@ public class HuzuniMainMenu extends HuzuniScreen {
         panoramaRenderer.updateSize(width, height);
 		int y = this.height / 4 + 48;
 		this.buttonList.clear();
-		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, y, I18n.format("menu.singleplayer", new Object[0])));
-        this.buttonList.add(new GuiButton(2, this.width / 2 - 100, y + 24, 98, 20, I18n.format("menu.multiplayer", new Object[0])));
+		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, y, I18n.format("menu.singleplayer")));
+        this.buttonList.add(new GuiButton(2, this.width / 2 - 100, y + 24, 98, 20, I18n.format("menu.multiplayer")));
         this.buttonList.add(new GuiButton(7, this.width / 2 - 100, y + 24 * 2, 98, 20, I18n.format("fml.menu.mods")));
         this.buttonList.add(new GuiButton(3, this.width / 2 + 2, y + 24, 98, 20, "Accounts"));
-		this.buttonList.add(new GuiButton(0, this.width / 2 - 100, y + 72, 98, 20, I18n.format("menu.options", new Object[0])));
-        this.buttonList.add(new GuiButton(4, this.width / 2 + 2, y + 72, 98, 20, I18n.format("menu.quit", new Object[0])));
+		this.buttonList.add(new GuiButton(0, this.width / 2 - 100, y + 72, 98, 20, I18n.format("menu.options")));
+        this.buttonList.add(new GuiButton(4, this.width / 2 + 2, y + 72, 98, 20, I18n.format("menu.quit")));
         this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, y + 72));
 		this.realmsButton = this.addButton(new GuiButton(14, this.width / 2 + 2, this.height / 4 + 48 + 24 * 2, 98, 20, I18n.format("menu.online", new Object[0]).replace("Minecraft", "").trim()));
 		if (huzuni.settings.hasUpdate()) {

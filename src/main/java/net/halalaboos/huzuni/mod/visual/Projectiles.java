@@ -262,7 +262,7 @@ public class Projectiles extends BasicMod implements Renderer {
                     for (int z = chunkMinZ; z < chunkMaxZ; ++z) {
 						IBlockState blockState = mc.world.getBlockState(new BlockPos(x, y, z));
                         if (blockState.getMaterial() == material) {
-                            double liquidHeight = (double) ((float) (y + 1) - BlockLiquid.getLiquidHeightPercent((Integer)blockState.getValue(BlockLiquid.LEVEL)));
+                            double liquidHeight = (double) ((float) (y + 1) - BlockLiquid.getLiquidHeightPercent(blockState.getValue(BlockLiquid.LEVEL)));
                             if ((double) chunkMaxY >= liquidHeight)
                                 isWithin = true;
                         }

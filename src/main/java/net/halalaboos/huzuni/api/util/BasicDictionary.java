@@ -199,6 +199,6 @@ public class BasicDictionary {
      * Denotes the style used by a dictionary data.
      * */
 	public enum Style {
-		SUFFIX, PREFIX, SURROUNDED, FULL, REPLACE;
+		SUFFIX, PREFIX, SURROUNDED, FULL, REPLACE
 	}
 }

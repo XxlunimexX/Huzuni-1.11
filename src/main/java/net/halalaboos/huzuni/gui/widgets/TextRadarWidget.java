@@ -20,7 +20,7 @@ public class TextRadarWidget extends BackgroundWidget {
 	@Override
 	public void renderMenu(int x, int y, int width, int height) {
 		super.renderMenu(x, y, width, height);
-		int incrementOffset = getIncrementOffset(), originalWidth = width;;
+		int incrementOffset = getIncrementOffset(), originalWidth = width;
 		height = 0;
 		width = 0;
 		if (incrementOffset == -1)
