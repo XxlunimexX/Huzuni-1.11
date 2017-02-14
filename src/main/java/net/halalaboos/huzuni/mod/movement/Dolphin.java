@@ -15,6 +15,7 @@ public class Dolphin extends BasicMod {
 	public Dolphin() {
 		super("Dolphin", "Automagically swims once you enter the water", Keyboard.KEY_K);
 		this.setCategory(Category.MOVEMENT);
+		setAuthor("brudin");
 	}
 	
 	@Override

@@ -19,6 +19,7 @@ public class Timer extends BasicMod {
 	public Timer() {
 		super("Timer", "Allows you to adjust the in-game clock speed");
 		this.setCategory(Category.MISC);
+		setAuthor("brudin");
 		addChildren(speed);
 	}
 	

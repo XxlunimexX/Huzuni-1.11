@@ -12,6 +12,7 @@ public class Safewalk extends BasicMod {
 	
 	public Safewalk() {
 		super("Safewalk", "It's like sneaking, but without the sneaking");
+		setAuthor("Halalaboos");
 		setCategory(Category.MOVEMENT);
 	}
 	

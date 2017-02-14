@@ -32,6 +32,7 @@ public class Bowaimbot extends BasicMod {
 	
 	public Bowaimbot() {
 		super("Bow aimbot", "Aims to hit each entity with the bow");
+		setAuthor("Stl_Missouri");
 		this.setCategory(Category.COMBAT);
 		players.setEnabled(true);
 		invisible.setEnabled(true);

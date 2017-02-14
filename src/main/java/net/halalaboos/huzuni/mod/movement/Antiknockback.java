@@ -20,7 +20,7 @@ public class Antiknockback extends BasicMod {
 	
 	public final Toggleable combat = new Toggleable("Combat mode", "Prevents knockback when only in combat");
 
-    public final Value ratio = new Value("Ratio", "%", 0F, 80F, 100F, 5F, "Ratio of knockback that will be ignored.");
+    public final Value ratio = new Value("Percentage", "%", 0F, 80F, 100F, 5F, "Ratio of knockback that will be ignored.");
 
     public final Value combatTime = new Value("Combat time", " ms", 1000F, 3000F, 10000F, 10F, "Time required to pass until no longer considered in combat");
 
@@ -28,6 +28,7 @@ public class Antiknockback extends BasicMod {
 		super("Anti knockback", "Removes a percentage from the knockback velocity");
 		this.addChildren(combat, combatTime, ratio);
 		this.setCategory(Category.MOVEMENT);
+		setAuthor("brudin");
 	}
 	
 	@Override

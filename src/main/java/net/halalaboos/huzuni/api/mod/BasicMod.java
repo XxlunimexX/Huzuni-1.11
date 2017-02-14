@@ -13,6 +13,7 @@ public class BasicMod extends Mod {
 	
 	public BasicMod(String name, String description, int keyCode) {
 		super(name, description);
+		setAuthor("Halalaboos");
 		keybind = new BasicKeybind("Keybind", "Keybind for " + name, keyCode) {
 			@Override
 			public void pressed() {

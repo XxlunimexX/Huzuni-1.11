@@ -14,6 +14,7 @@ public class Glide extends BasicMod {
 	
 	public Glide() {
 		super("Glide", "Allows an individual to glide down like an angel");
+		setAuthor("brudin");
 		this.setCategory(Category.MOVEMENT);
 	}
 	

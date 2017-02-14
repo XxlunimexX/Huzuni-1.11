@@ -56,6 +56,7 @@ public final class Replica extends BasicMod implements Renderer {
 	public Replica() {
 		super("Replica", "Replicates blocks from a template");
 		addChildren(placeDelay, silent, mode);
+		setAuthor("Halalaboos");
 		setCategory(Category.MINING);
 		silent.setEnabled(true);
 		templateBuilder.setTemplate(mode.getSelectedItem());

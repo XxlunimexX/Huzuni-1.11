@@ -60,6 +60,7 @@ public class Autoarmor extends BasicMod {
 	public Autoarmor() {
 		super("Auto armor", "Automagically equip the best armor within your inventory");
 		this.setCategory(Category.COMBAT);
+		setAuthor("Halalaboos");
 		this.addChildren(delay, enchantmentOrder);
 		enchantmentOrder.setOrdered(true);
 		enchantmentOrder.add(new EnchantmentItem(Enchantments.PROTECTION));

@@ -10,9 +10,9 @@ import net.minecraft.network.play.client.CPacketPlayerAbilities;
 import net.minecraft.network.play.client.CPacketTabComplete;
 import net.minecraft.network.play.server.SPacketPlayerAbilities;
 
-
 /**
  * @since 5:05 PM on 3/21/2015
+ * @author Brendan
  */
 public class Patcher {
 

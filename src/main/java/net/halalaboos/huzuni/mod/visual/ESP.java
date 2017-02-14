@@ -46,6 +46,7 @@ public class ESP extends BasicMod implements Renderer {
 
 	public ESP() {
 		super("ESP", "Render boxes/lines to and around entities within the world", Keyboard.KEY_B);
+		setAuthor("brudin");
 		this.setCategory(Category.VISUAL);
 		this.addChildren(players, mobs, animals, invisibles, lines, properties, checkAge, mode, opacity);
 		this.settings.setDisplayable(false);

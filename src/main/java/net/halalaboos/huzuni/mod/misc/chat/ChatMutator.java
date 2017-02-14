@@ -16,6 +16,7 @@ public class ChatMutator extends Mod {
 	public ChatMutator() {
 		super("Chat mutator", "Modify all messages sent in-game.");
 		this.setCategory(Category.MISC);
+		setAuthor("Halalaboos");
 		this.addChildren(new SpeechTherapist(), new DolanSpeak(), new Educated(), new SpeedyGonzales(), new Flanders(), new SpellCheck(), new LeetSpeak(), new Aesthetic(), new Emoticon(), new Backwards(), new Ramisme());
 	}
 	

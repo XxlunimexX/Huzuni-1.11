@@ -17,6 +17,7 @@ public class Brightness extends BasicMod {
 	
 	public Brightness() {
 		super("Brightness", "Light up your world as you recieve the night vision potion effect", Keyboard.KEY_C);
+		setAuthor("brudin");
 		this.setCategory(Category.VISUAL);
 		nightVision = Potion.getPotionFromResourceLocation("night_vision");
 	}

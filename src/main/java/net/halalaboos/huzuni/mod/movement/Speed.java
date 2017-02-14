@@ -34,6 +34,7 @@ public class Speed extends BasicMod {
 	
 	public Speed() {
 		super("Speed", "Adjust player movement speed", Keyboard.KEY_M);
+		setAuthor("Halalaboos");
 		setCategory(Category.MOVEMENT);
 		addChildren(bunnyHop, stairs, mode, groundSpeed, airSpeed);
 		mode.setSelectedItem(1);

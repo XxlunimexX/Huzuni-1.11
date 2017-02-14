@@ -81,6 +81,7 @@ public class Autotool extends BasicMod {
 	public Autotool() {
 		super("Auto tool", "Switches to the best tool in your hotbar when mining", Keyboard.KEY_J);
 		this.setCategory(Category.MINING);
+		setAuthor("Halalaboos");
 		this.addChildren(weapon, combatTime);
 		weapon.setEnabled(true);
 		digSpeed = Potion.getPotionFromResourceLocation("haste");

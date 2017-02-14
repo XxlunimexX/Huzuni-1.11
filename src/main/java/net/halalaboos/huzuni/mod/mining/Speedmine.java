@@ -34,6 +34,7 @@ public class Speedmine extends BasicMod {
 	public Speedmine() {
 		super("Speedmine", "Mines blocks at a faster rate", Keyboard.KEY_V);
 		this.setCategory(Category.MINING);
+		setAuthor("Halalaboos");
 		this.addChildren(speed, breakPercent, noSlow);
 	}
 

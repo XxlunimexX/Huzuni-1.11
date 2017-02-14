@@ -48,6 +48,7 @@ public class Projectiles extends BasicMod implements Renderer {
 	
 	public Projectiles() {
 		super("Projectiles", "Render a trajectory showing the path of a projectile");
+		setAuthor("Halalaboos");
 		setCategory(Category.VISUAL);
 		addChildren(lines, landing, arrows, landingSize);
 		lines.setEnabled(true);

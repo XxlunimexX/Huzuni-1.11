@@ -21,6 +21,7 @@ public class Autofish extends BasicMod {
 	
 	public Autofish() {
 		super("Auto fish", "Automagically recasts and pulls fish");
+		setAuthor("brudin");
 		this.setCategory(Category.MISC);
 	}
 	

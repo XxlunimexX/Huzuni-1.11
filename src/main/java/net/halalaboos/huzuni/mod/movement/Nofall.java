@@ -11,6 +11,7 @@ public class Nofall extends BasicMod {
 	
 	public Nofall() {
 		super("Nofall", "Prevents fall damage from occuring", Keyboard.KEY_N);
+		setAuthor("Halalaboos");
 		this.setCategory(Category.MOVEMENT);
 	}
 	

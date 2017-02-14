@@ -47,6 +47,7 @@ public class Smasher extends BasicMod {
 		super("Smasher", "Annihilates one-hit blocks within a radius surrounding the player");
 		this.addChildren(radius, mineDelay, silent);
 		this.setCategory(Category.MINING);
+		setAuthor("Halalaboos");
 		silent.setEnabled(true);
 		huzuni.lookManager.registerTaskHolder(this);
 	}

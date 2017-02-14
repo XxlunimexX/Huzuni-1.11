@@ -29,6 +29,7 @@ public class Retard extends BasicMod {
 		super("Retard", "Express your inner capabilities and spin your head around server-side");
 		setCategory(Category.MISC);
 		addChildren(modeYaw, modePitch);
+		setAuthor("Halalaboos");
 		huzuni.lookManager.registerTaskHolder(this);
 	}
 	

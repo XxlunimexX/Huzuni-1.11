@@ -200,6 +200,7 @@ public enum Huzuni {
 		commandManager.addCommand(new Mods());
 		commandManager.addCommand(new Lenny());
 		commandManager.addCommand(new Bind());
+		commandManager.addCommand(new Authors());
 		keybindManager.addKeybind(settings.keyOpenMenu);
 	}
 

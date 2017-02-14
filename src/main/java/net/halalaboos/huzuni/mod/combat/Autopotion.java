@@ -57,6 +57,7 @@ public class Autopotion extends BasicMod {
 	public Autopotion() {
 		super("Auto potion", "Automagically move health potions into the hotbar and use potions when the health reaches below a threshold");
 		setCategory(Category.COMBAT);
+		setAuthor("Halalaboos");
 		addChildren(swapDelay, useDelay, healthAmount, usePotions);
 		health = Potion.getPotionFromResourceLocation("instant_health");
 		huzuni.lookManager.registerTaskHolder(this);

@@ -17,6 +17,7 @@ public class Autodisconnect extends BasicMod {
 	public Autodisconnect() {
 		super("Auto disconnect", "Automagically disconnects once the player health reaches below a threshold.");
 		this.setCategory(Category.MISC);
+		setAuthor("brudin");
 		this.addChildren(health);
 	}
 	

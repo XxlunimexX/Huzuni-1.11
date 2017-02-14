@@ -44,6 +44,7 @@ public class Waypoints extends Mod implements Renderer {
 			
 	public Waypoints() {
 		super("Waypoints", "Add/remove points of interest to and from the game");
+		setAuthor("Halalaboos");
 		setCategory(Category.VISUAL);
 		addChildren(distance, customFont, renderIcon, lines, background, deathPoints, scale, scaleValue, opacity);
 		distance.setEnabled(true);

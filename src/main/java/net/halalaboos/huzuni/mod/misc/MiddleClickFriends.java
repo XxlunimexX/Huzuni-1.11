@@ -16,6 +16,7 @@ public class MiddleClickFriends extends Mod {
 		super("Middle click friends", "Middle clicking players allows you to add/remove them to and from the friends list");
 		this.setCategory(Category.MISC);
 		this.setEnabled(true);
+		setAuthor("Halalaboos");
 		this.settings.setDisplayable(false);
 	}
 

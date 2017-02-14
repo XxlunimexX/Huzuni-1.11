@@ -14,6 +14,7 @@ public class Criticals extends BasicMod {
 	public Criticals() {
 		super("Criticals", "Automagically critical with each hit");
 		this.setCategory(Category.COMBAT);
+		setAuthor("brudin");
 	}
 	
 	@Override

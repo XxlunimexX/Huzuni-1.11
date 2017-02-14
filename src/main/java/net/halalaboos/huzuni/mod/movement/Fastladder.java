@@ -12,6 +12,7 @@ public class Fastladder extends BasicMod {
 
 	public Fastladder() {
 		super("Fast ladder", "Allows you to climb ladders faster");
+		setAuthor("brudin");
 		this.setCategory(Category.MOVEMENT);
 	}
 	

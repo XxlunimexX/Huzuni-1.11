@@ -14,6 +14,7 @@ public class Sneak extends BasicMod {
 	
 	public Sneak() {
 		super("Sneak", "Forces you to sneak", Keyboard.KEY_Z);
+		setAuthor("brudin");
 		this.setCategory(Category.MOVEMENT);
 	}
 	

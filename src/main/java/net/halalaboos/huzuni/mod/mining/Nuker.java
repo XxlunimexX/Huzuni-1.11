@@ -53,6 +53,7 @@ public final class Nuker extends BasicMod {
 	public Nuker() {
 		super("Nuker", "Annihilates blocks within a radius surrounding the player", Keyboard.KEY_L);
 		this.addChildren(radius, mineDelay, distanceCheck, silent);
+		setAuthor("Halalaboos");
 		this.setCategory(Category.MINING);
 		silent.setEnabled(true);
 		huzuni.lookManager.registerTaskHolder(this);

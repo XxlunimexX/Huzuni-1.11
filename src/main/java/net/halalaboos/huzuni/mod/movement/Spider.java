@@ -12,6 +12,7 @@ public class Spider extends BasicMod {
 	
 	public Spider() {
 		super("Spider", "Climb up walls like a lil spider");
+		setAuthor("Halalaboos");
 		this.setCategory(Category.MOVEMENT);
 	}
 	

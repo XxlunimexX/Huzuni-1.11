@@ -26,6 +26,7 @@ public class Cheststealer extends BasicMod {
 	
 	public Cheststealer() {
 		super("Chest stealer", "Automagically steal every item from a chest inventory");
+		setAuthor("Halalaboos");
 		this.setCategory(Category.MISC);
 		huzuni.clickManager.registerTaskHolder(this);
 	}

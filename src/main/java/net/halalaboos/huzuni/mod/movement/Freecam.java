@@ -25,6 +25,7 @@ public class Freecam extends BasicMod {
 	private Freecam() {
 		super("Freecam", "Allows an individual to fly FROM THEIR BODY?", Keyboard.KEY_U);
 		this.setCategory(Category.MOVEMENT);
+		setAuthor("Halalaboos");
 		addChildren(speed);
 	}
 	

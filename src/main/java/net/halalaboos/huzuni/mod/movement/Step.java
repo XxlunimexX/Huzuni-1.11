@@ -16,6 +16,7 @@ public class Step extends BasicMod {
 	public Step() {
 		super("Step", "Step over taller blocks");
 		this.setCategory(Category.MOVEMENT);
+		setAuthor("brudin");
 		addChildren(height);
 	}
 	

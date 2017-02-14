@@ -24,7 +24,9 @@ public class Mod extends Node {
 	protected boolean enabled = false;
 
 	protected Category category = Category.NONE;
-	
+
+	private String author;
+
 	public final ModSettings settings = new ModSettings(this);
 
 	public final int id;
@@ -105,5 +107,12 @@ public class Mod extends Node {
 		json.addProperty("name", getName());
 		json.addProperty("enabled", isEnabled());
 	}
-	
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
 }

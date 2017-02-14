@@ -15,6 +15,7 @@ public class Respawn extends BasicMod {
 	public Respawn() {
 		super("Respawn", "Automagically respawns once you're sent to the respawn screen");
 		this.setCategory(Category.MISC);
+		setAuthor("brudin");
 	}
 	
 	@Override

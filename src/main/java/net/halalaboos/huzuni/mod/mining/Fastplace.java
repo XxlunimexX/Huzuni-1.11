@@ -18,6 +18,7 @@ public class Fastplace extends BasicMod {
 		super("Fast place", "Places blocks at a faster rate");
 		this.setCategory(Category.MINING);
 		this.addChildren(speed);
+		setAuthor("Halalaboos");
 	}
 	
 	@Override

@@ -52,6 +52,7 @@ public class Nametags extends BasicMod implements Renderer {
 	
 	private Nametags() {
 		super("Nametags", "Render custom nameplates over entities", Keyboard.KEY_P);
+		setAuthor("brudin");
 		this.setCategory(Category.VISUAL);
 		addChildren(armor, enchants, ping, invisibles, scale, healthMode, scaleValue, opacity);
 		this.settings.setDisplayable(false);

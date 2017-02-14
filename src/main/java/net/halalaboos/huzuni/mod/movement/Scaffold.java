@@ -29,6 +29,7 @@ public class Scaffold extends BasicMod {
 	
 	public Scaffold() {
 		super("Scaffold", "Automatically places blocks when you move forward or jump.");
+		setAuthor("Halalaboos");
 		addChildren(placeDistance, mode);
 		setCategory(Category.MOVEMENT);
 		huzuni.lookManager.registerTaskHolder(this);

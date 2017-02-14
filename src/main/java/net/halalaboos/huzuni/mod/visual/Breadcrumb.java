@@ -50,6 +50,7 @@ public class Breadcrumb extends BasicMod implements Renderer {
 
 	public Breadcrumb() {
 		super("Breadcrumb", "Retrace your steps as bread is placed in your path");
+		setAuthor("Halalaboos");
 		this.setCategory(Category.VISUAL);
 		addChildren(lines, bread, clearOnDeath, opacity, distance, bounce);
 		lines.setEnabled(true);

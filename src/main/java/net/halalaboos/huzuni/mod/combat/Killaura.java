@@ -87,6 +87,7 @@ public class Killaura extends BasicMod implements Renderer {
 	
 	public Killaura() {
 		super("Kill aura", "Attack entities surrounding the player", Keyboard.KEY_R);
+		setAuthor("Halalaboos");
 		this.addChildren(players, mobs, animals, invisibles, silent, randomMisses, interact, smartAttack, selection, checkAge, priority, strength, speed, reach, fov, rotationRate, speedRandomization, strengthRandomization);
 		silent.setEnabled(true);
 		players.setEnabled(true);
