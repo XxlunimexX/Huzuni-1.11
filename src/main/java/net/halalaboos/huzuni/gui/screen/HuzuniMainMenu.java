@@ -7,6 +7,7 @@ import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.halalaboos.huzuni.render.PanoramaRenderer;
+import net.minecraft.realms.RealmsBridge;
 
 import java.awt.*;
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class HuzuniMainMenu extends HuzuniScreen {
     private final Texture TITLE = new Texture("title.png");
     
     private final PanoramaRenderer panoramaRenderer = new PanoramaRenderer(width, height);
+    private GuiButton realmsButton;
     
 	public HuzuniMainMenu() {
 		super();
@@ -30,14 +32,14 @@ public class HuzuniMainMenu extends HuzuniScreen {
 		int y = this.height / 4 + 48;
 		this.buttonList.clear();
 		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, y, I18n.format("menu.singleplayer", new Object[0])));
-        this.buttonList.add(new GuiButton(2, this.width / 2 - 100, y + 24 * 1, I18n.format("menu.multiplayer", new Object[0])));
-        this.buttonList.add(new GuiButton(7, this.width / 2 + 2, y + 24 * 2, 98, 20, I18n.format("fml.menu.mods")));
-        this.buttonList.add(new GuiButton(3, this.width / 2 - 100, y + 24 * 2, 98, 20, "Accounts"));
-
+        this.buttonList.add(new GuiButton(2, this.width / 2 - 100, y + 24, 98, 20, I18n.format("menu.multiplayer", new Object[0])));
+        this.buttonList.add(new GuiButton(7, this.width / 2 - 100, y + 24 * 2, 98, 20, I18n.format("fml.menu.mods")));
+        this.buttonList.add(new GuiButton(3, this.width / 2 + 2, y + 24, 98, 20, "Accounts"));
 		this.buttonList.add(new GuiButton(0, this.width / 2 - 100, y + 72, 98, 20, I18n.format("menu.options", new Object[0])));
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, y + 72, 98, 20, I18n.format("menu.quit", new Object[0])));
         this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, y + 72));
-        if (huzuni.settings.hasUpdate()) {
+		this.realmsButton = this.addButton(new GuiButton(14, this.width / 2 + 2, this.height / 4 + 48 + 24 * 2, 98, 20, I18n.format("menu.online", new Object[0]).replace("Minecraft", "").trim()));
+		if (huzuni.settings.hasUpdate()) {
         	this.buttonList.add(new HuzuniLink(6, this.width / 2 - mc.fontRenderer.getStringWidth("Download") / 2, y + 102, mc.fontRenderer.getStringWidth("Download"), 15,"Download"));
         }
 	}
@@ -77,7 +79,10 @@ public class HuzuniMainMenu extends HuzuniScreen {
 		
 		if (button.id == 7) {
 			this.mc.displayGuiScreen(new net.minecraftforge.fml.client.GuiModList(this));
+		}
 
+		if (button.id == 14 && this.realmsButton.visible) {
+			this.switchToRealms();
 		}
 	}
 	
@@ -108,5 +113,10 @@ public class HuzuniMainMenu extends HuzuniScreen {
         this.drawString(fontRenderer, Huzuni.VERSION, width - fontRenderer.getStringWidth(Huzuni.VERSION) - 2, height - 12, 0xFFFFFF);
         if (huzuni.settings.hasUpdate())
             this.drawCenteredString(fontRenderer, "New version available!", width / 2, height / 4 + 142, 0xFFFFFF);
+	}
+
+	private void switchToRealms() {
+		RealmsBridge realmsbridge = new RealmsBridge();
+		realmsbridge.switchToRealms(this);
 	}
 }
