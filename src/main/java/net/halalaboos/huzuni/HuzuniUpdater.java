@@ -20,7 +20,7 @@ public final class HuzuniUpdater extends Thread {
 	public void run() {
 		String version = "";
 		try {
-			version = FileUtils.readURL(new URL("http://huzuni.github.io/version"));
+			version = FileUtils.readURL(new URL("http://halalaboos.net/version"));
 			//in case it returns some html gibberish
 			if (version.length() >= 20) {
 				version = Huzuni.BUILD_NUMBER + "";
