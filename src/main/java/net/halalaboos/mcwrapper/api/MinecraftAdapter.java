@@ -7,12 +7,15 @@ import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 /**
  * Represents the Minecraft client
  */
-public interface MinecraftClient {
+public interface MinecraftAdapter {
 
 	ClientPlayer getPlayer();
 
 	World getWorld();
+	void setWorld(World world);
 
 	Resolution getScreenResolution();
+
+	String getMinecraftVersion();
 
 }
