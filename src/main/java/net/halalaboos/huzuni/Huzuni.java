@@ -40,9 +40,9 @@ import java.io.File;
 public enum Huzuni {
 	INSTANCE;
 
-	public static final int BUILD_NUMBER = 19;
+	public static final int BUILD_NUMBER = 20;
 	public static String NAME = "Huzuni";
-	public static final String VERSION = NAME + " 5.0.2";
+	public static final String VERSION = NAME + " 5.0.3";
 	public static final String MCVERSION = "1.11.2";
 
 	public static final Logger LOGGER = LogManager.getLogger("Huzuni");
