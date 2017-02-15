@@ -112,7 +112,7 @@ public class HuzuniMainMenu extends HuzuniScreen {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		TITLE.render(titleX, titleY + 10, 300, 100);
 		String forgeVersion = "Forge " + ForgeVersion.getVersion();
-		String huzuniVersion = Huzuni.VERSION + " (1.11.2)";
+		String huzuniVersion = Huzuni.VERSION + Huzuni.MCVERSION;
 		this.drawString(fontRenderer, huzuniVersion, width - fontRenderer.getStringWidth(huzuniVersion) - 2, height - 12, 0x3FFFFFFF);
         this.drawString(fontRenderer, forgeVersion, width - fontRenderer.getStringWidth(forgeVersion) - 2, height - 24, 0x3FFFFFFF);
         if (huzuni.settings.hasUpdate())
