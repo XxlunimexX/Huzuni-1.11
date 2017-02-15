@@ -1,9 +1,11 @@
 package net.halalaboos.mcwrapper.impl.mixin.entity;
 
 import net.halalaboos.mcwrapper.api.entity.Entity;
-import net.halalaboos.mcwrapper.api.util.Transform;
+import net.halalaboos.mcwrapper.api.util.Rotation;
 import net.halalaboos.mcwrapper.api.util.Vector3d;
+import net.halalaboos.mcwrapper.api.world.Fluid;
 import net.halalaboos.mcwrapper.api.world.World;
+import net.minecraft.block.material.Material;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
@@ -46,6 +48,21 @@ import java.util.UUID;
 	@Shadow
 	public float stepHeight;
 
+	@Shadow
+	public abstract int getEntityId();
+
+	@Shadow
+	public abstract void setPosition(double x, double y, double z);
+
+	@Shadow
+	public abstract boolean isInWater();
+
+	@Shadow
+	public abstract boolean isInLava();
+
+	@Shadow
+	public abstract boolean isInsideOfMaterial(Material materialIn);
+
 	@Override
 	public String getName() {
 		return shadow$getName();
@@ -77,8 +94,8 @@ import java.util.UUID;
 	}
 
 	@Override
-	public Transform getTransform() {
-		return new Transform(rotationPitch, rotationYaw);
+	public Rotation getRotation() {
+		return new Rotation(rotationPitch, rotationYaw);
 	}
 
 	@Override
@@ -104,8 +121,13 @@ import java.util.UUID;
 	}
 
 	@Override
-	public boolean isInWater() {
-		return shadow$isInWater();
+	public boolean isInFluid(Fluid fluid) {
+		return fluid == Fluid.WATER ? isInWater() : isInLava();
+	}
+
+	@Override
+	public boolean isInsideOfWater() {
+		return isInsideOfMaterial(Material.WATER);
 	}
 
 	@Override
@@ -141,5 +163,10 @@ import java.util.UUID;
 	@Override
 	public void setStepHeight(float stepHeight) {
 		this.stepHeight = stepHeight;
+	}
+
+	@Override
+	public int getId() {
+		return getEntityId();
 	}
 }

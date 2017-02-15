@@ -9,4 +9,7 @@ public interface Living extends Entity {
 	double getMaxHealth();
 
 	void jump();
+
+	boolean isOnLadder();
+
 }

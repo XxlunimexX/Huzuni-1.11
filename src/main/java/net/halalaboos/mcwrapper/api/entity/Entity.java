@@ -2,8 +2,9 @@ package net.halalaboos.mcwrapper.api.entity;
 
 import net.halalaboos.mcwrapper.api.util.Identifiable;
 import net.halalaboos.mcwrapper.api.util.Nameable;
-import net.halalaboos.mcwrapper.api.util.Transform;
+import net.halalaboos.mcwrapper.api.util.Rotation;
 import net.halalaboos.mcwrapper.api.util.Vector3d;
+import net.halalaboos.mcwrapper.api.world.Fluid;
 import net.halalaboos.mcwrapper.api.world.World;
 
 public interface Entity extends Identifiable, Nameable {
@@ -29,9 +30,9 @@ public interface Entity extends Identifiable, Nameable {
 	Vector3d getVelocity();
 
 	/**
-	 * The rotation and scale of the Entity.
+	 * The rotation of the Entity.
 	 */
-	Transform getTransform();
+	Rotation getRotation();
 
 	/**
 	 * Whether or not the Entity is dead - if it is, then it will be removed from the World.
@@ -54,9 +55,11 @@ public interface Entity extends Identifiable, Nameable {
 	int getHurtResistantTime();
 
 	/**
-	 * Whether or not the Entity is inside of water.
+	 * Whether or not the Entity is inside of the specified fluid.
 	 */
-	boolean isInWater();
+	boolean isInFluid(Fluid fluid);
+
+	boolean isInsideOfWater();
 
 	float getWidth();
 	float getHeight();
@@ -67,4 +70,6 @@ public interface Entity extends Identifiable, Nameable {
 
 	float getStepHeight();
 	void setStepHeight(float stepHeight);
+
+	int getId();
 }

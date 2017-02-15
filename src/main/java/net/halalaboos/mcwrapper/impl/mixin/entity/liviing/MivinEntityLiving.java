@@ -10,6 +10,7 @@ public abstract class MivinEntityLiving extends MixinEntity implements Living {
 
 	@Shadow public abstract float shadow$getHealth();
 	@Shadow public abstract float shadow$getMaxHealth();
+	@Shadow public abstract boolean shadow$isOnLadder();
 	@Shadow protected abstract void shadow$jump();
 
 	@Override
@@ -25,5 +26,10 @@ public abstract class MivinEntityLiving extends MixinEntity implements Living {
 	@Override
 	public void jump() {
 		shadow$jump();
+	}
+
+	@Override
+	public boolean isOnLadder() {
+		return shadow$isOnLadder();
 	}
 }
