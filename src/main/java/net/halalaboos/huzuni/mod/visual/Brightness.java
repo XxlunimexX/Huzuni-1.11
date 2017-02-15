@@ -36,7 +36,7 @@ public class Brightness extends BasicMod {
 	@EventMethod
 	public void onUpdate(UpdateEvent event) {
 		int duration = 1000000;
-		PotionEffect nightVision = new PotionEffect(this.nightVision, duration, 1);
+		PotionEffect nightVision = new PotionEffect(this.nightVision, duration, 1, false, false);
 		nightVision.setPotionDurationMax(true);
 		mc.player.addPotionEffect(nightVision);
 	}
