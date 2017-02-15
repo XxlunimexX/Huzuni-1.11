@@ -60,7 +60,7 @@ public class Cheststealer extends BasicMod {
 					windowId = guiChest.inventorySlots.windowId;
 					for (; index < chest.getSizeInventory(); index++) {
 						ItemStack item = chest.getStackInSlot(index);
-						if (item == null)
+						if (item.isEmpty())
 							continue;
 						clickTask.add(windowId, index, 0, 1);
 					}
@@ -69,6 +69,4 @@ public class Cheststealer extends BasicMod {
 			}
 		}
 	}
-
-
 }

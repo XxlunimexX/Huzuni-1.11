@@ -5,8 +5,11 @@ import com.mojang.authlib.Agent;
 import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
+import javafx.scene.effect.Effect;
 import net.halalaboos.huzuni.Huzuni;
+import net.halalaboos.huzuni.mc.HuzuniIngameGui;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,6 +22,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Session;
@@ -417,5 +422,22 @@ public final class MinecraftUtils {
 		}
 		return attackAttribute;
 	}
-	
+
+	public static int getPotionY() {
+		boolean hasBad = false;
+		boolean hidden = false;
+		Collection<PotionEffect> effects = mc.player.getActivePotionEffects();
+		if (!effects.isEmpty()) {
+			for (PotionEffect effect : effects) {
+				hidden = !effect.doesShowParticles();
+				Potion potion = effect.getPotion();
+				if (potion.hasStatusIcon() && (potion.shouldRenderHUD(effect) || potion.shouldRender(effect))) {
+					if (!potion.isBeneficial()) {
+						hasBad = true;
+					}
+				}
+			}
+		}
+		return hidden ? 0 : hasBad ? 52 : 26;
+	}
 }

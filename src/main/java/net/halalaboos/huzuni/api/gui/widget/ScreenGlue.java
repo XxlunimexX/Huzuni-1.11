@@ -3,6 +3,8 @@ package net.halalaboos.huzuni.api.gui.widget;
 import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.minecraft.client.Minecraft;
 
+import static net.halalaboos.huzuni.api.util.MinecraftUtils.getPotionY;
+
 /**
  * Formats the positions of widgets based on the entire screen. <br/>
  * 0 - TOP/RIGHT <br/>
@@ -96,7 +98,7 @@ public enum ScreenGlue implements Glue {
 		switch (y) {
 		case 0:
 			if (!Minecraft.getMinecraft().player.getActivePotionEffects().isEmpty() && x == 0) {
-				widget.setY(24 + SNAP_PADDING);
+				widget.setY(getPotionY() + SNAP_PADDING);
 			} else
 				widget.setY(SNAP_PADDING);
 			break;
