@@ -424,20 +424,19 @@ public final class MinecraftUtils {
 	}
 
 	public static int getPotionY() {
-		boolean hasBad = false;
-		boolean hidden = false;
+		boolean hidden = true;
 		Collection<PotionEffect> effects = mc.player.getActivePotionEffects();
 		if (!effects.isEmpty()) {
 			for (PotionEffect effect : effects) {
-				if (!effect.doesShowParticles()) hidden = true;
+				if (effect.doesShowParticles()) hidden = false;
 				Potion potion = effect.getPotion();
 				if (potion.hasStatusIcon() && (potion.shouldRenderHUD(effect) || potion.shouldRender(effect))) {
 					if (!potion.isBeneficial()) {
-						hasBad = true;
+						return 52;
 					}
 				}
 			}
 		}
-		return hasBad ? 52 : hidden ? 0 : 26;
+		return hidden ? 0 : 26;
 	}
 }
