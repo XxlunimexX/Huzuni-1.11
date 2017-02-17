@@ -75,7 +75,7 @@ public class Bowaimbot extends BasicMod {
      * @return True if the player is using a bow.
      * */
 	private boolean isUsingBow() {
-		if (mc.player.getHeldItemMainhand() != null) {
+		if (!mc.player.getHeldItemMainhand().isEmpty()) {
             Item item = mc.player.getHeldItemMainhand().getItem();
             if (!(item instanceof ItemBow || item instanceof ItemSnowball || item instanceof ItemEnderPearl || item instanceof ItemEgg || (item instanceof ItemPotion && mc.player.getHeldItemMainhand().getItemDamage() != 0)))
                 return false;

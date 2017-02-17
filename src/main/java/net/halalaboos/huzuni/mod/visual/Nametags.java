@@ -78,7 +78,9 @@ public class Nametags extends BasicMod implements Renderer {
 			float renderX = (float) (MathUtils.interpolate(entityPlayer.prevPosX, entityPlayer.posX, partialTicks) - mc.getRenderManager().viewerPosX);
 			float renderY = (float) (MathUtils.interpolate(entityPlayer.prevPosY, entityPlayer.posY, partialTicks) - mc.getRenderManager().viewerPosY);
 			float renderZ = (float) (MathUtils.interpolate(entityPlayer.prevPosZ, entityPlayer.posZ, partialTicks) - mc.getRenderManager().viewerPosZ);
-			renderNameplate(entityPlayer, renderX, renderY, renderZ, partialTicks);	
+			if (mc.player.connection.getPlayerInfo(entityPlayer.getUniqueID()) != null) {
+				renderNameplate(entityPlayer, renderX, renderY, renderZ, partialTicks);
+			}
 		}
 		glLineWidth(huzuni.settings.lineSize.getValue());
         GlStateManager.disableTexture2D();
