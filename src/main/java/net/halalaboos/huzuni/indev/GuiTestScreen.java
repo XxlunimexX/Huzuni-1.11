@@ -13,11 +13,14 @@ import net.halalaboos.huzuni.indev.gui.components.Label;
 import net.halalaboos.huzuni.indev.gui.layouts.ListLayout;
 import net.halalaboos.huzuni.api.gui.font.FontData;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.io.IOException;
+
+import static org.lwjgl.input.Keyboard.KEY_ESCAPE;
 
 /**
  * Testing the new GUI API. <br/>
@@ -32,14 +35,17 @@ public class GuiTestScreen  extends HuzuniScreen {
     // Font data used within different parts of the menu.
     private final FontData title, mods, description, defaultFont;
 
+    private ResourceLocation blurShader;
+
     public GuiTestScreen() {
         super();
         BasicRenderer renderer = new BasicRenderer();
         manager = new ContainerManager(renderer, renderer);
-        title = huzuni.fontManager.getFont("Trebuchet MS", 48, Font.BOLD, true);
-        description = huzuni.fontManager.getFont("Trebuchet MS", 16, Font.BOLD | Font.ITALIC, true);
-        mods = huzuni.fontManager.getFont("Trebuchet MS", 20, Font.BOLD, true);
-        defaultFont = huzuni.fontManager.getFont("Trebuchet MS", 20, Font.PLAIN, true);
+        title = huzuni.fontManager.getFont("Roboto Condensed", 48, Font.BOLD, true);
+        description = huzuni.fontManager.getFont("Roboto Condensed", 16, Font.ITALIC, true);
+        mods = huzuni.fontManager.getFont("Roboto Condensed", 18, Font.PLAIN, true);
+        defaultFont = huzuni.fontManager.getFont("Roboto Condensed", 20, Font.PLAIN, true);
+        blurShader = new ResourceLocation("shaders/post/blur.json");
     }
 
     @Override
@@ -79,6 +85,7 @@ public class GuiTestScreen  extends HuzuniScreen {
         modsList.layout();
         manager.add(settings);
         manager.add(modsList);
+        mc.entityRenderer.loadShader(blurShader);
     }
 
     @Override
@@ -102,6 +109,9 @@ public class GuiTestScreen  extends HuzuniScreen {
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
+    	if (keyCode == KEY_ESCAPE) {
+    		mc.entityRenderer.switchUseShader();
+		}
         super.keyTyped(typedChar, keyCode);
         manager.keyTyped(typedChar, keyCode);
     }
@@ -139,11 +149,12 @@ public class GuiTestScreen  extends HuzuniScreen {
         // Create the title label.
         Label title = new Label("title", mod.getName());
         title.setPosition(10, 10);
+        title.setColor(new Color(218, 218, 218));
         title.setFont(this.title);
         settings.add(title);
 
         Label description = new Label("description", mod.getDescription());
-        description.setColor(Color.GRAY);
+        description.setColor(new Color(118, 118, 118));
         description.setPosition(10, 40);
         description.setFont(this.description);
         settings.add(description);
@@ -163,10 +174,10 @@ public class GuiTestScreen  extends HuzuniScreen {
 
             // Create value container for each value.
             } else if (child instanceof Value) {
-                //ValueContainer valueContainer = new ValueContainer((Value) child);
-                //valueContainer.getTitle().setFont(defaultFont);
-                //valueContainer.getDescription().setFont(this.description);
-                //childContainer.add(valueContainer);
+                ValueContainer valueContainer = new ValueContainer((Value) child);
+                valueContainer.getTitle().setFont(defaultFont);
+                valueContainer.getDescription().setFont(this.description);
+                childContainer.add(valueContainer);
             }
         }
         settings.add(childContainer);

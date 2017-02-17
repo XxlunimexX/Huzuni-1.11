@@ -5,11 +5,8 @@ import com.mojang.authlib.Agent;
 import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
-import javafx.scene.effect.Effect;
 import net.halalaboos.huzuni.Huzuni;
-import net.halalaboos.huzuni.mc.HuzuniIngameGui;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -39,7 +37,7 @@ import java.util.Collection;
  * */
 public final class MinecraftUtils {
 
-	private static final Minecraft mc = Minecraft.getMinecraft();
+	protected static final Minecraft mc = Minecraft.getMinecraft();
 	
 	private static final Huzuni huzuni = Huzuni.INSTANCE;
 	
@@ -438,5 +436,24 @@ public final class MinecraftUtils {
 			}
 		}
 		return hidden ? 0 : 26;
+	}
+
+	/**
+	 * @return True if the item is shift clickable.
+	 */
+	public static boolean isShiftable(ItemStack preferedItem) {
+		if (preferedItem == null || preferedItem.isEmpty())
+			return true;
+		for (int o = 36; o < 45; o++) {
+			if (mc.player.inventoryContainer.getSlot(o).getHasStack()) {
+				ItemStack item = mc.player.inventoryContainer.getSlot(o).getStack();
+				if (Item.getIdFromItem(item.getItem()) == Item.getIdFromItem(preferedItem.getItem())) {
+					if (item.getCount() + preferedItem.getCount() <= preferedItem.getMaxStackSize())
+						return true;
+				}
+			} else
+				return true;
+		}
+		return false;
 	}
 }

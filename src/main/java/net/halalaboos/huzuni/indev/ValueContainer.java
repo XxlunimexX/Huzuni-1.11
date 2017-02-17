@@ -5,6 +5,8 @@ import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.components.Label;
 import net.halalaboos.huzuni.indev.gui.components.Slider;
 
+import java.text.DecimalFormat;
+
 /**
  * Container which holds the title, description, and slider components that are used to represent value nodes. <br/>
  * Created by Brandon Williams on 2/16/2017.
@@ -29,9 +31,10 @@ public class ValueContainer extends Container {
     @Override
     public void update() {
         // Update the actual value of this value node with the slider information.
+		DecimalFormat decimalFormat = new DecimalFormat("0.0");
         this.value.setValue(value.getMinValue() + (slider.getSliderPercentage() * (value.getMaxValue() - value.getMinValue())));
         // Update the title label to coincide with any value change.
-        this.title.setText(String.format("%s (%f%s)", value.getName(), value.getValue(), value.getCarot()));
+        this.title.setText(String.format("%s (%s%s)", value.getName(), decimalFormat.format(value.getValue()), value.getCarot()));
         super.update();
 
         // Update their positions if necessary..

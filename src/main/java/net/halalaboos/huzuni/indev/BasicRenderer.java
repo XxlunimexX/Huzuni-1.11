@@ -17,6 +17,10 @@ import org.lwjgl.input.Mouse;
 
 import java.awt.Color;
 
+import static org.lwjgl.opengl.GL11.GL_SCISSOR_TEST;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
+
 /**
  * Basic implementation of the renderer for the GUI. <br/>
  * Also implements the InputUtility interface, making it work for both parameters of a ContainerManager.<br/>
@@ -24,11 +28,15 @@ import java.awt.Color;
  */
 public class BasicRenderer extends RenderManager implements InputUtility {
 
-    private final Color background = new Color(0, 0, 0, 255);
-    private final Color secondaryBackground = new Color(60, 60, 60, 255);
+    private Color background = new Color(20, 20, 20, 255);
+    private Color secondaryBackground = new Color(35, 35, 35, 255);
+    private Color enabled = new Color(41, 126, 37, 255);
+    private Color buttonOn = new Color(255, 255, 255, 255);
+    private Color buttonOff = new Color(138, 138, 138, 255);
+    private Color highlight = new Color(0, 127, 255, 255);
 
-    private final Color highlight = new Color(0, 127, 255, 255);
-    private final Color grey = new Color(127, 127, 127, 255);
+	private Color grey = new Color(45, 45, 45, 255);
+	private Color scrollbar = grey.brighter();
 
     private final FontRenderer fontRenderer = new BasicFontRenderer();
 
@@ -37,28 +45,30 @@ public class BasicRenderer extends RenderManager implements InputUtility {
         this.setRenderer(Button.class, new ComponentRenderer<Button>() {
             @Override
             public void render(Button button) {
-                GLManager.glColor(RenderUtils.getColorWithAffects(button.isHighlight() ? highlight : grey, button.isHovered(), Mouse.isButtonDown(0)));
+                GLManager.glColor(RenderUtils.getColorWithAffects(button.isHighlight() ? enabled : grey, button.isHovered(), Mouse.isButtonDown(0)));
                 RenderUtils.drawRect(button.getArea());
-                drawStringCentered(button.getFont(), button.getText(), button.getX() + button.getWidth() / 2, button.getY() + button.getHeight() / 2, 0xFFFFFFFF);
+                int color = button.isHighlight() ? buttonOn.getRGB() : buttonOff.getRGB();
+                drawString(button.getFont(), button.getText(), button.getX(), button.getY() + button.getHeight() / 2, color);
             }
         });
 
         this.setRenderer(Checkbox.class, new ComponentRenderer<Checkbox>() {
             @Override
             public void render(Checkbox checkbox) {
-                GLManager.glColor(RenderUtils.getColorWithAffects(checkbox.isEnabled() ? highlight : grey, checkbox.isHovered(), Mouse.isButtonDown(0)));
-                RenderUtils.drawRect(checkbox.getCheckbox());
+            	GLManager.glColor(RenderUtils.getColorWithAffects(grey, checkbox.isHovered(), Mouse.isButtonDown(0)));
+            	RenderUtils.drawRect(checkbox.getCheckbox());
+                if (checkbox.isEnabled()) {
+					GLManager.glColor(RenderUtils.getColorWithAffects(checkbox.isEnabled() ? enabled : grey, checkbox.isHovered(), Mouse.isButtonDown(0)));
+					RenderUtils.drawRect(new int[] { checkbox.getX() + 2, checkbox.getY() + 2, 8, 8 });
+				}
                 fontRenderer.drawString(checkbox.getFont(), checkbox.getText(), checkbox.getX() + 2 + Checkbox.CHECKBOX_SIZE, checkbox.getY(), 0xFFFFFFFF);
             }
         });
 
-        this.setRenderer(Container.class, new ComponentRenderer<Container>() {
-            @Override
-            public void render(Container container) {
-                GLManager.glColor(secondaryBackground);
-                RenderUtils.drawRect(container.getArea());
-            }
-        });
+        this.setRenderer(Container.class, container -> {
+			GLManager.glColor(secondaryBackground);
+			RenderUtils.drawRect(container.getArea());
+		});
 
         this.setRenderer(ScrollableContainer.class, false, new ComponentRenderer<ScrollableContainer>() {
             @Override
@@ -68,7 +78,7 @@ public class BasicRenderer extends RenderManager implements InputUtility {
                 if (container.getVerticalScrollbar().has()) {
                     GLManager.glColor(grey);
                     RenderUtils.drawRect(container.getVerticalScrollbar().getArea());
-                    GLManager.glColor(RenderUtils.getColorWithAffects(highlight, container.getVerticalScrollbar().isScrolling() || (container.isHovered() && container.getVerticalScrollbar().isPointInsideBar(getMouseX(), getMouseY())), Mouse.isButtonDown(0)));
+                    GLManager.glColor(RenderUtils.getColorWithAffects(scrollbar, container.getVerticalScrollbar().isScrolling() || (container.isHovered() && container.getVerticalScrollbar().isPointInsideBar(getMouseX(), getMouseY())), Mouse.isButtonDown(0)));
                     RenderUtils.drawRect(container.getVerticalScrollbar().getScrollbar());
                 }
             }
@@ -94,10 +104,10 @@ public class BasicRenderer extends RenderManager implements InputUtility {
     }
 
     /**
-     * Draws a centered string with the default font renderer.
+     * Draws a string with the default font renderer.
      * */
-    private void drawStringCentered(FontData fontData, String text, int x, int y, int color) {
-        fontRenderer.drawString(fontData, text, x - fontData.getStringWidth(text) / 2, y - fontData.getFontHeight() / 2, color);
+    private void drawString(FontData fontData, String text, int x, int y, int color) {
+        fontRenderer.drawString(fontData, text.toUpperCase(), x + 4, y - fontData.getFontHeight() / 2, color);
     }
 
     @Override

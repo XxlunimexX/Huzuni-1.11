@@ -73,5 +73,7 @@ public class Freecam extends BasicMod {
 		event.setMotionX(event.getMotionX() * speed.getValue());
 		event.setMotionY(event.getMotionY() * speed.getValue());
 		event.setMotionZ(event.getMotionZ() * speed.getValue());
+		mc.player.renderArmPitch = 1000;
+		mc.player.renderArmYaw = 1000;
 	}
 }
