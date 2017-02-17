@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.api.settings.*;
 import net.halalaboos.huzuni.settings.KeyOpenMenu;
+import net.halalaboos.huzuni.settings.KeyOpenTest;
 import net.halalaboos.huzuni.settings.Team;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
@@ -41,6 +42,8 @@ public final class HuzuniSettings extends JsonFileHandler {
 
 	public final KeyOpenMenu keyOpenMenu = new KeyOpenMenu();
 
+	public final KeyOpenTest keyOpenTest = new KeyOpenTest();
+
 	private Session lastSession = null;
 
 	private String newestVersion = "";
@@ -58,6 +61,7 @@ public final class HuzuniSettings extends JsonFileHandler {
 		huzuni.lookManager.save(object);
 		huzuni.hotbarManager.save(object);
 		keyOpenMenu.save(object);
+		keyOpenTest.save(object);
 		firstUse.save(object);
 		saveSession(objects, lastSession);
 		objects.add(object);
@@ -70,6 +74,7 @@ public final class HuzuniSettings extends JsonFileHandler {
 			menuSettings.load(object);
 			team.load(object);
 			keyOpenMenu.load(object);
+			keyOpenTest.load(object);
 			firstUse.load(object);
 			huzuni.lookManager.load(object);
 			huzuni.hotbarManager.load(object);

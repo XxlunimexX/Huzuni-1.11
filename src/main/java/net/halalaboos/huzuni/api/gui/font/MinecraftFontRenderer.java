@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.halalaboos.huzuni.render.font;
+package net.halalaboos.huzuni.api.gui.font;
 
 import net.halalaboos.huzuni.api.util.render.RenderUtils;
 import net.minecraft.client.renderer.GlStateManager;

@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.render.font;
+package net.halalaboos.huzuni.api.gui.font;
 
 /**
  * Renders strings at given x,y positions with the given hexadecimal color.
@@ -19,5 +19,10 @@ public interface FontRenderer {
      * @return The {@link FontData} used by this FontRenderer.
      * */
     FontData getFontData();
+
+    /**
+	 *
+	 * */
+    void setFontData(FontData fontData);
 
 }

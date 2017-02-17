@@ -4,6 +4,7 @@ package net.halalaboos.huzuni.settings;
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.mod.BasicKeybind;
 import net.halalaboos.huzuni.gui.screen.HuzuniSettingsMenu;
+import net.halalaboos.huzuni.indev.GuiTestScreen;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 

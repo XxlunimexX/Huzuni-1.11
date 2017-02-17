@@ -1,6 +1,7 @@
 package net.halalaboos.huzuni;
 
 import net.halalaboos.huzuni.api.event.EventManager;
+import net.halalaboos.huzuni.api.gui.font.FontManager;
 import net.halalaboos.huzuni.api.mod.CommandManager;
 import net.halalaboos.huzuni.api.mod.KeybindManager;
 import net.halalaboos.huzuni.api.mod.Mod;
@@ -23,7 +24,7 @@ import net.halalaboos.huzuni.mod.misc.*;
 import net.halalaboos.huzuni.mod.misc.chat.ChatMutator;
 import net.halalaboos.huzuni.mod.movement.*;
 import net.halalaboos.huzuni.mod.visual.*;
-import net.halalaboos.huzuni.render.font.MinecraftFontRenderer;
+import net.halalaboos.huzuni.api.gui.font.MinecraftFontRenderer;
 import net.halalaboos.mcwrapper.api.util.TextColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ITextComponent;
@@ -80,6 +81,8 @@ public enum Huzuni {
 	public final HuzuniSettings settings = new HuzuniSettings(this);
 
 	public final MinecraftFontRenderer guiFontRenderer = new MinecraftFontRenderer(), chatFontRenderer = new MinecraftFontRenderer();
+
+	public final FontManager fontManager = new FontManager();
 
 	private File saveFolder = null;
 
@@ -204,6 +207,7 @@ public enum Huzuni {
 		commandManager.addCommand(new Enchant());
 		commandManager.addCommand(new VClip());
 		keybindManager.addKeybind(settings.keyOpenMenu);
+		keybindManager.addKeybind(settings.keyOpenTest);
 	}
 
 	/**

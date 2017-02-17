@@ -6,6 +6,7 @@ import net.halalaboos.huzuni.api.event.KeyPressEvent;
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.settings.JsonFileHandler;
 import net.halalaboos.huzuni.api.settings.Node;
+import net.halalaboos.huzuni.api.settings.organize.AlphabeticalOrganizer;
 import net.halalaboos.huzuni.api.settings.organize.CategoryOrganizer;
 
 import java.io.IOException;
@@ -51,7 +52,7 @@ public final class ModManager extends JsonFileHandler {
 	@Override
 	public void load() {
 		super.load();
-		new CategoryOrganizer().organize(mods);
+		new AlphabeticalOrganizer().organize(mods);
 	}
 	
 	/**

@@ -16,6 +16,7 @@ public class Flight extends BasicMod {
 	
 	private Flight() {
 		super("Flight", "Allows an individual to fly", Keyboard.KEY_F);
+		this.setAuthor("Halalaboos");
 		this.setCategory(Category.MOVEMENT);
 		addChildren(speed);
 	}

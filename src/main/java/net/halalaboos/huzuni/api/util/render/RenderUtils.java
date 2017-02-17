@@ -68,7 +68,21 @@ public final class RenderUtils {
     	tessellator.draw();
     	GlStateManager.enableTexture2D();
 	}
-	
+
+	/**
+	 * Renders a simple rectangle around the given x, y, width, and height values within the rect array.
+	 * */
+	public static void drawRect(int[] rect) {
+		drawRect(rect[0], rect[1], rect[0] + rect[2], rect[1] + rect[3]);
+	}
+
+	/**
+	 * Renders a simple rectangle around the given x, y, width, and height values within the rect array.
+	 * */
+	public static void drawRect(float[] rect) {
+		drawRect(rect[0], rect[1], rect[0] + rect[2], rect[1] + rect[3]);
+	}
+
 	/**
 	 * Renders a simple rectangle around the given x, y, x1, and y1 coordinates.
 	 * */

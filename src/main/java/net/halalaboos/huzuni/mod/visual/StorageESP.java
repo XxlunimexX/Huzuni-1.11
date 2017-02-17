@@ -33,6 +33,7 @@ public class StorageESP extends BasicMod implements Renderer {
 	public StorageESP() {
 		super("Storage ESP", "Render boxes/lines to and around storage blocks within the world", Keyboard.KEY_Y);
 		setCategory(Category.VISUAL);
+		setAuthor("Halalaboos");
 		normal = new Box(new AxisAlignedBB(0, 0, 0, 1, 1, 1));
 		left = new Box(new AxisAlignedBB(0, 0, 0, 2, 1, 1));
 		right = new Box(new AxisAlignedBB(0, 0, 0, 1, 1, 2));

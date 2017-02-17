@@ -221,6 +221,7 @@ public class SettingsMenu {
 	private Container generateSettings() {
 		NodeTree tree = new NodeTree(0, 0, 0, 0);
 		tree.add(TreeComponentFactory.getComponent(Huzuni.INSTANCE.settings.keyOpenMenu));
+		tree.add(TreeComponentFactory.getComponent(Huzuni.INSTANCE.settings.keyOpenTest));
 		tree.add(TreeComponentFactory.getComponent(Huzuni.INSTANCE.settings.team));
 		tree.add(TreeComponentFactory.getComponent(Huzuni.INSTANCE.settings.lineSettings));
 		tree.add(TreeComponentFactory.getComponent(Huzuni.INSTANCE.settings.menuSettings));

@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.render.font;
+package net.halalaboos.huzuni.api.gui.font;
 
 import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.halalaboos.huzuni.api.util.render.RenderUtils;
@@ -11,7 +11,7 @@ public class BasicFontRenderer implements FontRenderer {
 
     protected int kerning = 0;
 
-    protected final FontData fontData = new FontData();
+    protected FontData fontData = new FontData();
 
     public BasicFontRenderer() {}
 
@@ -19,6 +19,10 @@ public class BasicFontRenderer implements FontRenderer {
 	public int drawString(FontData fontData, String text, int x, int y, int color) {
         if (!fontData.hasFont())
             return 0;
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(0.5F, 0.5F, 0.5F);
+        x *= 2;
+        y *= 2;
         GlStateManager.enableBlend();
 		fontData.bind();
 		GLManager.glColor(color);
@@ -32,9 +36,10 @@ public class BasicFontRenderer implements FontRenderer {
                         (float) area.y / fontData.getTextureHeight(),
                         (float) (area.x + area.width) / fontData.getTextureWidth(),
                         (float) (area.y + area.height) / fontData.getTextureHeight());
-				x += area.width + kerning;
+				x += (area.width + kerning);
 			}
 		}
+		GlStateManager.popMatrix();
 		return x;
 	}
 
@@ -54,5 +59,10 @@ public class BasicFontRenderer implements FontRenderer {
     @Override
     public FontData getFontData() {
         return fontData;
+    }
+
+    @Override
+    public void setFontData(FontData fontData) {
+        this.fontData = fontData;
     }
 }

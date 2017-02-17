@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.render.font;
+package net.halalaboos.huzuni.api.gui.font;
 
 import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.minecraft.client.renderer.GlStateManager;
@@ -121,7 +121,8 @@ public final class FontData {
         for (char c : text.toCharArray()) {
             width += characterBounds[c].width;
         }
-        return width;
+        // Divide by two to support minecraft scaling.
+        return width / 2;
     }
 
     /**
@@ -139,7 +140,8 @@ public final class FontData {
     }
 
     public int getFontHeight() {
-        return fontHeight;
+        // Divide by two to support minecraft scaling.
+        return fontHeight / 2;
     }
 
     public int getTextureWidth() {
