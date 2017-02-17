@@ -1,4 +1,7 @@
-package net.halalaboos.huzuni.indev.gui;
+package net.halalaboos.huzuni.indev.gui.containers;
+
+import net.halalaboos.huzuni.indev.gui.Component;
+import net.halalaboos.huzuni.indev.gui.InputUtility;
 
 /**
  * Basic scrollbar logic. <br/>

@@ -10,6 +10,9 @@ import net.halalaboos.huzuni.indev.gui.components.Slider;
 import net.halalaboos.huzuni.api.gui.font.BasicFontRenderer;
 import net.halalaboos.huzuni.api.gui.font.FontData;
 import net.halalaboos.huzuni.api.gui.font.FontRenderer;
+import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
+import net.halalaboos.huzuni.indev.gui.render.ComponentRenderer;
+import net.halalaboos.huzuni.indev.gui.render.RenderManager;
 import org.lwjgl.input.Mouse;
 
 import java.awt.Color;

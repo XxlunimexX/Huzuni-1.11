@@ -50,6 +50,7 @@ public class Checkbox extends Component {
     @Override
     public void update() {
         this.setWidth(CHECKBOX_SIZE + font.getStringWidth(text));
+        this.setHeight(CHECKBOX_SIZE);
     }
 
     /**

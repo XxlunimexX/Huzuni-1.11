@@ -4,6 +4,7 @@ import com.sun.javafx.scene.traversal.Direction;
 import net.halalaboos.huzuni.indev.gui.actions.Actions;
 import net.halalaboos.huzuni.indev.gui.actions.ClickAction;
 import net.halalaboos.huzuni.indev.gui.actions.KeystrokeAction;
+import net.halalaboos.huzuni.indev.gui.render.RenderManager;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.indev.gui.layouts;
 
 import net.halalaboos.huzuni.indev.gui.Component;
 import net.halalaboos.huzuni.indev.gui.Layout;
-import net.halalaboos.huzuni.indev.gui.ScrollableContainer;
+import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +24,17 @@ public class ListLayout implements Layout<ScrollableContainer> {
     // Padding used between the components.
     private int componentPadding;
 
+    // Used to determine whether or not this list layout will format the component in a vertical order or a horizontal order.
+    private boolean vertical;
+
     public ListLayout(int padding, int componentPadding) {
+        this(padding, componentPadding, true);
+    }
+
+    public ListLayout(int padding, int componentPadding, boolean vertical) {
         this.padding = padding;
         this.componentPadding = componentPadding;
+        this.vertical = vertical;
     }
 
     @Override
@@ -35,17 +43,27 @@ public class ListLayout implements Layout<ScrollableContainer> {
         int x = container.getX() + padding;
         int y = container.getY() + padding - container.getVerticalScrollbar().getScrollOffset();
         int width = container.getRenderArea()[2];
+        int height = container.getRenderArea()[3];
+
         // Total area used in calculations within the scroll bar.
-        int totalAreaHeight = padding * 2;
+        int totalAreaLength = padding * 2;
 
         // Position each component within the container as necessary and update the total area.
         for (Component component : components) {
             component.setX(x);
             component.setY(y);
-            component.setWidth(width - padding * 2);
-            y += component.getHeight() + componentPadding;
 
-            totalAreaHeight += component.getHeight() + componentPadding;
+            // Update the position with the components dimensions and apply padding.
+            if (vertical) {
+                component.setWidth(width - padding * 2);
+                y += component.getHeight() + componentPadding;
+            } else {
+                component.setHeight(height - padding * 2);
+                x += component.getWidth() + componentPadding;
+            }
+
+            // Update the total area length for calculations done by the scroll bar.
+            totalAreaLength += (vertical ? component.getHeight() : component.getWidth()) + componentPadding;
 
             if (!loaded.contains(component)) {
                 loaded.add(component);
@@ -55,10 +73,16 @@ public class ListLayout implements Layout<ScrollableContainer> {
 
         // If we have more than 0 components, there will be extra padding appended and it is necessary to remove this from the total area.
         if (components.size() > 0)
-            totalAreaHeight -= componentPadding;
+            totalAreaLength -= componentPadding;
 
-        // Update the total area for the vertical scroll bar.
-        container.getVerticalScrollbar().setTotalAreaLength(totalAreaHeight);
+        container.getHorizontalScrollbar().updatePosition(container);
+        container.getVerticalScrollbar().updatePosition(container);
+        // Update the total area for the scroll bar.
+        if (vertical)
+            container.getVerticalScrollbar().setTotalAreaLength(totalAreaLength);
+        else
+            container.getHorizontalScrollbar().setTotalAreaLength(totalAreaLength);
+
     }
 
     @Override

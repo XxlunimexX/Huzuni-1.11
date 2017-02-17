@@ -1,6 +1,8 @@
-package net.halalaboos.huzuni.indev.gui;
+package net.halalaboos.huzuni.indev.gui.containers;
 
 import com.sun.javafx.scene.traversal.Direction;
+import net.halalaboos.huzuni.indev.gui.Container;
+import net.halalaboos.huzuni.indev.gui.InputUtility;
 import net.halalaboos.huzuni.indev.gui.actions.Actions;
 import net.halalaboos.huzuni.indev.gui.actions.ClickAction;
 import net.halalaboos.huzuni.indev.gui.actions.WheelActionListener;
@@ -12,11 +14,12 @@ import net.halalaboos.huzuni.indev.gui.layouts.ScrollLayout;
  */
 public class ScrollableContainer extends Container {
 
-    private Scrollbar verticalScrollbar;
+    private Scrollbar verticalScrollbar, horizontalScrollbar;
 
     public ScrollableContainer(String tag) {
         super(tag);
         this.verticalScrollbar = new Scrollbar(inputUtility, 8);
+        this.horizontalScrollbar = new Scrollbar(inputUtility, false,8);
         this.setLayout(new ScrollLayout());
         this.setLayering(false);
 
@@ -25,6 +28,7 @@ public class ScrollableContainer extends Container {
         // Sets scrolling to false once the mouse button is released.
         this.addListener(Actions.MOUSERELEASE, (ClickAction.ClickActionListener) action -> {
             verticalScrollbar.setScrolling(false);
+            horizontalScrollbar.setScrolling(false);
             return false;
         });
 
@@ -35,18 +39,23 @@ public class ScrollableContainer extends Container {
     @Override
     public void update() {
        super.update();
-       verticalScrollbar.updatePosition(this);
        verticalScrollbar.update();
+       horizontalScrollbar.update();
        layout();
     }
 
     /**
      * @return True if this container's scrollbar was clicked and if this container's scrollbar has been clicked upon.
      * */
-    protected boolean updateMouseClick(int mouseX, int mouseY){
-        if (isHovered() && verticalScrollbar.has() && verticalScrollbar.isPointInside(mouseX, mouseY)) {
-            verticalScrollbar.setScrolling(true);
-            return true;
+    private boolean updateMouseClick(int mouseX, int mouseY){
+        if (isHovered()) {
+            if (verticalScrollbar.has() && verticalScrollbar.isPointInside(mouseX, mouseY)) {
+                verticalScrollbar.setScrolling(true);
+                return true;
+            } else if (horizontalScrollbar.has() && horizontalScrollbar.isPointInside(mouseX, mouseY)) {
+                horizontalScrollbar.setScrolling(true);
+                return true;
+            }
         }
         return false;
     }
@@ -54,9 +63,10 @@ public class ScrollableContainer extends Container {
     /**
      * Updates the scroll bar based on the mouse wheel.
      * */
-    protected boolean updateMouseWheel(int direction) {
+    private boolean updateMouseWheel(int direction) {
         if (isHovered() && isPointInside(inputUtility.getMouseX(), inputUtility.getMouseY())) {
             verticalScrollbar.wheel(direction);
+            horizontalScrollbar.wheel(direction);
             return true;
         }
         return false;
@@ -66,26 +76,18 @@ public class ScrollableContainer extends Container {
      * @return The area within the component that can be rendered within.
      * */
     public int[] getRenderArea() {
-        if (verticalScrollbar.has()) {
-            return new int[] {
-                    getX(),
-                    getY(),
-                    getWidth() - verticalScrollbar.getBarSize(),
-                    getHeight()
-            };
-        } else {
-            return new int[] {
-                    getX(),
-                    getY(),
-                    getWidth(),
-                    getHeight()
-            };
-        }
+        return new int[] {
+                getX(),
+                getY(),
+                getWidth() - (verticalScrollbar.has() ? verticalScrollbar.getBarSize() : 0),
+                getHeight() - (horizontalScrollbar.has() ? horizontalScrollbar.getBarSize() : 0)
+        };
     }
 
     @Override
     public void layout() {
         verticalScrollbar.constrict();
+        horizontalScrollbar.constrict();
         super.layout();
     }
 
@@ -93,9 +95,14 @@ public class ScrollableContainer extends Container {
     protected void setInputUtility(InputUtility inputUtility) {
         super.setInputUtility(inputUtility);
         this.verticalScrollbar.setInputUtility(inputUtility);
+        this.horizontalScrollbar.setInputUtility(inputUtility);
     }
 
     public Scrollbar getVerticalScrollbar() {
         return verticalScrollbar;
+    }
+
+    public Scrollbar getHorizontalScrollbar() {
+        return horizontalScrollbar;
     }
 }

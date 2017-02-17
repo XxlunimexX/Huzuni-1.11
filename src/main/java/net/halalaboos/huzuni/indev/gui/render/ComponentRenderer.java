@@ -1,4 +1,6 @@
-package net.halalaboos.huzuni.indev.gui;
+package net.halalaboos.huzuni.indev.gui.render;
+
+import net.halalaboos.huzuni.indev.gui.Component;
 
 /**
  * Renderer used to render specified components. <br/>

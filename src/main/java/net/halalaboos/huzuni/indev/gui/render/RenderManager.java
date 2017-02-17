@@ -1,4 +1,7 @@
-package net.halalaboos.huzuni.indev.gui;
+package net.halalaboos.huzuni.indev.gui.render;
+
+import net.halalaboos.huzuni.indev.gui.Component;
+import net.halalaboos.huzuni.indev.gui.Container;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -48,7 +51,7 @@ public class RenderManager {
     /**
      * Renders a component and the components within that component.
      * */
-    protected void render(Component component) {
+    public void render(Component component) {
         // Filter the
         Optional<Map.Entry<ComponentRendererMatcher, ComponentRenderer>> renderer = renderers.entrySet().stream().max(Comparator.comparingInt(o -> o.getKey().matches(component)));
         if (renderer.isPresent()) {

@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.indev.gui.layouts;
 
 import net.halalaboos.huzuni.indev.gui.Component;
 import net.halalaboos.huzuni.indev.gui.Layout;
-import net.halalaboos.huzuni.indev.gui.ScrollableContainer;
+import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +39,8 @@ public class ScrollLayout implements Layout<ScrollableContainer> {
             if (positions[1] + component.getHeight() > totalAreaHeight)
                 totalAreaHeight = positions[1] + component.getHeight();
         }
+        container.getHorizontalScrollbar().updatePosition(container);
+        container.getVerticalScrollbar().updatePosition(container);
         // Update the total area for the vertical scroll bar.
         container.getVerticalScrollbar().setTotalAreaLength(totalAreaHeight);
     }
