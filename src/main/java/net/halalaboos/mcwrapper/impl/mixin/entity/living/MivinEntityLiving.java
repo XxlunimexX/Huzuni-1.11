@@ -1,4 +1,4 @@
-package net.halalaboos.mcwrapper.impl.mixin.entity.liviing;
+package net.halalaboos.mcwrapper.impl.mixin.entity.living;
 
 import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.impl.mixin.entity.MixinEntity;

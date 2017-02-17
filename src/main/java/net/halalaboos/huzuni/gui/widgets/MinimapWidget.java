@@ -58,9 +58,9 @@ public class MinimapWidget extends Widget {
 				continue;
 			
 			float distance = MathUtils.sqrt((float) (mc.player.posX - player.posX) * (float) (mc.player.posX - player.posX) + (float) (mc.player.posZ - player.posZ) * (float) (mc.player.posZ - player.posZ));
-			double angle = MathUtils.wrapDegrees(mc.player.rotationYaw - (Math.atan2(mc.getRenderManager().viewerPosZ - MathUtils.interpolate(player.prevPosZ, player.posZ, 1F), mc.getRenderManager().viewerPosX - MathUtils.interpolate(player.prevPosX, player.posX, 1F)) * 180.0D / Math.PI));
-			double pX = Math.cos(Math.toRadians(angle)) * distance;
-			double pY = -Math.sin(Math.toRadians(angle)) * distance;
+			double angle = MathUtils.wrapDegrees(mc.player.rotationYaw - (Math.atan2(mc.getRenderManager().viewerPosZ - MathUtils.interpolate(player.prevPosZ, player.posZ, mc.getRenderPartialTicks()), mc.getRenderManager().viewerPosX - MathUtils.interpolate(player.prevPosX, player.posX, mc.getRenderPartialTicks())) * 180.0D / Math.PI));
+			double pX = MathUtils.cos(Math.toRadians(angle)) * distance;
+			double pY = -MathUtils.sin(Math.toRadians(angle)) * distance;
 			boolean friend = huzuni.friendManager.isFriend(player.getName()), sneaking = player.isSneaking();
 			int original = friend ? huzuni.friendManager.getColor().getRGB() : sneaking ? 0xFFFF0080 : 0xFFFFFFFF;
 			int color = huzuni.settings.team.isEnabled() ? (huzuni.settings.team.isTeam(player) ? huzuni.settings.team.getColor() : huzuni.settings.team.getTeamColor(player) != -1 ? huzuni.settings.team.getTeamColor(player) : original) : original;
@@ -79,8 +79,8 @@ public class MinimapWidget extends Widget {
 				Waypoint waypoint = localWaypoints.get(i);
 				float distance = MathUtils.sqrt((float) (mc.player.posX - waypoint.getPosition().getX()) * (float) (mc.player.posX - waypoint.getPosition().getX()) + (float) (mc.player.posZ - waypoint.getPosition().getZ()) * (float) (mc.player.posZ - waypoint.getPosition().getZ()));
 				double angle = MathUtils.wrapDegrees(mc.player.rotationYaw - (Math.atan2(mc.getRenderManager().viewerPosZ - waypoint.getPosition().getZ(), mc.getRenderManager().viewerPosX - waypoint.getPosition().getX()) * 180.0D / Math.PI));
-				double wX = Math.cos(Math.toRadians(angle)) * distance;
-				double wY = -Math.sin(Math.toRadians(angle)) * distance;
+				double wX = MathUtils.cos(Math.toRadians(angle)) * distance;
+				double wY = -MathUtils.sin(Math.toRadians(angle)) * distance;
 				GlStateManager.pushMatrix();
 				translate(wX, wY, entitySize, entitySize);
 				GLManager.glColor(waypoint.getColor());

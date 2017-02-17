@@ -1,4 +1,4 @@
-package net.halalaboos.mcwrapper.impl.mixin.entity.liviing.player;
+package net.halalaboos.mcwrapper.impl.mixin.entity.living.player;
 
 import org.spongepowered.asm.mixin.Mixin;
 

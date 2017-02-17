@@ -56,11 +56,19 @@ public class MathUtils {
 		return prev + ((cur - prev) * delta);
 	}
 
-	static public float sin (float radians) {
+	public static float sin(float radians) {
 		return Sin.table[(int)(radians * radToIndex) & SIN_MASK];
 	}
 
-	static public float cos (float radians) {
+	public static float sin(double radians) {
+		return Sin.table[(int)(radians * radToIndex) & SIN_MASK];
+	}
+
+	public static float cos(float radians) {
+		return Sin.table[(int)((radians + PI / 2) * radToIndex) & SIN_MASK];
+	}
+
+	public static float cos(double radians) {
 		return Sin.table[(int)((radians + PI / 2) * radToIndex) & SIN_MASK];
 	}
 

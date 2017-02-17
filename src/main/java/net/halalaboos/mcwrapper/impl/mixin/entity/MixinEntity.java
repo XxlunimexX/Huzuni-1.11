@@ -36,32 +36,18 @@ import java.util.UUID;
 
 	@Shadow public float width;
 	@Shadow public float height;
+	@Shadow public float fallDistance;
+	@Shadow public float stepHeight;
 
 	@Shadow public abstract UUID getUniqueID();
 	@Shadow public abstract String shadow$getName();
 	@Shadow public abstract boolean shadow$isInWater();
 	@Shadow public abstract float shadow$getEyeHeight();
-
-	@Shadow
-	public float fallDistance;
-
-	@Shadow
-	public float stepHeight;
-
-	@Shadow
-	public abstract int getEntityId();
-
-	@Shadow
-	public abstract void setPosition(double x, double y, double z);
-
-	@Shadow
-	public abstract boolean isInWater();
-
-	@Shadow
-	public abstract boolean isInLava();
-
-	@Shadow
-	public abstract boolean isInsideOfMaterial(Material materialIn);
+	@Shadow public abstract int getEntityId();
+	@Shadow public abstract void setPosition(double x, double y, double z);
+	@Shadow public abstract boolean isInWater();
+	@Shadow public abstract boolean isInLava();
+	@Shadow public abstract boolean isInsideOfMaterial(Material materialIn);
 
 	@Override
 	public String getName() {
@@ -79,7 +65,7 @@ import java.util.UUID;
 	}
 
 	@Override
-	public Vector3d getPosition() {
+	public Vector3d getLocation() {
 		return new Vector3d(posX, posY, posZ);
 	}
 
@@ -168,5 +154,16 @@ import java.util.UUID;
 	@Override
 	public int getId() {
 		return getEntityId();
+	}
+
+	@Override
+	public void setLocation(Vector3d location) {
+		setPosition(location.x, location.y, location.z);
+	}
+
+	@Override
+	public void setRotation(Rotation rotation) {
+		rotationPitch = rotation.pitch;
+		rotationYaw = rotation.yaw;
 	}
 }

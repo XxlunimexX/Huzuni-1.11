@@ -1,4 +1,4 @@
-package net.halalaboos.mcwrapper.impl.mixin.entity.liviing.player;
+package net.halalaboos.mcwrapper.impl.mixin.entity.living.player;
 
 import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
@@ -22,19 +22,8 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 	public MovementInput movementInput;
 
 	@Override
-	public void setRotation(Rotation rotation) {
-		rotationPitch = rotation.pitch;
-		rotationYaw = rotation.yaw;
-	}
-
-	@Override
 	public void swingItem(Hand hand) {
 		swingArm(EnumHand.values()[hand.ordinal()]);
-	}
-
-	@Override
-	public void setLocation(Vector3d pos) {
-		setPosition(pos.x, pos.y, pos.z);
 	}
 
 	@Override

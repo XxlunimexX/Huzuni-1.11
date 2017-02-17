@@ -17,8 +17,9 @@ public interface Entity extends Identifiable, Nameable {
 	/**
 	 * The position of the Entity.
 	 */
-	Vector3d getPosition();
+	Vector3d getLocation();
 
+	void setLocation(Vector3d location);
 	/**
 	 * The previous position of the Entity.
 	 */
@@ -72,4 +73,6 @@ public interface Entity extends Identifiable, Nameable {
 	void setStepHeight(float stepHeight);
 
 	int getId();
+
+	void setRotation(Rotation rotation);
 }
