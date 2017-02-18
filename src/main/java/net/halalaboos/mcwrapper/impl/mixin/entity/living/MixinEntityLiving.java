@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(net.minecraft.entity.EntityLivingBase.class)
-public abstract class MivinEntityLiving extends MixinEntity implements Living {
+public abstract class MixinEntityLiving extends MixinEntity implements Living {
 
 	@Shadow public abstract float shadow$getHealth();
 	@Shadow public abstract float shadow$getMaxHealth();
