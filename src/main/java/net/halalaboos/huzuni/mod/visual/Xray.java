@@ -25,10 +25,6 @@ public class Xray extends BasicMod {
 	
 	public final Value opacity = new Value("Opacity", "%", 0F, 30F, 100F, 1F, "Opacity blocks are rendered with.");
 
-    private final int ignoredBlocks[] = {
-            6, 31, 32, 37, 38, 83, 106, 111, 175
-    };
-
     private float brightness = 0;
 
     private Xray() {
@@ -126,7 +122,7 @@ public class Xray extends BasicMod {
 	}
 
 	public boolean shouldIgnore(Block block) {
-		return Arrays.binarySearch(ignoredBlocks, Block.getIdFromBlock(block)) >= 0 && !isEnabled(block) || block instanceof BlockBush;
+		return !isEnabled(block) || block instanceof BlockBush;
 	}
 
 	public int getOpacity() {
