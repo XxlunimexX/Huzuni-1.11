@@ -13,21 +13,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(net.minecraft.client.renderer.BlockModelRenderer.class) public abstract class MixinBlockModelRenderer {
+@Mixin(net.minecraft.client.renderer.BlockRendererDispatcher.class) public abstract class MixinBlockModelRenderer {
 
-	private static final String METHOD_NAME = "Lnet/minecraft/client/renderer/BlockModelRenderer;renderModel(Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/client/renderer/block/model/IBakedModel;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/client/renderer/VertexBuffer;ZJ)Z";
-
-	@Inject(method = METHOD_NAME, at = @At("HEAD"), cancellable = true)
-	public void renderModel(IBlockAccess worldIn, IBakedModel modelIn, IBlockState stateIn, BlockPos posIn,
-							   VertexBuffer buffer, boolean checkSides, long rand, CallbackInfoReturnable<Boolean> ci) {
+	@Inject(method = "renderBlock(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/client/renderer/VertexBuffer;)Z", at = @At("HEAD"), cancellable = true)
+	public void renderBlock(IBlockState state, BlockPos pos, IBlockAccess blockAccess, VertexBuffer worldRendererIn, CallbackInfoReturnable<Boolean> ci) {
 		if (Xray.INSTANCE.isEnabled()) {
-			Block block = stateIn.getBlock();
-			ci.setReturnValue(!Xray.INSTANCE.shouldIgnore(block) &&
-					renderModelSmooth(worldIn, modelIn, stateIn, posIn, buffer, checkSides, rand));
+			Block block = state.getBlock();
+			if (Xray.INSTANCE.shouldIgnore(block)) {
+				ci.setReturnValue(false);
+			}
 		}
 	}
-
-	@Shadow
-	public abstract boolean renderModelSmooth(IBlockAccess worldIn, IBakedModel modelIn, IBlockState stateIn,
-											  BlockPos posIn, VertexBuffer buffer, boolean checkSides, long rand);
 }

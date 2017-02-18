@@ -5,6 +5,7 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.ItemSelector;
 import net.halalaboos.huzuni.api.settings.Value;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBush;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -125,7 +126,7 @@ public class Xray extends BasicMod {
 	}
 
 	public boolean shouldIgnore(Block block) {
-		return Arrays.binarySearch(ignoredBlocks, Block.getIdFromBlock(block)) >= 0;
+		return Arrays.binarySearch(ignoredBlocks, Block.getIdFromBlock(block)) >= 0 && !isEnabled(block) || block instanceof BlockBush;
 	}
 
 	public int getOpacity() {

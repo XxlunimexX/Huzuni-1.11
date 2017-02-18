@@ -174,10 +174,10 @@ public class GuiTestScreen  extends HuzuniScreen {
 
             // Create value container for each value.
             } else if (child instanceof Value) {
-                ValueContainer valueContainer = new ValueContainer((Value) child);
-                valueContainer.getTitle().setFont(defaultFont);
-                valueContainer.getDescription().setFont(this.description);
-                childContainer.add(valueContainer);
+//                ValueContainer valueContainer = new ValueContainer((Value) child);
+//                valueContainer.getTitle().setFont(defaultFont);
+//                valueContainer.getDescription().setFont(this.description);
+//                childContainer.add(valueContainer);
             }
         }
         settings.add(childContainer);
