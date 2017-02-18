@@ -1,6 +1,7 @@
 package net.halalaboos.mcwrapper.impl;
 
 import net.halalaboos.mcwrapper.api.MinecraftAdapter;
+import net.halalaboos.mcwrapper.api.MinecraftClient;
 import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 import net.halalaboos.mcwrapper.api.util.Resolution;
 import net.halalaboos.mcwrapper.api.world.World;
@@ -8,21 +9,11 @@ import net.minecraft.client.Minecraft;
 
 public class OnePointElevenAdapter implements MinecraftAdapter {
 
-	private Minecraft mc;
+	private MinecraftClient mc;
 	private World world;
 
 	public OnePointElevenAdapter(Minecraft mc) {
-		this.mc = mc;
-	}
-
-	@Override
-	public ClientPlayer getPlayer() {
-		return ((ClientPlayer) mc.player);
-	}
-
-	@Override
-	public World getWorld() {
-		return this.world;
+		this.mc = ((MinecraftClient) mc);
 	}
 
 	@Override
@@ -31,8 +22,8 @@ public class OnePointElevenAdapter implements MinecraftAdapter {
 	}
 
 	@Override
-	public Resolution getScreenResolution() {
-		return new Resolution(mc.displayWidth, mc.displayHeight, mc.gameSettings.guiScale);
+	public MinecraftClient getMinecraft() {
+		return mc;
 	}
 
 	@Override

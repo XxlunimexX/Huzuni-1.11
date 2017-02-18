@@ -14,6 +14,10 @@ public class MCWrapper {
 		return adapter;
 	}
 
+	public static MinecraftClient getMinecraft() {
+		return getAdapter().getMinecraft();
+	}
+
 	public static String getMinecraftVersion() {
 		return getAdapter().getMinecraftVersion();
 	}
@@ -23,6 +27,6 @@ public class MCWrapper {
 	}
 
 	public static World getWorld() {
-		return getAdapter().getWorld();
+		return getMinecraft().getWorld();
 	}
 }
