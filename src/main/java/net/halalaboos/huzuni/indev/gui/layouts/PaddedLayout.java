@@ -1,6 +1,5 @@
 package net.halalaboos.huzuni.indev.gui.layouts;
 
-
 import net.halalaboos.huzuni.indev.gui.Component;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.Layout;
@@ -10,16 +9,30 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Empty implementation of the layout interface. <br/>
- * Simply saves the components original positions and force them to follow the container's position. <br/>
- * Created by Brandon Williams on 1/15/2017.
+ * Basic layout which enforces a padding to be between the edges of the container and it's component. <br/>
+ * Created by Brandon Williams on 2/19/2017.
  */
-public class EmptyLayout implements Layout<Container> {
+public class PaddedLayout implements Layout<Container> {
 
     /**
      * Store the positions of each component.
      * */
     protected final Map<Component, int[]> positions = new HashMap<>();
+
+    private final int horizontalPadding, verticalPadding;
+
+    public PaddedLayout(int padding) {
+        this(padding, padding);
+    }
+
+    public PaddedLayout(int horizontalPadding, int verticalPadding) {
+        this.horizontalPadding = horizontalPadding;
+        this.verticalPadding = verticalPadding;
+    }
+
+    public PaddedLayout() {
+        this(1);
+    }
 
     @Override
     public void layout(Container container, List<Component> components) {
@@ -28,8 +41,13 @@ public class EmptyLayout implements Layout<Container> {
                 positions.put(component, new int[] { component.getX(), component.getY() });
             }
             int[] positions = this.positions.get(component);
-            component.setX(container.getX() + positions[0]);
-            component.setY(container.getY() + positions[1]);
+            component.setX(container.getX() + horizontalPadding + positions[0]);
+            component.setY(container.getY() + verticalPadding + positions[1]);
+
+            if (positions[0] + component.getWidth() > container.getWidth() - horizontalPadding * 2)
+                container.setWidth(positions[0] + component.getWidth() + horizontalPadding * 2);
+            if (positions[1] + component.getHeight() > container.getHeight() - verticalPadding * 2)
+                container.setHeight(positions[1] + component.getHeight() + verticalPadding * 2);
         }
     }
 

@@ -4,7 +4,7 @@ import net.halalaboos.huzuni.indev.gui.Component;
 import net.halalaboos.huzuni.indev.gui.InputUtility;
 
 /**
- * Basic scrollbar logic. <br/>
+ * Basic SCROLLBAR logic. <br/>
  * Created by Brandon Williams on 2/16/2017.
  */
 public class Scrollbar {
@@ -60,7 +60,7 @@ public class Scrollbar {
         if (this.scrolling && has()) {
             /*
               Percentage is calculated as:
-              percentage = (mouse position) / ((length of container) - (length of scrollbar))
+              percentage = (mouse position) / ((length of container) - (length of SCROLLBAR))
              */
             this.scrolledPercentage = (float) ((vertical ? inputUtility.getMouseY() : inputUtility.getMouseX()) - mouseOffset) / (float) ((viewableAreaLength) - getScrollbarLength());
             constrict();
@@ -68,7 +68,7 @@ public class Scrollbar {
     }
 
     /**
-     * Updates this scrollbar's position to reflect the expected position within the component provided.
+     * Updates this SCROLLBAR's position to reflect the expected position within the component provided.
      * */
     public void updatePosition(Component component) {
         if (vertical) {
@@ -85,7 +85,7 @@ public class Scrollbar {
     }
 
     /**
-     * Constricts the scrollbar percentage to ensure that it stays between 0 ~ 1.
+     * Constricts the SCROLLBAR percentage to ensure that it stays between 0 ~ 1.
      * */
     public void constrict() {
         // Constrict the scroll percentage.
@@ -96,7 +96,7 @@ public class Scrollbar {
     }
 
     /**
-     * Sets this scrollbar to scrolling and updates the mouse offset.
+     * Sets this SCROLLBAR to scrolling and updates the mouse offset.
      * */
     public void setScrolling(boolean scrolling) {
         this.scrolling = scrolling;
@@ -160,13 +160,13 @@ public class Scrollbar {
      * @return The position of this scroll bar.
      * */
     public int getScrollbarPosition() {
-        // This calculation is used to find the position of the moveable scroll bar within the scrollbar area.
-        // percentage * ((viewable area) - scrollbar length)
+        // This calculation is used to find the position of the moveable scroll bar within the SCROLLBAR area.
+        // percentage * ((viewable area) - SCROLLBAR length)
         return (int) (scrolledPercentage * (float) ((viewableAreaLength) - getScrollbarLength()));
     }
 
     /**
-     * @return The total length of the moveable area of the scrollbar.
+     * @return The total length of the moveable area of the SCROLLBAR.
      * */
     public int getScrollbarLength() {
         // ratio = (viewable area) /(total area)

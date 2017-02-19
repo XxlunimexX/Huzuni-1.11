@@ -7,10 +7,10 @@ import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.gui.screen.HuzuniScreen;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.ContainerManager;
-import net.halalaboos.huzuni.indev.gui.components.Slider;
 import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
 import net.halalaboos.huzuni.indev.gui.components.Button;
 import net.halalaboos.huzuni.indev.gui.components.Label;
+import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
 import net.halalaboos.huzuni.indev.gui.layouts.ListLayout;
 import net.halalaboos.huzuni.api.gui.font.FontData;
 import net.minecraft.client.renderer.GlStateManager;
@@ -20,8 +20,6 @@ import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.io.IOException;
-
-import static org.lwjgl.input.Keyboard.KEY_ESCAPE;
 
 /**
  * Testing the new GUI API. <br/>
@@ -46,7 +44,7 @@ public class GuiTestScreen  extends HuzuniScreen {
         description = huzuni.fontManager.getFont("Roboto Condensed", 16, Font.ITALIC, true);
         mods = huzuni.fontManager.getFont("Roboto Condensed", 18, Font.PLAIN, true);
         defaultFont = huzuni.fontManager.getFont("Roboto Condensed", 20, Font.PLAIN, true);
-        blurShader = new ResourceLocation("shaders/post/blur.json");
+        //blurShader = new ResourceLocation("shaders/post/blur.json");
     }
 
     @Override
@@ -86,7 +84,7 @@ public class GuiTestScreen  extends HuzuniScreen {
         modsList.layout();
         manager.add(settings);
         manager.add(modsList);
-        mc.entityRenderer.loadShader(blurShader);
+        //mc.entityRenderer.loadShader(blurShader);
     }
 
     @Override
@@ -110,9 +108,9 @@ public class GuiTestScreen  extends HuzuniScreen {
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
-    	if (keyCode == KEY_ESCAPE) {
-    		mc.entityRenderer.switchUseShader();
-		}
+    	//if (keyCode == KEY_ESCAPE) {
+    	//	mc.entityRenderer.switchUseShader();
+		//}
         super.keyTyped(typedChar, keyCode);
         manager.keyTyped(typedChar, keyCode);
     }
@@ -148,19 +146,15 @@ public class GuiTestScreen  extends HuzuniScreen {
         settings.clear();
 
         // Create the title label.
-        Label title = new Label("title", mod.getName());
+        Label title = new Label("title", mod.getName(), this.title, new Color(218, 218, 218));
         title.setPosition(10, 10);
-        title.setColor(new Color(218, 218, 218));
-        title.setFont(this.title);
         settings.add(title);
 
-        Label description = new Label("description", mod.getDescription());
-        description.setColor(new Color(118, 118, 118));
+        Label description = new Label("description", mod.getDescription(), this.description, new Color(118, 118, 118));
         description.setPosition(10, 40);
-        description.setFont(this.description);
         settings.add(description);
 
-        ScrollableContainer childContainer = new ScrollableContainer("children");
+        ScrollableContainer childContainer = new ScrollableContainer("invisible-BACKGROUND");
         childContainer.setLayout(new ListLayout(1, 1));
         childContainer.setPosition(10, 60);
         childContainer.setSize(settings.getWidth() - 20, settings.getHeight() - 70);
@@ -172,15 +166,13 @@ public class GuiTestScreen  extends HuzuniScreen {
                 ToggleableCheckbox checkbox = new ToggleableCheckbox((Toggleable) child);
                 checkbox.setFont(defaultFont);
                 childContainer.add(checkbox);
-
             // Create value container for each value.
             } else if (child instanceof Value) {
-                Slider slider = new Slider("test", child.getName());
-                childContainer.add(slider);
-//                ValueContainer valueContainer = new ValueContainer((Value) child);
-//                valueContainer.getTitle().setFont(defaultFont);
-//                valueContainer.getDescription().setFont(this.description);
-//                childContainer.add(valueContainer);
+                ValueContainer valueContainer = new ValueContainer((Value) child);
+                valueContainer.getTitle().setFont(defaultFont);
+                valueContainer.getDescription().setFont(this.description);
+                valueContainer.getDescription().setColor(new Color(118, 118, 118));
+                childContainer.add(valueContainer);
             }
         }
         settings.add(childContainer);

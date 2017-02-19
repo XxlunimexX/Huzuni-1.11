@@ -23,7 +23,7 @@ public class ScrollableContainer extends Container {
         this.setLayout(new ScrollLayout());
         this.setLayering(false);
 
-        // Sets the scrollbar activated
+        // Sets the SCROLLBAR activated
         this.addListener(Actions.MOUSEPRESS, (ClickAction.ClickActionListener) action -> updateMouseClick(action.x, action.y));
         // Sets scrolling to false once the mouse button is released.
         this.addListener(Actions.MOUSERELEASE, (ClickAction.ClickActionListener) action -> {
@@ -45,7 +45,7 @@ public class ScrollableContainer extends Container {
     }
 
     /**
-     * @return True if this container's scrollbar was clicked and if this container's scrollbar has been clicked upon.
+     * @return True if this container's SCROLLBAR was clicked and if this container's SCROLLBAR has been clicked upon.
      * */
     private boolean updateMouseClick(int mouseX, int mouseY){
         if (isHovered()) {

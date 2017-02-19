@@ -55,6 +55,7 @@ public class RenderManager {
         // Filter the
         Optional<Map.Entry<ComponentRendererMatcher, ComponentRenderer>> renderer = renderers.entrySet().stream().max(Comparator.comparingInt(o -> o.getKey().matches(component)));
         if (renderer.isPresent()) {
+            renderer.get().getValue().pre(component);
             renderer.get().getValue().render(component);
 
             // Render the children of this component if it is a container.
@@ -63,6 +64,7 @@ public class RenderManager {
                     render(child);
                 }
             }
+            renderer.get().getValue().post(component);
         }
     }
 
