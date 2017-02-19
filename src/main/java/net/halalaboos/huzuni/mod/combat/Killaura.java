@@ -216,20 +216,6 @@ public class Killaura extends BasicMod implements Renderer {
 	}
 
 	/**
-     * @return The attack speed with randomization applied.
-     * */
-	private float getAttackSpeed() {
-		return speedRandomization.isEnabled() ? randomizedSpeed : (this.speed.getValue() / 100F);
-	}
-
-	/**
-     * @return The attack strength with randomization applied.
-     * */
-	private float getAttackStrength() {
-		return strengthRandomization.isEnabled() ? randomizedStrength : (strength.getValue() / 100F);
-	}
-
-	/**
      * Creates a new randomization value for the strength and speed randomization factors.
      * */
 	private void calculateRandomization() {
@@ -239,7 +225,7 @@ public class Killaura extends BasicMod implements Renderer {
 	
 	private void attackEntity() {
 		float cooldown = mc.player.getCooledAttackStrength(0.0F);
-		if (timer.hasReach((int) (1000F / (speedRandomization.isEnabled() ? randomizedSpeed : this.speed.getValue()))) && (cooldown >= (strengthRandomization.isEnabled() ? randomizedStrength : (strength.getValue() / 100F)) || calculateSmartAttack())) {
+		if (((timer.hasReach((int) (1000F / (speedRandomization.isEnabled() ? randomizedSpeed : this.speed.getValue()))) && (cooldown >= (strengthRandomization.isEnabled() ? (randomizedStrength / 100F) : (strength.getValue() / 100F)))) || calculateSmartAttack())) {
 			if (this.randomMisses.isEnabled()) {
 				// Essentially a random.nextBoolean().
 				if (random.nextFloat() > 0.5F) {

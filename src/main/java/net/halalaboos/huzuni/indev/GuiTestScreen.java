@@ -7,6 +7,7 @@ import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.gui.screen.HuzuniScreen;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.ContainerManager;
+import net.halalaboos.huzuni.indev.gui.components.Slider;
 import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
 import net.halalaboos.huzuni.indev.gui.components.Button;
 import net.halalaboos.huzuni.indev.gui.components.Label;
@@ -174,6 +175,8 @@ public class GuiTestScreen  extends HuzuniScreen {
 
             // Create value container for each value.
             } else if (child instanceof Value) {
+                Slider slider = new Slider("test", child.getName());
+                childContainer.add(slider);
 //                ValueContainer valueContainer = new ValueContainer((Value) child);
 //                valueContainer.getTitle().setFont(defaultFont);
 //                valueContainer.getDescription().setFont(this.description);

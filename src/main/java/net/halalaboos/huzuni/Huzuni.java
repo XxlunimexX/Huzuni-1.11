@@ -210,7 +210,6 @@ public enum Huzuni {
 		commandManager.addCommand(new Authors());
 		commandManager.addCommand(new Enchant());
 		commandManager.addCommand(new VClip());
-		commandManager.addCommand(new RunScript());
 		keybindManager.addKeybind(settings.keyOpenMenu);
 		keybindManager.addKeybind(settings.keyOpenTest);
 	}
