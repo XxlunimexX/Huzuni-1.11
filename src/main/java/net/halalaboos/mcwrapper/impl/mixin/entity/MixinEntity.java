@@ -54,6 +54,15 @@ import java.util.UUID;
 	@Shadow
 	public boolean onGround;
 
+	@Shadow
+	public abstract void setSprinting(boolean sprinting);
+
+	@Shadow
+	public abstract boolean isSprinting();
+
+	@Shadow
+	public abstract boolean isSneaking();
+
 	@Override
 	public String getEntityName() {
 		return getName();
@@ -193,5 +202,20 @@ import java.util.UUID;
 	@Override
 	public void setOnGround(boolean onGround) {
 		this.onGround = onGround;
+	}
+
+	@Override
+	public void setSprint(boolean sprint) {
+		this.setSprinting(sprint);
+	}
+
+	@Override
+	public boolean getSprinting() {
+		return isSprinting();
+	}
+
+	@Override
+	public boolean getSneaking() {
+		return isSneaking();
 	}
 }

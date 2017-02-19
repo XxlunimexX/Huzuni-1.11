@@ -84,4 +84,11 @@ public interface Entity extends Identifiable, Nameable {
 
 	boolean isOnGround();
 	void setOnGround(boolean onGround);
+
+	void setSprint(boolean sprint);
+
+	boolean getSprinting();
+
+	boolean getSneaking();
+
 }

@@ -7,10 +7,14 @@ public interface Player extends Living {
 
 	float getAttackStrength();
 
-	boolean isGameType(GameType type);
-
 	ItemStack getStack(int slot);
 
 	boolean isNPC();
+
+	void setNPC(boolean npc);
+
+	float getFood();
+
+	float getSaturation();
 
 }

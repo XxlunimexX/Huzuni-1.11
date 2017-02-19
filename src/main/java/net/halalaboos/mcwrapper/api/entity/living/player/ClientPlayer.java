@@ -10,4 +10,5 @@ public interface ClientPlayer extends Player {
 
 	float getForwardMovement();
 
+	void setSneak(boolean sneak);
 }

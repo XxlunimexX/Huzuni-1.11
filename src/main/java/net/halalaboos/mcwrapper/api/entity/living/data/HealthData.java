@@ -1,4 +1,4 @@
-package net.halalaboos.mcwrapper.api.entity.living;
+package net.halalaboos.mcwrapper.api.entity.living.data;
 
 public class HealthData {
 

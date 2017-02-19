@@ -135,6 +135,8 @@ public enum Huzuni {
 		modManager.load();
 		guiManager.load();
 		new HuzuniUpdater(this).start();
+
+		Runtime.getRuntime().addShutdownHook(new Thread(this::end));
 	}
 
 	/**
@@ -214,6 +216,7 @@ public enum Huzuni {
 		commandManager.addCommand(new Authors());
 		commandManager.addCommand(new Enchant());
 		commandManager.addCommand(new VClip());
+		commandManager.addCommand(new Debug());
 		keybindManager.addKeybind(settings.keyOpenMenu);
 		keybindManager.addKeybind(settings.keyOpenTest);
 	}

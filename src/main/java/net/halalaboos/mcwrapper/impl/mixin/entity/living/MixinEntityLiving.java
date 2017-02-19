@@ -1,6 +1,6 @@
 package net.halalaboos.mcwrapper.impl.mixin.entity.living;
 
-import net.halalaboos.mcwrapper.api.entity.living.HealthData;
+import net.halalaboos.mcwrapper.api.entity.living.data.HealthData;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.item.ItemStack;

@@ -35,4 +35,9 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 	public float getForwardMovement() {
 		return movementInput.moveForward;
 	}
+
+	@Override
+	public void setSneak(boolean sneak) {
+		this.movementInput.sneak = sneak;
+	}
 }
