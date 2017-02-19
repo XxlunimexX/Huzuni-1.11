@@ -23,9 +23,10 @@ public class ScrollLayout implements Layout<ScrollableContainer> {
     @Override
     public void layout(ScrollableContainer container, List<Component> components) {
         // x and y positions are offset by the scroll offset when necessary.
-        int x = container.getX();
+        int x = container.getX() - container.getHorizontalScrollbar().getScrollOffset();
         int y = container.getY() - container.getVerticalScrollbar().getScrollOffset();
-        int totalAreaHeight = 0;
+        int totalAreaHeight = 0, totalAreaWidth = 0;
+
         for (Component component : components) {
             // Store each position to ensure we don't constantly offset this component.
             if (!positions.containsKey(component)) {
@@ -38,10 +39,15 @@ public class ScrollLayout implements Layout<ScrollableContainer> {
             // Update the total area height with the furthest component down to ensure that the vertical scrollbar
             if (positions[1] + component.getHeight() > totalAreaHeight)
                 totalAreaHeight = positions[1] + component.getHeight();
+
+            // Update the total area width with the furthest component down to ensure that the vertical scrollbar
+            if (positions[0] + component.getWidth() > totalAreaWidth)
+                totalAreaWidth = positions[0] + component.getWidth();
         }
         container.getHorizontalScrollbar().updatePosition(container);
         container.getVerticalScrollbar().updatePosition(container);
         // Update the total area for the vertical scroll bar.
+        container.getHorizontalScrollbar().setTotalAreaLength(totalAreaWidth);
         container.getVerticalScrollbar().setTotalAreaLength(totalAreaHeight);
     }
 

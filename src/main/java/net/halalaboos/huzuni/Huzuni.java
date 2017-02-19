@@ -14,6 +14,7 @@ import net.halalaboos.huzuni.api.task.TaskManager;
 import net.halalaboos.huzuni.gui.GuiManager;
 import net.halalaboos.huzuni.gui.Notification;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
+import net.halalaboos.huzuni.indev.script.ScriptManager;
 import net.halalaboos.huzuni.mc.HuzuniIngameGui;
 import net.halalaboos.huzuni.meme.MemeManager;
 import net.halalaboos.huzuni.mod.Patcher;
@@ -84,6 +85,8 @@ public enum Huzuni {
 
 	public final FontManager fontManager = new FontManager();
 
+	public final ScriptManager scriptManager = new ScriptManager(this);
+
 	private File saveFolder = null;
 
     Huzuni() {}
@@ -107,6 +110,7 @@ public enum Huzuni {
 		memeManager.init();
 		settings.init();
 		patcher.init();
+		scriptManager.init();
 		
 		saveFolder = new File(folder, "huzuni");
 		if (!saveFolder.exists())
@@ -206,6 +210,7 @@ public enum Huzuni {
 		commandManager.addCommand(new Authors());
 		commandManager.addCommand(new Enchant());
 		commandManager.addCommand(new VClip());
+		commandManager.addCommand(new RunScript());
 		keybindManager.addKeybind(settings.keyOpenMenu);
 		keybindManager.addKeybind(settings.keyOpenTest);
 	}

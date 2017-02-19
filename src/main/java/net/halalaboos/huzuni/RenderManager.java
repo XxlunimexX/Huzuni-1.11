@@ -145,6 +145,7 @@ public final class RenderManager {
 	/**
      * Renderer used within both world and overlay rendering.
      * */
+	@FunctionalInterface
 	public interface Renderer {
 		void render(float partialTicks);
 	}

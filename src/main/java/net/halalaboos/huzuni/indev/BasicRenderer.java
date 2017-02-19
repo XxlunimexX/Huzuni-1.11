@@ -81,6 +81,12 @@ public class BasicRenderer extends RenderManager implements InputUtility {
                     GLManager.glColor(RenderUtils.getColorWithAffects(scrollbar, container.getVerticalScrollbar().isScrolling() || (container.isHovered() && container.getVerticalScrollbar().isPointInsideBar(getMouseX(), getMouseY())), Mouse.isButtonDown(0)));
                     RenderUtils.drawRect(container.getVerticalScrollbar().getScrollbar());
                 }
+                if (container.getHorizontalScrollbar().has()) {
+                    GLManager.glColor(grey);
+                    RenderUtils.drawRect(container.getHorizontalScrollbar().getArea());
+                    GLManager.glColor(RenderUtils.getColorWithAffects(scrollbar, container.getHorizontalScrollbar().isScrolling() || (container.isHovered() && container.getHorizontalScrollbar().isPointInsideBar(getMouseX(), getMouseY())), Mouse.isButtonDown(0)));
+                    RenderUtils.drawRect(container.getHorizontalScrollbar().getScrollbar());
+                }
             }
         });
 

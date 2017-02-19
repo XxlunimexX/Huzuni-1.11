@@ -40,8 +40,8 @@ public class ListLayout implements Layout<ScrollableContainer> {
     @Override
     public void layout(ScrollableContainer container, List<Component> components) {
         // x and y positions are offset by the scroll offset when necessary.
-        int x = container.getX() + padding;
-        int y = container.getY() + padding - container.getVerticalScrollbar().getScrollOffset();
+        int x = container.getX() + padding - (vertical ? 0 : container.getHorizontalScrollbar().getScrollOffset());
+        int y = container.getY() + padding - (vertical ? container.getVerticalScrollbar().getScrollOffset() : 0);
         int width = container.getRenderArea()[2];
         int height = container.getRenderArea()[3];
 
