@@ -29,6 +29,6 @@ import java.util.List;
 
 	@Override
 	public Collection<Player> getPlayers() {
-		return ImmutableList.copyOf((Collection<Player>)(Object)this.playerEntities);
+		return ((Collection<Player>)(Object)this.playerEntities);
 	}
 }
