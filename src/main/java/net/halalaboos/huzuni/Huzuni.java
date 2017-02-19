@@ -26,6 +26,8 @@ import net.halalaboos.huzuni.mod.misc.chat.ChatMutator;
 import net.halalaboos.huzuni.mod.movement.*;
 import net.halalaboos.huzuni.mod.visual.*;
 import net.halalaboos.huzuni.api.gui.font.MinecraftFontRenderer;
+import net.halalaboos.mcwrapper.api.Tupac;
+import net.halalaboos.mcwrapper.api.MinecraftAdapter;
 import net.halalaboos.mcwrapper.api.util.TextColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ITextComponent;
@@ -89,6 +91,8 @@ public enum Huzuni {
 
 	private File saveFolder = null;
 
+	public static final MinecraftAdapter ADAPTER = Tupac.getAdapter();
+
     Huzuni() {}
 
     /**
@@ -131,6 +135,8 @@ public enum Huzuni {
 		modManager.load();
 		guiManager.load();
 		new HuzuniUpdater(this).start();
+
+		Runtime.getRuntime().addShutdownHook(new Thread(this::end));
 	}
 
 	/**
@@ -210,6 +216,7 @@ public enum Huzuni {
 		commandManager.addCommand(new Authors());
 		commandManager.addCommand(new Enchant());
 		commandManager.addCommand(new VClip());
+		commandManager.addCommand(new Debug());
 		keybindManager.addKeybind(settings.keyOpenMenu);
 		keybindManager.addKeybind(settings.keyOpenTest);
 	}

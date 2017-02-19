@@ -9,6 +9,7 @@ import net.minecraft.block.material.Material;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.text.DecimalFormat;
 import java.util.UUID;
 
 @Mixin(net.minecraft.entity.Entity.class) public abstract class MixinEntity implements Entity {
@@ -40,9 +41,8 @@ import java.util.UUID;
 	@Shadow public float stepHeight;
 
 	@Shadow public abstract UUID getUniqueID();
-	@Shadow public abstract String shadow$getName();
-	@Shadow public abstract boolean shadow$isInWater();
-	@Shadow public abstract float shadow$getEyeHeight();
+	@Shadow public abstract String getName();
+	@Shadow public abstract float getEyeHeight();
 	@Shadow public abstract int getEntityId();
 	@Shadow public abstract void setPosition(double x, double y, double z);
 	@Shadow public abstract boolean isInWater();
@@ -52,9 +52,21 @@ import java.util.UUID;
 	@Shadow
 	public abstract double getDistance(double x, double y, double z);
 
+	@Shadow
+	public boolean onGround;
+
+	@Shadow
+	public abstract void setSprinting(boolean sprinting);
+
+	@Shadow
+	public abstract boolean isSprinting();
+
+	@Shadow
+	public abstract boolean isSneaking();
+
 	@Override
-	public String getName() {
-		return shadow$getName();
+	public String getEntityName() {
+		return getName();
 	}
 
 	@Override
@@ -128,8 +140,8 @@ import java.util.UUID;
 	}
 
 	@Override
-	public float getEyeHeight() {
-		return shadow$getEyeHeight();
+	public float getEye() {
+		return getEyeHeight();
 	}
 
 	@Override
@@ -181,5 +193,39 @@ import java.util.UUID;
 	@Override
 	public double getZ() {
 		return posZ;
+	}
+
+	@Override
+	public boolean isOnGround() {
+		return onGround;
+	}
+
+	@Override
+	public void setOnGround(boolean onGround) {
+		this.onGround = onGround;
+	}
+
+	@Override
+	public void setSprint(boolean sprint) {
+		this.setSprinting(sprint);
+	}
+
+	@Override
+	public boolean getSprinting() {
+		return isSprinting();
+	}
+
+	@Override
+	public boolean getSneaking() {
+		return isSneaking();
+	}
+
+	@Override
+	public String getCoordinates() {
+		DecimalFormat format = new DecimalFormat("0.0");
+		String x = format.format(getX());
+		String y = format.format(getY());
+		String z = format.format(getZ());
+		return x + ", " + y + ", " + z;
 	}
 }

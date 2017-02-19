@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.mod.commands;
 
 import net.halalaboos.huzuni.api.mod.BasicCommand;
-import net.minecraft.client.Minecraft;
+import net.halalaboos.mcwrapper.api.Tupac;
 import net.minecraft.client.gui.GuiScreen;
 
 /**
@@ -18,10 +18,10 @@ public final class GetIP extends BasicCommand {
 
 	@Override
 	protected void runCommand(String input, String[] args) {
-		if (Minecraft.getMinecraft().isSingleplayer()) {
+		if (!Tupac.getMinecraft().isRemote()) {
 			huzuni.addChatMessage("You're not connected to a server!");
 		} else {
-			String ip = Minecraft.getMinecraft().getCurrentServerData().serverIP;
+			String ip = Tupac.getMinecraft().getServerInfo().getIP();
 			GuiScreen.setClipboardString(ip);
 			huzuni.addChatMessage(ip + " copied to your clipboard.");
 		}

@@ -10,6 +10,8 @@ import net.halalaboos.huzuni.api.settings.Mode;
 import net.halalaboos.huzuni.api.settings.Nameable;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
+import net.halalaboos.mcwrapper.api.Tupac;
+import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -97,7 +99,8 @@ public class Speed extends BasicMod {
      * @return True if the player's given circumstances are ideal for modifying movement.
      * */
 	public boolean shouldModifyMovement() {
-        return !mc.player.capabilities.isFlying && mc.player.moveForward > 0 && !mc.player.isSneaking() && !mc.player.isCollidedHorizontally && mc.player.getFoodStats().getFoodLevel() > 6 && !mc.player.isInWater() && !mc.player.isInLava();
+		ClientPlayer player = Tupac.getAdapter().getMinecraft().getPlayer();
+        return !player.isFlying() && player.getForwardMovement()> 0 && !mc.player.isSneaking() && !mc.player.isCollidedHorizontally && mc.player.getFoodStats().getFoodLevel() > 6 && !mc.player.isInWater() && !mc.player.isInLava();
     }
 
     /**

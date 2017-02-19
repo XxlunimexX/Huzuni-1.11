@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "net.halalaboos.mcwrapper.impl.mixin",
+  "refmap": "mixins.huzuni.refmap.json",
+  "mixins": [
+    "MixinMinecraft",
+    "entity.MixinEntity",
+    "entity.living.MixinEntityAgeable",
+    "entity.living.MixinEntityAnimal",
+    "entity.living.MixinEntityCreature",
+    "entity.living.MixinEntityLiving",
+    "entity.living.MixinEntityMob",
+    "entity.living.player.MixinEntityPlayer",
+    "entity.living.player.MixinEntityPlayerSP",
+    "entity.living.player.MixinAbstractClientPlayer",
+    "item.MixinItem",
+    "item.MixinItemStack",
+    "world.MixinWorld",
+    "network.MixinServerData"
+  ]
+}

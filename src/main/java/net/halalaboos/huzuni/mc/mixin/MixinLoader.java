@@ -13,6 +13,7 @@ public class MixinLoader implements IFMLLoadingPlugin {
 	public MixinLoader() {
 		MixinBootstrap.init();
 		Mixins.addConfiguration("mixins.huzuni.json");
+		Mixins.addConfiguration("mixins.mcwrapper.json");
 
 	}
 

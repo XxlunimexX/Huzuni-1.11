@@ -4,5 +4,8 @@ public interface ItemStack {
 
 	int getSize();
 
-	Item getItem();
+	Item getItemType();
+
+	String getName();
+
 }

@@ -61,9 +61,4 @@ import javax.annotation.Nullable;
 			displayGuiScreen(new HuzuniMainMenu());
 		}
 	}
-
-	@Inject(method = "shutdownMinecraftApplet()V", at = @At("HEAD"))
-	public void onShutdown(CallbackInfo ci) {
-		Huzuni.INSTANCE.end();
-	}
 }

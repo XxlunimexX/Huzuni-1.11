@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.mod.commands;
 
 import net.halalaboos.huzuni.api.mod.BasicCommand;
-import net.minecraft.client.Minecraft;
+import net.halalaboos.mcwrapper.api.Tupac;
 
 public final class GetBrand extends BasicCommand {
 	
@@ -12,10 +12,10 @@ public final class GetBrand extends BasicCommand {
 
 	@Override
 	protected void runCommand(String input, String[] args) {
-		if (Minecraft.getMinecraft().isSingleplayer()) {
+		if (!Tupac.getMinecraft().isRemote()) {
 			huzuni.addChatMessage("You're not connected to a server!");
 		} else {
-			huzuni.addChatMessage("Brand: " + Minecraft.getMinecraft().player.getServerBrand());
+			huzuni.addChatMessage("Brand: " + Tupac.getPlayer().getBrand());
 		}
 	}
 }

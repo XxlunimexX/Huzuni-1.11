@@ -70,7 +70,7 @@ public interface Entity extends Identifiable, Nameable {
 
 	float getWidth();
 	float getHeight();
-	float getEyeHeight();
+	float getEye();
 
 	float getFallDistance();
 	void setFallDistance(float fallDistance);
@@ -81,4 +81,15 @@ public interface Entity extends Identifiable, Nameable {
 	int getId();
 
 	void setRotation(Rotation rotation);
+
+	boolean isOnGround();
+	void setOnGround(boolean onGround);
+
+	void setSprint(boolean sprint);
+
+	boolean getSprinting();
+
+	boolean getSneaking();
+
+	String getCoordinates();
 }
