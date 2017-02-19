@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class WidgetManager extends JsonFileHandler {
 	
-	private final List<Widget> widgets = new ArrayList<Widget>();
+	private final List<Widget> widgets = new ArrayList<>();
 	
 	private Theme theme;
 	
@@ -133,13 +133,44 @@ public class WidgetManager extends JsonFileHandler {
 		for (int i = 0; i < widgets.size(); i++) {
 			Widget other = widgets.get(i);
 			if (widget != other && other.isEnabled() && !WidgetGlue.isGluedTo(widget, other)) {
-				WidgetGlue glue = WidgetGlue.getMenuGlue(widget, other);
-				if (glue != null) {
+				WidgetGlue glue = WidgetGlue.getWidgetGlue(widget, other);
+				if (glue != null && widgetHasNone(other, glue)) {
 					return glue;
 				}
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * @return True if this widget has no other widgets with the same glue applied to it.
+	 * */
+	public boolean widgetHasNone(Widget widget, WidgetGlue glue) {
+		for (int i = 0; i < widgets.size(); i++) {
+			Widget other = widgets.get(i);
+			if (widget != other && other.getGlue() instanceof WidgetGlue && other.isEnabled()) {
+				WidgetGlue otherGlue = (WidgetGlue) other.getGlue();
+				if (glue.getWidget() == widget && glue.getStyle() == otherGlue.getStyle()) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * @return True if this widget has other widgets glued to it.
+	 * */
+	public boolean hasWidgetsGluedTo(Widget widget) {
+		for (int i = 0; i < widgets.size(); i++) {
+			Widget other = widgets.get(i);
+			if (widget != other && other.getGlue() instanceof WidgetGlue && other.isEnabled()) {
+				if (((WidgetGlue) other.getGlue()).getWidget() == widget) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public void addWidget(Widget widget) {

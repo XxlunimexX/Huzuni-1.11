@@ -21,7 +21,7 @@ public abstract class Widget extends Node {
 	
 	protected static final Huzuni huzuni = Huzuni.INSTANCE;
 	
-	protected final WidgetManager menuManager;
+	protected final WidgetManager widgetManager;
 		
 	protected Theme theme;
 	
@@ -33,11 +33,11 @@ public abstract class Widget extends Node {
 	
 	protected Glue oldGlue = ScreenGlue.NONE, glue = ScreenGlue.NONE;
 		
-	public Widget(String name, String description, WidgetManager menuManager) {
+	public Widget(String name, String description, WidgetManager widgetManager) {
 		super(name, description);
 		this.setWidth(100);
 		this.setHeight(12);
-		this.menuManager = menuManager;
+		this.widgetManager = widgetManager;
 	}
 
 	/**
@@ -57,9 +57,9 @@ public abstract class Widget extends Node {
 				this.x += dx;
 				this.y += dy;
 				ScreenGlue.keepWithinScreen(this);
-				menuManager.formatWidgets(this);
+				widgetManager.formatWidgets(this);
 				Glue newGlue = ScreenGlue.getScreenGlue(this);
-				WidgetGlue widgetGlue = menuManager.calculateWidgetGlue(this);
+				WidgetGlue widgetGlue = widgetManager.calculateWidgetGlue(this);
 				if (widgetGlue != null) {
 					newGlue = widgetGlue;
 				}
@@ -200,7 +200,7 @@ public abstract class Widget extends Node {
 			setX(json.get("x").getAsInt());
 			setY(json.get("y").getAsInt());
 			String glue = json.get("glue").getAsString();
-			if (!WidgetGlue.loadGlue(this, menuManager, glue))
+			if (!WidgetGlue.loadGlue(this, widgetManager, glue))
 				setGlue(ScreenGlue.load(json.get("glue").getAsString()));
 		}
 	}

@@ -39,7 +39,6 @@ public class ValueContainer extends Container {
         // Update the title label to coincide with any value change.
         this.title.setText(String.format("%s (%.1f%s)", value.getName(), value.getValue(), value.getCarot()));
         super.update();
-
         // Update their positions if necessary..
         if (description.getY() != this.title.getHeight()) {
             this.description.setPosition(0, this.title.getHeight());

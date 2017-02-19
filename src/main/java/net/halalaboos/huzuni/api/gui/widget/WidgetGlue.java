@@ -151,7 +151,7 @@ public class WidgetGlue implements Glue {
 	 * Calculates intersection between the current widget vs the other widget.
 	 * @return The glue which should be applied to the current widget.
 	 * */
-	public static WidgetGlue getMenuGlue(Widget current, Widget other) {
+	public static WidgetGlue getWidgetGlue(Widget current, Widget other) {
 		float x = current.getX(), x1 = current.getX() + current.getWidth(), y = current.getY(), y1 = current.getY() + current.getHeight();
 		float otherX = other.getX(), otherX1 = other.getX() + other.getWidth(), otherY = other.getY(), otherY1 = other.getY() + other.getHeight();
 		float width = other.getWidth(), height = other.getHeight();

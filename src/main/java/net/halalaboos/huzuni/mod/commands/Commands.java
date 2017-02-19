@@ -1,6 +1,5 @@
 package net.halalaboos.huzuni.mod.commands;
 
-import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.mod.BasicCommand;
 import net.halalaboos.huzuni.api.mod.Command;
 import net.halalaboos.mcwrapper.api.util.TextColor;
@@ -18,8 +17,8 @@ public final class Commands extends BasicCommand {
 
 	@Override
 	protected void runCommand(String input, String[] args) {
-		Huzuni.INSTANCE.addChatMessage(TextColor.GOLD + "--- " + TextColor.GRAY + "Type .help or .help [command] for help." + TextColor.GOLD + " ---");
-		Huzuni.INSTANCE.addChatMessage(getAllCommands());
+		huzuni.addChatMessage(TextColor.GOLD + "--- " + TextColor.GRAY + "Type .help or .help [command] for help." + TextColor.GOLD + " ---");
+		huzuni.addChatMessage(getAllCommands());
 	}
 
 	private String getAllCommands() {
