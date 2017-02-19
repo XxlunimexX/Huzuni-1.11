@@ -13,26 +13,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(net.minecraft.block.Block.class) public class MixinBlock {
 
-	private Xray xray = Xray.INSTANCE;
-
 	@Inject(method = "shouldSideBeRendered", at = @At("HEAD"), cancellable = true)
 	public void shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side,
 									 CallbackInfoReturnable<Boolean> ci) {
-		if (xray.isEnabled()) {
+		if (Xray.INSTANCE.isEnabled()) {
 			ci.setReturnValue(Xray.INSTANCE.isEnabled(blockState.getBlock()));
 		}
 	}
 
 	@Inject(method = "getAmbientOcclusionLightValue", at = @At("HEAD"), cancellable = true)
 	public void getAmbientOcclusionLightValue(IBlockState state, CallbackInfoReturnable<Float> ci) {
-		if (xray.isEnabled()) {
+		if (Xray.INSTANCE.isEnabled()) {
 			ci.setReturnValue(10000F);
-		}
-	}
-
-	@Inject(method = "getBlockLayer", at = @At("HEAD"), cancellable = true)
-	public void getBlockLayer(CallbackInfoReturnable<BlockRenderLayer> ci) {
-		if (xray.isEnabled()) {
 		}
 	}
 
