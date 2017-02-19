@@ -1,6 +1,5 @@
 package net.halalaboos.mcwrapper.impl.mixin;
 
-import net.halalaboos.huzuni.mc.HuzuniEntityPlayer;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.MinecraftClient;
 import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
@@ -46,7 +45,7 @@ public abstract class MixinMinecraft implements MinecraftClient {
 			target = "Lnet/minecraft/client/Minecraft;init()V",
 			shift = At.Shift.AFTER))
 	public void initWrapper(CallbackInfo ci) {
-		MCWrapper.setAdapter(new OnePointElevenAdapter(getMinecraft()));
+		MCWrapper.setAdapter(new OnePointElevenAdapter((Minecraft)(Object)this));
 	}
 
 	@Inject(method = "loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;Ljava/lang/String;)V",

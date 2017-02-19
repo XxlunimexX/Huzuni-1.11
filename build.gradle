@@ -92,7 +92,7 @@ build.dependsOn(shadowJar)
 jar {
     manifest {
         attributes(
-                "MixinConfigs": 'mixins.huzuni.json',
+                "MixinConfigs": 'mixins.huzuni.json,mixins.mcwrapper.json',
                 "tweakClass": 'org.spongepowered.asm.launch.MixinTweaker',
                 "TweakOrder": 0,
                 'FMLCorePluginContainsFMLMod': 'net.halalaboos.huzuni.mc.mixin.MixinLoader',

@@ -1,9 +1,12 @@
 package net.halalaboos.huzuni.mod.combat;
 
+import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
+import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.minecraft.network.play.client.CPacketUseEntity;
 
 /**
@@ -42,10 +45,11 @@ public class Criticals extends BasicMod {
 	}
 	
 	private void doCrit() {
-		boolean preGround = mc.player.onGround;
-		mc.player.onGround = false;
-		mc.player.jump();
-		mc.player.onGround = preGround;
+		Player player = MCWrapper.getAdapter().getMinecraft().getPlayer();
+		boolean preGround = player.isOnGround();
+		player.setOnGround(false);
+		player.doJump();
+		player.setOnGround(preGround);
 	}
 	
 	private boolean shouldCritical() {

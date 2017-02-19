@@ -14,6 +14,7 @@ public class OnePointElevenAdapter implements MinecraftAdapter {
 
 	public OnePointElevenAdapter(Minecraft mc) {
 		this.mc = ((MinecraftClient) mc);
+		System.out.println("MCWrapper Loaded with OnePointElevenAdapter!");
 	}
 
 	@Override

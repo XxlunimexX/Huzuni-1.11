@@ -40,9 +40,8 @@ import java.util.UUID;
 	@Shadow public float stepHeight;
 
 	@Shadow public abstract UUID getUniqueID();
-	@Shadow public abstract String shadow$getName();
-	@Shadow public abstract boolean shadow$isInWater();
-	@Shadow public abstract float shadow$getEyeHeight();
+	@Shadow public abstract String getName();
+	@Shadow public abstract float getEyeHeight();
 	@Shadow public abstract int getEntityId();
 	@Shadow public abstract void setPosition(double x, double y, double z);
 	@Shadow public abstract boolean isInWater();
@@ -52,9 +51,12 @@ import java.util.UUID;
 	@Shadow
 	public abstract double getDistance(double x, double y, double z);
 
+	@Shadow
+	public boolean onGround;
+
 	@Override
-	public String getName() {
-		return shadow$getName();
+	public String getEntityName() {
+		return getName();
 	}
 
 	@Override
@@ -128,8 +130,8 @@ import java.util.UUID;
 	}
 
 	@Override
-	public float getEyeHeight() {
-		return shadow$getEyeHeight();
+	public float getEye() {
+		return getEyeHeight();
 	}
 
 	@Override
@@ -181,5 +183,15 @@ import java.util.UUID;
 	@Override
 	public double getZ() {
 		return posZ;
+	}
+
+	@Override
+	public boolean isOnGround() {
+		return onGround;
+	}
+
+	@Override
+	public void setOnGround(boolean onGround) {
+		this.onGround = onGround;
 	}
 }

@@ -11,4 +11,6 @@ public interface Player extends Living {
 
 	ItemStack getStack(int slot);
 
+	boolean isNPC();
+
 }

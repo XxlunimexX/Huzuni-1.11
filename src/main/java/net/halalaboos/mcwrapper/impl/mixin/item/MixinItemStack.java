@@ -9,7 +9,8 @@ import org.spongepowered.asm.mixin.Shadow;
 public abstract class MixinItemStack implements ItemStack {
 
 	@Shadow public abstract int getCount();
-	@Shadow public abstract net.minecraft.item.Item shadow$getItem();
+	@Shadow public abstract net.minecraft.item.Item getItem();
+	@Shadow public abstract String getDisplayName();
 
 	@Override
 	public int getSize() {
@@ -17,7 +18,12 @@ public abstract class MixinItemStack implements ItemStack {
 	}
 
 	@Override
-	public Item getItem() {
-		return ((Item) shadow$getItem());
+	public Item getItemType() {
+		return ((Item) getItem());
+	}
+
+	@Override
+	public String getName() {
+		return getDisplayName();
 	}
 }

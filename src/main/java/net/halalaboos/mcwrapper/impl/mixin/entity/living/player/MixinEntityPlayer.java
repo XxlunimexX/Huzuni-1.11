@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.impl.mixin.entity.living.player;
 
+import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.item.Item;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
@@ -17,8 +18,13 @@ public abstract class MixinEntityPlayer extends MixinEntityLiving implements Pla
 	@Shadow
 	public InventoryPlayer inventory;
 
+	@Override
+	public boolean isNPC() {
+		return false; //todo
+	}
 
-	private net.minecraft.item.ItemStack getStackIn(int slot) {
-		return inventory.getStackInSlot(slot);
+	@Override
+	public ItemStack getStack(int slot) {
+		return (ItemStack)(Object)inventory.getStackInSlot(slot);
 	}
 }
