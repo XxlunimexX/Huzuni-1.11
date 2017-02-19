@@ -11,4 +11,9 @@ public interface ClientPlayer extends Player {
 	float getForwardMovement();
 
 	void setSneak(boolean sneak);
+
+	String getBrand();
+
+	void sendMessage(String message);
+
 }

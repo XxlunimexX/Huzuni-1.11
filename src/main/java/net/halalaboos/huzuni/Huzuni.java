@@ -26,7 +26,7 @@ import net.halalaboos.huzuni.mod.misc.chat.ChatMutator;
 import net.halalaboos.huzuni.mod.movement.*;
 import net.halalaboos.huzuni.mod.visual.*;
 import net.halalaboos.huzuni.api.gui.font.MinecraftFontRenderer;
-import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.Tupac;
 import net.halalaboos.mcwrapper.api.MinecraftAdapter;
 import net.halalaboos.mcwrapper.api.util.TextColor;
 import net.minecraft.client.Minecraft;
@@ -91,7 +91,7 @@ public enum Huzuni {
 
 	private File saveFolder = null;
 
-	public static final MinecraftAdapter ADAPTER = MCWrapper.getAdapter();
+	public static final MinecraftAdapter ADAPTER = Tupac.getAdapter();
 
     Huzuni() {}
 

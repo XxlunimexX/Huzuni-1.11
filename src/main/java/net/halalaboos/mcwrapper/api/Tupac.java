@@ -1,13 +1,14 @@
 package net.halalaboos.mcwrapper.api;
 
+import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 import net.halalaboos.mcwrapper.api.world.World;
 
-public class MCWrapper {
+public class Tupac {
 
 	private static MinecraftAdapter adapter = null;
 
 	public static void setAdapter(MinecraftAdapter adapter) {
-		if (MCWrapper.adapter == null) MCWrapper.adapter = adapter;
+		if (Tupac.adapter == null) Tupac.adapter = adapter;
 	}
 
 	public static MinecraftAdapter getAdapter() {
@@ -16,6 +17,10 @@ public class MCWrapper {
 
 	public static MinecraftClient getMinecraft() {
 		return getAdapter().getMinecraft();
+	}
+
+	public static ClientPlayer getPlayer() {
+		return getMinecraft().getPlayer();
 	}
 
 	public static String getMinecraftVersion() {

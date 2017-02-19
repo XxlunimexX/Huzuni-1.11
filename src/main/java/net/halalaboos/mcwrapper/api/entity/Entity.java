@@ -91,4 +91,5 @@ public interface Entity extends Identifiable, Nameable {
 
 	boolean getSneaking();
 
+	String getCoordinates();
 }

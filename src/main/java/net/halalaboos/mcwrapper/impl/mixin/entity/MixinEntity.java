@@ -9,6 +9,7 @@ import net.minecraft.block.material.Material;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.text.DecimalFormat;
 import java.util.UUID;
 
 @Mixin(net.minecraft.entity.Entity.class) public abstract class MixinEntity implements Entity {
@@ -217,5 +218,14 @@ import java.util.UUID;
 	@Override
 	public boolean getSneaking() {
 		return isSneaking();
+	}
+
+	@Override
+	public String getCoordinates() {
+		DecimalFormat format = new DecimalFormat("0.0");
+		String x = format.format(getX());
+		String y = format.format(getY());
+		String z = format.format(getZ());
+		return x + ", " + y + ", " + z;
 	}
 }

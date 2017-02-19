@@ -13,7 +13,6 @@ import net.minecraft.util.text.event.HoverEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public final class Help extends BasicCommand {
 	
 	private final int COMMAND_PER_PAGE = 4;
