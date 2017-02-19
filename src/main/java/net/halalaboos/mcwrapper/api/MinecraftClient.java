@@ -30,4 +30,6 @@ public interface MinecraftClient {
 	@Nullable ServerInfo getServerInfo();
 
 	void clearMessages(boolean sentMessages);
+
+	int getFPS();
 }

@@ -53,8 +53,10 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Nullable
 	public abstract ServerData getCurrentServerData();
 
+	@Shadow public GuiIngame ingameGUI;
+
 	@Shadow
-	public GuiIngame ingameGUI;
+	private static int debugFPS;
 
 	@Inject(method = "run()V", at = @At(value = "INVOKE",
 			target = "Lnet/minecraft/client/Minecraft;init()V",
@@ -125,5 +127,10 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Override
 	public void clearMessages(boolean sentMessages) {
 		ingameGUI.getChatGUI().clearChatMessages(sentMessages);
+	}
+
+	@Override
+	public int getFPS() {
+		return debugFPS;
 	}
 }

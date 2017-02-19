@@ -2,8 +2,10 @@ package net.halalaboos.huzuni.gui.widgets;
 
 import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.api.settings.Value;
+import net.halalaboos.mcwrapper.api.Tupac;
+import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
+import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.util.MathUtils;
-import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * Renders the names of players within a given range.
@@ -25,19 +27,19 @@ public class TextRadarWidget extends BackgroundWidget {
 		width = 0;
 		if (incrementOffset == -1)
 			y = y + height - theme.getStringHeight("minimum");
-		
-		for (int i = 0; i < mc.world.playerEntities.size(); i++) {
-			EntityPlayer player = mc.world.playerEntities.get(i);
-			if (mc.player != player) {
-				float distance = MathUtils.sqrt((float) (mc.player.posX - player.posX) * (float) (mc.player.posX - player.posX) + (float) (mc.player.posZ - player.posZ) * (float) (mc.player.posZ - player.posZ));
+		ClientPlayer me = Tupac.getPlayer();
+		for (Player player : Tupac.getWorld().getPlayers()) {
+			if (player != me) {
+				float distance = MathUtils.sqrt((float) (me.getX() - player.getX()) * (float) (me.getX() - player.getX()) + (float) (me.getZ() - player.getZ()) * (float) (me.getZ() - player.getZ()));
 				if (distance < this.distance.getValue()) {
-					String text = String.format("%s (%d)", player.getDisplayName().getFormattedText(), (int) distance);
+					String text = String.format("%s (%d)", player.getEntityName(), (int)distance);
 					int textWidth = theme.getStringWidth(text);
-					theme.drawStringWithShadow(text, getOffsetX(x, x + originalWidth, textWidth), y, 0xFFFFFF);
+					theme.drawStringWithShadow(text, getOffsetX(x, x + originalWidth, textWidth), y, -1);
 					height += theme.getStringHeight(text);
 					y += incrementOffset * theme.getStringHeight(text);
-					if (textWidth + 2 > width)
+					if (textWidth + 2 > width) {
 						width = textWidth + 2;
+					}
 				}
 			}
 		}
