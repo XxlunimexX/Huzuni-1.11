@@ -1,4 +1,4 @@
-package net.halalaboos.mcwrapper.api.entity.living.monster;
+package net.halalaboos.mcwrapper.api.entity.living;
 
 import net.halalaboos.mcwrapper.api.entity.living.Creature;
 

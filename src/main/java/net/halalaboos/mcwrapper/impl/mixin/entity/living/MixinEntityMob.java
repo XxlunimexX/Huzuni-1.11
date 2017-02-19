@@ -1,6 +1,6 @@
-package net.halalaboos.mcwrapper.impl.mixin.entity.living.monster;
+package net.halalaboos.mcwrapper.impl.mixin.entity.living;
 
-import net.halalaboos.mcwrapper.api.entity.living.monster.Monster;
+import net.halalaboos.mcwrapper.api.entity.living.Monster;
 import net.halalaboos.mcwrapper.impl.mixin.entity.living.MixinEntityCreature;
 import org.spongepowered.asm.mixin.Mixin;
 

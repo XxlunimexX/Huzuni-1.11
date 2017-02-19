@@ -12,14 +12,9 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(net.minecraft.client.entity.EntityPlayerSP.class)
 public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer implements ClientPlayer {
 
-	@Shadow
-	public abstract void swingArm(EnumHand hand);
-
-	@Shadow
-	public abstract void closeScreen();
-
-	@Shadow
-	public MovementInput movementInput;
+	@Shadow public abstract void swingArm(EnumHand hand);
+	@Shadow public abstract void closeScreen();
+	@Shadow public MovementInput movementInput;
 
 	@Override
 	public void swingItem(Hand hand) {

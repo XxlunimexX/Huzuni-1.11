@@ -49,6 +49,9 @@ import java.util.UUID;
 	@Shadow public abstract boolean isInLava();
 	@Shadow public abstract boolean isInsideOfMaterial(Material materialIn);
 
+	@Shadow
+	public abstract double getDistance(double x, double y, double z);
+
 	@Override
 	public String getName() {
 		return shadow$getName();
@@ -70,7 +73,7 @@ import java.util.UUID;
 	}
 
 	@Override
-	public Vector3d getPreviousPosition() {
+	public Vector3d getPreviousLocation() {
 		return new Vector3d(prevPosX, prevPosY, prevPosZ);
 	}
 
@@ -89,16 +92,14 @@ import java.util.UUID;
 		return isDead;
 	}
 
-	//todo
 	@Override
 	public double getDistanceTo(Entity entity) {
-		return 0;
+		return getDistance(entity.getX(), entity.getY(), entity.getZ());
 	}
 
-	//todo
 	@Override
 	public double getDistanceTo(Vector3d pos) {
-		return 0;
+		return getDistance(pos.x, pos.y, pos.z);
 	}
 
 	@Override
@@ -165,5 +166,20 @@ import java.util.UUID;
 	public void setRotation(Rotation rotation) {
 		rotationPitch = rotation.pitch;
 		rotationYaw = rotation.yaw;
+	}
+
+	@Override
+	public double getX() {
+		return posX;
+	}
+
+	@Override
+	public double getY() {
+		return posY;
+	}
+
+	@Override
+	public double getZ() {
+		return posZ;
 	}
 }

@@ -18,17 +18,23 @@ public interface Entity extends Identifiable, Nameable {
 	 * The position of the Entity.
 	 */
 	Vector3d getLocation();
-
 	void setLocation(Vector3d location);
+
 	/**
-	 * The previous position of the Entity.
+	 * The previous position of the Entity, often used for interpolation.
 	 */
-	Vector3d getPreviousPosition();
+	Vector3d getPreviousLocation();
 
 	/**
 	 * The velocity of the Entity (e.g. motionX, motionY, motionZ)
 	 */
 	Vector3d getVelocity();
+
+	double getX();
+
+	double getY();
+
+	double getZ();
 
 	/**
 	 * The rotation of the Entity.

@@ -1,7 +1,10 @@
 package net.halalaboos.mcwrapper.impl.mixin.entity.living.player;
 
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
+import net.halalaboos.mcwrapper.api.item.Item;
+import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.impl.mixin.entity.living.MixinEntityLiving;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.player.PlayerCapabilities;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -11,4 +14,11 @@ public abstract class MixinEntityPlayer extends MixinEntityLiving implements Pla
 
 	@Shadow public PlayerCapabilities capabilities;
 
+	@Shadow
+	public InventoryPlayer inventory;
+
+
+	private net.minecraft.item.ItemStack getStackIn(int slot) {
+		return inventory.getStackInSlot(slot);
+	}
 }
