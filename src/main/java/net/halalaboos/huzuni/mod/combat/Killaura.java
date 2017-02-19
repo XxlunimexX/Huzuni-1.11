@@ -53,7 +53,11 @@ public class Killaura extends BasicMod implements Renderer {
 
 	public final Toggleable checkAge = new Toggleable("Check age", "Check the age of the entity before attacking");
 
-	public final Value strength = new Value("Strength", "", 0F, 10F, 10F, "Attack strength");
+	public final Toggleable strengthRandomization = new Toggleable("Randomize Strength", "Randomize the rate when attacking based on strength");
+
+	public final Toggleable speedRandomization = new Toggleable("Randomize Speed", "Randomize the rate when attacking based on speed");
+
+	public final Value strength = new Value("Strength", "%", 0F, 100F, 100F, 1F, "Attack strength");
 
 	public final Value speed = new Value("Speed", "", 1F, 8F, 15F, "Attack speed (in hits per second)");
 
@@ -62,10 +66,6 @@ public class Killaura extends BasicMod implements Renderer {
 	public final Value fov = new Value("FOV", "", 10F, 60F, 180F, 1F, "FOV you will attack entities inside of");
 
 	public final Value rotationRate = new Value("Rotation rate", "", 2F, 10F, 180F, 1F, "Maximum rate the rotation will be updated (the smaller, the smoother)");
-
-	public final Value speedRandomization = new Value("Speed randomization", "", 0F, 0F, 4F, "Amount you want to randomize your attack speed (set to 0 for none)");
-
-	public final Value strengthRandomization = new Value("Strength randomization", "", 0F, 0F, 4F, "Amount you want to randomize your attack strength (set to 0 for none)");
 
 	public final Mode<String> priority = new Mode<>("Attack Priority", "Determines which entity will be selected for attack", "Closest to crosshair", "Closest to player", "Triggerbot");
 		
@@ -79,7 +79,7 @@ public class Killaura extends BasicMod implements Renderer {
 	
 	private EntityLivingBase entity, selectedEntity, pickedEntity;
 		
-	private float randomizedSpeed = 0F, randomizedStrength = 0F, missChance = 0.5F;
+	private float randomizedSpeed, randomizedStrength;
 	
 	private String hitOrMiss = null;
 	
@@ -88,7 +88,7 @@ public class Killaura extends BasicMod implements Renderer {
 	public Killaura() {
 		super("Kill aura", "Attack entities surrounding the player", Keyboard.KEY_R);
 		setAuthor("Halalaboos");
-		this.addChildren(players, mobs, animals, invisibles, silent, randomMisses, interact, smartAttack, selection, checkAge, priority, strength, speed, reach, fov, rotationRate, speedRandomization, strengthRandomization);
+		this.addChildren(players, mobs, animals, invisibles, silent, randomMisses, interact, smartAttack, selection, checkAge, priority, strength, strengthRandomization, speed, speedRandomization, reach, fov, rotationRate);
 		silent.setEnabled(true);
 		players.setEnabled(true);
 		mobs.setEnabled(true);
@@ -97,6 +97,7 @@ public class Killaura extends BasicMod implements Renderer {
 		checkAge.setEnabled(true);
 		this.setCategory(Category.COMBAT);
 		huzuni.lookManager.registerTaskHolder(this);
+		calculateRandomization();
 	}
 
 	@Override
@@ -218,31 +219,30 @@ public class Killaura extends BasicMod implements Renderer {
      * @return The attack speed with randomization applied.
      * */
 	private float getAttackSpeed() {
-		float randomizationFactor = (speedRandomization.getValue() == 0 ? 0 : (randomizedSpeed * speedRandomization.getValue()));
-		return this.speed.getValue() - randomizationFactor;
+		return speedRandomization.isEnabled() ? randomizedSpeed : (this.speed.getValue() / 100F);
 	}
 
 	/**
      * @return The attack strength with randomization applied.
      * */
 	private float getAttackStrength() {
-		float randomizationFactor =  (strengthRandomization.getValue() == 0 ? 0 : (randomizedStrength * strengthRandomization.getValue()));
-		return ((this.strength.getValue() - randomizationFactor) / 10F);
+		return strengthRandomization.isEnabled() ? randomizedStrength : (strength.getValue() / 100F);
 	}
 
 	/**
      * Creates a new randomization value for the strength and speed randomization factors.
      * */
 	private void calculateRandomization() {
-		randomizedSpeed = random.nextFloat();
-        randomizedStrength = random.nextFloat();
+		randomizedSpeed = speed.getRandom(random);
+        randomizedStrength = strength.getRandom(random);
 	}
 	
 	private void attackEntity() {
 		float cooldown = mc.player.getCooledAttackStrength(0.0F);
-		if (timer.hasReach((int) (1000F / (getAttackSpeed()))) && (cooldown >= getAttackStrength() || calculateSmartAttack())) {
+		if (timer.hasReach((int) (1000F / (speedRandomization.isEnabled() ? randomizedSpeed : this.speed.getValue()))) && (cooldown >= (strengthRandomization.isEnabled() ? randomizedStrength : (strength.getValue() / 100F)) || calculateSmartAttack())) {
 			if (this.randomMisses.isEnabled()) {
-				if (random.nextFloat() > missChance) {
+				// Essentially a random.nextBoolean().
+				if (random.nextFloat() > 0.5F) {
 					if (interact.isEnabled())
 						mc.playerController.interactWithEntity(mc.player, entity, mc.objectMouseOver, EnumHand.MAIN_HAND);
 					else

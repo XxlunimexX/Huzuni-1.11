@@ -71,6 +71,10 @@ public final class ModManager extends JsonFileHandler {
 		if (!mods.contains(mod))
 			mods.add(mod);
 	}
+
+	public void removeMod(Mod mod) {
+		mods.remove(mod);
+	}
 	
 	public Mod getMod(String name) {
 		for (Mod mod : mods)

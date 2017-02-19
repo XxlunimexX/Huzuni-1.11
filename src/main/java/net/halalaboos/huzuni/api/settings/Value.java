@@ -3,6 +3,7 @@ package net.halalaboos.huzuni.api.settings;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * A node which contains a float value with a minimum and maximum value. <br/>
@@ -71,6 +72,13 @@ public class Value extends Node {
 			this.value = minValue;
         if (this.value > maxValue)
 			this.value = maxValue;
+	}
+
+	/**
+	 * @return a randomly generated value between the min and max of this value object.
+	 * */
+	public float getRandom(Random random) {
+		return (minValue + maxValue * random.nextFloat());
 	}
 
 	public float getMaxValue() {

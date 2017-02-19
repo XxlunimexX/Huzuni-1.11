@@ -1,10 +1,7 @@
-package net.halalaboos.huzuni.indev.script;
+package net.halalaboos.huzuni.indev.script.meta;
 
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.gui.Notification;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Wrapper Huzuni class used by scripts. <br/>
@@ -14,9 +11,7 @@ public final class ScriptHuzuni {
 
     private final Huzuni huzuni;
 
-    private final Map<String, Runnable> renderers = new HashMap<>();
-
-    protected ScriptHuzuni(Huzuni huzuni) {
+    public ScriptHuzuni(Huzuni huzuni) {
         this.huzuni = huzuni;
     }
 
@@ -56,13 +51,6 @@ public final class ScriptHuzuni {
     }
 
     /**
-     * Indexes the runnable object within a map of runnables which will be invoked within an overlay renderer.
-     * */
-    public void addOverlayRenderer(String name, Runnable runnable) {
-        renderers.put(name, runnable);
-    }
-
-    /**
      * Adds an info notification.
      * */
     public void addInfoNotification(String source, int duration, String... message) {
@@ -88,12 +76,5 @@ public final class ScriptHuzuni {
      * */
     public void addInquireNotification(String source, int duration, String... message) {
         huzuni.addNotification(Notification.NotificationType.INQUIRE, source, duration, message);
-    }
-
-    /**
-     * Getter for the renderers used by the script manager.
-     * */
-    protected Map<String, Runnable> getRenderers() {
-        return renderers;
     }
 }
