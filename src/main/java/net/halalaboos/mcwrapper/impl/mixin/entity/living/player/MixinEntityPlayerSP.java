@@ -2,6 +2,8 @@ package net.halalaboos.mcwrapper.impl.mixin.entity.living.player;
 
 import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
+import net.halalaboos.mcwrapper.api.entity.living.player.Player;
+import net.halalaboos.mcwrapper.api.network.PlayerInfo;
 import net.halalaboos.mcwrapper.api.util.Rotation;
 import net.halalaboos.mcwrapper.api.util.Vector3d;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -19,10 +21,7 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 	@Shadow public abstract void closeScreen();
 	@Shadow public MovementInput movementInput;
 	@Shadow private String serverBrand;
-
-	@Shadow
-	@Final
-	public NetHandlerPlayClient connection;
+	@Shadow @Final public NetHandlerPlayClient connection;
 
 	@Override
 	public void swingItem(Hand hand) {
@@ -57,5 +56,15 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 	@Override
 	public void sendMessage(String message) {
 		connection.sendPacket(new CPacketChatMessage(message));
+	}
+
+	@Override
+	public PlayerInfo getInfo(Player player) {
+		return ((PlayerInfo) connection.getPlayerInfo(player.getUUID()));
+	}
+
+	@Override
+	public boolean isNPC() {
+		return false;
 	}
 }

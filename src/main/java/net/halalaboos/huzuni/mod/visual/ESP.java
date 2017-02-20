@@ -11,6 +11,9 @@ import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.render.Box;
 import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
+import net.halalaboos.mcwrapper.api.Tupac;
+import net.halalaboos.mcwrapper.api.entity.living.player.Player;
+import net.halalaboos.mcwrapper.api.util.Vector3d;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -19,6 +22,8 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.AxisAlignedBB;
 import org.lwjgl.input.Keyboard;
+
+import java.awt.*;
 
 import static org.lwjgl.opengl.GL11.GL_LINES;
 import static org.lwjgl.opengl.GL11.GL_LINE_LOOP;
@@ -67,6 +72,18 @@ public class ESP extends BasicMod implements Renderer {
 	
 	@Override
 	public void render(float partialTicks) {
+
+		for (Player player : Tupac.getWorld().getPlayers()) {
+			if (player != Tupac.getPlayer() && !player.isNPC()) {
+				Vector3d pos = player.getInterpolatedPosition();
+				double rX = pos.x - mc.getRenderManager().viewerPosX;
+				double rY = pos.y - mc.getRenderManager().viewerPosY;
+				double rZ = pos.z - mc.getRenderManager().viewerPosZ;
+				huzuni.renderManager.addLine((float) rX, (float) rY, (float) rZ, Color.RED, 1F);
+			}
+		}
+
+		if (false)
 		for (Object o : mc.world.loadedEntityList) {
 			if (!(o instanceof EntityLivingBase))
 				continue;

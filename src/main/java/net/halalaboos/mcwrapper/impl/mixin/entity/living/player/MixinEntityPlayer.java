@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.impl.mixin.entity.living.player;
 
+import net.halalaboos.mcwrapper.api.Tupac;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.impl.mixin.entity.living.MixinEntityLiving;
@@ -16,16 +17,9 @@ public abstract class MixinEntityPlayer extends MixinEntityLiving implements Pla
 	@Shadow public InventoryPlayer inventory;
 	@Shadow protected FoodStats foodStats;
 
-	private boolean npc;
-
 	@Override
 	public boolean isNPC() {
-		return this.npc;
-	}
-
-	@Override
-	public void setNPC(boolean npc) {
-		this.npc = npc;
+		return Tupac.getPlayer().getInfo(this) == null;
 	}
 
 	@Override

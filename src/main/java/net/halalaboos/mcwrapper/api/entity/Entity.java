@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.api.entity;
 
+import net.halalaboos.mcwrapper.api.Tupac;
 import net.halalaboos.mcwrapper.api.util.Identifiable;
 import net.halalaboos.mcwrapper.api.util.Nameable;
 import net.halalaboos.mcwrapper.api.util.Rotation;
@@ -92,4 +93,9 @@ public interface Entity extends Identifiable, Nameable {
 	boolean getSneaking();
 
 	String getCoordinates();
+
+	default Vector3d getInterpolatedPosition() {
+		float delta = Tupac.getMinecraft().getDelta();
+		return getPreviousLocation().add(getLocation().sub(getPreviousLocation()).scale(delta));
+	}
 }

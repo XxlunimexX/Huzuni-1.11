@@ -34,7 +34,7 @@ public class TextRadarWidget extends BackgroundWidget {
 		Color textColor = new Color(255, 255, 255, (int)((opacity.getValue() / 100) * 255));
 		for (Player player : Tupac.getWorld().getPlayers()) {
 			if (player != me) {
-				double distance = me.getLocation().distanceTo(player.getLocation());
+				double distance = me.getDistanceTo(player);
 				if (distance < this.distance.getValue()) {
 					String text = String.format("%s (%d)", player.getEntityName(), (int)distance);
 					int textWidth = theme.getStringWidth(text);

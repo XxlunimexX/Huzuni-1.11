@@ -17,6 +17,7 @@
     "item.MixinItem",
     "item.MixinItemStack",
     "world.MixinWorld",
-    "network.MixinServerData"
+    "network.MixinServerData",
+    "network.MixinNetworkPlayerInfo"
   ]
 }

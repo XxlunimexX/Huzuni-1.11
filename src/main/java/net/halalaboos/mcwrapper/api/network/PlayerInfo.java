@@ -6,4 +6,6 @@ public interface PlayerInfo {
 
 	GameProfile getProfile();
 
+	int getPing();
+
 }

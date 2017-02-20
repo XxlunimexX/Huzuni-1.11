@@ -50,9 +50,6 @@ import java.util.UUID;
 	@Shadow public abstract boolean isInsideOfMaterial(Material materialIn);
 
 	@Shadow
-	public abstract double getDistance(double x, double y, double z);
-
-	@Shadow
 	public boolean onGround;
 
 	@Shadow
@@ -106,12 +103,12 @@ import java.util.UUID;
 
 	@Override
 	public double getDistanceTo(Entity entity) {
-		return getDistance(entity.getX(), entity.getY(), entity.getZ());
+		return getLocation().distanceTo(entity.getLocation());
 	}
 
 	@Override
 	public double getDistanceTo(Vector3d pos) {
-		return getDistance(pos.x, pos.y, pos.z);
+		return getLocation().distanceTo(pos);
 	}
 
 	@Override

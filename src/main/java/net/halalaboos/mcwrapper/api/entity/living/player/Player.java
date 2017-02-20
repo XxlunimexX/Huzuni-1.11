@@ -11,8 +11,6 @@ public interface Player extends Living {
 
 	boolean isNPC();
 
-	void setNPC(boolean npc);
-
 	float getFood();
 
 	float getSaturation();

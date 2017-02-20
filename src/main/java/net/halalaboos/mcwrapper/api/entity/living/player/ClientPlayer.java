@@ -1,5 +1,7 @@
 package net.halalaboos.mcwrapper.api.entity.living.player;
 
+import net.halalaboos.mcwrapper.api.network.PlayerInfo;
+
 public interface ClientPlayer extends Player {
 
 	void swingItem(Hand hand);
@@ -15,5 +17,7 @@ public interface ClientPlayer extends Player {
 	String getBrand();
 
 	void sendMessage(String message);
+
+	PlayerInfo getInfo(Player player);
 
 }
