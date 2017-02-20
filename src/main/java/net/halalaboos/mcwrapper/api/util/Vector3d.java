@@ -23,6 +23,17 @@ public class Vector3d {
 		return new Vector3d(x - amount, y - amount, z - amount);
 	}
 
+	public Vector3d scale(double amount) {
+		return new Vector3d(x * amount, y * amount, z * amount);
+	}
+
+	public double distanceTo(Vector3d target) {
+		double dX = target.x - this.x;
+		double dY = target.y - this.y;
+		double dZ = target.z - this.z;
+		return MathUtils.sqrt(dX * dX + dY * dY + dZ * dZ);
+	}
+
 	public Vector3d copy() {
 		return new Vector3d(x, y, z);
 	}

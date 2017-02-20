@@ -5,6 +5,7 @@ import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.mod.Mod;
 import net.halalaboos.huzuni.api.settings.Mode;
+import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.api.settings.organize.*;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.api.util.render.GLManager;
@@ -39,12 +40,14 @@ public class EnabledModsWidget extends BackgroundWidget {
 			organizeMods();
 		}
 	};
+
+	private Value spacing = new Value("Spacing", 8F, 12F, 16F, 1F, "The spacing between each mod.");
 	
 	private float grow = 0F;
 	
 	public EnabledModsWidget(WidgetManager menuManager) {
 		super("Enabled mods", "Renders mods in-game", menuManager);
-		this.addChildren(style, listOrganization, modColor);
+		this.addChildren(style, listOrganization, modColor, spacing);
 		this.setWidth(100);
 		this.setHeight(50);
 	}
@@ -77,7 +80,7 @@ public class EnabledModsWidget extends BackgroundWidget {
 					style.getSelectedItem().render(theme, glue, mod, name, getRainbowColor(grow, index, maxIndex), x, y, x + width, y + 12);
 				else if (modColor.getSelected() == 3)
 					style.getSelectedItem().render(theme, glue, mod, name, getRainbowColor(0F, index, maxIndex), x, y, x + width, y + 12);
-				y += incrementOffset * 12;
+				y += incrementOffset * spacing.getValue();
 			}
 		}
 		if (modColor.getSelected() == 2 && timer.hasReach(50)) {
@@ -143,8 +146,6 @@ public class EnabledModsWidget extends BackgroundWidget {
 				return 0x519C55;
 			case MINING:
 				return 0x96844D;
-			//case CHAT:
-			//	return 0x934C8D;
 			default:
 				return 0x878787;
 		}

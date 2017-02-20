@@ -1,6 +1,7 @@
 package net.halalaboos.mcwrapper.impl.mixin.world;
 
 import com.google.common.collect.ImmutableList;
+import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.util.Vector3i;
 import net.halalaboos.mcwrapper.api.world.World;
@@ -22,6 +23,10 @@ import java.util.List;
 	@Final
 	public List<EntityPlayer> playerEntities;
 
+	@Shadow
+	@Final
+	public List<net.minecraft.entity.Entity> loadedEntityList;
+
 	@Override
 	public void setToAir(Vector3i pos) {
 		setBlockToAir(new BlockPos(pos.x, pos.y, pos.z));
@@ -30,5 +35,10 @@ import java.util.List;
 	@Override
 	public Collection<Player> getPlayers() {
 		return ((Collection<Player>)(Object)this.playerEntities);
+	}
+
+	@Override
+	public Collection<Entity> getEntities() {
+		return ((Collection<Entity>)(Object)this.loadedEntityList);
 	}
 }
