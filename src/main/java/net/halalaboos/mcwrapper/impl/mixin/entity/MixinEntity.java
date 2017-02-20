@@ -62,7 +62,7 @@ import java.util.UUID;
 	public abstract boolean isSneaking();
 
 	@Override
-	public String getEntityName() {
+	public String name() {
 		return getName();
 	}
 

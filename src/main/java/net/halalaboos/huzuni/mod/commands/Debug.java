@@ -24,7 +24,7 @@ public class Debug extends BasicCommand {
 		int id = itemStack.getItemType().getId();
 		int size = itemStack.getSize();
 		float health = player.getHealthData().getCurrentHealth() / 2;
-		huzuni.addChatMessage(String.format("Hello, %s!", player.getEntityName()));
+		huzuni.addChatMessage(String.format("Hello, %s!", player.name()));
 		huzuni.addChatMessage(String.format("You have %s hearts!", health));
 		huzuni.addChatMessage(String.format("You've got %s corndogs!", player.getFood()));
 		huzuni.addChatMessage(String.format("You've got %s corndog saturation!", player.getSaturation()));

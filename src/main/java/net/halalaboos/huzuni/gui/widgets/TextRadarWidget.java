@@ -5,7 +5,6 @@ import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.mcwrapper.api.Tupac;
 import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
-import net.halalaboos.mcwrapper.api.util.MathUtils;
 
 import java.awt.*;
 
@@ -36,7 +35,7 @@ public class TextRadarWidget extends BackgroundWidget {
 			if (player != me) {
 				double distance = me.getDistanceTo(player);
 				if (distance < this.distance.getValue()) {
-					String text = String.format("%s (%d)", player.getEntityName(), (int)distance);
+					String text = String.format("%s (%d)", player.name(), (int)distance);
 					int textWidth = theme.getStringWidth(text);
 					theme.drawStringWithShadow(text, getOffsetX(x, x + originalWidth, textWidth), y, textColor.getRGB());
 					height += theme.getStringHeight(text);

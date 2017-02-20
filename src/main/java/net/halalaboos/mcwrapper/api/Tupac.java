@@ -3,6 +3,9 @@ package net.halalaboos.mcwrapper.api;
 import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 import net.halalaboos.mcwrapper.api.world.World;
 
+/**
+ * The main Tupac class, serves as a wrapper for the current MinecraftAdapter.
+ */
 public class Tupac {
 
 	private static MinecraftAdapter adapter = null;
@@ -27,7 +30,7 @@ public class Tupac {
 		return getAdapter().getMinecraftVersion();
 	}
 
-	public static void setWorld(World world) {
+	public static void onSetWorld(World world) {
 		getAdapter().setWorld(world);
 	}
 

@@ -70,7 +70,7 @@ public abstract class MixinMinecraft implements MinecraftClient {
 					target = "Lnet/minecraft/client/multiplayer/WorldClient;spawnEntity(Lnet/minecraft/entity/Entity;)Z",
 					shift = At.Shift.AFTER))
 	public void setWorld(WorldClient world, String loadingMessage, CallbackInfo ci) {
-		Tupac.setWorld(((World) world));
+		Tupac.onSetWorld(((World) world));
 	}
 
 	@Override
