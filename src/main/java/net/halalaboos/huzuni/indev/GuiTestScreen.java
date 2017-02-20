@@ -4,6 +4,7 @@ import net.halalaboos.huzuni.api.mod.Mod;
 import net.halalaboos.huzuni.api.settings.Node;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
+import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.gui.screen.HuzuniScreen;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.ContainerManager;
@@ -11,8 +12,9 @@ import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
 import net.halalaboos.huzuni.indev.gui.components.Button;
 import net.halalaboos.huzuni.indev.gui.components.Label;
 import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
-import net.halalaboos.huzuni.indev.gui.layouts.ListLayout;
+import net.halalaboos.huzuni.indev.gui.layouts.*;
 import net.halalaboos.huzuni.api.gui.font.FontData;
+import net.halalaboos.huzuni.indev.gui.layouts.GridLayout;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
@@ -89,6 +91,7 @@ public class GuiTestScreen  extends HuzuniScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        manager.update();
         manager.render();
         //GLManager.update();
         GlStateManager.disableBlend();
@@ -117,7 +120,6 @@ public class GuiTestScreen  extends HuzuniScreen {
 
     @Override
     public void updateScreen() {
-        manager.update();
     }
 
     @Override
@@ -159,25 +161,38 @@ public class GuiTestScreen  extends HuzuniScreen {
         childContainer.setPosition(10, 60);
         childContainer.setSize(settings.getWidth() - 20, settings.getHeight() - 70);
 
+        loadNodes(mod, childContainer);
+
+        settings.add(childContainer);
+        settings.layout();
+        childContainer.layout();
+    }
+
+    private void loadNodes(Node node, Container container) {
         // Create the components for each child within the mod.
-        for (Node child : mod.getChildren()) {
+        for (Node child : node.getChildren()) {
             // Create a check box for the toggleable children.
             if (child instanceof Toggleable) {
                 ToggleableCheckbox checkbox = new ToggleableCheckbox((Toggleable) child);
                 checkbox.setFont(defaultFont);
-                childContainer.add(checkbox);
-            // Create value container for each value.
+                container.add(checkbox);
+                // Create value container for each value.
             } else if (child instanceof Value) {
                 ValueContainer valueContainer = new ValueContainer((Value) child);
                 valueContainer.getTitle().setFont(defaultFont);
                 valueContainer.getDescription().setFont(this.description);
                 valueContainer.getDescription().setColor(new Color(118, 118, 118));
-                childContainer.add(valueContainer);
+                container.add(valueContainer);
+                // If we have JUST a node.
+            } else if (child.getClass().isAssignableFrom(Node.class)) {
+                Container container1 = new Container("goob");
+                container1.setLayering(false);
+                container1.setLayout(new GridLayout(2));
+                loadNodes(child, container1);
+                container1.layout();
+                container.add(container1);
             }
         }
-        settings.add(childContainer);
-        settings.layout();
-        childContainer.layout();
     }
 
 }

@@ -38,10 +38,10 @@ public class ScrollableContainer extends Container {
 
     @Override
     public void update() {
-       super.update();
-       verticalScrollbar.update();
-       horizontalScrollbar.update();
-       layout();
+        verticalScrollbar.update();
+        horizontalScrollbar.update();
+        layout();
+        super.update();
     }
 
     /**

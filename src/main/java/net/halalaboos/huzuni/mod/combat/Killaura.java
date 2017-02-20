@@ -7,6 +7,7 @@ import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Mode;
+import net.halalaboos.huzuni.api.settings.Node;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.api.task.LookTask;
@@ -88,7 +89,11 @@ public class Killaura extends BasicMod implements Renderer {
 	public Killaura() {
 		super("Kill aura", "Attack entities surrounding the player", Keyboard.KEY_R);
 		setAuthor("Halalaboos");
-		this.addChildren(players, mobs, animals, invisibles, silent, randomMisses, interact, smartAttack, selection, checkAge, priority, strength, strengthRandomization, speed, speedRandomization, reach, fov, rotationRate);
+
+		Node entities = new Node("Entities", "gof");
+		entities.addChildren(players, mobs, animals);
+		this.addChildren(entities, invisibles, silent, randomMisses, interact, smartAttack, selection, checkAge, priority, strength, strengthRandomization, speed, speedRandomization, reach, fov, rotationRate);
+
 		silent.setEnabled(true);
 		players.setEnabled(true);
 		mobs.setEnabled(true);

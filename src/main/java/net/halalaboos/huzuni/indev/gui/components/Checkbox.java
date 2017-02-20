@@ -1,5 +1,6 @@
 package net.halalaboos.huzuni.indev.gui.components;
 
+import net.halalaboos.huzuni.api.gui.font.FontData;
 import net.halalaboos.huzuni.indev.gui.Component;
 import net.halalaboos.huzuni.indev.gui.actions.Actions;
 import net.halalaboos.huzuni.indev.gui.actions.ClickAction;
@@ -49,7 +50,7 @@ public class Checkbox extends Component {
 
     @Override
     public void update() {
-        this.setWidth(CHECKBOX_SIZE + font.getStringWidth(text));
+        this.setWidth(CHECKBOX_SIZE + font.getStringWidth(text) + 2);
         this.setHeight(CHECKBOX_SIZE);
     }
 
@@ -78,5 +79,11 @@ public class Checkbox extends Component {
 
     public boolean isPressed() {
         return pressed;
+    }
+
+    @Override
+    public void setFont(FontData font) {
+        super.setFont(font);
+        this.update();
     }
 }
