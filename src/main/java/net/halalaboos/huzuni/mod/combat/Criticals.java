@@ -4,7 +4,7 @@ import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.mcwrapper.api.Tupac;
+import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.minecraft.network.play.client.CPacketUseEntity;
 
@@ -44,7 +44,7 @@ public class Criticals extends BasicMod {
 	}
 	
 	private void doCrit() {
-		Player player = Tupac.getAdapter().getMinecraft().getPlayer();
+		Player player = MCWrapper.getAdapter().getMinecraft().getPlayer();
 		boolean preGround = player.isOnGround();
 		player.setOnGround(false);
 		player.doJump();

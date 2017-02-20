@@ -7,7 +7,7 @@ import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.halalaboos.huzuni.api.util.render.Texture;
-import net.halalaboos.mcwrapper.api.Tupac;
+import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 import net.halalaboos.mcwrapper.api.util.MathUtils;
 import org.lwjgl.opengl.GL11;
@@ -34,7 +34,7 @@ public class CompassWidget extends Widget {
 
 	@Override
 	public void renderMenu(int x, int y, int width, int height) {
-		ClientPlayer player = Tupac.getPlayer();
+		ClientPlayer player = MCWrapper.getPlayer();
 		float yaw = player.getRotation().yaw;
 		this.setWidth((int) this.width.getValue() * 2);
 		this.setHeight(11);

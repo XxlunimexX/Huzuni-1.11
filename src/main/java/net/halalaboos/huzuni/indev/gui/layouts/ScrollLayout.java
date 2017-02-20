@@ -62,4 +62,24 @@ public class ScrollLayout implements Layout<ScrollableContainer> {
         return !positions.isEmpty() && container.getComponents().stream().anyMatch(component -> !positions.containsKey(component));
     }
 
+	@Override
+	public boolean updateWithContainer() {
+		return false;
+	}
+
+	@Override
+	public void setUpdateWithContainer(boolean updateWithContainer) {
+
+	}
+
+	@Override
+	public int[] getPadding() {
+		return new int[0];
+	}
+
+	@Override
+	public void setPadding(int x, int y, int width, int height) {
+
+	}
+
 }

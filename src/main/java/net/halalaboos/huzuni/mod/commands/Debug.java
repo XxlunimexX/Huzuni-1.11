@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.mod.commands;
 
 import net.halalaboos.huzuni.api.mod.BasicCommand;
-import net.halalaboos.mcwrapper.api.Tupac;
+import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.MinecraftAdapter;
 import net.halalaboos.mcwrapper.api.MinecraftClient;
 import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
@@ -16,7 +16,7 @@ public class Debug extends BasicCommand {
 
 	@Override
 	protected void runCommand(String input, String[] args) throws Exception {
-		MinecraftAdapter adapter = Tupac.getAdapter();
+		MinecraftAdapter adapter = MCWrapper.getAdapter();
 		MinecraftClient minecraft = adapter.getMinecraft();
 		ClientPlayer player = minecraft.getPlayer();
 		ItemStack itemStack = player.getHeldItem(Hand.MAIN);

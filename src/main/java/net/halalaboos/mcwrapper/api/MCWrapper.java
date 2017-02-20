@@ -6,12 +6,12 @@ import net.halalaboos.mcwrapper.api.world.World;
 /**
  * The main Tupac class, serves as a wrapper for the current MinecraftAdapter.
  */
-public class Tupac {
+public class MCWrapper {
 
 	private static MinecraftAdapter adapter = null;
 
 	public static void setAdapter(MinecraftAdapter adapter) {
-		if (Tupac.adapter == null) Tupac.adapter = adapter;
+		if (MCWrapper.adapter == null) MCWrapper.adapter = adapter;
 	}
 
 	public static MinecraftAdapter getAdapter() {

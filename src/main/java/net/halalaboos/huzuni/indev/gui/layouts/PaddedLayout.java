@@ -61,4 +61,24 @@ public class PaddedLayout implements Layout<Container> {
         // If there are no mapped components and any component not within this positions map implies it has not been laid out properly.
         return !positions.isEmpty() && container.getComponents().stream().anyMatch(component -> !positions.containsKey(component));
     }
+
+	@Override
+	public boolean updateWithContainer() {
+		return false;
+	}
+
+	@Override
+	public void setUpdateWithContainer(boolean updateWithContainer) {
+
+	}
+
+	@Override
+	public int[] getPadding() {
+		return new int[0];
+	}
+
+	@Override
+	public void setPadding(int x, int y, int width, int height) {
+
+	}
 }

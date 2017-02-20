@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.gui.widgets;
 
 import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.api.settings.Value;
-import net.halalaboos.mcwrapper.api.Tupac;
+import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 
@@ -29,9 +29,9 @@ public class TextRadarWidget extends BackgroundWidget {
 		width = 0;
 		if (incrementOffset == -1)
 			y = y + height - theme.getStringHeight("minimum");
-		ClientPlayer me = Tupac.getPlayer();
+		ClientPlayer me = MCWrapper.getPlayer();
 		Color textColor = new Color(255, 255, 255, (int)((opacity.getValue() / 100) * 255));
-		for (Player player : Tupac.getWorld().getPlayers()) {
+		for (Player player : MCWrapper.getWorld().getPlayers()) {
 			if (player != me) {
 				double distance = me.getDistanceTo(player);
 				if (distance < this.distance.getValue()) {

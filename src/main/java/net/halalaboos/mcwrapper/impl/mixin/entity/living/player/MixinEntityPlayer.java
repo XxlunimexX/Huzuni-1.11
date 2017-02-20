@@ -1,6 +1,6 @@
 package net.halalaboos.mcwrapper.impl.mixin.entity.living.player;
 
-import net.halalaboos.mcwrapper.api.Tupac;
+import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.impl.mixin.entity.living.MixinEntityLiving;
@@ -20,7 +20,7 @@ public abstract class MixinEntityPlayer extends MixinEntityLiving implements Pla
 
 	@Override
 	public boolean isNPC() {
-		return Tupac.getPlayer().getInfo(this) == null;
+		return MCWrapper.getPlayer().getInfo(this) == null;
 	}
 
 	@Override

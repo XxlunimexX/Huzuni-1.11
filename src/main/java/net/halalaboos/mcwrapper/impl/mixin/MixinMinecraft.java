@@ -1,6 +1,6 @@
 package net.halalaboos.mcwrapper.impl.mixin;
 
-import net.halalaboos.mcwrapper.api.Tupac;
+import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.MinecraftClient;
 import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 import net.halalaboos.mcwrapper.api.network.ServerInfo;
@@ -62,7 +62,7 @@ public abstract class MixinMinecraft implements MinecraftClient {
 			target = "Lnet/minecraft/client/Minecraft;init()V",
 			shift = At.Shift.AFTER))
 	public void initWrapper(CallbackInfo ci) {
-		Tupac.setAdapter(new OnePointElevenAdapter((Minecraft)(Object)this));
+		MCWrapper.setAdapter(new OnePointElevenAdapter((Minecraft)(Object)this));
 	}
 
 	@Inject(method = "loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;Ljava/lang/String;)V",
@@ -70,7 +70,7 @@ public abstract class MixinMinecraft implements MinecraftClient {
 					target = "Lnet/minecraft/client/multiplayer/WorldClient;spawnEntity(Lnet/minecraft/entity/Entity;)Z",
 					shift = At.Shift.AFTER))
 	public void setWorld(WorldClient world, String loadingMessage, CallbackInfo ci) {
-		Tupac.onSetWorld(((World) world));
+		MCWrapper.onSetWorld(((World) world));
 	}
 
 	@Override

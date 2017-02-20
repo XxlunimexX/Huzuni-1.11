@@ -10,9 +10,8 @@ import net.halalaboos.huzuni.api.util.MathUtils;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.render.Box;
 import net.halalaboos.huzuni.api.util.render.GLManager;
-import net.halalaboos.huzuni.gui.Notification.NotificationType;
-import net.halalaboos.mcwrapper.api.Tupac;
-import net.halalaboos.mcwrapper.api.entity.living.player.Player;
+import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.util.Vector3d;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -73,9 +72,9 @@ public class ESP extends BasicMod implements Renderer {
 	@Override
 	public void render(float partialTicks) {
 
-		for (Player player : Tupac.getWorld().getPlayers()) {
-			if (player != Tupac.getPlayer() && !player.isNPC()) {
-				Vector3d pos = player.getInterpolatedPosition();
+		for (Entity entity : MCWrapper.getWorld().getEntities()) {
+			if (entity != MCWrapper.getPlayer()) {
+				Vector3d pos = entity.getInterpolatedPosition();
 				double rX = pos.x - mc.getRenderManager().viewerPosX;
 				double rY = pos.y - mc.getRenderManager().viewerPosY;
 				double rZ = pos.z - mc.getRenderManager().viewerPosZ;

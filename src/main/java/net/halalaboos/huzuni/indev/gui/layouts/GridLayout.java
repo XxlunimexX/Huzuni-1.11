@@ -93,4 +93,24 @@ public class GridLayout implements Layout<Container> {
         // Return true if any component is not in the loaded list.
         return !isLoaded && container.getComponents().stream().anyMatch(component -> !loaded.contains(component));
     }
+
+	@Override
+	public boolean updateWithContainer() {
+		return false;
+	}
+
+	@Override
+	public void setUpdateWithContainer(boolean updateWithContainer) {
+
+	}
+
+	@Override
+	public int[] getPadding() {
+		return new int[0];
+	}
+
+	@Override
+	public void setPadding(int x, int y, int width, int height) {
+
+	}
 }
