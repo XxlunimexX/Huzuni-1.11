@@ -5,6 +5,8 @@ import net.halalaboos.mcwrapper.api.item.ItemStack;
 
 public interface Player extends Living {
 
+
+	//todo
 	float getAttackStrength();
 
 	ItemStack getStack(int slot);
