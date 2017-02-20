@@ -7,16 +7,19 @@ import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.util.MathUtils;
 
+import java.awt.*;
+
 /**
  * Renders the names of players within a given range.
  * */
 public class TextRadarWidget extends BackgroundWidget {
 
 	private final Value distance = new Value("Distance", "", 10F, 130F, 255F, 5F, "Distance required for entities to be rendered.");
-	
+	private final Value opacity = new Value("Opacity", "%", 10F, 100F, 100F, 1F, "Opacity/transparency of the text.");
+
 	public TextRadarWidget(WidgetManager menuManager) {
 		super("Text Radar", "Render an old-school text radar", menuManager);
-		this.addChildren(distance);
+		this.addChildren(distance, opacity);
 	}
 
 	@Override
@@ -28,13 +31,14 @@ public class TextRadarWidget extends BackgroundWidget {
 		if (incrementOffset == -1)
 			y = y + height - theme.getStringHeight("minimum");
 		ClientPlayer me = Tupac.getPlayer();
+		Color textColor = new Color(255, 255, 255, (int)((opacity.getValue() / 100) * 255));
 		for (Player player : Tupac.getWorld().getPlayers()) {
 			if (player != me) {
-				float distance = MathUtils.sqrt((float) (me.getX() - player.getX()) * (float) (me.getX() - player.getX()) + (float) (me.getZ() - player.getZ()) * (float) (me.getZ() - player.getZ()));
+				double distance = me.getLocation().distanceTo(player.getLocation());
 				if (distance < this.distance.getValue()) {
 					String text = String.format("%s (%d)", player.getEntityName(), (int)distance);
 					int textWidth = theme.getStringWidth(text);
-					theme.drawStringWithShadow(text, getOffsetX(x, x + originalWidth, textWidth), y, -1);
+					theme.drawStringWithShadow(text, getOffsetX(x, x + originalWidth, textWidth), y, textColor.getRGB());
 					height += theme.getStringHeight(text);
 					y += incrementOffset * theme.getStringHeight(text);
 					if (textWidth + 2 > width) {
