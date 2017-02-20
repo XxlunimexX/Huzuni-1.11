@@ -20,6 +20,7 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 	@Shadow
 	public abstract net.minecraft.item.ItemStack getHeldItem(EnumHand hand);
 
+
 	@Override
 	public HealthData getHealthData() {
 		return new HealthData(getHealth(), getMaxHealth());
@@ -31,7 +32,7 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 	}
 
 	@Override
-	public boolean getOnLadder() {
+	public boolean isClimbing() {
 		return isOnLadder();
 	}
 
@@ -39,4 +40,5 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 	public ItemStack getHeldItem(Hand hand) {
 		return (ItemStack)(Object)getHeldItem(EnumHand.values()[hand.ordinal()]);
 	}
+
 }

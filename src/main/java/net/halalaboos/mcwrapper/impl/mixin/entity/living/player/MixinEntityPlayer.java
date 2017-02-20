@@ -16,6 +16,7 @@ public abstract class MixinEntityPlayer extends MixinEntityLiving implements Pla
 	@Shadow public PlayerCapabilities capabilities;
 	@Shadow public InventoryPlayer inventory;
 	@Shadow protected FoodStats foodStats;
+	@Shadow public abstract float getCooledAttackStrength(float adjustTicks);
 
 	@Override
 	public boolean isNPC() {
@@ -36,4 +37,10 @@ public abstract class MixinEntityPlayer extends MixinEntityLiving implements Pla
 	public ItemStack getStack(int slot) {
 		return (ItemStack)(Object)inventory.getStackInSlot(slot);
 	}
+
+	@Override
+	public float getAttackStrength() {
+		return getCooledAttackStrength(0F);
+	}
+
 }

@@ -67,4 +67,6 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 	public boolean isNPC() {
 		return false;
 	}
+
+
 }
