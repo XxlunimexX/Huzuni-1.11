@@ -134,7 +134,7 @@ public class WidgetManager extends JsonFileHandler {
 			Widget other = widgets.get(i);
 			if (widget != other && other.isEnabled() && !WidgetGlue.isGluedTo(widget, other)) {
 				WidgetGlue glue = WidgetGlue.getWidgetGlue(widget, other);
-				if (glue != null && widgetHasNone(other, glue)) {
+				if (glue != null && widgetHasNone(widget, other, glue)) {
 					return glue;
 				}
 			}
@@ -145,12 +145,12 @@ public class WidgetManager extends JsonFileHandler {
 	/**
 	 * @return True if this widget has no other widgets with the same glue applied to it.
 	 * */
-	public boolean widgetHasNone(Widget widget, WidgetGlue glue) {
+	public boolean widgetHasNone(Widget current, Widget widget, WidgetGlue glue) {
 		for (int i = 0; i < widgets.size(); i++) {
 			Widget other = widgets.get(i);
-			if (widget != other && other.getGlue() instanceof WidgetGlue && other.isEnabled()) {
+			if (other != current && other != widget && other.getGlue() instanceof WidgetGlue && other.isEnabled()) {
 				WidgetGlue otherGlue = (WidgetGlue) other.getGlue();
-				if (glue.getWidget() == widget && glue.getStyle() == otherGlue.getStyle()) {
+				if (otherGlue.getWidget() == widget && otherGlue.getStyle() == glue.getStyle()) {
 					return false;
 				}
 			}
