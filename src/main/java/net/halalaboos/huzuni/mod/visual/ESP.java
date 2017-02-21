@@ -70,53 +70,51 @@ public class ESP extends BasicMod implements Renderer {
 		for (Entity e : MCWrapper.getWorld().getEntities()) {
 			if (e instanceof Living) {
 				Living entity = (Living)e;
-				if (entity != MCWrapper.getPlayer()) {
-					if (entity == mc.player || entity.isDead() || !MinecraftUtils.checkType(entity,
-							invisibles.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled()) ||
-							(properties.isEnabled() && !MinecraftUtils.checkProperties(entity)) ||
-							(checkAge.isEnabled() && !MinecraftUtils.checkAge(entity)))
-						continue;
-					Vector3d pos = entity.getInterpolatedPosition();
-					double rX = pos.x - mc.getRenderManager().viewerPosX;
-					double rY = pos.y - mc.getRenderManager().viewerPosY;
-					double rZ = pos.z - mc.getRenderManager().viewerPosZ;
-					float distance = (float)MCWrapper.getPlayer().getDistanceTo(entity);
-					int entityId = entity.getEntityListId();
-					if (entityId < 0) entityId = 420;
-					boolean friend = huzuni.friendManager.isFriend(entity.name());
-					if (lines.isEnabled()) {
-						drawLine(((float) rX), ((float) rY), ((float) rZ), entity, distance, friend);
-					}
-					setColor(entity, distance, friend, false, opacity.getValue() / 100F);
-					if (mode.getSelected() == 1) {
-						GlStateManager.pushMatrix();
-						GlStateManager.translate(rX, rY, rZ);
-						GlStateManager.rotate(-entity.getRotation().yaw, 0F, 1F, 0F);
-						generateVbo(entity, entityId);
-						box[entityId].render();
-						GlStateManager.popMatrix();
-					} else if (mode.getSelected() == 2) {
-						GlStateManager.pushMatrix();
-						GlStateManager.translate(rX, rY, rZ);
-						GlStateManager.rotate(-MCWrapper.getPlayer().getRotation().yaw, 0F, 1F, 0F);
-						float width = (float) (entity.getBoundingBox().max.x - entity.getBoundingBox().min.x),
-								height = (float) (entity.getBoundingBox().max.y - entity.getBoundingBox().min.y);
-						VertexBuffer vertexBuffer = tessellator.getBuffer();
-						vertexBuffer.begin(GL_LINE_LOOP, DefaultVertexFormats.POSITION);
-						vertexBuffer.pos(-width, 0, 0F).endVertex();
-						vertexBuffer.pos(-width, height, 0F).endVertex();
-						vertexBuffer.pos(width, height, 0F).endVertex();
-						vertexBuffer.pos(width, 0, 0F).endVertex();
-						tessellator.draw();
-						GlStateManager.popMatrix();
-					} else if (mode.getSelected() == 3) {
-						GLManager.glColor(1F, distance / 64F, 0F, 1F);
-						VertexBuffer renderer = tessellator.getBuffer();
-						renderer.begin(GL_LINES, DefaultVertexFormats.POSITION);
-						renderer.pos(rX, rY, rZ).endVertex();
-						renderer.pos(rX, rY + entity.getHeight(), rZ).endVertex();
-						tessellator.draw();
-					}
+				if (entity == MCWrapper.getPlayer() || entity.isDead() || !MinecraftUtils.checkType(entity,
+						invisibles.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled()) ||
+						(properties.isEnabled() && !MinecraftUtils.checkProperties(entity)) ||
+						(checkAge.isEnabled() && !MinecraftUtils.checkAge(entity)))
+					continue;
+				Vector3d pos = entity.getInterpolatedPosition();
+				double rX = pos.x - mc.getRenderManager().viewerPosX;
+				double rY = pos.y - mc.getRenderManager().viewerPosY;
+				double rZ = pos.z - mc.getRenderManager().viewerPosZ;
+				float distance = (float)MCWrapper.getPlayer().getDistanceTo(entity);
+				int entityId = entity.getEntityListId();
+				if (entityId < 0) entityId = 420;
+				boolean friend = huzuni.friendManager.isFriend(entity.name());
+				if (lines.isEnabled()) {
+					drawLine(((float) rX), ((float) rY), ((float) rZ), entity, distance, friend);
+				}
+				setColor(entity, distance, friend, false, opacity.getValue() / 100F);
+				if (mode.getSelected() == 1) {
+					GlStateManager.pushMatrix();
+					GlStateManager.translate(rX, rY, rZ);
+					GlStateManager.rotate(-entity.getRotation().yaw, 0F, 1F, 0F);
+					generateVbo(entity, entityId);
+					box[entityId].render();
+					GlStateManager.popMatrix();
+				} else if (mode.getSelected() == 2) {
+					GlStateManager.pushMatrix();
+					GlStateManager.translate(rX, rY, rZ);
+					GlStateManager.rotate(-MCWrapper.getPlayer().getRotation().yaw, 0F, 1F, 0F);
+					float width = (float) (entity.getBoundingBox().max.x - entity.getBoundingBox().min.x),
+							height = (float) (entity.getBoundingBox().max.y - entity.getBoundingBox().min.y);
+					VertexBuffer vertexBuffer = tessellator.getBuffer();
+					vertexBuffer.begin(GL_LINE_LOOP, DefaultVertexFormats.POSITION);
+					vertexBuffer.pos(-width, 0, 0F).endVertex();
+					vertexBuffer.pos(-width, height, 0F).endVertex();
+					vertexBuffer.pos(width, height, 0F).endVertex();
+					vertexBuffer.pos(width, 0, 0F).endVertex();
+					tessellator.draw();
+					GlStateManager.popMatrix();
+				} else if (mode.getSelected() == 3) {
+					GLManager.glColor(1F, distance / 64F, 0F, 1F);
+					VertexBuffer renderer = tessellator.getBuffer();
+					renderer.begin(GL_LINES, DefaultVertexFormats.POSITION);
+					renderer.pos(rX, rY, rZ).endVertex();
+					renderer.pos(rX, rY + entity.getHeight(), rZ).endVertex();
+					tessellator.draw();
 				}
 			}
 		}
