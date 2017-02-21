@@ -37,6 +37,11 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 	}
 
 	@Override
+	public void setFlying(boolean flying) {
+		capabilities.isFlying = flying;
+	}
+
+	@Override
 	public float getForwardMovement() {
 		return movementInput.moveForward;
 	}

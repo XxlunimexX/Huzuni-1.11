@@ -5,6 +5,8 @@ import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
+import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 import org.lwjgl.input.Keyboard;
 
 public class Nofall extends BasicMod {
@@ -27,14 +29,15 @@ public class Nofall extends BasicMod {
 
 	@EventMethod
 	public void onUpdate(UpdateEvent event) {
+		ClientPlayer player = MCWrapper.getPlayer();
 		if (event.type == Type.PRE) {
-			if (mc.player.fallDistance > 3) {
-				mc.player.onGround = true;
+			if (player.getFallDistance() > 3) {
+				player.setOnGround(true);
 			}	
 		} else {
-			if (mc.player.fallDistance > 3) {
-				mc.player.onGround = false;
-				mc.player.fallDistance = 0;
+			if (player.getFallDistance() > 3) {
+				player.setOnGround(false);
+				player.setFallDistance(0);
 			}
 		}
 	}

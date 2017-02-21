@@ -37,6 +37,11 @@ public interface Entity extends Identifiable, Nameable {
 	Vector3d getVelocity();
 
 	/**
+	 * Sets the Entity's velocity.
+	 */
+	void setVelocity(Vector3d velocity);
+
+	/**
 	 * @return The X value of {@link #getLocation()}
 	 */
 	double getX();
@@ -198,4 +203,10 @@ public interface Entity extends Identifiable, Nameable {
 	 * @return The Entity's bounding box.
 	 */
 	AABB getBoundingBox();
+
+	boolean isCollided(CollisionType type);
+
+	enum CollisionType {
+		HORIZONTAL, VERTICAL, BOTH
+	}
 }

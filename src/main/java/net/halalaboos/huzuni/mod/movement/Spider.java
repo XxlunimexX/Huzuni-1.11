@@ -5,7 +5,9 @@ import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 
 /**
  * Allows the player to scale up blocks like a spider.
@@ -30,9 +32,11 @@ public class Spider extends BasicMod {
 
 	@EventMethod
 	public void onUpdate(UpdateEvent event) {
-		if (mc.player.isCollidedHorizontally) {
-			mc.player.motionY = 0.2F;
-			mc.player.onGround = true;
+		ClientPlayer player = MCWrapper.getPlayer();
+		if (player.isCollided(Entity.CollisionType.HORIZONTAL)) {
+			Vector3d vel = player.getVelocity();
+			player.setVelocity(new Vector3d(vel.x, 0.2D, vel.z));
+			player.setOnGround(true);
 		}
 	}
 }

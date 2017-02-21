@@ -11,7 +11,9 @@ import net.halalaboos.huzuni.api.settings.Nameable;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
+import net.halalaboos.mcwrapper.api.world.Fluid;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -64,9 +66,9 @@ public class Speed extends BasicMod {
 		if (event.type == Type.PRE) {
 			boolean modifyMovement = shouldModifyMovement();
 			mode.getSelectedItem().onUpdate(this, mc, event);
-			if (modifyMovement && mc.player.onGround) {
+			if (modifyMovement && MCWrapper.getPlayer().isOnGround()) {
 				if ((stairs.isEnabled() && isUnderStairs()) || bunnyHop.isEnabled()) {
-					mc.player.jump();
+					MCWrapper.getPlayer().doJump();
 				}
 			}
 		}
@@ -74,8 +76,9 @@ public class Speed extends BasicMod {
 	
 	@EventMethod
 	public void onPlayerMove(PlayerMoveEvent event) {
-		event.setMotionX(event.getMotionX() * (mc.player.onGround ? groundSpeed.getValue() : airSpeed.getValue()));
-		event.setMotionZ(event.getMotionZ() * (mc.player.onGround ? groundSpeed.getValue() : airSpeed.getValue()));
+		boolean onGround = MCWrapper.getPlayer().isOnGround();
+		event.setMotionX(event.getMotionX() * (onGround ? groundSpeed.getValue() : airSpeed.getValue()));
+		event.setMotionZ(event.getMotionZ() * (onGround ? groundSpeed.getValue() : airSpeed.getValue()));
         mode.getSelectedItem().onPlayerMove(this, mc, event);
 	}
 
@@ -99,8 +102,10 @@ public class Speed extends BasicMod {
      * @return True if the player's given circumstances are ideal for modifying movement.
      * */
 	public boolean shouldModifyMovement() {
-		ClientPlayer player = MCWrapper.getAdapter().getMinecraft().getPlayer();
-        return !player.isFlying() && player.getForwardMovement()> 0 && !mc.player.isSneaking() && !mc.player.isCollidedHorizontally && mc.player.getFoodStats().getFoodLevel() > 6 && !mc.player.isInWater() && !mc.player.isInLava();
+		ClientPlayer player = MCWrapper.getPlayer();
+        return !player.isFlying() && player.getForwardMovement()> 0 && !player.getSneaking() &&
+				!player.isCollided(Entity.CollisionType.HORIZONTAL) &&
+				player.getFood() > 6 && !player.isInFluid(Fluid.WATER) && !player.isInFluid(Fluid.LAVA);
     }
 
     /**
@@ -114,7 +119,7 @@ public class Speed extends BasicMod {
 
         @Override
         public void onUpdate(Speed speed, Minecraft mc, UpdateEvent event) {
-            mc.player.setSprinting(speed.shouldModifyMovement());
+			MCWrapper.getPlayer().setSprint(speed.shouldModifyMovement());
         }
 
         @Override

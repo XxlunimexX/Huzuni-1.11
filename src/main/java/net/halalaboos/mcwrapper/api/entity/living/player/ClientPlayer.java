@@ -22,6 +22,7 @@ public interface ClientPlayer extends Player {
 	 * @return Whether or not the player is currently flying.
 	 */
 	boolean isFlying();
+	void setFlying(boolean flying);
 
 	/**
 	 * When the player is moving forward.

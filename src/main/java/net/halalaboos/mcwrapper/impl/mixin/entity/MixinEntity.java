@@ -78,6 +78,15 @@ import java.util.UUID;
 	@Shadow
 	public abstract AxisAlignedBB getEntityBoundingBox();
 
+	@Shadow
+	public boolean isCollidedHorizontally;
+
+	@Shadow
+	public boolean isCollided;
+
+	@Shadow
+	public boolean isCollidedVertically;
+
 	@Override
 	public String name() {
 		return getName();
@@ -106,6 +115,13 @@ import java.util.UUID;
 	@Override
 	public Vector3d getVelocity() {
 		return new Vector3d(motionX, motionY, motionZ);
+	}
+
+	@Override
+	public void setVelocity(Vector3d velocity) {
+		this.motionX = velocity.x;
+		this.motionY = velocity.y;
+		this.motionZ = velocity.z;
 	}
 
 	@Override
@@ -271,5 +287,11 @@ import java.util.UUID;
 	@Override
 	public AABB getBoundingBox() {
 		return Convert.from(getEntityBoundingBox());
+	}
+
+	@Override
+	public boolean isCollided(CollisionType type) {
+		return type == CollisionType.HORIZONTAL ? isCollidedHorizontally :
+				type == CollisionType.VERTICAL ? isCollidedVertically : isCollided;
 	}
 }
