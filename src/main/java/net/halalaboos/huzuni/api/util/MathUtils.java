@@ -3,7 +3,6 @@ package net.halalaboos.huzuni.api.util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 
 /**
  * Math utilities
@@ -26,7 +25,7 @@ public final class MathUtils {
 		double distX = Minecraft.getMinecraft().getRenderManager().viewerPosX - x;
 		double distY = Minecraft.getMinecraft().getRenderManager().viewerPosY - y;
 		double distZ = Minecraft.getMinecraft().getRenderManager().viewerPosZ - z;
-        return net.halalaboos.mcwrapper.api.util.MathUtils.sqrt(distX * distX + distY * distY + distZ * distZ);
+        return net.halalaboos.mcwrapper.api.util.math.MathUtils.sqrt(distX * distX + distY * distY + distZ * distZ);
 	}
 	
 	public static double interpolate(double prev, double cur, double delta) {

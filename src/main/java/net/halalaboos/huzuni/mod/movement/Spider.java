@@ -4,6 +4,8 @@ import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
+import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 
 /**
  * Allows the player to scale up blocks like a spider.

@@ -3,7 +3,7 @@ package net.halalaboos.huzuni.indev.gui.layouts;
 import net.halalaboos.huzuni.indev.gui.Component;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.Layout;
-import net.halalaboos.mcwrapper.api.util.MathUtils;
+import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 
 import java.util.ArrayList;
 import java.util.List;

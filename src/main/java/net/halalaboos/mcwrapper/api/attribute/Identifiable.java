@@ -1,4 +1,4 @@
-package net.halalaboos.mcwrapper.api.util;
+package net.halalaboos.mcwrapper.api.attribute;
 
 import java.util.UUID;
 

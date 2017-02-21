@@ -4,7 +4,7 @@ import net.halalaboos.huzuni.api.mod.BasicCommand;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 import net.halalaboos.mcwrapper.api.util.TextColor;
-import net.halalaboos.mcwrapper.api.util.Vector3d;
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 
 public class VClip extends BasicCommand {
 

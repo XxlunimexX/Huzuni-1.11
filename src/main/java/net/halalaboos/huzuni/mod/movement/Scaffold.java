@@ -8,7 +8,7 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Mode;
 import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.api.task.PlaceTask;
-import net.halalaboos.mcwrapper.api.util.MathUtils;
+import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;

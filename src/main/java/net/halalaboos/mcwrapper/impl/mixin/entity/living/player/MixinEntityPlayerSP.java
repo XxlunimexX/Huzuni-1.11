@@ -4,8 +4,6 @@ import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;
-import net.halalaboos.mcwrapper.api.util.Rotation;
-import net.halalaboos.mcwrapper.api.util.Vector3d;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.play.client.CPacketChatMessage;
 import net.minecraft.util.EnumHand;

@@ -12,7 +12,7 @@ import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
-import net.halalaboos.mcwrapper.api.util.Vector3d;
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;

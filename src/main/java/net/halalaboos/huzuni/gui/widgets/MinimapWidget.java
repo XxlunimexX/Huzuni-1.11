@@ -8,7 +8,7 @@ import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.halalaboos.huzuni.api.util.render.RenderUtils;
 import net.halalaboos.huzuni.api.util.render.Texture;
-import net.halalaboos.mcwrapper.api.util.MathUtils;
+import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;

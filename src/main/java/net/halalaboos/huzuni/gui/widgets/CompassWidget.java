@@ -9,7 +9,7 @@ import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.halalaboos.huzuni.api.util.render.Texture;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
-import net.halalaboos.mcwrapper.api.util.MathUtils;
+import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import org.lwjgl.opengl.GL11;
 
 /**

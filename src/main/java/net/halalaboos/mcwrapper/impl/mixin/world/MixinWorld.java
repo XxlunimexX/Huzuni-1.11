@@ -1,9 +1,8 @@
 package net.halalaboos.mcwrapper.impl.mixin.world;
 
-import com.google.common.collect.ImmutableList;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
-import net.halalaboos.mcwrapper.api.util.Vector3i;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.halalaboos.mcwrapper.api.world.World;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;

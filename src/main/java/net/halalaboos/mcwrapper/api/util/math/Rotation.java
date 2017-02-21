@@ -1,4 +1,4 @@
-package net.halalaboos.mcwrapper.api.util;
+package net.halalaboos.mcwrapper.api.util.math;
 
 /**
  * Represents the transform of an object, e.g. the rotation and scale.

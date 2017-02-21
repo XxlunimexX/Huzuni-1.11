@@ -1,7 +1,5 @@
 package net.halalaboos.mcwrapper.api.util.math;
 
-import net.halalaboos.mcwrapper.api.util.Vector3d;
-
 public class AABB {
 
 	public final Vector3d min;

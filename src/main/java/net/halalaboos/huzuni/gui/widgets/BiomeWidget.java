@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.gui.widgets;
 
 import net.halalaboos.huzuni.api.gui.WidgetManager;
-import net.halalaboos.mcwrapper.api.util.MathUtils;
+import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.Chunk;
 

@@ -1,4 +1,4 @@
-package net.halalaboos.mcwrapper.api.util;
+package net.halalaboos.mcwrapper.api.util.math;
 
 /**
  * Math methods from Minecraft with the faster libgdx alternatives when applicable.
