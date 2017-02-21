@@ -2,8 +2,6 @@ package net.halalaboos.mcwrapper.impl;
 
 import net.halalaboos.mcwrapper.api.MinecraftAdapter;
 import net.halalaboos.mcwrapper.api.MinecraftClient;
-import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
-import net.halalaboos.mcwrapper.api.util.Resolution;
 import net.halalaboos.mcwrapper.api.world.World;
 import net.minecraft.client.Minecraft;
 

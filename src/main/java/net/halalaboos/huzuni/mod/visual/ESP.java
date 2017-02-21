@@ -82,9 +82,6 @@ public class ESP extends BasicMod implements Renderer {
 					double rZ = pos.z - mc.getRenderManager().viewerPosZ;
 					float distance = (float)MCWrapper.getPlayer().getDistanceTo(entity);
 					int entityId = entity.getEntityListId();
-					if (entity.getEntityListId() == entity.getId()) {
-						System.out.println("Entity " + entity.name() + " has the same ID as list id.");
-					}
 					if (entityId < 0) entityId = 420;
 					boolean friend = huzuni.friendManager.isFriend(entity.name());
 					if (lines.isEnabled()) {
@@ -101,8 +98,9 @@ public class ESP extends BasicMod implements Renderer {
 					} else if (mode.getSelected() == 2) {
 						GlStateManager.pushMatrix();
 						GlStateManager.translate(rX, rY, rZ);
-						GlStateManager.rotate(-mc.player.rotationYaw, 0F, 1F, 0F);
-						float width = (float) (entity.getBoundingBox().max.x - entity.getBoundingBox().min.x), height = (float) (entity.getBoundingBox().min.y - entity.getBoundingBox().min.y);
+						GlStateManager.rotate(-MCWrapper.getPlayer().getRotation().yaw, 0F, 1F, 0F);
+						float width = (float) (entity.getBoundingBox().max.x - entity.getBoundingBox().min.x),
+								height = (float) (entity.getBoundingBox().max.y - entity.getBoundingBox().min.y);
 						VertexBuffer vertexBuffer = tessellator.getBuffer();
 						vertexBuffer.begin(GL_LINE_LOOP, DefaultVertexFormats.POSITION);
 						vertexBuffer.pos(-width, 0, 0F).endVertex();
@@ -138,6 +136,7 @@ public class ESP extends BasicMod implements Renderer {
 
 	private void drawLine(float renderX, float renderY, float renderZ, Living entity, float distance, boolean friend) {
 		float opacity = this.opacity.getValue() / 100F;
+		if (distance > 64F) distance = 64F;
 		if (friend)
 			huzuni.renderManager.addLine(renderX, renderY, renderZ, huzuni.friendManager.getColor(), opacity);
 		else {

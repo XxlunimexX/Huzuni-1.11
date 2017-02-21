@@ -18,10 +18,10 @@ import net.halalaboos.huzuni.api.util.render.Box;
 import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.huzuni.mod.mining.templates.*;
+import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 
@@ -62,7 +62,7 @@ public final class Replica extends BasicMod implements Renderer {
 		templateBuilder.setTemplate(mode.getSelectedItem());
 		huzuni.lookManager.registerTaskHolder(this);
 		placeTask.setNaturalPlacement(false);
-		box = new Box(new AxisAlignedBB(0F, 0F, 0F, 1F, 1F, 1F), true);
+		box = new Box(new AABB(0F, 0F, 0F, 1F, 1F, 1F), true);
 		huzuni.commandManager.addCommand(new BasicCommand("template", "loads templates from text documents") {
 			
 			@Override

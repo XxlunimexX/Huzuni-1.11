@@ -22,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 @Mixin(net.minecraft.client.Minecraft.class)
 public abstract class MixinMinecraft implements MinecraftClient {
@@ -118,10 +119,12 @@ public abstract class MixinMinecraft implements MinecraftClient {
 		return new Resolution(displayWidth, displayHeight, gameSettings.guiScale);
 	}
 
-	@Nullable
 	@Override
-	public ServerInfo getServerInfo() {
-		return ((ServerInfo) getCurrentServerData());
+	public Optional<ServerInfo> getServerInfo() {
+		if (getCurrentServerData() == null) {
+			return Optional.empty();
+		}
+		return Optional.of((ServerInfo)getCurrentServerData());
 	}
 
 	@Override

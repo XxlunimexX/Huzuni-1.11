@@ -4,7 +4,8 @@ import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 import net.halalaboos.mcwrapper.api.world.World;
 
 /**
- * The main Tupac class, serves as a wrapper for the current MinecraftAdapter.
+ * Serves as a wrapper for the current {@link MinecraftAdapter}.  This is what any code using MCWrapper should point to,
+ * rather than the version-specific adapter.
  */
 public class MCWrapper {
 

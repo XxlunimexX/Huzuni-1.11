@@ -36,9 +36,9 @@ public class Vector3d {
 	}
 
 	public double distanceTo(Vector3d target) {
-		double dX = target.x - this.x;
-		double dY = target.y - this.y;
-		double dZ = target.z - this.z;
+		double dX = this.x - target.x;
+		double dY = this.y - target.y;
+		double dZ = this.z - target.z;
 		return MathUtils.sqrt(dX * dX + dY * dY + dZ * dZ);
 	}
 
