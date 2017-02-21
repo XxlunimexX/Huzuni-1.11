@@ -20,6 +20,7 @@ import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.input.Keyboard;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 import static org.lwjgl.opengl.GL11.GL_LINES;
 import static org.lwjgl.opengl.GL11.GL_LINE_LOOP;
 
@@ -67,7 +68,7 @@ public class ESP extends BasicMod implements Renderer {
 
 	@Override
 	public void render(float partialTicks) {
-		for (Entity e : MCWrapper.getWorld().getEntities()) {
+		for (Entity e : getWorld().getEntities()) {
 			if (e instanceof Living) {
 				Living entity = (Living)e;
 				if (entity == MCWrapper.getPlayer() || entity.isDead() || !MinecraftUtils.checkType(entity,

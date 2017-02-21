@@ -13,6 +13,9 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.text.DecimalFormat;
 import java.util.UUID;
@@ -20,31 +23,23 @@ import java.util.UUID;
 @Mixin(net.minecraft.entity.Entity.class) public abstract class MixinEntity implements Entity {
 
 	@Shadow public net.minecraft.world.World world;
-
 	@Shadow public double posX;
 	@Shadow public double posY;
 	@Shadow public double posZ;
-
 	@Shadow public double prevPosX;
 	@Shadow public double prevPosY;
 	@Shadow public double prevPosZ;
-
 	@Shadow public double motionX;
 	@Shadow public double motionY;
 	@Shadow public double motionZ;
-
 	@Shadow public float rotationPitch;
 	@Shadow public float rotationYaw;
-
 	@Shadow public boolean isDead;
-
 	@Shadow public int hurtResistantTime;
-
 	@Shadow public float width;
 	@Shadow public float height;
 	@Shadow public float fallDistance;
 	@Shadow public float stepHeight;
-
 	@Shadow public abstract UUID getUniqueID();
 	@Shadow public abstract String getName();
 	@Shadow public abstract float getEyeHeight();
@@ -53,39 +48,24 @@ import java.util.UUID;
 	@Shadow public abstract boolean isInWater();
 	@Shadow public abstract boolean isInLava();
 	@Shadow public abstract boolean isInsideOfMaterial(Material materialIn);
+	@Shadow	public boolean onGround;
+	@Shadow public abstract void setSprinting(boolean sprinting);
+	@Shadow public abstract boolean isSprinting();
+	@Shadow public abstract boolean isSneaking();
+	@Shadow public abstract boolean isInvisible();
+	@Shadow public int ticksExisted;
+	@Shadow public abstract ITextComponent getDisplayName();
+	@Shadow public abstract AxisAlignedBB getEntityBoundingBox();
+	@Shadow public boolean isCollidedHorizontally;
+	@Shadow public boolean isCollided;
+	@Shadow public boolean isCollidedVertically;
 
-	@Shadow
-	public boolean onGround;
+	private AABB aabb;
 
-	@Shadow
-	public abstract void setSprinting(boolean sprinting);
-
-	@Shadow
-	public abstract boolean isSprinting();
-
-	@Shadow
-	public abstract boolean isSneaking();
-
-	@Shadow
-	public abstract boolean isInvisible();
-
-	@Shadow
-	public int ticksExisted;
-
-	@Shadow
-	public abstract ITextComponent getDisplayName();
-
-	@Shadow
-	public abstract AxisAlignedBB getEntityBoundingBox();
-
-	@Shadow
-	public boolean isCollidedHorizontally;
-
-	@Shadow
-	public boolean isCollided;
-
-	@Shadow
-	public boolean isCollidedVertically;
+	@Inject(method = "setEntityBoundingBox", at = @At("HEAD"))
+	public void setEntityBoundingBox(AxisAlignedBB bb, CallbackInfo ci) {
+		this.aabb = Convert.from(bb);
+	}
 
 	@Override
 	public String name() {
@@ -286,7 +266,10 @@ import java.util.UUID;
 
 	@Override
 	public AABB getBoundingBox() {
-		return Convert.from(getEntityBoundingBox());
+		if (this.aabb == null) {
+			return new AABB(0, 0, 0, 0, 0, 0);
+		}
+		return aabb;
 	}
 
 	@Override

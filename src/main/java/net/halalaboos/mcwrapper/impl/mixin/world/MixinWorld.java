@@ -5,26 +5,24 @@ import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.halalaboos.mcwrapper.api.world.World;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 
 @Mixin(net.minecraft.world.World.class) public abstract class MixinWorld implements World {
 
-	@Shadow
-	public abstract boolean setBlockToAir(BlockPos pos);
+	@Shadow public abstract boolean setBlockToAir(BlockPos pos);
+	@Shadow @Final public List<EntityPlayer> playerEntities;
+	@Shadow @Final public List<net.minecraft.entity.Entity> loadedEntityList;
 
 	@Shadow
-	@Final
-	public List<EntityPlayer> playerEntities;
-
-	@Shadow
-	@Final
-	public List<net.minecraft.entity.Entity> loadedEntityList;
+	public abstract List<net.minecraft.entity.Entity> getEntitiesWithinAABBExcludingEntity(@Nullable net.minecraft.entity.Entity entityIn, AxisAlignedBB bb);
 
 	@Override
 	public void setToAir(Vector3i pos) {

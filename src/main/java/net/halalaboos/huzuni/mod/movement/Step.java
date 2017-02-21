@@ -5,7 +5,7 @@ import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Value;
-import net.halalaboos.mcwrapper.api.MCWrapper;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
  * Allows the player to step up blocks.
@@ -29,14 +29,14 @@ public class Step extends BasicMod {
 	@Override
 	public void onDisable() {
 		huzuni.eventManager.removeListener(this);
-		if (MCWrapper.getPlayer() != null) {
-			MCWrapper.getPlayer().setStepHeight(0.5F);
+		if (getPlayer() != null) {
+			getPlayer().setStepHeight(0.5F);
 		}
 	}
 
 	@EventMethod
 	public void onUpdate(UpdateEvent event) {
-		MCWrapper.getPlayer().setStepHeight(height.getValue());
+		getPlayer().setStepHeight(height.getValue());
 	}
 
 }

@@ -8,9 +8,19 @@ import java.util.Collection;
 
 public interface World {
 
+	/**
+	 * Sets the specified position to air.
+	 */
 	void setToAir(Vector3i pos);
 
+	/**
+	 * Returns a list of all of the loaded Player Entities.
+	 */
 	Collection<Player> getPlayers();
 
+	/**
+	 * Returns a list of all of the loaded Entities.
+	 */
 	Collection<Entity> getEntities();
+
 }
