@@ -60,6 +60,10 @@ public class Team extends Node {
 	public boolean isTeam(Entity entity) {
 		return hasTeamColor(entity.getDisplayName().getFormattedText());
 	}
+
+	public boolean isTeam(net.halalaboos.mcwrapper.api.entity.Entity entity) {
+		return hasTeamColor(entity.getUnformattedName());
+	}
 	
 	public boolean hasTeamColor(String text) {
 		return text.contains("\247" + colorcodeIdentifiers.charAt(teamIndex));
@@ -79,6 +83,30 @@ public class Team extends Node {
 						continue;
 					} else {
 						if (parse.substring(1).equalsIgnoreCase(entity.getName()))
+							return this.colorCode[index];
+						else
+							continue;
+					}
+				}
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * @return the hexadecimal color representing the team of the given entity. Returns -1 if no team could be found.
+	 * */
+	public int getTeamColor(net.halalaboos.mcwrapper.api.entity.Entity entity) {
+		String[] split = entity.getFormattedName().split("\247");
+		if (split != null) {
+			for (String parse : split) {
+				if (parse.length() > 1) {
+					String colorCode = parse.substring(0, 1);
+					int index = colorcodeIdentifiers.indexOf(colorCode);
+					if (index == -1) {
+						continue;
+					} else {
+						if (parse.substring(1).equalsIgnoreCase(entity.name()))
 							return this.colorCode[index];
 						else
 							continue;

@@ -5,6 +5,7 @@ import net.halalaboos.mcwrapper.api.util.Identifiable;
 import net.halalaboos.mcwrapper.api.util.Nameable;
 import net.halalaboos.mcwrapper.api.util.Rotation;
 import net.halalaboos.mcwrapper.api.util.Vector3d;
+import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.halalaboos.mcwrapper.api.world.Fluid;
 import net.halalaboos.mcwrapper.api.world.World;
 
@@ -16,9 +17,13 @@ public interface Entity extends Identifiable, Nameable {
 	World getWorld();
 
 	/**
-	 * The position of the Entity.
+	 * The location of the Entity in the world.
 	 */
 	Vector3d getLocation();
+
+	/**
+	 * Sets the Entity's location.
+	 */
 	void setLocation(Vector3d location);
 
 	/**
@@ -31,10 +36,19 @@ public interface Entity extends Identifiable, Nameable {
 	 */
 	Vector3d getVelocity();
 
+	/**
+	 * @return The X value of {@link #getLocation()}
+	 */
 	double getX();
 
+	/**
+	 * @return The Y value of {@link #getLocation()}
+	 */
 	double getY();
 
+	/**
+	 * @return The Z value of {@link #getLocation()}
+	 */
 	double getZ();
 
 	/**
@@ -67,35 +81,121 @@ public interface Entity extends Identifiable, Nameable {
 	 */
 	boolean isInFluid(Fluid fluid);
 
+	/**
+	 * @return Whether or not the Entity is inside of water.
+	 */
 	boolean isInsideOfWater();
 
+	/**
+	 * @return The width of the Entity.
+	 */
 	float getWidth();
+
+	/**
+	 * @return The height of the Entity.
+	 */
 	float getHeight();
+
+	/**
+	 * @return The Entity's eye level.
+	 */
 	float getEye();
 
+	/**
+	 * @return How far the Entity has fallen.
+	 */
 	float getFallDistance();
+
+	/**
+	 * Sets the Entity's {@link #getFallDistance()}.
+	 */
 	void setFallDistance(float fallDistance);
 
+	/**
+	 * @return The Entity's step height.
+	 */
 	float getStepHeight();
+
+	/**
+	 * Sets the Entity's {@link #getStepHeight()}
+	 */
 	void setStepHeight(float stepHeight);
 
+	/**
+	 * @return The Entity's ID.
+	 */
 	int getId();
 
+	/**
+	 * Sets the Entity's rotation (pitch/yaw)
+	 */
 	void setRotation(Rotation rotation);
 
+	/**
+	 * @return Whether or not the Entity is touching the ground.
+	 */
 	boolean isOnGround();
+
+	/**
+	 * Sets if the Entity is on ground.
+	 */
 	void setOnGround(boolean onGround);
 
+	/**
+	 * Sets Entity's sprinting state.
+	 */
 	void setSprint(boolean sprint);
 
+	/**
+	 * @return Whether or not the Entity is sprinting.
+	 */
 	boolean getSprinting();
 
+	/**
+	 * @return Whether or not the Entity is sneaking.
+	 */
 	boolean getSneaking();
 
+	/**
+	 * @return The Entity's position in a String format.
+	 */
 	String getCoordinates();
 
+	/**
+	 * @return The Entity's interpolated position, used for rendering.
+	 */
 	default Vector3d getInterpolatedPosition() {
 		float delta = MCWrapper.getMinecraft().getDelta();
 		return getPreviousLocation().add(getLocation().sub(getPreviousLocation()).scale(delta));
 	}
+
+	/**
+	 * @return Whether or not the Entity is currently invisible.
+	 */
+	boolean getInvisible();
+
+	/**
+	 * @return The amount of ticks the Entity has existed for.
+	 */
+	int getExistedTicks();
+
+	/**
+	 * @return The unformatted name of the Entity.
+	 */
+	String getUnformattedName();
+
+	/**
+	 * @return The formatted name of the Entity.
+	 */
+	String getFormattedName();
+
+	/**
+	 * @return The Entity's ID from Minecraft's EntityList class.
+	 */
+	int getEntityListId();
+
+	/**
+	 * @return The Entity's bounding box.
+	 */
+	AABB getBoundingBox();
 }

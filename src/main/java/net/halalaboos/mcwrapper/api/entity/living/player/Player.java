@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.api.entity.living.player;
 
+import com.mojang.authlib.GameProfile;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 
@@ -36,5 +37,7 @@ public interface Player extends Living {
 	 * @return The saturation level
 	 */
 	float getSaturation();
+
+	GameProfile getProfile();
 
 }

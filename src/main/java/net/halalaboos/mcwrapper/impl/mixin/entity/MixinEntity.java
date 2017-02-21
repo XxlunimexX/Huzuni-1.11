@@ -3,9 +3,14 @@ package net.halalaboos.mcwrapper.impl.mixin.entity;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.util.Rotation;
 import net.halalaboos.mcwrapper.api.util.Vector3d;
+import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.halalaboos.mcwrapper.api.world.Fluid;
 import net.halalaboos.mcwrapper.api.world.World;
+import net.halalaboos.mcwrapper.impl.Convert;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityList;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.ITextComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
@@ -60,6 +65,18 @@ import java.util.UUID;
 
 	@Shadow
 	public abstract boolean isSneaking();
+
+	@Shadow
+	public abstract boolean isInvisible();
+
+	@Shadow
+	public int ticksExisted;
+
+	@Shadow
+	public abstract ITextComponent getDisplayName();
+
+	@Shadow
+	public abstract AxisAlignedBB getEntityBoundingBox();
 
 	@Override
 	public String name() {
@@ -224,5 +241,35 @@ import java.util.UUID;
 		String y = format.format(getY());
 		String z = format.format(getZ());
 		return x + ", " + y + ", " + z;
+	}
+
+	@Override
+	public boolean getInvisible() {
+		return isInvisible();
+	}
+
+	@Override
+	public int getExistedTicks() {
+		return ticksExisted;
+	}
+
+	@Override
+	public String getUnformattedName() {
+		return getDisplayName().getUnformattedText();
+	}
+
+	@Override
+	public String getFormattedName() {
+		return getDisplayName().getFormattedText();
+	}
+
+	@Override
+	public int getEntityListId() {
+		return EntityList.getID((Class<? extends net.minecraft.entity.Entity>)(Object)getClass());
+	}
+
+	@Override
+	public AABB getBoundingBox() {
+		return Convert.from(getEntityBoundingBox());
 	}
 }

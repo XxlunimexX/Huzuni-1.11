@@ -6,6 +6,10 @@ import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
 import net.halalaboos.huzuni.Huzuni;
+import net.halalaboos.mcwrapper.api.entity.living.Animal;
+import net.halalaboos.mcwrapper.api.entity.living.Living;
+import net.halalaboos.mcwrapper.api.entity.living.Monster;
+import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -77,7 +81,17 @@ public final class MinecraftUtils {
     		return true;
     	if (animal && entity instanceof IAnimals && !(entity instanceof IMob))
     		return true;
-		return player && entity instanceof EntityPlayer;
+		return player && entity instanceof EntityPlayer ;
+	}
+
+	/**
+	 * @return True if the entity type is
+	 * */
+	public static boolean checkType(net.halalaboos.mcwrapper.api.entity.Entity entity, boolean invisible, boolean mob,
+									boolean animal, boolean player) {
+		return !entity.isDead() && !(entity.getInvisible() && !invisible) &&
+				(mob && entity instanceof Monster || animal && entity instanceof Animal && !(entity instanceof Monster)
+						|| player && entity instanceof Player && !((Player) entity).isNPC());
 	}
 	
 	/**
@@ -86,7 +100,14 @@ public final class MinecraftUtils {
 	public static boolean checkAge(EntityLivingBase entity) {
 		return checkAge(entity, 20);
 	}
-	
+
+	/**
+	 * @return True if the entity age is greater than or equal to 20
+	 * */
+	public static boolean checkAge(net.halalaboos.mcwrapper.api.entity.Entity entity) {
+		return entity.getExistedTicks() >= 20;
+	}
+
 	/**
 	 * @return True if the entity age is greater than or equal to the age specified
 	 * */
@@ -171,6 +192,13 @@ public final class MinecraftUtils {
 	 * */
 	public static boolean checkProperties(EntityLivingBase entity) {
 		return !(entity instanceof EntityPlayer) || ((EntityPlayer) entity).getGameProfile().getProperties().size() > 0;
+	}
+
+	/**
+	 * @return True if the entity is another player and does not contain any properties
+	 * */
+	public static boolean checkProperties(net.halalaboos.mcwrapper.api.entity.Entity entity) {
+		return !(entity instanceof Player) || ((Player) entity).getProfile().getProperties().size() > 0;
 	}
 
 	/**

@@ -32,7 +32,7 @@ public class TextRadarWidget extends BackgroundWidget {
 		ClientPlayer me = MCWrapper.getPlayer();
 		Color textColor = new Color(255, 255, 255, (int)((opacity.getValue() / 100) * 255));
 		for (Player player : MCWrapper.getWorld().getPlayers()) {
-			if (player != me) {
+			if (player != me && !player.isNPC()) {
 				double distance = me.getDistanceTo(player);
 				if (distance < this.distance.getValue()) {
 					String text = String.format("%s (%d)", player.name(), (int)distance);

@@ -1,12 +1,13 @@
 package net.halalaboos.huzuni.api.util.render;
 
-import net.minecraft.util.math.AxisAlignedBB;
+import net.halalaboos.mcwrapper.api.util.math.AABB;
 
 import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 
 /**
  * Brudin took my simple box vbo and added a bunch of lines to it. I hate it, but it's okay.
+ * 			--- fu hal
  * @author brudin
  * @version 1.0
  * @since 4/10/14
@@ -15,19 +16,19 @@ public class Box extends Vbo {
 
 	private boolean opaque = false;
 
-	public Box(AxisAlignedBB boundingBox, boolean opaque) {
+	public Box(AABB boundingBox, boolean opaque) {
 		super();
 		this.opaque = opaque;
 		setup(boundingBox);
 	}
 
-	public Box(AxisAlignedBB boundingBox) {
+	public Box(AABB boundingBox) {
 		this(boundingBox, true);
 	}
 
-	public void setup(AxisAlignedBB boundingBox) {
-		float minX = (float) boundingBox.minX, minY = (float) boundingBox.minY, minZ = (float) boundingBox.minZ;
-		float maxX = (float) boundingBox.maxX, maxY = (float) boundingBox.maxY, maxZ = (float) boundingBox.maxZ;
+	public void setup(AABB boundingBox) {
+		float minX = (float) boundingBox.min.x, minY = (float) boundingBox.min.y, minZ = (float) boundingBox.min.z;
+		float maxX = (float) boundingBox.max.x, maxY = (float) boundingBox.max.y, maxZ = (float) boundingBox.max.z;
 		float[] vertices = new float[] { minX, minY, maxZ, maxX, minY, maxZ,
 				maxX, maxY, maxZ, minX, maxY, maxZ, maxX, minY, maxZ, minX,
 				minY, maxZ, minX, maxY, maxZ, maxX, maxY, maxZ, minX, minY,

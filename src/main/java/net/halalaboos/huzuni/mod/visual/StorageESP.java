@@ -8,12 +8,12 @@ import net.halalaboos.huzuni.api.settings.ItemSelector.ItemData;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.util.render.Box;
 import net.halalaboos.huzuni.api.util.render.GLManager;
+import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.*;
-import net.minecraft.util.math.AxisAlignedBB;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -34,9 +34,9 @@ public class StorageESP extends BasicMod implements Renderer {
 		super("Storage ESP", "Render boxes/lines to and around storage blocks within the world", Keyboard.KEY_Y);
 		setCategory(Category.VISUAL);
 		setAuthor("Halalaboos");
-		normal = new Box(new AxisAlignedBB(0, 0, 0, 1, 1, 1));
-		left = new Box(new AxisAlignedBB(0, 0, 0, 2, 1, 1));
-		right = new Box(new AxisAlignedBB(0, 0, 0, 1, 1, 2));
+		normal = new Box(new AABB(0, 0, 0, 1, 1, 1));
+		left = new Box(new AABB(0, 0, 0, 2, 1, 1));
+		right = new Box(new AABB(0, 0, 0, 1, 1, 2));
 		addChildren(boxes, border, lines, fade, itemSelector);
 		boxes.setEnabled(true);
 		border.setEnabled(true);

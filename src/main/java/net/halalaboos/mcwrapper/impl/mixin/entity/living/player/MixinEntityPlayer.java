@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.impl.mixin.entity.living.player;
 
+import com.mojang.authlib.GameProfile;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
@@ -17,6 +18,9 @@ public abstract class MixinEntityPlayer extends MixinEntityLiving implements Pla
 	@Shadow public InventoryPlayer inventory;
 	@Shadow protected FoodStats foodStats;
 	@Shadow public abstract float getCooledAttackStrength(float adjustTicks);
+
+	@Shadow
+	public abstract GameProfile getGameProfile();
 
 	@Override
 	public boolean isNPC() {
@@ -43,4 +47,8 @@ public abstract class MixinEntityPlayer extends MixinEntityLiving implements Pla
 		return getCooledAttackStrength(0F);
 	}
 
+	@Override
+	public GameProfile getProfile() {
+		return getGameProfile();
+	}
 }

@@ -27,4 +27,6 @@ public interface Living extends Entity {
 	 * @return The {@link ItemStack} in the specified hand.
 	 */
 	ItemStack getHeldItem(Hand hand);
+
+	int getMaxHurtResistantTime();
 }

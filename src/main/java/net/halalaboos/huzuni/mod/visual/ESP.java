@@ -6,23 +6,19 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Mode;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
-import net.halalaboos.huzuni.api.util.MathUtils;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.render.Box;
 import net.halalaboos.huzuni.api.util.render.GLManager;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.entity.Entity;
+import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.util.Vector3d;
+import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.math.AxisAlignedBB;
 import org.lwjgl.input.Keyboard;
-
-import java.awt.*;
 
 import static org.lwjgl.opengl.GL11.GL_LINES;
 import static org.lwjgl.opengl.GL11.GL_LINE_LOOP;
@@ -32,12 +28,12 @@ import static org.lwjgl.opengl.GL11.GL_LINE_LOOP;
  * */
 public class ESP extends BasicMod implements Renderer {
 
-    private final Box[] box = new Box[0xFFFFF];
+	private final Box[] box = new Box[0xFFFFF];
 
-    private final Tessellator tessellator = Tessellator.getInstance();
+	private final Tessellator tessellator = Tessellator.getInstance();
 
-    public final Toggleable players = new Toggleable("Players", "Traces to players"),
-			mobs = new Toggleable("Mobs", "Traces to mobs"), 
+	public final Toggleable players = new Toggleable("Players", "Traces to players"),
+			mobs = new Toggleable("Mobs", "Traces to mobs"),
 			animals = new Toggleable("Animals", "Traces to animals"),
 			invisibles = new Toggleable("Invisible", "Trace to invisible entities"),
 			lines = new Toggleable("Lines", "Traces lines to each entity"),
@@ -45,7 +41,7 @@ public class ESP extends BasicMod implements Renderer {
 			checkAge = new Toggleable("Check age", "Check the age of the entity before rendering");
 
 	public final Value opacity = new Value("Opacity", "%", 0F, 50F, 100F, 1F, "Opacity of the icon");
-	
+
 	public final Mode<String> mode = new Mode<String>("Mode", "Style the entities will be rendered with", "None", "Hitboxes", "Rectangle", "Lines");
 
 	public ESP() {
@@ -58,93 +54,89 @@ public class ESP extends BasicMod implements Renderer {
 		lines.setEnabled(true);
 		mode.setSelectedItem(1);
 	}
-	
+
 	@Override
 	public void onEnable() {
 		huzuni.renderManager.addWorldRenderer(this);
 	}
-	
+
 	@Override
 	public void onDisable() {
 		huzuni.renderManager.removeWorldRenderer(this);
 	}
-	
+
 	@Override
 	public void render(float partialTicks) {
-
-		for (Entity entity : MCWrapper.getWorld().getEntities()) {
-			if (entity != MCWrapper.getPlayer()) {
-				Vector3d pos = entity.getInterpolatedPosition();
-				double rX = pos.x - mc.getRenderManager().viewerPosX;
-				double rY = pos.y - mc.getRenderManager().viewerPosY;
-				double rZ = pos.z - mc.getRenderManager().viewerPosZ;
-				huzuni.renderManager.addLine((float) rX, (float) rY, (float) rZ, Color.RED, 1F);
-			}
-		}
-
-		if (false)
-		for (Object o : mc.world.loadedEntityList) {
-			if (!(o instanceof EntityLivingBase))
-				continue;
-			EntityLivingBase entity = (EntityLivingBase) o;
-			if (entity == mc.player || entity.isDead || !MinecraftUtils.checkType(entity, invisibles.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled()) || (properties.isEnabled() && !MinecraftUtils.checkProperties(entity)) || (checkAge.isEnabled() && !MinecraftUtils.checkAge(entity)))
-				continue;
-			int entityId = EntityList.getID(entity.getClass());
-			if (entityId < 0) entityId = 420;
-			float renderX = (float) (MathUtils.interpolate(entity.prevPosX, entity.posX, partialTicks) - mc.getRenderManager().viewerPosX);
-			float renderY = (float) (MathUtils.interpolate(entity.prevPosY, entity.posY, partialTicks) - mc.getRenderManager().viewerPosY);
-			float renderZ = (float) (MathUtils.interpolate(entity.prevPosZ, entity.posZ, partialTicks) - mc.getRenderManager().viewerPosZ);
-			float distance = mc.player.getDistanceToEntity(entity);
-			boolean friend = huzuni.friendManager.isFriend(entity.getName());
-			if (lines.isEnabled())
-				drawLine(renderX, renderY, renderZ, entity, distance, friend);
-			
-			setColor(entity, distance, friend, false, opacity.getValue() / 100F);
-			if (mode.getSelected() == 1) {
-				GlStateManager.pushMatrix();
-				GlStateManager.translate(renderX, renderY, renderZ);
-				GlStateManager.rotate(-entity.rotationYaw, 0F, 1F, 0F);
-				generateVbo(entity, entityId);
-				box[entityId].render();
-				GlStateManager.popMatrix();
-			} else if (mode.getSelected() == 2) {
-				GlStateManager.pushMatrix();
-				GlStateManager.translate(renderX, renderY, renderZ);
-				GlStateManager.rotate(-mc.player.rotationYaw, 0F, 1F, 0F);
-				float width = (float) (entity.getEntityBoundingBox().maxX - entity.getEntityBoundingBox().minX), height = (float) (entity.getEntityBoundingBox().maxY - entity.getEntityBoundingBox().minY);
-				VertexBuffer vertexBuffer = tessellator.getBuffer();
-		    	vertexBuffer.begin(GL_LINE_LOOP, DefaultVertexFormats.POSITION);
-		    	vertexBuffer.pos(-width, 0, 0F).endVertex();
-		    	vertexBuffer.pos(-width, height, 0F).endVertex();
-		    	vertexBuffer.pos(width, height, 0F).endVertex();
-		    	vertexBuffer.pos(width, 0, 0F).endVertex();
-		    	tessellator.draw();
-				GlStateManager.popMatrix();
-			} else if (mode.getSelected() == 3) {
-				GLManager.glColor(1F, distance / 64F, 0F, 1F);
-		    	VertexBuffer renderer = tessellator.getBuffer();
-		    	renderer.begin(GL_LINES, DefaultVertexFormats.POSITION);
-		    	renderer.pos(renderX, renderY, renderZ).endVertex();
-		    	renderer.pos(renderX, renderY + entity.height, renderZ).endVertex();
-		    	tessellator.draw();
+		for (Entity e : MCWrapper.getWorld().getEntities()) {
+			if (e instanceof Living) {
+				Living entity = (Living)e;
+				if (entity != MCWrapper.getPlayer()) {
+					if (entity == mc.player || entity.isDead() || !MinecraftUtils.checkType(entity,
+							invisibles.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled()) ||
+							(properties.isEnabled() && !MinecraftUtils.checkProperties(entity)) ||
+							(checkAge.isEnabled() && !MinecraftUtils.checkAge(entity)))
+						continue;
+					Vector3d pos = entity.getInterpolatedPosition();
+					double rX = pos.x - mc.getRenderManager().viewerPosX;
+					double rY = pos.y - mc.getRenderManager().viewerPosY;
+					double rZ = pos.z - mc.getRenderManager().viewerPosZ;
+					float distance = (float)MCWrapper.getPlayer().getDistanceTo(entity);
+					int entityId = entity.getEntityListId();
+					if (entity.getEntityListId() == entity.getId()) {
+						System.out.println("Entity " + entity.name() + " has the same ID as list id.");
+					}
+					if (entityId < 0) entityId = 420;
+					boolean friend = huzuni.friendManager.isFriend(entity.name());
+					if (lines.isEnabled()) {
+						drawLine(((float) rX), ((float) rY), ((float) rZ), entity, distance, friend);
+					}
+					setColor(entity, distance, friend, false, opacity.getValue() / 100F);
+					if (mode.getSelected() == 1) {
+						GlStateManager.pushMatrix();
+						GlStateManager.translate(rX, rY, rZ);
+						GlStateManager.rotate(-entity.getRotation().yaw, 0F, 1F, 0F);
+						generateVbo(entity, entityId);
+						box[entityId].render();
+						GlStateManager.popMatrix();
+					} else if (mode.getSelected() == 2) {
+						GlStateManager.pushMatrix();
+						GlStateManager.translate(rX, rY, rZ);
+						GlStateManager.rotate(-mc.player.rotationYaw, 0F, 1F, 0F);
+						float width = (float) (entity.getBoundingBox().max.x - entity.getBoundingBox().min.x), height = (float) (entity.getBoundingBox().min.y - entity.getBoundingBox().min.y);
+						VertexBuffer vertexBuffer = tessellator.getBuffer();
+						vertexBuffer.begin(GL_LINE_LOOP, DefaultVertexFormats.POSITION);
+						vertexBuffer.pos(-width, 0, 0F).endVertex();
+						vertexBuffer.pos(-width, height, 0F).endVertex();
+						vertexBuffer.pos(width, height, 0F).endVertex();
+						vertexBuffer.pos(width, 0, 0F).endVertex();
+						tessellator.draw();
+						GlStateManager.popMatrix();
+					} else if (mode.getSelected() == 3) {
+						GLManager.glColor(1F, distance / 64F, 0F, 1F);
+						VertexBuffer renderer = tessellator.getBuffer();
+						renderer.begin(GL_LINES, DefaultVertexFormats.POSITION);
+						renderer.pos(rX, rY, rZ).endVertex();
+						renderer.pos(rX, rY + entity.getHeight(), rZ).endVertex();
+						tessellator.draw();
+					}
+				}
 			}
 		}
 	}
-	
-	private void generateVbo(EntityLivingBase entity, int entityId) {
+
+	private void generateVbo(Living entity, int entityId) {
 		if (box[entityId] == null) {
-			double wX = entity.getEntityBoundingBox().maxX - entity.getEntityBoundingBox().minX,
-					wY = entity.getEntityBoundingBox().maxY - entity.getEntityBoundingBox().minY,
-					wZ = entity.getEntityBoundingBox().maxZ - entity.getEntityBoundingBox().minZ;
+			double wX = entity.getBoundingBox().min.x - entity.getBoundingBox().max.x,
+					wY = entity.getBoundingBox().max.y - entity.getBoundingBox().min.y,
+					wZ = entity.getBoundingBox().max.z - entity.getBoundingBox().min.z;
 			double minX = -wX/2, minY = 0, minZ = -wZ/2, maxX = wX/2, maxZ = wZ/2;
-			box[entityId] = new Box(new AxisAlignedBB(minX, minY, minZ, maxX, wY, maxZ));
+			box[entityId] = new Box(new AABB(minX, minY, minZ, maxX, wY, maxZ));
 			box[entityId].setOpaque(false);
 			box[entityId].render();
-//			huzuni.addNotification(NotificationType.INFO, this, 5000, "Generating new Vbo for entity", "\"" + entity.getName() + "\"");
 		}
 	}
-	
-	private void drawLine(float renderX, float renderY, float renderZ, EntityLivingBase entity, float distance, boolean friend) {
+
+	private void drawLine(float renderX, float renderY, float renderZ, Living entity, float distance, boolean friend) {
 		float opacity = this.opacity.getValue() / 100F;
 		if (friend)
 			huzuni.renderManager.addLine(renderX, renderY, renderZ, huzuni.friendManager.getColor(), opacity);
@@ -165,8 +157,8 @@ public class ESP extends BasicMod implements Renderer {
 			huzuni.renderManager.addLine(renderX, renderY, renderZ, 1F, distance / 64F, 0F, opacity);
 		}
 	}
-	
-	private void setColor(EntityLivingBase entity, float distance, boolean friend, boolean lines, float opacity) {
+
+	private void setColor(Living entity, float distance, boolean friend, boolean lines, float opacity) {
 		if (friend)
 			GLManager.glColor(huzuni.friendManager.getColor(), opacity);
 		else {
@@ -185,12 +177,12 @@ public class ESP extends BasicMod implements Renderer {
 			if (lines)
 				GLManager.glColor(1F, distance / 64F, 0F, opacity);
 			else {
-				if (entity.hurtResistantTime > 0)
-					GLManager.glColor(1F, 1F - ((float) entity.hurtResistantTime / ((float) entity.maxHurtResistantTime / 2F)), 0F, opacity);
+				if (entity.getHurtResistantTime() > 0)
+					GLManager.glColor(1F, 1F - ((float) entity.getHurtResistantTime() / ((float) entity.getMaxHurtResistantTime() / 2F)), 0F, opacity);
 				else
 					GLManager.glColor(0F, 1F, 0F, opacity);
 			}
 		}
 	}
-	
+
 }

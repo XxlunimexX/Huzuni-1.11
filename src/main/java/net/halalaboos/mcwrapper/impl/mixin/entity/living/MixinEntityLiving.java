@@ -16,10 +16,8 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 	@Shadow public abstract float getMaxHealth();
 	@Shadow public abstract boolean isOnLadder();
 	@Shadow protected abstract void jump();
-
-	@Shadow
-	public abstract net.minecraft.item.ItemStack getHeldItem(EnumHand hand);
-
+	@Shadow public abstract net.minecraft.item.ItemStack getHeldItem(EnumHand hand);
+	@Shadow public int maxHurtResistantTime;
 
 	@Override
 	public HealthData getHealthData() {
@@ -41,4 +39,8 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 		return (ItemStack)(Object)getHeldItem(EnumHand.values()[hand.ordinal()]);
 	}
 
+	@Override
+	public int getMaxHurtResistantTime() {
+		return maxHurtResistantTime;
+	}
 }
