@@ -193,7 +193,6 @@ public enum Huzuni {
 		modManager.addMod(new Autotool());
 		modManager.addMod(new Respawn());
 		modManager.addMod(new Breadcrumb());
-		modManager.addMod(new MiddleClickFriends());
 		modManager.addMod(new Speedmine());
 		modManager.addMod(new Cheststealer());
 		modManager.addMod(new Retard());
