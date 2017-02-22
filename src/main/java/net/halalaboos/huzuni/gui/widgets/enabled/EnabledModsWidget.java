@@ -113,13 +113,13 @@ public class EnabledModsWidget extends BackgroundWidget {
 				int itemWidth = style.getSelectedItem().getModWidth(theme, mod) + 4;
 				if (itemWidth > width)
 					width = itemWidth;
-				height += 12;
+				height += spacing.getValue();
 			}
 		}
 		if (width == 0)
 			width = 100;
 		if (height == 0)
-			height = 12;
+			height = ((int) spacing.getValue());
 		this.setWidth(width);
 		this.setHeight(height);
 	}

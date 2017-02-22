@@ -188,7 +188,7 @@ public enum Huzuni {
 		modManager.addMod(new Step());
 		modManager.addMod(new Fastplace());
 		modManager.addMod(new Timer());
-		modManager.addMod(new Autodisconnect());
+		modManager.addMod(new Autoquit());
 		modManager.addMod(new Autofish());
 		modManager.addMod(new Autotool());
 		modManager.addMod(new Respawn());

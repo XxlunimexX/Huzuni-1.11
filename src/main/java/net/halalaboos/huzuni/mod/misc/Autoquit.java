@@ -5,17 +5,20 @@ import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Value;
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.minecraft.network.play.server.SPacketUpdateHealth;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
  * Automatically disconnects once the health of the player reaches a threshold.
  * */
-public class Autodisconnect extends BasicMod {
+public class Autoquit extends BasicMod {
 	
-	public final Value health = new Value("Health", "", 0.5F, 6F, 20F, 0.5F, "Ratio of knockback that will be ignored.");
+	public final Value health = new Value("Health", "", 0.5F, 6F, 20F, 0.5F, "Maximum health");
 	
-	public Autodisconnect() {
-		super("Auto disconnect", "Automagically disconnects once the player health reaches below a threshold.");
+	public Autoquit() {
+		super("Auto quit", "Automagically disconnects once the player health reaches below a threshold.");
 		this.setCategory(Category.MISC);
 		setAuthor("brudin");
 		this.addChildren(health);
@@ -37,7 +40,7 @@ public class Autodisconnect extends BasicMod {
 			if(event.getPacket() instanceof SPacketUpdateHealth) {
 				SPacketUpdateHealth packetUpdateHealth = (SPacketUpdateHealth)event.getPacket();
 				if(packetUpdateHealth.getHealth() <= health.getValue()) {
-					mc.player.getEntityBoundingBox().offset(0, 42000, 0);
+					getPlayer().setLocation(Vector3d.RANDOM);
 					setEnabled(false);
 				}
 			}

@@ -1,5 +1,7 @@
 package net.halalaboos.mcwrapper.api.util.math;
 
+import java.util.Random;
+
 /**
  * Represents a three-dimensional point.
  */
@@ -8,6 +10,9 @@ public class Vector3d {
 	public final double x;
 	public final double y;
 	public final double z;
+
+	private static final Random random = new Random();
+	public static final Vector3d RANDOM = new Vector3d(random.nextInt(200), random.nextInt(200), random.nextInt(200));
 
 	public Vector3d(double x, double y, double z) {
 		this.x = x;
