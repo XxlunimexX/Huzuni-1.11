@@ -28,7 +28,7 @@ public class Scaffold extends BasicMod {
 	private int count = 0;
 	
 	public Scaffold() {
-		super("Scaffold", "Automatically places blocks when you move forward or doJump.");
+		super("Scaffold", "Automatically places blocks when you move forward or jump.");
 		setAuthor("Halalaboos");
 		addChildren(placeDistance, mode);
 		setCategory(Category.MOVEMENT);
