@@ -6,8 +6,8 @@ import net.halalaboos.huzuni.api.gui.widget.ScreenGlue;
 import net.halalaboos.huzuni.api.gui.widget.Widget;
 import net.halalaboos.huzuni.api.gui.widget.WidgetGlue;
 import net.halalaboos.huzuni.api.settings.JsonFileHandler;
-import net.halalaboos.huzuni.api.util.render.GLManager;
-import net.halalaboos.huzuni.api.util.render.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;

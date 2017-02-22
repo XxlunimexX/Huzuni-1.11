@@ -3,7 +3,7 @@ package net.halalaboos.huzuni.api.gui.components.tree;
 import net.halalaboos.huzuni.api.gui.Theme;
 import net.halalaboos.huzuni.api.settings.ItemList;
 import net.halalaboos.huzuni.api.settings.Nameable;
-import net.halalaboos.huzuni.api.util.render.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
 import org.lwjgl.input.Mouse;
 
 public class ItemListComponent extends NodeTreeComponent<ItemList> {

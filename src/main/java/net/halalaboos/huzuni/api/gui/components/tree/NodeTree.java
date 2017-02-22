@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.api.gui.components.tree;
 
 import net.halalaboos.huzuni.api.gui.components.ScrollableComponent;
-import net.halalaboos.huzuni.api.util.render.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
 
 import java.util.ArrayList;
 import java.util.List;

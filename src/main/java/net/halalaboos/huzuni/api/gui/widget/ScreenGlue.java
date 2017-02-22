@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.api.gui.widget;
 
-import net.halalaboos.huzuni.api.util.render.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.minecraft.client.Minecraft;
 
 import static net.halalaboos.huzuni.api.util.MinecraftUtils.getPotionY;

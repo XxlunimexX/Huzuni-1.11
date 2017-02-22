@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.gui.screen;
 
 import net.halalaboos.huzuni.Huzuni;
-import net.halalaboos.huzuni.api.util.render.Texture;
+import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.halalaboos.huzuni.gui.screen.account.HuzuniAccounts;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;

@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.gui.screen;
 
 import net.halalaboos.huzuni.api.gui.WidgetManager;
-import net.halalaboos.huzuni.api.util.render.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.gui.SettingsMenu;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Keyboard;

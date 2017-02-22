@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.api.gui.components.tree;
 
 import net.halalaboos.huzuni.api.gui.Theme;
 import net.halalaboos.huzuni.api.task.TaskManager;
-import net.halalaboos.huzuni.api.util.render.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
 import org.lwjgl.input.Mouse;
 
 public class TaskManagerComponent extends NodeTreeComponent<TaskManager<?>> {

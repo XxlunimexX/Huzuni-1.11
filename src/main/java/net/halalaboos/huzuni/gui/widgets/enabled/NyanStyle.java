@@ -3,8 +3,8 @@ package net.halalaboos.huzuni.gui.widgets.enabled;
 import net.halalaboos.huzuni.api.gui.Theme;
 import net.halalaboos.huzuni.api.gui.widget.Glue;
 import net.halalaboos.huzuni.api.mod.Mod;
-import net.halalaboos.huzuni.api.util.render.GLManager;
-import net.halalaboos.huzuni.api.util.render.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 
 /**
  * The nyan render style.

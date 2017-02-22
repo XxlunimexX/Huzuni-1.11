@@ -3,8 +3,8 @@
  */
 package net.halalaboos.huzuni.render;
 
-import net.halalaboos.huzuni.api.util.render.GLManager;
-import net.halalaboos.huzuni.api.util.render.Texture;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.GlStateManager.DestFactor;

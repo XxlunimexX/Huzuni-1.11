@@ -3,7 +3,7 @@ package net.halalaboos.huzuni.indev.script.meta;
 import net.halalaboos.huzuni.api.gui.font.BasicFontRenderer;
 import net.halalaboos.huzuni.api.gui.font.FontManager;
 import net.halalaboos.huzuni.api.gui.font.FontRenderer;
-import net.halalaboos.huzuni.api.util.render.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;

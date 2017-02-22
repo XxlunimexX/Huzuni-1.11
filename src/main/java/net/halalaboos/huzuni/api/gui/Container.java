@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.api.gui;
 
 import net.halalaboos.huzuni.api.util.Timer;
-import net.halalaboos.huzuni.api.util.render.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
 
 import java.util.ArrayList;
 import java.util.List;

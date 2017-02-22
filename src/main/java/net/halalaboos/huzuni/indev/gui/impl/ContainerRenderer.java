@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.indev.gui.impl;
 
-import net.halalaboos.huzuni.api.util.render.GLManager;
-import net.halalaboos.huzuni.api.util.render.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.render.ComponentRenderer;
 

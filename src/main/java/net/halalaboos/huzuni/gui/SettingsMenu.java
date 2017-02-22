@@ -15,7 +15,7 @@ import net.halalaboos.huzuni.api.mod.ModSettings;
 import net.halalaboos.huzuni.api.settings.*;
 import net.halalaboos.huzuni.api.task.TaskManager;
 import net.halalaboos.huzuni.api.util.IncrementalPosition;
-import net.halalaboos.huzuni.api.util.render.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.gui.containers.SettingsContainer;
 import net.minecraft.client.renderer.GlStateManager;
 

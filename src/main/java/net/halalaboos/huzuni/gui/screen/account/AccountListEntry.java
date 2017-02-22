@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.gui.screen.account;
 
-import net.halalaboos.huzuni.api.util.render.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.GuiListExtended;

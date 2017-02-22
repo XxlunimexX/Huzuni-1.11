@@ -6,7 +6,7 @@ import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.gui.Theme;
 import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.api.settings.Node;
-import net.halalaboos.huzuni.api.util.render.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Mouse;
 

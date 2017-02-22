@@ -20,7 +20,7 @@ public class ValueContainer extends Container {
 
     public ValueContainer(Value value) {
         super("invisible");
-        // Using a grid layout with one row ensures that the components are stacked upon each other.
+        // Using a grid layout with infinite rows and three columns ensures that the components are stacked upon each other.
         this.setLayout(new GridLayout(GridLayout.INFINITE_LENGTH, 3, 0, 1,1));
         this.setUseLayoutSize(true);
         this.value = value;
@@ -29,9 +29,7 @@ public class ValueContainer extends Container {
         this.add(slider = new Slider("slider", value.getName()));
         // Set the default dimensions of the slider as well as updating it's percentage to reflect the value node.
         slider.setSize(150, 12);
-        slider.setSliderPercentage((value.getValue() - value.getMinValue()) / (value.getMaxValue() - value.getMinValue()));
-
-    }
+        slider.setSliderPercentage((value.getValue() - value.getMinValue()) / (value.getMaxValue() - value.getMinValue()));    }
 
     @Override
     public void update() {

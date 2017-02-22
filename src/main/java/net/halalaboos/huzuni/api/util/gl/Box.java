@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.api.util.render;
+package net.halalaboos.huzuni.api.util.gl;
 
 import net.halalaboos.mcwrapper.api.util.math.AABB;
 

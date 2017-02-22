@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.api.settings.ColorNode;
 import net.halalaboos.huzuni.api.settings.Node;
 import net.halalaboos.huzuni.api.settings.Toggleable;
-import net.halalaboos.huzuni.api.util.render.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
 
 import java.awt.*;
 import java.io.IOException;

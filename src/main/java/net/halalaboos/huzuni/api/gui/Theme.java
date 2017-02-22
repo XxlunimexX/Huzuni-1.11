@@ -4,8 +4,8 @@ import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.gui.components.tree.NodeTreeComponent;
 import net.halalaboos.huzuni.api.settings.Nameable;
 import net.halalaboos.huzuni.api.settings.Node;
-import net.halalaboos.huzuni.api.util.render.GLManager;
-import net.halalaboos.huzuni.api.util.render.Texture;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.minecraft.client.Minecraft;
 
 import java.util.HashMap;

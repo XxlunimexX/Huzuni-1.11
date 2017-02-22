@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.indev.gui.impl;
 
-import net.halalaboos.huzuni.api.util.render.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.indev.gui.*;
 import net.halalaboos.huzuni.indev.gui.components.Button;
 import net.halalaboos.huzuni.indev.gui.components.Checkbox;

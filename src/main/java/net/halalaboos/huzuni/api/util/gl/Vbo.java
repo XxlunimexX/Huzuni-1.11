@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.api.util.render;
+package net.halalaboos.huzuni.api.util.gl;
 
 import org.lwjgl.BufferUtils;
 

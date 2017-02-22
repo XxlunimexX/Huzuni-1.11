@@ -19,7 +19,11 @@ public class Container extends Component {
     // Enable layering of components when activated.
     private boolean layering = true;
 
+    // Forces this container to take the dimensions of the layout after it's been laid out.
     private boolean useLayoutSize = false;
+
+    // Forces this container to automatically layout after updating.
+    private boolean autoLayout = false;
 
     public Container(String tag) {
         super(tag);
@@ -41,7 +45,8 @@ public class Container extends Component {
                 component.setHovered(false);
             component.update();
         }
-        layout();
+        if (autoLayout)
+            layout();
     }
 
     @Override
@@ -143,6 +148,14 @@ public class Container extends Component {
         for (Component child : components) {
             child.setInputUtility(inputUtility);
         }
+    }
+
+    public boolean isAutoLayout() {
+        return autoLayout;
+    }
+
+    public void setAutoLayout(boolean autoLayout) {
+        this.autoLayout = autoLayout;
     }
 
     public boolean isUseLayoutSize() {

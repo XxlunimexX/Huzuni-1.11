@@ -8,7 +8,7 @@ import net.halalaboos.huzuni.api.settings.Mode;
 import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.api.settings.organize.*;
 import net.halalaboos.huzuni.api.util.Timer;
-import net.halalaboos.huzuni.api.util.render.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.gui.widgets.BackgroundWidget;
 
 import java.io.IOException;

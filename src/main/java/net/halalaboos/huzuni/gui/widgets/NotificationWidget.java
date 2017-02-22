@@ -3,8 +3,8 @@ package net.halalaboos.huzuni.gui.widgets;
 import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.api.gui.widget.Widget;
 import net.halalaboos.huzuni.api.util.Timer;
-import net.halalaboos.huzuni.api.util.render.GLManager;
-import net.halalaboos.huzuni.api.util.render.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.gui.Notification;
 
 import java.util.List;
