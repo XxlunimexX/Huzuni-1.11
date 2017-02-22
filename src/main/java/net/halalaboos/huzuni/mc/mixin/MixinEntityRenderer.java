@@ -37,4 +37,22 @@ import static org.lwjgl.opengl.GL11.*;
 		mc.gameSettings.viewBobbing = oldBobbing;
 		glPopMatrix();
 	}
+
+	@Shadow private int[] lightmapColors;
+	@Shadow private boolean lightmapUpdateNeeded;
+
+	@Inject(method = "updateLightmap",
+			at = @At(value = "INVOKE",
+					target = "Lnet/minecraft/client/renderer/texture/DynamicTexture;updateDynamicTexture()V"))
+	public void updateLightmap(float partialTicks, CallbackInfo ci) {
+		if (Huzuni.INSTANCE.settings.monochromeLighting.isEnabled()) {
+			for (int i = 0; i < lightmapColors.length; i++) {
+				int color = lightmapColors[i];
+				int[] rgba = new int[]{color >> 16 & 0xFF, color >> 8 & 0xFF, color & 0xFF, color >> 24 & 0xFF};
+				int avg = (rgba[0] + rgba[1] + rgba[2]) / 3;
+				color = 0xff000000 | (avg | avg << 8 | avg << 16 | avg << 24);
+				lightmapColors[i] = color;
+			}
+		}
+	}
 }

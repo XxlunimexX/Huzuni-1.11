@@ -2,7 +2,9 @@ package net.halalaboos.mcwrapper.impl;
 
 import net.halalaboos.mcwrapper.api.MinecraftAdapter;
 import net.halalaboos.mcwrapper.api.MinecraftClient;
+import net.halalaboos.mcwrapper.api.registry.ItemRegistry;
 import net.halalaboos.mcwrapper.api.world.World;
+import net.halalaboos.mcwrapper.impl.registry.OnePointElevenItemRegistry;
 import net.minecraft.client.Minecraft;
 
 public class OnePointElevenAdapter implements MinecraftAdapter {
@@ -23,6 +25,11 @@ public class OnePointElevenAdapter implements MinecraftAdapter {
 	@Override
 	public MinecraftClient getMinecraft() {
 		return mc;
+	}
+
+	@Override
+	public ItemRegistry getItemRegistry() {
+		return new OnePointElevenItemRegistry();
 	}
 
 	@Override

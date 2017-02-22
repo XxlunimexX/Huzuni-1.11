@@ -1,6 +1,7 @@
 package net.halalaboos.mcwrapper.impl.mixin.item;
 
 import net.halalaboos.mcwrapper.api.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.RegistryNamespaced;
 import org.spongepowered.asm.mixin.Final;
@@ -14,9 +15,16 @@ public abstract class MixinItem implements Item {
 	@Final
 	public static RegistryNamespaced<ResourceLocation, net.minecraft.item.Item> REGISTRY;
 
+	@Shadow
+	public abstract String getUnlocalizedName();
+
 	@Override
 	public int getId() {
 		return REGISTRY.getIDForObject((net.minecraft.item.Item)(Object)this);
 	}
-	
+
+	@Override
+	public String name() {
+		return getUnlocalizedName();
+	}
 }

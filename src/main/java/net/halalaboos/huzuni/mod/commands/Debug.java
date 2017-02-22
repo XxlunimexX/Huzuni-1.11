@@ -8,7 +8,10 @@ import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameData;
 
 public class Debug extends BasicCommand {
 
@@ -32,10 +35,8 @@ public class Debug extends BasicCommand {
 		huzuni.addChatMessage(String.format("You've got %s corndog saturation!", player.getSaturation()));
 		huzuni.addChatMessage(String.format("Held item: %s (x%s), id %s", name, size, id));
 		String output = "";
-		for (ResourceLocation resourceLocation : Block.REGISTRY.getKeys()) {
-			Block block = Block.REGISTRY.getObject(resourceLocation);
-			String blockName = resourceLocation.toString().substring(10).toUpperCase();
-			output += String.format("%s(%d),\n", blockName, Block.getIdFromBlock(block));
+		for (net.halalaboos.mcwrapper.api.item.Item item : MCWrapper.getAdapter().getItemRegistry().getRegisteredItems()) {
+			output += item.getId() + " "  + item.name() + "\n";
 		}
 		System.out.println(output);
 	}

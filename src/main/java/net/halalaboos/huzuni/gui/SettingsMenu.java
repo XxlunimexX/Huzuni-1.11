@@ -225,6 +225,7 @@ public class SettingsMenu {
 		tree.add(TreeComponentFactory.getComponent(Huzuni.INSTANCE.settings.team));
 		tree.add(TreeComponentFactory.getComponent(Huzuni.INSTANCE.settings.lineSettings));
 		tree.add(TreeComponentFactory.getComponent(Huzuni.INSTANCE.settings.menuSettings));
+		tree.add(TreeComponentFactory.getComponent(Huzuni.INSTANCE.settings.minecraftSettings));
 		tree.add(TreeComponentFactory.getComponent(Huzuni.INSTANCE.lookManager));
 		tree.add(TreeComponentFactory.getComponent(Huzuni.INSTANCE.hotbarManager));
 		tree.add(TreeComponentFactory.getComponent(Huzuni.INSTANCE.clickManager));
