@@ -189,6 +189,7 @@ public class GuiTestScreen  extends HuzuniScreen {
                 Container container1 = new Container("goob");
                 container1.setUseLayoutSize(true);
                 container1.setLayering(false);
+                container1.setAutoLayout(true);
                 container1.setLayout(new GridLayout(2, GridLayout.INFINITE_LENGTH, 0, 0, 1));
                 loadNodes(child, container1);
                 container1.layout();

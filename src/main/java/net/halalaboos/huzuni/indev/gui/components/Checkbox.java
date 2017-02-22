@@ -81,7 +81,12 @@ public class Checkbox extends Component {
         return pressed;
     }
 
-    @Override
+	@Override
+	public boolean isPointInside(int x, int y) {
+		return x >= this.getX() && x <= this.getX() + CHECKBOX_SIZE && y >= this.getY() && y <= this.getY() + CHECKBOX_SIZE;
+	}
+
+	@Override
     public void setFont(FontData font) {
         super.setFont(font);
         this.update();
