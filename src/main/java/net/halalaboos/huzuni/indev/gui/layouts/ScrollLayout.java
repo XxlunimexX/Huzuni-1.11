@@ -21,7 +21,7 @@ public class ScrollLayout implements Layout<ScrollableContainer> {
     }
 
     @Override
-    public void layout(ScrollableContainer container, List<Component> components) {
+    public int[] layout(ScrollableContainer container, List<Component> components) {
         // x and y positions are offset by the scroll offset when necessary.
         int x = container.getX() - container.getHorizontalScrollbar().getScrollOffset();
         int y = container.getY() - container.getVerticalScrollbar().getScrollOffset();
@@ -49,6 +49,7 @@ public class ScrollLayout implements Layout<ScrollableContainer> {
         // Update the total area for the vertical scroll bar.
         container.getHorizontalScrollbar().setTotalAreaLength(totalAreaWidth);
         container.getVerticalScrollbar().setTotalAreaLength(totalAreaHeight);
+        return new int[] { totalAreaWidth, totalAreaHeight };
     }
 
     @Override
@@ -61,25 +62,5 @@ public class ScrollLayout implements Layout<ScrollableContainer> {
         // If there are no mapped components and any component not within this positions map implies it has not been laid out properly.
         return !positions.isEmpty() && container.getComponents().stream().anyMatch(component -> !positions.containsKey(component));
     }
-
-	@Override
-	public boolean updateWithContainer() {
-		return false;
-	}
-
-	@Override
-	public void setUpdateWithContainer(boolean updateWithContainer) {
-
-	}
-
-	@Override
-	public int[] getPadding() {
-		return new int[0];
-	}
-
-	@Override
-	public void setPadding(int x, int y, int width, int height) {
-
-	}
 
 }

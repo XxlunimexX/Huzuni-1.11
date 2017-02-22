@@ -4,7 +4,6 @@ import net.halalaboos.huzuni.api.mod.Mod;
 import net.halalaboos.huzuni.api.settings.Node;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
-import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.gui.screen.HuzuniScreen;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.ContainerManager;
@@ -162,20 +161,21 @@ public class GuiTestScreen  extends HuzuniScreen {
         childContainer.setSize(settings.getWidth() - 20, settings.getHeight() - 70);
 
         loadNodes(mod, childContainer);
-
+        childContainer.layout();
         settings.add(childContainer);
         settings.layout();
-        childContainer.layout();
     }
 
     private void loadNodes(Node node, Container container) {
-        // Create the components for each child within the mod.
+        // Create the components for each child within the node.
         for (Node child : node.getChildren()) {
-            // Create a check box for the toggleable children.
+
+            // Create a check box for the toggleable.
             if (child instanceof Toggleable) {
                 ToggleableCheckbox checkbox = new ToggleableCheckbox((Toggleable) child);
                 checkbox.setFont(defaultFont);
                 container.add(checkbox);
+
                 // Create value container for each value.
             } else if (child instanceof Value) {
                 ValueContainer valueContainer = new ValueContainer((Value) child);
@@ -183,11 +183,13 @@ public class GuiTestScreen  extends HuzuniScreen {
                 valueContainer.getDescription().setFont(this.description);
                 valueContainer.getDescription().setColor(new Color(118, 118, 118));
                 container.add(valueContainer);
+
                 // If we have JUST a node.
             } else if (child.getClass().isAssignableFrom(Node.class)) {
                 Container container1 = new Container("goob");
+                container1.setUseLayoutSize(true);
                 container1.setLayering(false);
-                container1.setLayout(new GridLayout(2));
+                container1.setLayout(new GridLayout(2, GridLayout.INFINITE_LENGTH, 0, 0, 1));
                 loadNodes(child, container1);
                 container1.layout();
                 container.add(container1);

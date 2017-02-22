@@ -38,7 +38,7 @@ public class ListLayout implements Layout<ScrollableContainer> {
     }
 
     @Override
-    public void layout(ScrollableContainer container, List<Component> components) {
+    public int[] layout(ScrollableContainer container, List<Component> components) {
         // x and y positions are offset by the scroll offset when necessary.
         int x = container.getX() + padding - (vertical ? 0 : container.getHorizontalScrollbar().getScrollOffset());
         int y = container.getY() + padding - (vertical ? container.getVerticalScrollbar().getScrollOffset() : 0);
@@ -82,7 +82,7 @@ public class ListLayout implements Layout<ScrollableContainer> {
             container.getVerticalScrollbar().setTotalAreaLength(totalAreaLength);
         else
             container.getHorizontalScrollbar().setTotalAreaLength(totalAreaLength);
-
+        return new int[] { width, height };
     }
 
     @Override
@@ -95,24 +95,4 @@ public class ListLayout implements Layout<ScrollableContainer> {
         // Return true if any component is not in the loaded list.
         return !isLoaded && container.getComponents().stream().anyMatch(component -> !loaded.contains(component));
     }
-
-	@Override
-	public boolean updateWithContainer() {
-		return false;
-	}
-
-	@Override
-	public void setUpdateWithContainer(boolean updateWithContainer) {
-
-	}
-
-	@Override
-	public int[] getPadding() {
-		return new int[0];
-	}
-
-	@Override
-	public void setPadding(int x, int y, int width, int height) {
-
-	}
 }

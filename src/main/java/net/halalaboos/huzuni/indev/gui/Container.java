@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.indev.gui;
 
 import net.halalaboos.huzuni.indev.gui.actions.Actions;
-import net.halalaboos.huzuni.indev.gui.layouts.EmptyLayout;
+import net.halalaboos.huzuni.indev.gui.layouts.PaddedLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +14,12 @@ public class Container extends Component {
 
     protected final List<Component> components = new ArrayList<>();
 
-    private Layout layout = new EmptyLayout();
+    private Layout layout = new PaddedLayout();
 
     // Enable layering of components when activated.
     private boolean layering = true;
+
+    private boolean useLayoutSize = false;
 
     public Container(String tag) {
         super(tag);
@@ -39,6 +41,7 @@ public class Container extends Component {
                 component.setHovered(false);
             component.update();
         }
+        layout();
     }
 
     @Override
@@ -74,7 +77,10 @@ public class Container extends Component {
      * Lays out each component within the container according to the layout specified.
      * */
     public void layout() {
-        this.layout.layout(this, components);
+        int[] size = this.layout.layout(this, components);
+        if (useLayoutSize) {
+            this.setSize(size[0], size[1]);
+        }
     }
 
     /**
@@ -98,7 +104,7 @@ public class Container extends Component {
     public void setLayout(Layout layout) {
         this.layout = layout;
         if (this.layout == null)
-            this.layout = new EmptyLayout();
+            this.layout = new PaddedLayout();
     }
 
     public List<Component> getComponents() {
@@ -112,10 +118,7 @@ public class Container extends Component {
         // Update this component with the new gui utility.
         component.setInputUtility(inputUtility);
         component.setParent(this);
-        boolean returnVal = components.add(component);
-        if (!layout.laidOut(this))
-            layout();
-        return returnVal;
+        return components.add(component);
     }
 
     /**
@@ -140,5 +143,13 @@ public class Container extends Component {
         for (Component child : components) {
             child.setInputUtility(inputUtility);
         }
+    }
+
+    public boolean isUseLayoutSize() {
+        return useLayoutSize;
+    }
+
+    public void setUseLayoutSize(boolean useLayoutSize) {
+        this.useLayoutSize = useLayoutSize;
     }
 }

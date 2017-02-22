@@ -1,5 +1,6 @@
 package net.halalaboos.huzuni.indev.gui.layouts;
 
+
 import net.halalaboos.huzuni.indev.gui.Component;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.Layout;
@@ -9,8 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Basic layout which enforces a padding to be between the edges of the container and it's component. <br/>
- * Created by Brandon Williams on 2/19/2017.
+ * Basic implementation of the layout interface. <br/>
+ * Simply saves the components original positions and force them to follow the container's position. <br/>
+ * Will enforce a vertical and/or horizontal padding. <br/>
+ * Created by Brandon Williams on 1/15/2017.
  */
 public class PaddedLayout implements Layout<Container> {
 
@@ -19,36 +22,40 @@ public class PaddedLayout implements Layout<Container> {
      * */
     protected final Map<Component, int[]> positions = new HashMap<>();
 
-    private final int horizontalPadding, verticalPadding;
+    protected int verticalPadding, horizontalPadding;
+
+    public PaddedLayout() {
+        this(0, 0);
+    }
 
     public PaddedLayout(int padding) {
         this(padding, padding);
     }
 
-    public PaddedLayout(int horizontalPadding, int verticalPadding) {
-        this.horizontalPadding = horizontalPadding;
+    public PaddedLayout(int verticalPadding, int horizontalPadding) {
         this.verticalPadding = verticalPadding;
-    }
-
-    public PaddedLayout() {
-        this(1);
+        this.horizontalPadding = horizontalPadding;
     }
 
     @Override
-    public void layout(Container container, List<Component> components) {
+    public int[] layout(Container container, List<Component> components) {
+        int width = 0, height = 0;
         for (Component component : components) {
             if (!positions.containsKey(component)) {
                 positions.put(component, new int[] { component.getX(), component.getY() });
             }
+
             int[] positions = this.positions.get(component);
             component.setX(container.getX() + horizontalPadding + positions[0]);
             component.setY(container.getY() + verticalPadding + positions[1]);
 
-            if (positions[0] + component.getWidth() > container.getWidth() - horizontalPadding * 2)
-                container.setWidth(positions[0] + component.getWidth() + horizontalPadding * 2);
-            if (positions[1] + component.getHeight() > container.getHeight() - verticalPadding * 2)
-                container.setHeight(positions[1] + component.getHeight() + verticalPadding * 2);
+            // Calculate the area these components occupy.
+            if (positions[0] + component.getWidth() + horizontalPadding * 2 > width)
+                width = positions[0] + component.getWidth() + horizontalPadding * 2;
+            if (positions[1] + component.getHeight() + verticalPadding * 2 > height)
+                height = positions[1] + component.getHeight() + verticalPadding * 2;
         }
+        return new int[] { width, height };
     }
 
     @Override
@@ -62,23 +69,24 @@ public class PaddedLayout implements Layout<Container> {
         return !positions.isEmpty() && container.getComponents().stream().anyMatch(component -> !positions.containsKey(component));
     }
 
-	@Override
-	public boolean updateWithContainer() {
-		return false;
-	}
+    public void setPadding(int padding) {
+        this.setHorizontalPadding(padding);
+        this.setVerticalPadding(padding);
+    }
 
-	@Override
-	public void setUpdateWithContainer(boolean updateWithContainer) {
+    public int getVerticalPadding() {
+        return verticalPadding;
+    }
 
-	}
+    public void setVerticalPadding(int verticalPadding) {
+        this.verticalPadding = verticalPadding;
+    }
 
-	@Override
-	public int[] getPadding() {
-		return new int[0];
-	}
+    public int getHorizontalPadding() {
+        return horizontalPadding;
+    }
 
-	@Override
-	public void setPadding(int x, int y, int width, int height) {
-
-	}
+    public void setHorizontalPadding(int horizontalPadding) {
+        this.horizontalPadding = horizontalPadding;
+    }
 }

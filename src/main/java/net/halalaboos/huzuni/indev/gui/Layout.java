@@ -9,9 +9,10 @@ import java.util.List;
 public interface Layout <C extends Container> {
 
     /**
-     * Invoked by a container to assemble each component into the layout this layout specifies.
+     * Invoked by a container to assemble each component into the layout this layout specifies. <br/>
+     * @return An int array representing the width and height which the given container's components occupy.
      * */
-    void layout(C container, List<Component> components);
+    int[] layout(C container, List<Component> components);
 
 
     /**
@@ -24,23 +25,4 @@ public interface Layout <C extends Container> {
      * */
     boolean laidOut(C container);
 
-    /**
-     * @return True if this layout should update the components with the container's position.
-     * */
-    boolean updateWithContainer();
-
-    /**
-     *
-     * */
-    void setUpdateWithContainer(boolean updateWithContainer);
-
-    /**
-     * @return An int array representing the padding between a container and it's components.
-     * */
-    int[] getPadding();
-
-    /**
-     * Set the padding between a container and it's components.
-     * */
-    void setPadding(int x, int y, int width, int height);
 }

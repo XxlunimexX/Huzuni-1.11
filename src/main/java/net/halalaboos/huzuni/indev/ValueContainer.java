@@ -4,7 +4,7 @@ import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.components.Label;
 import net.halalaboos.huzuni.indev.gui.components.Slider;
-import net.halalaboos.huzuni.indev.gui.layouts.PaddedLayout;
+import net.halalaboos.huzuni.indev.gui.layouts.GridLayout;
 
 /**
  * Container which holds the title, description, and slider components that are used to represent value nodes. <br/>
@@ -20,12 +20,13 @@ public class ValueContainer extends Container {
 
     public ValueContainer(Value value) {
         super("invisible");
-        this.setLayout(new PaddedLayout(0,1));
+        // Using a grid layout with one row ensures that the components are stacked upon each other.
+        this.setLayout(new GridLayout(GridLayout.INFINITE_LENGTH, 3, 0, 1,1));
+        this.setUseLayoutSize(true);
         this.value = value;
         this.add(title = new Label("title", value.getName()));
         this.add(description = new Label("description", value.getDescription()));
         this.add(slider = new Slider("slider", value.getName()));
-
         // Set the default dimensions of the slider as well as updating it's percentage to reflect the value node.
         slider.setSize(150, 12);
         slider.setSliderPercentage((value.getValue() - value.getMinValue()) / (value.getMaxValue() - value.getMinValue()));
@@ -39,16 +40,6 @@ public class ValueContainer extends Container {
         // Update the title label to coincide with any value change.
         this.title.setText(String.format("%s (%.1f%s)", value.getName(), value.getValue(), value.getCarot()));
         super.update();
-        // Update their positions if necessary..
-        if (description.getY() != this.title.getHeight()) {
-            this.description.setPosition(0, this.title.getHeight());
-            this.getLayout().updateComponentPositions(description);
-        }
-
-        if (slider.getY() != this.description.getY() + this.description.getHeight()) {
-            this.slider.setPosition(0, this.description.getY() + this.description.getHeight());
-            this.getLayout().updateComponentPositions(slider);
-        }
         this.layout();
     }
 
