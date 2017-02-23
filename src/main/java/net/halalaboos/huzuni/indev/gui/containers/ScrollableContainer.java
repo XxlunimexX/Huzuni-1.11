@@ -14,12 +14,12 @@ import net.halalaboos.huzuni.indev.gui.layouts.ScrollLayout;
  */
 public class ScrollableContainer extends Container {
 
-    private Scrollbar verticalScrollbar, horizontalScrollbar;
+    private ScrollbarNew verticalScrollbar, horizontalScrollbar;
 
     public ScrollableContainer(String tag) {
         super(tag);
-        this.verticalScrollbar = new Scrollbar(inputUtility, 8);
-        this.horizontalScrollbar = new Scrollbar(inputUtility, false,8);
+        this.verticalScrollbar = new ScrollbarNew(inputUtility, 8);
+        this.horizontalScrollbar = new ScrollbarNew(inputUtility, false,8);
         this.setLayout(new ScrollLayout());
         this.setLayering(false);
 
@@ -98,11 +98,11 @@ public class ScrollableContainer extends Container {
         this.horizontalScrollbar.setInputUtility(inputUtility);
     }
 
-    public Scrollbar getVerticalScrollbar() {
+    public ScrollbarNew getVerticalScrollbar() {
         return verticalScrollbar;
     }
 
-    public Scrollbar getHorizontalScrollbar() {
+    public ScrollbarNew getHorizontalScrollbar() {
         return horizontalScrollbar;
     }
 }
