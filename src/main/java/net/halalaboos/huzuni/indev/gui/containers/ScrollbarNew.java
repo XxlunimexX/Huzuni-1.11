@@ -113,7 +113,7 @@ public class ScrollbarNew {
             scrollOffset = 0;
 
         // Constricts the scrolling velocity.
-        float maxVelocity = 3F;
+        float maxVelocity = 6F;
         if (scrollVelocity >= maxVelocity)
             scrollVelocity = maxVelocity;
         if (scrollVelocity <= -maxVelocity)
