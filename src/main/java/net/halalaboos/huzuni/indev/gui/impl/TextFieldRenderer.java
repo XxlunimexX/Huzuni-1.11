@@ -37,7 +37,7 @@ public class TextFieldRenderer implements ComponentRenderer<TextField> {
             GLManager.glColor(RenderUtils.getColorWithAffects(textField.isTyping() ? BasicRenderer.ENABLED : BasicRenderer.GREY, textField.isHovered(), Mouse.isButtonDown(0)));
             RenderUtils.drawLine(1F, textField.getX(), textField.getY() + textField.getHeight() - 1F, textField.getX() + textField.getWidth(), textField.getY() + textField.getHeight() - 1F);
         } else {
-            GLManager.glColor(RenderUtils.getColorWithAffects(textField.isTyping() ? BasicRenderer.ENABLED : BasicRenderer.GREY, textField.isHovered(), Mouse.isButtonDown(0)));
+            GLManager.glColor(RenderUtils.getColorWithAffects(textField.isTyping() ? BasicRenderer.GREY.brighter() : BasicRenderer.GREY, textField.isHovered(), Mouse.isButtonDown(0)));
             RenderUtils.drawRect(textField.getArea());
         }
         if (textField.hasText()) {
