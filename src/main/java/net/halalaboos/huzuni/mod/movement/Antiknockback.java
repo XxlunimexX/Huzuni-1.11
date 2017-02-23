@@ -20,13 +20,13 @@ public class Antiknockback extends BasicMod {
 	
 	public final Toggleable combat = new Toggleable("Combat mode", "Prevents knockback when only in combat");
 
-    public final Value ratio = new Value("Percentage", "%", 0F, 80F, 100F, 5F, "Ratio of knockback that will be ignored.");
+    public final Value percentage = new Value("Percentage", "%", 0F, 80F, 100F, 5F, "Percentage of knockback that will be ignored.");
 
     public final Value combatTime = new Value("Combat time", " ms", 1000F, 3000F, 10000F, 10F, "Time required to pass until no longer considered in combat");
 
 	public Antiknockback() {
 		super("Anti knockback", "Removes a percentage from the knockback velocity");
-		this.addChildren(combat, combatTime, ratio);
+		this.addChildren(combat, combatTime, percentage);
 		this.setCategory(Category.MOVEMENT);
 		setAuthor("brudin");
 	}
@@ -52,10 +52,10 @@ public class Antiknockback extends BasicMod {
 			SPacketEntityVelocity packet = (SPacketEntityVelocity) event.getPacket();
 			if (packet.getEntityID() == mc.player.getEntityId()) {
 				if (!combat.isEnabled() || !timer.hasReach((int) combatTime.getValue())) {
-					if (ratio.getValue() == 1F) {
+					if (percentage.getValue() == 1F) {
 						event.setCancelled(true);
 					} else {
-						float percent = 1F - (ratio.getValue() / 100F);
+						float percent = 1F - (percentage.getValue() / 100F);
 						event.setPacket(new SPacketEntityVelocity(packet.getEntityID(), percent * (packet.getMotionX() / 8000.0D), percent * (packet.getMotionY() / 8000.0D), percent * (packet.getMotionZ() / 8000.0D)));
 					}
 				}
