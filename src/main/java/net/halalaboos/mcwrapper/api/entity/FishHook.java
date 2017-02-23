@@ -1,6 +1,11 @@
 package net.halalaboos.mcwrapper.api.entity;
 
+import net.halalaboos.mcwrapper.api.entity.living.player.Player;
+
 public interface FishHook extends Entity {
+
+	Player getOwner();
+
 
 	//TODO
 
