@@ -26,7 +26,7 @@ import java.util.List;
 
 	@Override
 	public void setToAir(Vector3i pos) {
-		setBlockToAir(new BlockPos(pos.x, pos.y, pos.z));
+		setBlockToAir(new BlockPos(pos.getX(), pos.getY(), pos.getZ()));
 	}
 
 	@Override

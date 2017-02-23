@@ -23,6 +23,6 @@ public class Convert {
 	}
 
 	public static BlockPos to(Vector3i pos) {
-		return new BlockPos(pos.x, pos.y, pos.z);
+		return new BlockPos(pos.getX(), pos.getY(), pos.getZ());
 	}
 }
