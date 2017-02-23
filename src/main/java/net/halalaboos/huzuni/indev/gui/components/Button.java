@@ -25,7 +25,7 @@ public class Button extends Component {
         this.text = text;
         this.highlight = highlight;
         this.addListener(Actions.MOUSEPRESS, (ClickAction.ClickActionListener) action -> {
-            if (isHovered() && isPointInside(action.x, action.y)) {
+            if (isHovered() && isPointInside(action.x, action.y) && action.buttonId == 0) {
                 pressed = true;
                 return true;
             }

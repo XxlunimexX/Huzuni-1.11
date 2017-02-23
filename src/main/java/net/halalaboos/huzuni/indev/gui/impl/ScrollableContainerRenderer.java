@@ -28,7 +28,7 @@ public class ScrollableContainerRenderer implements ComponentRenderer<Scrollable
 
     @Override
     public void render(ScrollableContainer container) {
-        if (!container.getTag().equals("invisible-BACKGROUND")) {
+        if (!container.getTag().equals("invisible-background")) {
             GLManager.glColor(BasicRenderer.BACKGROUND);
             RenderUtils.drawRect(container.getRenderArea());
         }

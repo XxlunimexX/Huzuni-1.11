@@ -13,7 +13,7 @@ public class RateLimiter {
     private long rate;
 
     public RateLimiter(TimeUnit timeUnit, long rate) {
-        this.rate = timeUnit.toMillis(rate);
+        this.rate = timeUnit.toMillis(1L) / rate;
     }
 
     /**
@@ -34,7 +34,10 @@ public class RateLimiter {
         this.lastTime = Timer.getSystemTime();
     }
 
+    /**
+     * Set the rate at which this limiter should allow whatever it is limiting.
+     * */
     public void setRate(TimeUnit timeUnit, long rate) {
-        this.rate = timeUnit.toMillis(rate);
+        this.rate = timeUnit.toMillis(1L) / rate;
     }
 }

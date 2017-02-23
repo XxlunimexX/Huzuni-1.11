@@ -4,12 +4,14 @@ import net.halalaboos.huzuni.api.mod.Mod;
 import net.halalaboos.huzuni.api.settings.Node;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
+import net.halalaboos.huzuni.api.util.RateLimiter;
 import net.halalaboos.huzuni.gui.screen.HuzuniScreen;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.ContainerManager;
-import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
+import net.halalaboos.huzuni.indev.gui.components.*;
 import net.halalaboos.huzuni.indev.gui.components.Button;
 import net.halalaboos.huzuni.indev.gui.components.Label;
+import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
 import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
 import net.halalaboos.huzuni.indev.gui.layouts.*;
 import net.halalaboos.huzuni.api.gui.font.FontData;
@@ -19,8 +21,10 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Testing the new GUI API. <br/>
@@ -30,10 +34,12 @@ public class GuiTestScreen  extends HuzuniScreen {
 
     private final ContainerManager manager;
 
+    private final RateLimiter updateLimiter = new RateLimiter(TimeUnit.SECONDS, 60);
+
     private Container settings;
 
     // Font data used within different parts of the menu.
-    private final FontData title, mods, description, defaultFont;
+    private final FontData title, mods, description, defaultFont, textField;
 
     private ResourceLocation blurShader;
 
@@ -45,6 +51,7 @@ public class GuiTestScreen  extends HuzuniScreen {
         description = huzuni.fontManager.getFont("Roboto Condensed", 16, Font.ITALIC, true);
         mods = huzuni.fontManager.getFont("Roboto Condensed", 18, Font.PLAIN, true);
         defaultFont = huzuni.fontManager.getFont("Roboto Condensed", 20, Font.PLAIN, true);
+        textField = huzuni.fontManager.getFont("Roboto Condensed", 20, Font.ITALIC, true);
         //blurShader = new ResourceLocation("shaders/post/blur.json");
     }
 
@@ -90,7 +97,8 @@ public class GuiTestScreen  extends HuzuniScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        manager.update();
+        while (updateLimiter.reached())
+            manager.update();
         manager.render();
         //GLManager.update();
         GlStateManager.disableBlend();
@@ -155,10 +163,16 @@ public class GuiTestScreen  extends HuzuniScreen {
         description.setPosition(10, 40);
         settings.add(description);
 
-        ScrollableContainer childContainer = new ScrollableContainer("invisible-BACKGROUND");
+        TextField nameField = new TextField("lined", mod.settings.getDisplayName(), mod.getName());
+        nameField.setSize(100, textField.getFontHeight() + 2);
+        nameField.setPosition(10, settings.getHeight() - nameField.getHeight() - 2);
+        nameField.setFont(textField);
+        settings.add(nameField);
+
+        ScrollableContainer childContainer = new ScrollableContainer("invisible-background");
         childContainer.setLayout(new ListLayout(1, 1));
         childContainer.setPosition(10, 60);
-        childContainer.setSize(settings.getWidth() - 20, settings.getHeight() - 70);
+        childContainer.setSize(settings.getWidth() - 20, settings.getHeight() - 60 - nameField.getHeight() - 2);
 
         loadNodes(mod, childContainer);
         childContainer.layout();

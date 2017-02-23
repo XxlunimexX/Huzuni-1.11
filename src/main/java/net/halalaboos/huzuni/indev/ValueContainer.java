@@ -26,7 +26,7 @@ public class ValueContainer extends Container {
         this.value = value;
         this.add(title = new Label("title", value.getName()));
         this.add(description = new Label("description", value.getDescription()));
-        this.add(slider = new Slider("slider", value.getName()));
+        this.add(slider = new Slider("slider"));
         // Set the default dimensions of the slider as well as updating it's percentage to reflect the value node.
         slider.setSize(150, 12);
         slider.setSliderPercentage((value.getValue() - value.getMinValue()) / (value.getMaxValue() - value.getMinValue()));    }

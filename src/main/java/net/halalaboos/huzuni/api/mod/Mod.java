@@ -14,8 +14,6 @@ import java.io.IOException;
  * Each mod has an id that is assigned upon it's instantiation, meaning it is not always consistent.
  * */
 public class Mod extends Node {
-	
-	protected static int idCount = 60;
 
 	protected final Minecraft mc = Minecraft.getMinecraft();
 	
@@ -29,13 +27,9 @@ public class Mod extends Node {
 
 	public final ModSettings settings = new ModSettings(this);
 
-	public final int id;
-			
 	public Mod(String name, String description) {
 		super(name, description);
 		this.addChildren(settings);
-		this.id = idCount;
-		idCount++;
 	}
 
 	/**
@@ -83,6 +77,9 @@ public class Mod extends Node {
 		}
 	}
 
+	/**
+	 * @return This mod's display name for rendering within the enabled mods list.
+	 * */
 	public String getDisplayNameForRender() {
 		return settings.getDisplayName();
 	}

@@ -25,7 +25,7 @@ public class ScrollbarNew {
     // Size of the moveable bar.
     private int barSize;
 
-    //
+    // The actual offset this scrollbar has.
     private int scrollOffset;
 
     // Total length of the area this scroll bar is moveable within.
@@ -61,23 +61,32 @@ public class ScrollbarNew {
      * */
     public void update() {
         if (this.scrolling && has()) {
-            this.scrollOffset = (int) (((float) ((vertical ? inputUtility.getMouseY() : inputUtility.getMouseX()) - mouseOffset) / (float) ((viewableAreaLength) - getScrollbarLength())) * (totalAreaLength - viewableAreaLength));
+            /** This scroll offset is calculated with the following:
+             percentage = (mouse position - offset) / (total area - scrollbar length)
+             offset = percentage * (total area - view area)
+             But the actual calculation looks like this:
+
+              (mouse position - offset) * (total area - view area)
+              -----------------(divided by)-----------------------
+                      (total area - scrollbar length)
+            */
+            this.scrollOffset = (int) ((float) (((vertical ? inputUtility.getMouseY() : inputUtility.getMouseX()) - mouseOffset) * (totalAreaLength - viewableAreaLength)) / (float) (viewableAreaLength - getScrollbarLength()));
         } else if (scrollVelocity != 0F) {
             // If the velocity is coming to a crawl..
-            if (scrollVelocity <= 0.75F && scrollVelocity >= -0.75F) {
-                // Reset it
+            if (scrollVelocity <= 0.5F && scrollVelocity >= -0.5F) {
+                // Reset it.
                 scrollVelocity = 0F;
             } else {
                 // Otherwise increment the offset and decrement the velocity.
                 this.scrollOffset += scrollVelocity;
-                scrollVelocity *= 0.9F;
+                scrollVelocity *= 0.95F;
             }
         }
         constrict();
     }
 
     /**
-     * Updates this SCROLLBAR's position to reflect the expected position within the component provided.
+     * Updates this scrollbar's position to reflect the expected position within the component provided.
      * */
     public void updatePosition(Component component) {
         if (vertical) {
@@ -94,7 +103,7 @@ public class ScrollbarNew {
     }
 
     /**
-     * Constricts the SCROLLBAR percentage to ensure that it stays between 0 ~ 1.
+     * Constricts the scrollbar percentage to ensure that it stays between 0 ~ 1.
      * */
     public void constrict() {
         // Constrict the scroll percentage.
@@ -103,6 +112,7 @@ public class ScrollbarNew {
         if (scrollOffset < 0 || !has())
             scrollOffset = 0;
 
+        // Constricts the scrolling velocity.
         float maxVelocity = 3F;
         if (scrollVelocity >= maxVelocity)
             scrollVelocity = maxVelocity;
@@ -111,7 +121,7 @@ public class ScrollbarNew {
     }
 
     /**
-     * Sets this SCROLLBAR to scrolling and updates the mouse offset.
+     * Sets this scrollbar to scrolling and updates the mouse offset.
      * */
     public void setScrolling(boolean scrolling) {
         this.scrolling = scrolling;
@@ -189,7 +199,7 @@ public class ScrollbarNew {
     }
 
     /**
-     * @return The total length of the moveable area of the SCROLLBAR.
+     * @return The total length of the moveable area of the scrollbar.
      * */
     public int getScrollbarLength() {
         // ratio = (viewable area) /(total area)

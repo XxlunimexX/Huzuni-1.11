@@ -16,7 +16,7 @@ public class TextField extends Component {
     /**
      * Every character which is allowed to be typed into this text field.
      * */
-    private String validcharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-=[]\\;',./`~!@#$%^&*()_+{}|:\"<>?;";
+    private String validCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-=[]\\;',./`~!@#$%^&*()_+{}|:\"<>?; ";
 
     private String text, defaultText;
 
@@ -24,15 +24,15 @@ public class TextField extends Component {
 
     private boolean typing = false;
 
-    public TextField(String tag) {
-        super(tag);
+    public TextField(String tag, String text) {
+        this(tag, text, text);
     }
 
     public TextField(String tag, String text, String defaultText) {
         super(tag);
         this.setText(text);
         this.defaultText = defaultText;
-        this.addListener(Actions.MOUSEPRESS, (ClickAction.ClickActionListener) action -> typing = isHovered() && isPointInside(action.x, action.y));
+        this.addListener(Actions.MOUSEPRESS, (ClickAction.ClickActionListener) action -> typing = isHovered() && isPointInside(action.x, action.y) && action.buttonId == 0);
         this.addListener(Actions.KEYSTROKE, (KeystrokeAction.KeystrokeActionListener) action -> {
             if (typing) {
                 switch (action.key) {
@@ -57,7 +57,7 @@ public class TextField extends Component {
                     default:
                         break;
                 }
-                if (validcharacters.contains(Character.toString(action.characater)))
+                if (validCharacters.contains(Character.toString(action.characater)))
                     this.append(action.characater);
                 return true;
             }
@@ -88,7 +88,6 @@ public class TextField extends Component {
 
     @Override
     public void update() {
-
     }
 
 
@@ -150,7 +149,8 @@ public class TextField extends Component {
      * @return A string that can be rendered.
      * */
     public String getRenderText(boolean showPlacement) {
-        return showPlacement ? this.text.substring(0, pointer) + "|" + this.text.substring(pointer, this.text.length()) : this.text;
+        String text = showPlacement ? this.text.substring(0, pointer) + "|" + this.text.substring(pointer, this.text.length()) : this.text;
+        return font.trim(text, this.getWidth(), true);
     }
 
     public String getText() {
@@ -160,6 +160,13 @@ public class TextField extends Component {
     public void setText(String text) {
         this.text = text;
         this.pointer = text.length();
+    }
+
+    /**
+     * @return True if this textfield has text.
+     * */
+    public boolean hasText() {
+        return !text.isEmpty();
     }
 
     public String getDefaultText() {
@@ -180,5 +187,13 @@ public class TextField extends Component {
 
     public boolean isTyping() {
         return typing;
+    }
+
+    public String getValidCharacters() {
+        return validCharacters;
+    }
+
+    public void setValidCharacters(String validCharacters) {
+        this.validCharacters = validCharacters;
     }
 }

@@ -10,24 +10,21 @@ import net.halalaboos.huzuni.indev.gui.actions.ClickAction;
  */
 public class Slider extends Component {
 
-    private String title;
-
     private int barSize;
 
     private float sliderPercentage = 0F;
 
     private boolean sliding = false;
 
-    public Slider(String tag, String title) {
-        this(tag, title, 8);
+    public Slider(String tag) {
+        this(tag, 8);
     }
 
-    public Slider(String tag, String title, int barSize) {
+    public Slider(String tag, int barSize) {
         super(tag);
-        this.title = title;
         this.barSize = barSize;
         this.addListener(Actions.MOUSEPRESS, (ClickAction.ClickActionListener) action -> {
-            if (isHovered() && isPointInside(action.x, action.y)) {
+            if (isHovered() && isPointInside(action.x, action.y) && action.buttonId == 0) {
                 sliding = true;
                 return true;
             }
@@ -104,13 +101,5 @@ public class Slider extends Component {
 
     public int getFormattedValue() {
         return (int) (sliderPercentage * 100);
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 }

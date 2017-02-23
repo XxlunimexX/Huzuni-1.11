@@ -188,9 +188,9 @@ public final class MinecraftFontRenderer extends BasicFontRenderer {
 							(float) (area.x + area.width) / currentFont.getTextureWidth(),
 							(float) (area.y + area.height) / currentFont.getTextureHeight());
 					if (strikethrough)
-                        RenderUtils.drawLine(x, y + area.height / 4 + 2, x + area.width / 2, y + area.height / 4 + 2, 1F);
+                        RenderUtils.drawLine(1F, x, y + area.height / 4 + 2, x + area.width / 2, y + area.height / 4 + 2);
 					if (underline)
-                        RenderUtils.drawLine(x, y + area.height / 2, x + area.width / 2, y + area.height / 2, 1F);
+                        RenderUtils.drawLine(1F, x, y + area.height / 2, x + area.width / 2, y + area.height / 2);
 					x += area.width + kerning;
 				}
 			}
