@@ -5,7 +5,7 @@ package net.halalaboos.huzuni.api.util;
  */
 public final class Timer {
 
-    private long lastCheck = getSystemTime();
+    protected long lastCheck = getSystemTime();
 
     /**
      * Checks if the passed time reached the targetted time.
@@ -14,14 +14,23 @@ public final class Timer {
         return getTimePassed() >= targetTime;
     }
 
+    /**
+     * @return The time between the current time and the last time this timer was reset.
+     * */
     public long getTimePassed() {
         return getSystemTime() - lastCheck;
     }
 
+    /**
+     * Resets the time this timer was keeping track of.
+     * */
     public void reset() {
         lastCheck = getSystemTime();
     }
 
+    /**
+     * @return The system time in milliseconds.
+     * */
     public static long getSystemTime() {
         return System.nanoTime() / (long) (1E6);
     }
