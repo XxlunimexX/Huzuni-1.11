@@ -22,13 +22,6 @@ import java.lang.reflect.Field;
 public class Reflection {
 
 	/**
-	 * Used for Speedmine, to adjust the delay between hitting blocks.
-	 *
-	 * Field: PlayerControllerMP#blockHitDelay
-	 */
-	private static Field blockHitDelay;
-
-	/**
 	 * Used to change the chat gui to the Huzuni one.
 	 *
 	 * Field: GuiIngame#persistantChatGUI
@@ -61,7 +54,6 @@ public class Reflection {
 	private static Timer timerObj;
 
 	static {
-		blockHitDelay = setAccessible(PlayerControllerMP.class, "field_78781_i", "blockHitDelay");
 		persistantChatGUI = setAccessible(GuiIngame.class, "field_73840_e", "persistantChatGUI");
 		inGround = setAccessible(EntityArrow.class, "field_70254_i", "inGround");
 		rightClickDelayTimer = setAccessible(Minecraft.class, "field_71467_ac", "rightClickDelayTimer");
@@ -85,14 +77,6 @@ public class Reflection {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 			return -1;
-		}
-	}
-
-	public static void setBlockHitDelay(int hitDelay, PlayerControllerMP controllerMP) {
-		try {
-			blockHitDelay.setInt(controllerMP, hitDelay);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 

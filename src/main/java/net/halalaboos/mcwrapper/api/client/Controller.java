@@ -1,6 +1,7 @@
 package net.halalaboos.mcwrapper.api.client;
 
 import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
 public interface Controller {
 
@@ -68,4 +69,12 @@ public interface Controller {
 	 * @return The current game mode of the Player
 	 */
 	GameType getGameType();
+
+	/**
+	 * Performed when the Player destroys a block.
+	 *
+	 * @param blockPosition The position of the destroyed block
+	 * @return If the block was destroyed.
+	 */
+	boolean onBlockDestroy(Vector3i blockPosition);
 }

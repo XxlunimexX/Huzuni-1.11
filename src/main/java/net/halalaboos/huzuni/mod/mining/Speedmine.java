@@ -8,11 +8,15 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.mc.Reflection;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import org.lwjgl.input.Keyboard;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getController;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
  * Modifies player mine speed on all blocks.
@@ -71,16 +75,15 @@ public class Speedmine extends BasicMod {
 	public void onUpdate(UpdateEvent event) {
 		if (event.type == UpdateEvent.Type.PRE) {
 			if (mc.playerController.isInCreativeMode()) {
-				Reflection.setBlockHitDelay(0, mc.playerController);
-				return;
+				getController().setHitDelay(0);
 			}
 			if (digging) {
 				IBlockState blockState = this.mc.world.getBlockState(position);
-				float multiplier = noSlow.isEnabled() && mc.player.fallDistance <= 1F
-						&& mc.player.fallDistance > 0 ? 5F : 1F;
+				float multiplier = noSlow.isEnabled() && getPlayer().getFallDistance() <= 1F
+						&& getPlayer().getFallDistance() > 0 ? 5F : 1F;
 				curBlockDamage += blockState.getPlayerRelativeBlockHardness(this.mc.player, this.mc.world, this.position) * (speed.getValue()) * multiplier;
 				if (curBlockDamage >= breakPercent.getValue() / 100F) {
-					mc.playerController.onPlayerDestroyBlock(position);
+					getController().onBlockDestroy(new Vector3i(position.getX(), position.getY(), position.getZ()));
 					mc.getConnection().sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK, this.position, this.facing));
 					curBlockDamage = 0F;
 					digging = false;
