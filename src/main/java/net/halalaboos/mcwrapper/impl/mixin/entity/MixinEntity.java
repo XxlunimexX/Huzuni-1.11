@@ -59,8 +59,8 @@ import java.util.UUID;
 	@Shadow public boolean isCollidedHorizontally;
 	@Shadow public boolean isCollided;
 	@Shadow public boolean isCollidedVertically;
-
 	@Shadow protected abstract void setRotation(float yaw, float pitch);
+	@Shadow public abstract boolean isRiding();
 
 	private AABB aabb;
 

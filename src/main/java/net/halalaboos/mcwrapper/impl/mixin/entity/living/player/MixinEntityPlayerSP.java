@@ -11,6 +11,9 @@ import net.minecraft.util.MovementInput;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(net.minecraft.client.entity.EntityPlayerSP.class)
 public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer implements ClientPlayer {
@@ -20,6 +23,15 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 	@Shadow public MovementInput movementInput;
 	@Shadow private String serverBrand;
 	@Shadow @Final public NetHandlerPlayClient connection;
+	@Shadow public abstract boolean isHandActive();
+
+	@Inject(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/MovementInput;updatePlayerMoveState()V", shift = At.Shift.AFTER))
+	public void noSlow(CallbackInfo ci) {
+		if (this.isUsingItem() && !this.isRiding() && !getItemUseSlowdown()) {
+			this.movementInput.moveStrafe *= 5F;
+			this.movementInput.moveForward *= 5F;
+		}
+	}
 
 	@Override
 	public void swingItem(Hand hand) {
@@ -70,4 +82,21 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 	public boolean isNPC() {
 		return false;
 	}
+
+	@Override
+	public boolean isUsingItem() {
+		return isHandActive();
+	}
+
+	@Override
+	public void setItemUseSlowdown(boolean itemUseSlowdown) {
+		this.itemSlowdown = itemUseSlowdown;
+	}
+
+	@Override
+	public boolean getItemUseSlowdown() {
+		return itemSlowdown;
+	}
+
+	private boolean itemSlowdown = true;
 }

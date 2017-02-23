@@ -57,4 +57,9 @@ public interface ClientPlayer extends Player {
 	 */
 	PlayerInfo getInfo(Player player);
 
+	boolean isUsingItem();
+
+	void setItemUseSlowdown(boolean itemUseSlowdown);
+
+	boolean getItemUseSlowdown();
 }
