@@ -60,6 +60,8 @@ import java.util.UUID;
 	@Shadow public boolean isCollided;
 	@Shadow public boolean isCollidedVertically;
 
+	@Shadow protected abstract void setRotation(float yaw, float pitch);
+
 	private AABB aabb;
 
 	@Inject(method = "setEntityBoundingBox", at = @At("HEAD"))
@@ -107,6 +109,31 @@ import java.util.UUID;
 	@Override
 	public Rotation getRotation() {
 		return new Rotation(rotationPitch, rotationYaw);
+	}
+
+	@Override
+	public float getPitch() {
+		return rotationPitch;
+	}
+
+	@Override
+	public float getYaw() {
+		return rotationYaw;
+	}
+
+	@Override
+	public void setPitch(float pitch) {
+		this.rotationPitch = pitch;
+	}
+
+	@Override
+	public void setYaw(float yaw) {
+		this.rotationYaw = yaw;
+	}
+
+	@Override
+	public void setRotation(Rotation rotation) {
+		setRotation(rotation.yaw, rotation.pitch);
 	}
 
 	@Override
@@ -185,9 +212,8 @@ import java.util.UUID;
 	}
 
 	@Override
-	public void setRotation(float pitch, float yaw) {
-		rotationPitch = pitch;
-		rotationYaw = yaw;
+	public void setPitchYaw(float pitch, float yaw) {
+		setRotation(yaw, pitch);
 	}
 
 	@Override

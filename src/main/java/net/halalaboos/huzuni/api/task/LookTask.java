@@ -49,9 +49,10 @@ public class LookTask implements Task {
 	 * Sets the player rotations and saves the previous player rotations.
 	 * */
 	protected void setRotation() {
-		oldYaw = getPlayer().getRotation().yaw;
-		oldPitch = getPlayer().getRotation().pitch;
-		getPlayer().setRotation(pitch, yaw);
+		oldYaw = getPlayer().getYaw();
+		oldPitch = getPlayer().getPitch();
+		getPlayer().setPitch(pitch);
+		getPlayer().setYaw(yaw);
 	}
 
 	/**
@@ -59,7 +60,8 @@ public class LookTask implements Task {
 	 * */
 	protected void resetRotation() {
 		if (reset) {
-			getPlayer().setRotation(oldPitch, oldYaw);
+			getPlayer().setPitch(oldPitch);
+			getPlayer().setYaw(oldYaw);
 		}
 	}
 	

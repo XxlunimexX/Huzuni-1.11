@@ -61,6 +61,16 @@ public interface Entity extends Identifiable, Nameable {
 	 */
 	Rotation getRotation();
 
+	float getPitch();
+
+	float getYaw();
+
+	void setPitch(float pitch);
+
+	void setYaw(float yaw);
+
+	void setRotation(Rotation rotation);
+
 	/**
 	 * Whether or not the Entity is dead - if it is, then it will be removed from the World.
 	 */
@@ -134,7 +144,7 @@ public interface Entity extends Identifiable, Nameable {
 	/**
 	 * Sets the Entity's rotation (pitch/yaw)
 	 */
-	void setRotation(float pitch, float yaw);
+	void setPitchYaw(float pitch, float yaw);
 
 	/**
 	 * @return Whether or not the Entity is touching the ground.

@@ -276,8 +276,8 @@ public final class MinecraftUtils {
         float yaw = (float) (Math.atan2(zSize, xSize) * 180.0D / Math.PI) - 90.0F;
         float pitch = (float) (-(Math.atan2(ySize, theta) * 180.0D / Math.PI));
         return new float[] {
-        		(getPlayer().getRotation().yaw + MathUtils.wrapDegrees(yaw - getPlayer().getRotation().yaw)) % 360F,
-        		(getPlayer().getRotation().pitch + MathUtils.wrapDegrees(pitch - getPlayer().getRotation().pitch)) % 360F,
+        		(getPlayer().getYaw() + MathUtils.wrapDegrees(yaw - getPlayer().getYaw())) % 360F,
+        		(getPlayer().getPitch() + MathUtils.wrapDegrees(pitch - getPlayer().getPitch())) % 360F,
         };
 	}
 	
