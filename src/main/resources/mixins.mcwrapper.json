@@ -6,6 +6,7 @@
   "mixins": [
     "MixinMinecraft",
     "entity.MixinEntity",
+    "entity.MixinEntityFishHook",
     "entity.living.MixinEntityAgeable",
     "entity.living.MixinEntityAnimal",
     "entity.living.MixinEntityCreature",

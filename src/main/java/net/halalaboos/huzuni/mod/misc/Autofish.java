@@ -4,13 +4,16 @@ import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.EntityFishHook;
+import net.halalaboos.mcwrapper.api.entity.Entity;
+import net.halalaboos.mcwrapper.api.entity.FishHook;
+import net.halalaboos.mcwrapper.api.network.packet.server.EntityVelocityPacket;
+import net.halalaboos.mcwrapper.api.network.packet.server.SpawnObjectPacket;
 import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
-import net.minecraft.network.play.server.SPacketEntityVelocity;
-import net.minecraft.network.play.server.SPacketSpawnObject;
 import net.minecraft.util.EnumHand;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**
  * Attempts to recast rods when fishing when a bob from a fish was found.
@@ -38,17 +41,20 @@ public class Autofish extends BasicMod {
 	@EventMethod
 	public void onPacket(PacketEvent event) {
 		if (event.type == PacketEvent.Type.READ) {
-			if (event.getPacket() instanceof SPacketSpawnObject) {
-				SPacketSpawnObject packet = (SPacketSpawnObject)event.getPacket();
-				if (packet.getEntityID() == 90 && packet.getData() == mc.player.getEntityId()) {
-					idFish = packet.getEntityID();
+			if (event.getPacket() instanceof SpawnObjectPacket) {
+				SpawnObjectPacket packet = (SpawnObjectPacket)event.getPacket();
+				if (packet.getSpawnedId() == 90 && packet.getSourceId() == getPlayer().getId()) {
+					idFish = packet.getSpawnedId();
 				}
-			} else if (event.getPacket() instanceof SPacketEntityVelocity) {
-				SPacketEntityVelocity packetEntityVelocity = (SPacketEntityVelocity)event.getPacket();
-				Entity packetEntity = mc.world.getEntityByID(packetEntityVelocity.getEntityID());
-				if (packetEntity != null && packetEntity instanceof EntityFishHook) {
-					EntityFishHook fish = (EntityFishHook)packetEntity;
-					if (fish.motionX == 0 && fish.motionY < -0.02 && fish.motionZ == 0) {
+			} else if (event.getPacket() instanceof EntityVelocityPacket) {
+				EntityVelocityPacket packetEntityVelocity = (EntityVelocityPacket)event.getPacket();
+				Entity packetEntity = getWorld().getEntity(packetEntityVelocity.getId());
+				if (packetEntity != null && packetEntity instanceof FishHook) {
+					FishHook fish = (FishHook)packetEntity;
+					double velX = fish.getVelocity().getX();
+					double velY = fish.getVelocity().getY();
+					double velZ = fish.getVelocity().getZ();
+					if (velX == 0 && velY < -0.02 && velZ == 0) {
 						recastRod();
 						idFish = -420;
 					}
