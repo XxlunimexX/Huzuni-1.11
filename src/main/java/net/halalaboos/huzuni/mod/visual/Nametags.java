@@ -8,8 +8,10 @@ import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.halalaboos.mcwrapper.api.util.TextColor;
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -25,6 +27,7 @@ import net.minecraft.util.EnumHand;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 import static org.lwjgl.opengl.GL11.glLineWidth;
 
 /**
@@ -35,21 +38,16 @@ public class Nametags extends BasicMod implements Renderer {
 	public static final Nametags INSTANCE = new Nametags();
 
 	public final Toggleable armor = new Toggleable("Armor", "Render player armor above their heads");
+	public final Toggleable enchants = new Toggleable("Enchants", "Render player enchantments over their items");
+	public final Toggleable ping = new Toggleable("Ping", "Render player ping above their heads");
+	public final Toggleable invisibles = new Toggleable("Invisible", "Trace to invisible entities");
+	public final Toggleable scale = new Toggleable("Scale", "Scale the nameplates as you are further from the player");
 
-    public final Toggleable enchants = new Toggleable("Enchants", "Render player enchantments over their items");
+	public final Value opacity = new Value("Opacity", "%", 0F, 30F, 100F, 1F, "Opacity of the name plate");
+	public final Value scaleValue = new Value("Scale Amount", "%", 1F, 2F, 3F, "Amount the name plates will be scaled");
 
-    public final Toggleable ping = new Toggleable("Ping", "Render player ping above their heads");
+	public final Mode<String> healthMode = new Mode<>("Health", "Style the health will be rendered", "None", "Hearts", "Numerical", "Percentage");
 
-    public final Toggleable invisibles = new Toggleable("Invisible", "Trace to invisible entities");
-
-    public final Toggleable scale = new Toggleable("Scale", "Scale the nameplates as you are further from the player");
-
-    public final Value opacity = new Value("Opacity", "%", 0F, 30F, 100F, 1F, "Opacity of the name plate");
-
-    public final Value scaleValue = new Value("Scale Amount", "%", 1F, 2F, 3F, "Amount the name plates will be scaled");
-
-    public final Mode<String> healthMode = new Mode<>("Health", "Style the health will be rendered", "None", "Hearts", "Numerical", "Percentage");
-	
 	private Nametags() {
 		super("Nametags", "Render custom nameplates over entities", Keyboard.KEY_P);
 		setAuthor("brudin");
@@ -61,12 +59,12 @@ public class Nametags extends BasicMod implements Renderer {
 		scale.setEnabled(true);
 		healthMode.setSelectedItem(3);
 	}
-	
+
 	@Override
 	public void onEnable() {
 		huzuni.renderManager.addWorldRenderer(this);
 	}
-	
+
 	@Override
 	public void onDisable() {
 		huzuni.renderManager.removeWorldRenderer(this);
@@ -78,15 +76,15 @@ public class Nametags extends BasicMod implements Renderer {
 			float renderX = (float) (MathUtils.interpolate(entityPlayer.prevPosX, entityPlayer.posX, partialTicks) - mc.getRenderManager().viewerPosX);
 			float renderY = (float) (MathUtils.interpolate(entityPlayer.prevPosY, entityPlayer.posY, partialTicks) - mc.getRenderManager().viewerPosY);
 			float renderZ = (float) (MathUtils.interpolate(entityPlayer.prevPosZ, entityPlayer.posZ, partialTicks) - mc.getRenderManager().viewerPosZ);
-			if (mc.player.connection.getPlayerInfo(entityPlayer.getUniqueID()) != null) {
+			if (entityPlayer instanceof Player && !((Player) entityPlayer).isNPC()) {
 				renderNameplate(entityPlayer, renderX, renderY, renderZ, partialTicks);
 			}
 		}
 		glLineWidth(huzuni.settings.lineSize.getValue());
-        GlStateManager.disableTexture2D();
-        GlStateManager.disableAlpha();
+		GlStateManager.disableTexture2D();
+		GlStateManager.disableAlpha();
 	}
-	
+
 	private void renderNameplate(EntityPlayer entity, double x, double y, double z, double delta) {
 		if (!Minecraft.isGuiEnabled() || entity == mc.getRenderManager().renderViewEntity || (!invisibles.isEnabled() && entity.isInvisible()))
 			return;
@@ -94,42 +92,42 @@ public class Nametags extends BasicMod implements Renderer {
 		double scale = (net.halalaboos.huzuni.api.util.MathUtils.getInterpolatedDistance(entity, delta) / 8D) / (1.5F + (2F - scaleValue.getValue()));
 		if (scale < 1D || !this.scale.isEnabled())
 			scale = 1D;
-		
+
 		String text = (huzuni.friendManager.isFriend(entity.getName()) ? huzuni.friendManager.getAlias(entity.getName()) : entity.getDisplayName().getFormattedText()) + getHealth(entity) + (entity.isInvisibleToPlayer(mc.player) ? TextColor.BLUE + " [Invisible]" : "") + getPing(entity);
-        int width = mc.fontRenderer.getStringWidth(text);
+		int width = mc.fontRenderer.getStringWidth(text);
 		GlStateManager.pushMatrix();
 		RenderUtils.prepareBillboarding((float) x, (float) y + entity.height + 0.5F, (float) z, true);
 		GlStateManager.scale(scale, scale, scale);
 		if (this.scale.isEnabled())
 			GlStateManager.translate(0F, -(scale), 0F);
-        GLManager.glColor(0F, 0F, 0F, (opacity.getValue()) / 100F);
+		GLManager.glColor(0F, 0F, 0F, (opacity.getValue()) / 100F);
 		RenderUtils.drawBorderRect(-width / 2 - 2, -2, width / 2 + 2, 10, 2F);
 		GLManager.glColor(1F, 1F, 1F, 1F);
-		
-        if (healthMode.getSelected() == 1)
+
+		if (healthMode.getSelected() == 1)
 			renderHealth(entity);
-        
+
 		mc.fontRenderer.drawStringWithShadow(text, -width / 2, 0, color);
-		
+
 		GL11.glPolygonOffset(1.0F, -2000000.0F);
 		GlStateManager.enablePolygonOffset();
 		GlStateManager.enableDepth();
 		GlStateManager.depthMask(true);
-		if (armor.isEnabled()) 
-        	renderItems(entity, healthMode.getSelected() == 1 ? -12 : -4);
+		if (armor.isEnabled())
+			renderItems(entity, healthMode.getSelected() == 1 ? -12 : -4);
 		GL11.glPolygonOffset(1.0F, 2000000.0F);
 		GlStateManager.disablePolygonOffset();
 		GlStateManager.disableDepth();
 		GlStateManager.depthMask(false);
 		GlStateManager.popMatrix();
 	}
-	
+
 	private String getHealth(EntityPlayer entity) {
 		float healthPercentage = entity.getHealth() / entity.getMaxHealth();
 		TextColor healthFormat = getFormatted(healthPercentage > 0.5 && healthPercentage < 0.75, healthPercentage > 0.25 && healthPercentage <= 0.5, healthPercentage <= 0.25);
 		return healthMode.getSelected() == 2 ? " " + healthFormat + String.format("%.2f", entity.getHealth()) : healthMode.getSelected() == 3 ? " " + healthFormat + (int) (healthPercentage * 100) + "%" : "";
 	}
-	
+
 	private String getPing(EntityPlayer entity) {
 		try {
 			NetworkPlayerInfo playerInfo = mc.getConnection().getPlayerInfo(entity.getUniqueID());
@@ -140,7 +138,7 @@ public class Nametags extends BasicMod implements Renderer {
 			return "";
 		}
 	}
-	
+
 	private int getColor(EntityPlayer entity, float distance, boolean friend, boolean sneaking) {
 		if (friend)
 			return huzuni.friendManager.getColor().getRGB();
@@ -157,7 +155,7 @@ public class Nametags extends BasicMod implements Renderer {
 			return sneaking ? 0xFF0000 : 0xFFFFFF;
 		}
 	}
-	
+
 	private TextColor getFormatted(boolean yellow, boolean gold, boolean red) {
 		if (yellow)
 			return TextColor.YELLOW;
@@ -168,19 +166,19 @@ public class Nametags extends BasicMod implements Renderer {
 		else
 			return TextColor.GREEN;
 	}
-	
+
 	private void draw3dItem(ItemStack itemStack, int x, int y, float delta) {
 		if (itemStack == null)
 			return;
 		try {
-        	mc.getRenderItem().zLevel = -150F;
+			mc.getRenderItem().zLevel = -150F;
 			mc.getRenderItem().renderItemAndEffectIntoGUI(itemStack, x, y);
-        	mc.getRenderItem().zLevel = 0F;
-        } catch (Exception e) {
-        	e.printStackTrace();
-        }
+			mc.getRenderItem().zLevel = 0F;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	private void renderItems(EntityPlayer player, float rY) {
 		int totalItems = 0;
 		GlStateManager.pushMatrix();
@@ -201,7 +199,7 @@ public class Nametags extends BasicMod implements Renderer {
 		}
 		GlStateManager.popMatrix();
 	}
-	
+
 	private void renderEnchantments(ItemStack item, float x, float y, float scale) {
 		float scaleInverse = 1F / scale, increment = 10F / scaleInverse;
 		if (item.getEnchantmentTagList() != null) {
@@ -216,7 +214,7 @@ public class Nametags extends BasicMod implements Renderer {
 			}
 		}
 	}
-	
+
 	private void renderHealth(EntityPlayer entity) {
 		int originX = -40;
 		int originY = -12;
@@ -234,7 +232,7 @@ public class Nametags extends BasicMod implements Renderer {
 				textureX += 36;
 			else if (entity.isPotionActive(MobEffects.WITHER))
 				textureX += 72;
-			
+
 			int j4 = 0;
 
 			int k4 = MathUtils.ceil((float) (i + 1) / 10.0F) - 1;
@@ -258,11 +256,11 @@ public class Nametags extends BasicMod implements Renderer {
 			} else {
 				if (i * 2 + 1 < health)
 					mc.ingameGUI.drawTexturedModalRect(x, y, textureX + 36, 9 * textureY, 9, 9);
-				
+
 				if (i * 2 + 1 == health)
 					mc.ingameGUI.drawTexturedModalRect(x, y, textureX + 45, 9 * textureY, 9, 9);
 			}
 		}
 	}
-	
+
 }
