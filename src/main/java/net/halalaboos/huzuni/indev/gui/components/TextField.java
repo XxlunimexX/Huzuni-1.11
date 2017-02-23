@@ -1,6 +1,7 @@
 package net.halalaboos.huzuni.indev.gui.components;
 
 
+import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.indev.gui.Component;
 import net.halalaboos.huzuni.indev.gui.actions.Actions;
 import net.halalaboos.huzuni.indev.gui.actions.ClickAction;
@@ -150,7 +151,7 @@ public class TextField extends Component {
      * */
     public String getRenderText(boolean showPlacement) {
         String text = showPlacement ? this.text.substring(0, pointer) + "|" + this.text.substring(pointer, this.text.length()) : this.text;
-        return font.trim(text, this.getWidth(), true);
+        return font.trim(text, this.getWidth() * GLManager.getScaleFactor(), true);
     }
 
     public String getText() {

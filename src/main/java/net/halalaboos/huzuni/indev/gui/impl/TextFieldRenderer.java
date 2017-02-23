@@ -34,7 +34,7 @@ public class TextFieldRenderer implements ComponentRenderer<TextField> {
     @Override
     public void render(TextField textField) {
         if (textField.getTag().equals("lined")) {
-            GLManager.glColor(RenderUtils.getColorWithAffects(textField.isTyping() ? BasicRenderer.ENABLED : BasicRenderer.GREY, textField.isHovered(), Mouse.isButtonDown(0)));
+            GLManager.glColor(RenderUtils.getColorWithAffects(textField.isTyping() ? BasicRenderer.ENABLED : BasicRenderer.GREY.brighter(), textField.isHovered(), Mouse.isButtonDown(0)));
             RenderUtils.drawLine(1F, textField.getX(), textField.getY() + textField.getHeight() - 1F, textField.getX() + textField.getWidth(), textField.getY() + textField.getHeight() - 1F);
         } else {
             GLManager.glColor(RenderUtils.getColorWithAffects(textField.isTyping() ? BasicRenderer.GREY.brighter() : BasicRenderer.GREY, textField.isHovered(), Mouse.isButtonDown(0)));
@@ -57,6 +57,6 @@ public class TextFieldRenderer implements ComponentRenderer<TextField> {
      * Originally draws a centered string with the default font renderer.
      * */
     public void drawString(FontData fontData, String text, int x, int y, int color) {
-        fontRenderer.drawString(fontData, text.toUpperCase(), x + 2, y - fontData.getFontHeight() / 2, color);
+        fontRenderer.drawString(fontData, text, x + 2, y - fontData.getFontHeight() / 2, color);
     }
 }
