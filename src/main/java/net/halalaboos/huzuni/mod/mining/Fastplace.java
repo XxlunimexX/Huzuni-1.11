@@ -5,7 +5,8 @@ import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Value;
-import net.halalaboos.huzuni.mc.Reflection;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 
 /**
  * Modifies players placement speed.
@@ -34,8 +35,8 @@ public class Fastplace extends BasicMod {
 	@EventMethod
 	public void onUpdate(UpdateEvent event) {
     	float speed = this.speed.getValue();
-        if (Reflection.getRightClickDelayTimer() > (4 - (byte) speed))
-            Reflection.setRightClickDelayTimer((4 - (byte) speed));
+        if (getMinecraft().getRightClickDelayTimer() > (4 - (byte) speed))
+			getMinecraft().setRightClickDelayTimer((4 - (byte) speed));
     }
 
 }

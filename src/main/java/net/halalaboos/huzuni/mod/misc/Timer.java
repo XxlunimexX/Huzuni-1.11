@@ -6,7 +6,7 @@ import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Value;
 
-import static net.halalaboos.huzuni.mc.Reflection.setTimerSpeed;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 
 /**
  * Modifies the timer speed of the game.
@@ -26,21 +26,21 @@ public class Timer extends BasicMod {
 	@Override
 	public void onEnable() {
 		huzuni.eventManager.addListener(this);
-		setTimerSpeed(speed.getValue());
+		getMinecraft().setTimerSpeed(speed.getValue());
 	}
 	
 	@Override
 	public void onDisable() {
 		huzuni.eventManager.removeListener(this);
-		setTimerSpeed(1);
+		getMinecraft().setTimerSpeed(1);
 	}
 
 	@EventMethod
 	public void onUpdate(UpdateEvent event) {
 		if (mc.currentScreen == null) {
-			setTimerSpeed(speed.getValue());
+			getMinecraft().setTimerSpeed(speed.getValue());
 		} else {
-			setTimerSpeed(1);
+			getMinecraft().setTimerSpeed(1);
 		}
 	}
 }

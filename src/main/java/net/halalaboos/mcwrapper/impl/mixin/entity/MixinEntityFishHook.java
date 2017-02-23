@@ -1,6 +1,6 @@
 package net.halalaboos.mcwrapper.impl.mixin.entity;
 
-import net.halalaboos.mcwrapper.api.entity.FishHook;
+import net.halalaboos.mcwrapper.api.entity.projectile.FishHook;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFishHook;

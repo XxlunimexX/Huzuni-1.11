@@ -1,5 +1,6 @@
-package net.halalaboos.mcwrapper.api.entity;
+package net.halalaboos.mcwrapper.api.entity.projectile;
 
+import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 
 public interface FishHook extends Entity {

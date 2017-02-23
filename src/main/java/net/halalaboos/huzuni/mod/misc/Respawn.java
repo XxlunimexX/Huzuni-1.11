@@ -4,6 +4,7 @@ import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
+import net.halalaboos.mcwrapper.api.network.packet.server.HealthUpdatePacket;
 import net.minecraft.network.play.client.CPacketClientStatus;
 import net.minecraft.network.play.server.SPacketUpdateHealth;
 
@@ -31,10 +32,11 @@ public class Respawn extends BasicMod {
 	@EventMethod
 	public void onPacket(PacketEvent event) {
 		if (event.type == PacketEvent.Type.READ) {
-			if (event.getPacket() instanceof SPacketUpdateHealth) {
-				SPacketUpdateHealth packet = (SPacketUpdateHealth)event.getPacket();
-				if (packet.getHealth() > 0.0F)
+			if (event.getPacket() instanceof HealthUpdatePacket) {
+				HealthUpdatePacket packet = (HealthUpdatePacket)event.getPacket();
+				if (packet.getHearts() > 0.0F)
 					return;
+				//TODO - this ---v
 				mc.getConnection().sendPacket(new CPacketClientStatus(CPacketClientStatus.State.PERFORM_RESPAWN));
 			}
 		}

@@ -5,6 +5,7 @@ import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Value;
+import net.halalaboos.mcwrapper.api.network.packet.server.HealthUpdatePacket;
 import net.minecraft.network.play.server.SPacketUpdateHealth;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
@@ -36,9 +37,9 @@ public class Autoquit extends BasicMod {
 	@EventMethod
 	public void onPacket(PacketEvent event) {
 		if(event.type == PacketEvent.Type.READ) {
-			if(event.getPacket() instanceof SPacketUpdateHealth) {
-				SPacketUpdateHealth packetUpdateHealth = (SPacketUpdateHealth)event.getPacket();
-				if(packetUpdateHealth.getHealth() <= health.getValue()) {
+			if(event.getPacket() instanceof HealthUpdatePacket) {
+				HealthUpdatePacket packetUpdateHealth = (HealthUpdatePacket)event.getPacket();
+				if(packetUpdateHealth.getHearts() <= health.getValue()) {
 					getPlayer().setLocation(getPlayer().getLocation().addY(Double.NaN));
 					setEnabled(false);
 				}

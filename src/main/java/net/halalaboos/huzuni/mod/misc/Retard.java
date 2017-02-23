@@ -9,6 +9,8 @@ import net.halalaboos.huzuni.api.task.LookTask;
 
 import java.util.Random;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
+
 public class Retard extends BasicMod {
 
 	private static final int HEADBANG_RATE = 45, NO_RATE = 70;
@@ -50,7 +52,7 @@ public class Retard extends BasicMod {
 			if (huzuni.lookManager.hasPriority(this)) {
 				switch (modeYaw.getSelected()) {
 					case 0:
-						lookTask.setYaw(mc.player.rotationYaw);
+						lookTask.setYaw(getPlayer().getYaw());
 						break;
 					case 1:
 						lookTask.setYaw(random.nextBoolean() ? random.nextInt(180)  : -random.nextInt(180));
@@ -64,13 +66,13 @@ public class Retard extends BasicMod {
 							noLeft = true;
 							yawPosition = NO_RATE;
 						}
-						lookTask.setYaw(mc.player.rotationYaw + yawPosition);
+						lookTask.setYaw(getPlayer().getYaw() + yawPosition);
 						break;
 				}
 
 				switch (modePitch.getSelected()) {
 					case 0:
-						lookTask.setPitch(mc.player.rotationPitch);
+						lookTask.setPitch(getPlayer().getPitch());
 						break;
 					case 1:
 						lookTask.setPitch(random.nextBoolean() ? random.nextInt(90)  : -random.nextInt(90));
@@ -87,7 +89,7 @@ public class Retard extends BasicMod {
 							headbangUp = true;
 							pitchPosition = HEADBANG_RATE;
 						}
-						lookTask.setPitch(mc.player.rotationPitch + pitchPosition);
+						lookTask.setPitch(getPlayer().getPitch() + pitchPosition);
 						break;
 				}
 				huzuni.lookManager.requestTask(this, lookTask);

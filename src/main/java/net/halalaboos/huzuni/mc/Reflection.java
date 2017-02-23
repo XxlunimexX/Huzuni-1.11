@@ -35,29 +35,9 @@ public class Reflection {
 	 */
 	private static Field inGround;
 
-	/**
-	 * Used for Fastplace - we could get around this and have it be packet/tick based, but this
-	 * is a bit easier.
-	 *
-	 * Field: Minecraft#rightClickDelayTimer
-	 */
-	private static Field rightClickDelayTimer;
-
-	/**
-	 * Used for the timer mod.
-	 *
-	 * Field: Minecraft#timer
-	 */
-	private static Field timer;
-
-	//Timer instance
-	private static Timer timerObj;
-
 	static {
 		persistantChatGUI = setAccessible(GuiIngame.class, "field_73840_e", "persistantChatGUI");
 		inGround = setAccessible(EntityArrow.class, "field_70254_i", "inGround");
-		rightClickDelayTimer = setAccessible(Minecraft.class, "field_71467_ac", "rightClickDelayTimer");
-		timer = setAccessible(Minecraft.class, "field_71428_T", "timer");
 	}
 
 	private static Field setAccessible(Class clazz, String name, String deobfName) {
@@ -68,15 +48,6 @@ public class Reflection {
 		} catch (ReflectionHelper.UnableToFindFieldException e) {
 			e.printStackTrace();
 			return null;
-		}
-	}
-
-	public static int getRightClickDelayTimer() {
-		try {
-			return rightClickDelayTimer.getInt(Minecraft.getMinecraft());
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-			return -1;
 		}
 	}
 
@@ -92,26 +63,6 @@ public class Reflection {
 	public static void setPersistantChatGUI(GuiIngame gui, GuiNewChat chatGUI) {
 		try {
 			persistantChatGUI.set(gui, chatGUI);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void setTimerSpeed(float amount) {
-		if (timerObj == null) {
-			try {
-				timerObj = (net.minecraft.util.Timer) Reflection.timer.get(Minecraft.getMinecraft());
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		} else {
-			timerObj.timerSpeed = amount;
-		}
-	}
-
-	public static void setRightClickDelayTimer(int speed) {
-		try {
-			rightClickDelayTimer.setInt(Minecraft.getMinecraft(), speed);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
