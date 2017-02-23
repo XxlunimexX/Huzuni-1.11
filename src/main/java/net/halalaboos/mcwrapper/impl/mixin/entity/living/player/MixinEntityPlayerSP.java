@@ -1,6 +1,6 @@
 package net.halalaboos.mcwrapper.impl.mixin.entity.living.player;
 
-import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
+import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;

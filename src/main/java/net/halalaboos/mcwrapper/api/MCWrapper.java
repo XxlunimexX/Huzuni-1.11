@@ -1,6 +1,6 @@
 package net.halalaboos.mcwrapper.api;
 
-import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
+import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.world.World;
 
 /**

@@ -13,7 +13,7 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
  * */
 public class Fastladder extends BasicMod {
 
-	private final Value speed = new Value("Speed", 0.05F, 0.25F, 1F, 0.5F, "How fast you go up the ladder.");
+	private final Value speed = new Value("Speed", 0.05F, 0.25F, 1F, 0.05F, "How fast you go up the ladder.");
 
 	public Fastladder() {
 		super("Fast ladder", "Allows you to climb ladders faster");
