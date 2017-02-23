@@ -1,18 +1,18 @@
 package net.halalaboos.mcwrapper.api.util.math;
 
-import java.util.Random;
-
 /**
  * Represents a three-dimensional point.
  */
 public class Vector3d {
 
-	public final double x;
-	public final double y;
-	public final double z;
+	/** The x-coordinate of the point */
+	private double x;
 
-	private static final Random random = new Random();
-	public static final Vector3d RANDOM = new Vector3d(random.nextInt(200), random.nextInt(200), random.nextInt(200));
+	/** The y-coordinate of the point */
+	private double y;
+
+	/** The z-coordinate of the point */
+	private double z;
 
 	public Vector3d(double x, double y, double z) {
 		this.x = x;
@@ -20,24 +20,75 @@ public class Vector3d {
 		this.z = z;
 	}
 
+	/**
+	 * Helps simplify the process of adding a value to only one of the points of the Vector, rather
+	 * than having to use {@link #add(double)}.
+	 *
+	 * @param x The amount to add to the {@link #x}
+	 * @return The {@link Vector3d} with the given {@code x} added to the current {@link #x}
+	 */
+	public Vector3d addX(double x) {
+		this.x += x;
+		return this;
+	}
+
+	/**
+	 * Helps simplify the process of adding a value to only one of the points of the Vector, rather
+	 * than having to use {@link #add(double)}.
+	 *
+	 * @param y The amount to add to the {@link #y}
+	 * @return The {@link Vector3d} with the given {@code y} added to the current {@link #y}
+	 */
+	public Vector3d addY(double y) {
+		this.y += y;
+		return this;
+	}
+
+	/**
+	 * Helps simplify the process of adding a value to only one of the points of the Vector, rather
+	 * than having to use {@link #add(double)}.
+	 *
+	 * @param z The amount to add to the {@link #z}
+	 * @return The {@link Vector3d} with the given {@code z} added to the current {@link #z}
+	 */
+	public Vector3d addZ(double z) {
+		this.z += z;
+		return this;
+	}
+
 	public Vector3d add(double amount) {
-		return new Vector3d(x + amount, y + amount, z + amount);
+		this.x += amount;
+		this.y += amount;
+		this.z += amount;
+		return this;
 	}
 
 	public Vector3d add(Vector3d vec) {
-		return new Vector3d(this.x + vec.x, this.y + vec.y, this.z + vec.z);
+		this.x += vec.x;
+		this.y += vec.y;
+		this.z += vec.z;
+		return this;
 	}
 
 	public Vector3d sub(double amount) {
-		return new Vector3d(x - amount, y - amount, z - amount);
+		this.x -= amount;
+		this.y -= amount;
+		this.z -= amount;
+		return this;
 	}
 
 	public Vector3d sub(Vector3d vec) {
-		return new Vector3d(this.x - vec.x, this.y - vec.y, this.z - vec.z);
+		this.x -= vec.x;
+		this.y -= vec.y;
+		this.z -= vec.z;
+		return this;
 	}
 
 	public Vector3d scale(double amount) {
-		return new Vector3d(x * amount, y * amount, z * amount);
+		this.x *= amount;
+		this.y *= amount;
+		this.z *= amount;
+		return this;
 	}
 
 	public double distanceTo(Vector3d target) {
@@ -63,5 +114,17 @@ public class Vector3d {
 
 	public Vector3d copy() {
 		return new Vector3d(x, y, z);
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public double getZ() {
+		return z;
 	}
 }

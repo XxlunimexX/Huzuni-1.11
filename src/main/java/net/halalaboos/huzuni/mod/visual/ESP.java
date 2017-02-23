@@ -77,9 +77,9 @@ public class ESP extends BasicMod implements Renderer {
 						(checkAge.isEnabled() && !MinecraftUtils.checkAge(entity)))
 					continue;
 				Vector3d pos = entity.getInterpolatedPosition();
-				double rX = pos.x - mc.getRenderManager().viewerPosX;
-				double rY = pos.y - mc.getRenderManager().viewerPosY;
-				double rZ = pos.z - mc.getRenderManager().viewerPosZ;
+				double rX = pos.getX() - mc.getRenderManager().viewerPosX;
+				double rY = pos.getY() - mc.getRenderManager().viewerPosY;
+				double rZ = pos.getZ() - mc.getRenderManager().viewerPosZ;
 				float distance = (float)MCWrapper.getPlayer().getDistanceTo(entity);
 				int entityId = entity.getEntityListId();
 				if (entityId < 0) entityId = 420;
@@ -99,8 +99,8 @@ public class ESP extends BasicMod implements Renderer {
 					GlStateManager.pushMatrix();
 					GlStateManager.translate(rX, rY, rZ);
 					GlStateManager.rotate(-MCWrapper.getPlayer().getRotation().yaw, 0F, 1F, 0F);
-					float width = (float) (entity.getBoundingBox().max.x - entity.getBoundingBox().min.x),
-							height = (float) (entity.getBoundingBox().max.y - entity.getBoundingBox().min.y);
+					float width = (float) (entity.getBoundingBox().max.getX() - entity.getBoundingBox().min.getX()),
+							height = (float) (entity.getBoundingBox().max.getY() - entity.getBoundingBox().min.getY());
 					VertexBuffer vertexBuffer = tessellator.getBuffer();
 					vertexBuffer.begin(GL_LINE_LOOP, DefaultVertexFormats.POSITION);
 					vertexBuffer.pos(-width, 0, 0F).endVertex();
@@ -123,9 +123,9 @@ public class ESP extends BasicMod implements Renderer {
 
 	private void generateVbo(Living entity, int entityId) {
 		if (box[entityId] == null) {
-			double wX = entity.getBoundingBox().min.x - entity.getBoundingBox().max.x,
-					wY = entity.getBoundingBox().max.y - entity.getBoundingBox().min.y,
-					wZ = entity.getBoundingBox().max.z - entity.getBoundingBox().min.z;
+			double wX = entity.getBoundingBox().min.getX() - entity.getBoundingBox().max.getX(),
+					wY = entity.getBoundingBox().max.getY() - entity.getBoundingBox().min.getY(),
+					wZ = entity.getBoundingBox().max.getZ() - entity.getBoundingBox().min.getZ();
 			double minX = -wX/2, minY = 0, minZ = -wZ/2, maxX = wX/2, maxZ = wZ/2;
 			box[entityId] = new Box(new AABB(minX, minY, minZ, maxX, wY, maxZ));
 			box[entityId].setOpaque(false);

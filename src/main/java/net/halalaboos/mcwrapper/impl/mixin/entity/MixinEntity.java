@@ -99,9 +99,9 @@ import java.util.UUID;
 
 	@Override
 	public void setVelocity(Vector3d velocity) {
-		this.motionX = velocity.x;
-		this.motionY = velocity.y;
-		this.motionZ = velocity.z;
+		this.motionX = velocity.getX();
+		this.motionY = velocity.getY();
+		this.motionZ = velocity.getZ();
 	}
 
 	@Override
@@ -181,7 +181,7 @@ import java.util.UUID;
 
 	@Override
 	public void setLocation(Vector3d location) {
-		setPosition(location.x, location.y, location.z);
+		setPosition(location.getX(), location.getY(), location.getZ());
 	}
 
 	@Override

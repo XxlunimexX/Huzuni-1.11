@@ -27,8 +27,8 @@ public class Box extends Vbo {
 	}
 
 	public void setup(AABB boundingBox) {
-		float minX = (float) boundingBox.min.x, minY = (float) boundingBox.min.y, minZ = (float) boundingBox.min.z;
-		float maxX = (float) boundingBox.max.x, maxY = (float) boundingBox.max.y, maxZ = (float) boundingBox.max.z;
+		float minX = (float) boundingBox.min.getX(), minY = (float) boundingBox.min.getY(), minZ = (float) boundingBox.min.getZ();
+		float maxX = (float) boundingBox.max.getX(), maxY = (float) boundingBox.max.getY(), maxZ = (float) boundingBox.max.getZ();
 		float[] vertices = new float[] { minX, minY, maxZ, maxX, minY, maxZ,
 				maxX, maxY, maxZ, minX, maxY, maxZ, maxX, minY, maxZ, minX,
 				minY, maxZ, minX, maxY, maxZ, maxX, maxY, maxZ, minX, minY,

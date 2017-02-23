@@ -34,7 +34,7 @@ public class Spider extends BasicMod {
 	public void onUpdate(UpdateEvent event) {
 		if (getPlayer().isCollided(Entity.CollisionType.HORIZONTAL)) {
 			Vector3d vel = getPlayer().getVelocity();
-			getPlayer().setVelocity(new Vector3d(vel.x, 0.2D, vel.z));
+			getPlayer().setVelocity(vel.addY(0.2));
 			getPlayer().setOnGround(true);
 		}
 	}
