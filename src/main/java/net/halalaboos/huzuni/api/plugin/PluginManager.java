@@ -1,6 +1,7 @@
 package net.halalaboos.huzuni.api.plugin;
 
 import net.halalaboos.huzuni.Huzuni;
+import net.halalaboos.mcwrapper.api.MCWrapper;
 import org.apache.logging.log4j.Level;
 
 import java.io.File;
@@ -73,7 +74,7 @@ public final class PluginManager {
 									plugins.add(plugin);
 								}
 							} else {
-								Huzuni.LOGGER.log(Level.ERROR, String.format("Unable to load %s! It is made for Minecraft version %s! Currently running %s", pluginData.getName(), pluginData.getMinecraftVersion(), Huzuni.MCVERSION));
+								Huzuni.LOGGER.log(Level.ERROR, String.format("Unable to load %s! It is made for Minecraft version %s! Currently running %s", pluginData.getName(), pluginData.getMinecraftVersion(), MCWrapper.getMinecraftVersion()));
 							}
 						} else {
 							Huzuni.LOGGER.log(Level.ERROR, String.format("'%s' could not be loaded as a plugin.", file.getAbsolutePath()));

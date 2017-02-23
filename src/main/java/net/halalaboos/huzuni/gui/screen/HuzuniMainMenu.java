@@ -3,6 +3,7 @@ package net.halalaboos.huzuni.gui.screen;
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.halalaboos.huzuni.gui.screen.account.HuzuniAccounts;
+import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -112,7 +113,7 @@ public class HuzuniMainMenu extends HuzuniScreen {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		TITLE.render(titleX, titleY + 10, 300, 100);
 		String forgeVersion = "Forge " + ForgeVersion.getVersion();
-		String huzuniVersion = Huzuni.VERSION + " (" + Huzuni.MCVERSION + ")";
+		String huzuniVersion = Huzuni.VERSION + " (" + MCWrapper.getMinecraftVersion() + ")";
 		this.drawString(fontRenderer, huzuniVersion, width - fontRenderer.getStringWidth(huzuniVersion) - 2, height - 12, 0x3FFFFFFF);
         this.drawString(fontRenderer, forgeVersion, width - fontRenderer.getStringWidth(forgeVersion) - 2, height - 24, 0x3FFFFFFF);
         if (huzuni.settings.hasUpdate())

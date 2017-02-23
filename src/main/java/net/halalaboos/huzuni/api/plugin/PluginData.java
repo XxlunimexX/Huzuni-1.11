@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.settings.Node;
 import net.halalaboos.huzuni.api.settings.StringNode;
+import net.halalaboos.mcwrapper.api.MCWrapper;
 import org.apache.logging.log4j.Level;
 
 import java.io.File;
@@ -92,7 +93,7 @@ public class PluginData extends Node {
 	 * @return True if the Minecraft version of this plugin is for this client's version of Minecraft.
 	 * */
 	public boolean isCurrentVersion() {
-		return mcVersion.getText().equals(Huzuni.MCVERSION);
+		return mcVersion.getText().equals(MCWrapper.getMinecraftVersion());
 	}
 	
 	@Override

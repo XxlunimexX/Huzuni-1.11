@@ -2,6 +2,7 @@ package net.halalaboos.huzuni.indev.script.meta;
 
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.gui.Notification;
+import net.halalaboos.mcwrapper.api.MCWrapper;
 
 /**
  * Wrapper Huzuni class used by scripts. <br/>
@@ -40,7 +41,7 @@ public final class ScriptHuzuni {
      * @return The minecraft version of the mod.
      * */
     public String getMcVersion() {
-        return Huzuni.MCVERSION;
+        return MCWrapper.getMinecraftVersion();
     }
 
     /**
