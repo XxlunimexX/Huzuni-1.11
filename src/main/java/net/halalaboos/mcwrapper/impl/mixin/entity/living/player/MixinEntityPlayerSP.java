@@ -89,8 +89,8 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 	}
 
 	@Override
-	public void setItemUseSlowdown(boolean itemUseSlowdown) {
-		this.itemSlowdown = itemUseSlowdown;
+	public void setItemUseSlowdown(boolean slowdown) {
+		this.itemSlowdown = slowdown;
 	}
 
 	@Override

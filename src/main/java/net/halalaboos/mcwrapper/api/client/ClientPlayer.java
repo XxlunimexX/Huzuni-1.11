@@ -57,9 +57,27 @@ public interface ClientPlayer extends Player {
 	 */
 	PlayerInfo getInfo(Player player);
 
+	/**
+	 * If an Item such as a consumable (food, potion, etc.) or something like a shield is being used by the Player,
+	 * this returns true.
+	 *
+	 * @return If the Player is using an item.
+	 */
 	boolean isUsingItem();
 
-	void setItemUseSlowdown(boolean itemUseSlowdown);
+	/**
+	 * Sets whether or not the Player should slow down when using an item.
+	 *
+	 * @see #getItemUseSlowdown()
+	 * @param slowdown Whether or not the player should slow down
+	 */
+	void setItemUseSlowdown(boolean slowdown);
 
+	/**
+	 * When the Player is using an Item, their movement is slowed down if this returns true.
+	 *
+	 * @return If the Player should slow down when using an item
+	 * TODO: Better name
+	 */
 	boolean getItemUseSlowdown();
 }
