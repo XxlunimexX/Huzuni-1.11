@@ -35,8 +35,10 @@ public class Fastladder extends BasicMod {
 	@EventMethod
 	public void onUpdate(UpdateEvent event) {
         float multiplier = speed.getValue();
+        //If we are climbing and moving forward
         if (getPlayer().isClimbing() && getPlayer().getForwardMovement() != 0) {
-            getPlayer().setVelocity(getPlayer().getVelocity().setY(multiplier));
+            //Set the velocity's y-value to the player-set speed
+        	getPlayer().setVelocity(getPlayer().getVelocity().setY(multiplier));
         }
     }
 }
