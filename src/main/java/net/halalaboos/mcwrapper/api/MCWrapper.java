@@ -1,6 +1,7 @@
 package net.halalaboos.mcwrapper.api;
 
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
+import net.halalaboos.mcwrapper.api.client.Controller;
 import net.halalaboos.mcwrapper.api.world.World;
 
 /**
@@ -37,5 +38,9 @@ public class MCWrapper {
 
 	public static World getWorld() {
 		return getMinecraft().getWorld();
+	}
+
+	public static Controller getController() {
+		return getMinecraft().getController();
 	}
 }

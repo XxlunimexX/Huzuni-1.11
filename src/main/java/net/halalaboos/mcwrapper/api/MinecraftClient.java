@@ -1,6 +1,7 @@
 package net.halalaboos.mcwrapper.api;
 
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
+import net.halalaboos.mcwrapper.api.client.Controller;
 import net.halalaboos.mcwrapper.api.network.ServerInfo;
 import net.halalaboos.mcwrapper.api.util.Resolution;
 import net.halalaboos.mcwrapper.api.world.World;
@@ -33,6 +34,11 @@ public interface MinecraftClient {
 	 * @return The player
 	 */
 	ClientPlayer getPlayer();
+
+	/**
+	 * @return The player controller
+	 */
+	Controller getController();
 
 	/**
 	 * @return The current world.

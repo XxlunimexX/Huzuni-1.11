@@ -3,6 +3,7 @@ package net.halalaboos.mcwrapper.impl.mixin;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.MinecraftClient;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
+import net.halalaboos.mcwrapper.api.client.Controller;
 import net.halalaboos.mcwrapper.api.network.ServerInfo;
 import net.halalaboos.mcwrapper.api.util.Resolution;
 import net.halalaboos.mcwrapper.api.world.World;
@@ -10,6 +11,7 @@ import net.halalaboos.mcwrapper.impl.OnePointElevenAdapter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.settings.GameSettings;
@@ -27,7 +29,6 @@ import java.util.Optional;
 @Mixin(net.minecraft.client.Minecraft.class)
 public abstract class MixinMinecraft implements MinecraftClient {
 
-	@Shadow public abstract Minecraft getMinecraft();
 	@Shadow private int rightClickDelayTimer;
 	@Shadow public abstract float getRenderPartialTicks();
 	@Shadow @Final private Timer timer;
@@ -58,6 +59,9 @@ public abstract class MixinMinecraft implements MinecraftClient {
 
 	@Shadow
 	private static int debugFPS;
+
+	@Shadow
+	public PlayerControllerMP playerController;
 
 	@Inject(method = "run()V", at = @At(value = "INVOKE",
 			target = "Lnet/minecraft/client/Minecraft;init()V",
@@ -135,5 +139,10 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Override
 	public int getFPS() {
 		return debugFPS;
+	}
+
+	@Override
+	public Controller getController() {
+		return ((Controller) playerController);
 	}
 }

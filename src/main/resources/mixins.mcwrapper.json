@@ -16,6 +16,7 @@
     "entity.living.player.MixinAbstractClientPlayer",
     "item.MixinItem",
     "item.MixinItemStack",
+    "client.MixinPlayerControllerMP",
     "world.MixinWorld",
     "network.MixinServerData",
     "network.MixinNetworkPlayerInfo"
