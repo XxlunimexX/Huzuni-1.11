@@ -24,6 +24,10 @@ import java.util.List;
 	@Shadow
 	public abstract List<net.minecraft.entity.Entity> getEntitiesWithinAABBExcludingEntity(@Nullable net.minecraft.entity.Entity entityIn, AxisAlignedBB bb);
 
+	@Shadow
+	@Nullable
+	public abstract net.minecraft.entity.Entity getEntityByID(int id);
+
 	@Override
 	public void setToAir(Vector3i pos) {
 		setBlockToAir(new BlockPos(pos.getX(), pos.getY(), pos.getZ()));
@@ -37,5 +41,10 @@ import java.util.List;
 	@Override
 	public Collection<Entity> getEntities() {
 		return ((Collection<Entity>)(Object)this.loadedEntityList);
+	}
+
+	@Override
+	public Entity getEntity(int entityId) {
+		return ((Entity) getEntityByID(entityId));
 	}
 }

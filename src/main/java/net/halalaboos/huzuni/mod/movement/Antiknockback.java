@@ -7,9 +7,12 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.api.util.Timer;
-import net.minecraft.network.play.client.CPacketUseEntity;
-import net.minecraft.network.play.server.SPacketEntityVelocity;
-import net.minecraft.network.play.server.SPacketExplosion;
+import net.halalaboos.mcwrapper.api.network.packet.client.UseEntityPacket;
+import net.halalaboos.mcwrapper.api.network.packet.server.EntityVelocityPacket;
+import net.halalaboos.mcwrapper.api.network.packet.server.ExplosionPacket;
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
  * Prevents the player from receiving knockback.
@@ -43,24 +46,27 @@ public class Antiknockback extends BasicMod {
 
 	@EventMethod
 	public void onPacket(PacketEvent event) {
-		if (event.getPacket() instanceof CPacketUseEntity) {
-			CPacketUseEntity packet = (CPacketUseEntity) event.getPacket();
-			if (packet.getAction() == CPacketUseEntity.Action.ATTACK) {
+		if (event.getPacket() instanceof UseEntityPacket) {
+			UseEntityPacket packet = (UseEntityPacket) event.getPacket();
+			if (packet.getUseAction() == UseEntityPacket.UseAction.ATTACK) {
 				timer.reset();
 			}
-		} else if (event.getPacket() instanceof SPacketEntityVelocity) {
-			SPacketEntityVelocity packet = (SPacketEntityVelocity) event.getPacket();
-			if (packet.getEntityID() == mc.player.getEntityId()) {
+		} else if (event.getPacket() instanceof EntityVelocityPacket) {
+			EntityVelocityPacket packet = (EntityVelocityPacket) event.getPacket();
+			if (packet.getId() == getPlayer().getId()) {
 				if (!combat.isEnabled() || !timer.hasReach((int) combatTime.getValue())) {
 					if (percentage.getValue() == 1F) {
 						event.setCancelled(true);
 					} else {
 						float percent = 1F - (percentage.getValue() / 100F);
-						event.setPacket(new SPacketEntityVelocity(packet.getEntityID(), percent * (packet.getMotionX() / 8000.0D), percent * (packet.getMotionY() / 8000.0D), percent * (packet.getMotionZ() / 8000.0D)));
+						double motionX = percent * (packet.getVelocity().getX() / 8000);
+						double motionY = percent * (packet.getVelocity().getY() / 8000);
+						double motionZ = percent * (packet.getVelocity().getZ() / 8000);
+						packet.setVelocity(new Vector3d(motionX, motionY, motionZ));
 					}
 				}
 			}
-		} else if (event.getPacket() instanceof SPacketExplosion) {
+		} else if (event.getPacket() instanceof ExplosionPacket) {
 			event.setCancelled(true);
 		}
 	}

@@ -19,6 +19,13 @@
     "client.MixinPlayerControllerMP",
     "world.MixinWorld",
     "network.MixinServerData",
-    "network.MixinNetworkPlayerInfo"
+    "network.MixinNetworkPlayerInfo",
+    "network.packet.MixinPacket",
+    "network.packet.client.MixinPacketChatMessage",
+    "network.packet.client.MixinPacketUseEntity",
+    "network.packet.server.MixinPacketEntityVelocity",
+    "network.packet.server.MixinPacketExplosion",
+    "network.packet.server.MixinPacketSpawnObject",
+    "network.packet.server.MixinPacketUpdateHealth"
   ]
 }

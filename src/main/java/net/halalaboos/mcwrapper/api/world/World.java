@@ -23,4 +23,6 @@ public interface World {
 	 */
 	Collection<Entity> getEntities();
 
+	Entity getEntity(int entityId);
+
 }

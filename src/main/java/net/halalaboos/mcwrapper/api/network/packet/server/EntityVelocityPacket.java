@@ -7,6 +7,8 @@ public interface EntityVelocityPacket extends Packet {
 
 	void setVelocity(Vector3d velocity);
 
-	int getEntityId();
+	Vector3d getVelocity();
+
+	int getId();
 
 }
