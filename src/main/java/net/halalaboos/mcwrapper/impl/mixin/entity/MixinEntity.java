@@ -185,9 +185,9 @@ import java.util.UUID;
 	}
 
 	@Override
-	public void setRotation(Rotation rotation) {
-		rotationPitch = rotation.pitch;
-		rotationYaw = rotation.yaw;
+	public void setRotation(float pitch, float yaw) {
+		rotationPitch = pitch;
+		rotationYaw = yaw;
 	}
 
 	@Override

@@ -5,7 +5,10 @@ import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.minecraft.block.material.Material;
+import net.halalaboos.mcwrapper.api.entity.Entity;
+import net.halalaboos.mcwrapper.api.world.Fluid;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
  * Allows the player to glide downward.
@@ -30,10 +33,16 @@ public class Glide extends BasicMod {
 
 	@EventMethod
 	public void onUpdate(UpdateEvent event) {
-		if (mc.player.motionY <= -0.0315F && !mc.player.onGround && !mc.player.isInWater() && !mc.player.isOnLadder() && !mc.player.isInsideOfMaterial(Material.LAVA) && !mc.player.isCollidedVertically && event.type == Type.PRE) {
-			mc.player.motionY = -0.0315F;
-			mc.player.jumpMovementFactor *= 1.21337f;
+		if (shouldGlide() && event.type == Type.PRE) {
+			getPlayer().getVelocity().setY(-0.0315F);
+			getPlayer().setJumpMovementFactor(getPlayer().getJumpMovementFactor() * 1.21337F);
 		}
+	}
+
+	private boolean shouldGlide() {
+		return getPlayer().getVelocity().getY() <= -0.0315F && !getPlayer().isOnGround() &&
+				!getPlayer().isInFluid(Fluid.WATER) && !getPlayer().isClimbing() &&
+				!getPlayer().isInFluid(Fluid.LAVA) && !getPlayer().isCollided(Entity.CollisionType.VERTICAL);
 	}
 
 }

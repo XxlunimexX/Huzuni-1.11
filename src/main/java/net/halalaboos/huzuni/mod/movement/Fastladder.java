@@ -4,15 +4,21 @@ import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
+import net.halalaboos.huzuni.api.settings.Value;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
  * Climbs up ladders at a faster rate.
  * */
 public class Fastladder extends BasicMod {
 
+	private final Value speed = new Value("Speed", 0.05F, 0.25F, 1F, 0.5F, "How fast you go up the ladder.");
+
 	public Fastladder() {
 		super("Fast ladder", "Allows you to climb ladders faster");
 		setAuthor("brudin");
+		addChildren(speed);
 		this.setCategory(Category.MOVEMENT);
 	}
 	
@@ -28,9 +34,9 @@ public class Fastladder extends BasicMod {
 
 	@EventMethod
 	public void onUpdate(UpdateEvent event) {
-        float multiplier = 0.25F;
-        if (mc.player.isOnLadder() && mc.player.movementInput.moveForward != 0) {
-            mc.player.motionY = multiplier;
+        float multiplier = speed.getValue();
+        if (getPlayer().isClimbing() && getPlayer().getForwardMovement() != 0) {
+            getPlayer().setVelocity(getPlayer().getVelocity().setY(multiplier));
         }
     }
 }

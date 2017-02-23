@@ -134,7 +134,7 @@ public interface Entity extends Identifiable, Nameable {
 	/**
 	 * Sets the Entity's rotation (pitch/yaw)
 	 */
-	void setRotation(Rotation rotation);
+	void setRotation(float pitch, float yaw);
 
 	/**
 	 * @return Whether or not the Entity is touching the ground.

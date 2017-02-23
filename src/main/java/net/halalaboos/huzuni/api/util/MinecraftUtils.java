@@ -36,6 +36,8 @@ import net.minecraft.util.math.Vec3d;
 import java.net.Proxy;
 import java.util.Collection;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
+
 /**
  * Easy to use functions that calculate blah blah blah relating to Minecraft.
  * */
@@ -266,16 +268,16 @@ public final class MinecraftUtils {
      * @return Rotations needed to face the position.
      */
 	public static float[] getRotationsNeeded(double x, double y, double z) {
-        double xSize = x - mc.player.posX;
-        double ySize = y - (mc.player.posY + (double) mc.player.getEyeHeight());
-        double zSize = z - mc.player.posZ;
+        double xSize = x - getPlayer().getX();
+        double ySize = y - (getPlayer().getY() + getPlayer().getEye());
+        double zSize = z - getPlayer().getZ();
         
         double theta = (double) MathUtils.sqrt(xSize * xSize + zSize * zSize);
         float yaw = (float) (Math.atan2(zSize, xSize) * 180.0D / Math.PI) - 90.0F;
         float pitch = (float) (-(Math.atan2(ySize, theta) * 180.0D / Math.PI));
         return new float[] {
-        		(mc.player.rotationYaw + MathUtils.wrapDegrees(yaw - mc.player.rotationYaw)) % 360F,
-        		(mc.player.rotationPitch + MathUtils.wrapDegrees(pitch - mc.player.rotationPitch)) % 360F,
+        		(getPlayer().getRotation().yaw + MathUtils.wrapDegrees(yaw - getPlayer().getRotation().yaw)) % 360F,
+        		(getPlayer().getRotation().pitch + MathUtils.wrapDegrees(pitch - getPlayer().getRotation().pitch)) % 360F,
         };
 	}
 	

@@ -28,5 +28,23 @@ public interface Living extends Entity {
 	 */
 	ItemStack getHeldItem(Hand hand);
 
+	/**
+	 * When an Entity is attacked, they are given a brief amount of invulnerability.  This represents the maximum time
+	 * they can be invulnerable.
+	 *
+	 * @return The maximum invulnerability period
+	 */
 	int getMaxHurtResistantTime();
+
+	/**
+	 * Sets the distance multiplier that the Entity can jump.
+	 *
+	 * @param movementFactor How far the Entity will move each tick when jumping.
+	 */
+	void setJumpMovementFactor(float movementFactor);
+
+	/**
+	 * Represents how far the Entity will move each tick when jumping.
+	 */
+	float getJumpMovementFactor();
 }

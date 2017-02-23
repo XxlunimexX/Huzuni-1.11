@@ -10,6 +10,8 @@ import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.entity.living.player.ClientPlayer;
 import org.lwjgl.input.Keyboard;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
+
 public class Flight extends BasicMod {
 
 	public static final Flight INSTANCE = new Flight();
@@ -31,24 +33,23 @@ public class Flight extends BasicMod {
 	@Override
 	public void onDisable() {
 		huzuni.eventManager.removeListener(this);
-		if (MCWrapper.getPlayer() != null) {
-			MCWrapper.getPlayer().setFlying(false);
+		if (getPlayer() != null) {
+			getPlayer().setFlying(false);
 		}
 	}
 
 	@EventMethod
 	public void onUpdate(UpdateEvent event) {
-		ClientPlayer player = MCWrapper.getPlayer();
 		switch (event.type) {
 			case PRE:
-				player.setFlying(true);
-				if (player.getFallDistance() > 3) {
-					player.setOnGround(true);
+				getPlayer().setFlying(true);
+				if (getPlayer().getFallDistance() > 3) {
+					getPlayer().setOnGround(true);
 				}
 				break;
 			case POST:
-				if (player.getFallDistance() > 3) {
-					player.setOnGround(false);
+				if (getPlayer().getFallDistance() > 3) {
+					getPlayer().setOnGround(false);
 				}
 				break;
 		}
