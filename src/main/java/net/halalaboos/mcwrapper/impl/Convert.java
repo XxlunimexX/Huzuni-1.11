@@ -5,6 +5,10 @@ import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
+/**
+ * Utility for quickly converting MCWrapper data classes to the Minecraft ones, or vice-versa.
+ * <p>This is only used for the Mixins.</p>
+ */
 public class Convert {
 
 	/**
