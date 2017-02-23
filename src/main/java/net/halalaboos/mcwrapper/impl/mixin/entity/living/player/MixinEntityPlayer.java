@@ -19,12 +19,17 @@ public abstract class MixinEntityPlayer extends MixinEntityLiving implements Pla
 	@Shadow protected FoodStats foodStats;
 	@Shadow public abstract float getCooledAttackStrength(float adjustTicks);
 
+	private boolean npc = false;
+
 	@Shadow
 	public abstract GameProfile getGameProfile();
 
 	@Override
 	public boolean isNPC() {
-		return MCWrapper.getPlayer().getInfo(this) == null;
+		if (MCWrapper.getPlayer().getInfo(this) == null) {
+			npc = true;
+		}
+		return npc;
 	}
 
 	@Override
