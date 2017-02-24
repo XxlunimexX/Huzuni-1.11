@@ -1,6 +1,8 @@
 package net.halalaboos.mcwrapper.impl.mixin.block.tileentity;
 
 import net.halalaboos.mcwrapper.api.block.tileentity.Chest;
+import net.minecraft.block.BlockChest;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,5 +33,10 @@ public abstract class MixinTileEntityChest extends MixinTileEntity implements Ch
 	@Override
 	public Chest getAdjacentZPos() {
 		return ((Chest) adjacentChestZPos);
+	}
+
+	@Override
+	public ChestType getType() {
+		return getBlockType() == Blocks.TRAPPED_CHEST ? ChestType.TRAP : ChestType.NORMAL;
 	}
 }

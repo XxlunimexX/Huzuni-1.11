@@ -8,13 +8,16 @@ import net.halalaboos.huzuni.api.settings.ItemSelector.ItemData;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.util.gl.Box;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.mcwrapper.api.block.tileentity.*;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.*;
 import org.lwjgl.input.Keyboard;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**
  * Renders meshes over tile entities within the world.
@@ -41,13 +44,13 @@ public class StorageESP extends BasicMod implements Renderer {
 		boxes.setEnabled(true);
 		border.setEnabled(true);
 		lines.setEnabled(false);
-		itemSelector.addItem(new ItemStack(Blocks.CHEST), TileEntityChest.class).setEnabled(true);
-		itemSelector.addItem(new ItemStack(Blocks.ENDER_CHEST), TileEntityEnderChest.class);
-		itemSelector.addItem(new ItemStack(Blocks.HOPPER), TileEntityHopper.class);
-		itemSelector.addItem(new ItemStack(Blocks.DISPENSER), TileEntityDropper.class, TileEntityDispenser.class);
-		itemSelector.addItem(new ItemStack(Blocks.FURNACE), TileEntityFurnace.class);
-		itemSelector.addItem(new ItemStack(Blocks.ENCHANTING_TABLE), TileEntityEnchantmentTable.class);
-		itemSelector.addItem(new ItemStack(Items.BREWING_STAND), TileEntityBrewingStand.class);
+		itemSelector.addItem(new ItemStack(Blocks.CHEST), Chest.class).setEnabled(true);
+		itemSelector.addItem(new ItemStack(Blocks.ENDER_CHEST), EnderChest.class);
+		itemSelector.addItem(new ItemStack(Blocks.HOPPER), Hopper.class);
+		itemSelector.addItem(new ItemStack(Blocks.DISPENSER), Dropper.class, Dispenser.class);
+		itemSelector.addItem(new ItemStack(Blocks.FURNACE), Furnace.class);
+		itemSelector.addItem(new ItemStack(Blocks.ENCHANTING_TABLE), EnchantingTable.class);
+		itemSelector.addItem(new ItemStack(Items.BREWING_STAND), BrewingStand.class);
 	}
 
 	@Override
@@ -83,23 +86,23 @@ public class StorageESP extends BasicMod implements Renderer {
 
 	@Override
 	public void render(float partialTicks) {
-		for (Object o : mc.world.loadedTileEntityList) {
-			TileEntity tileEntity = (TileEntity) o;
-			float renderX = (float) (tileEntity.getPos().getX() - mc.getRenderManager().viewerPosX);
-			float renderY = (float) (tileEntity.getPos().getY() - mc.getRenderManager().viewerPosY);
-			float renderZ = (float) (tileEntity.getPos().getZ() - mc.getRenderManager().viewerPosZ);
-			float dist = (float) mc.player.getDistance(tileEntity.getPos().getX(), tileEntity.getPos().getY(), tileEntity.getPos().getZ()) / 128F;
+		for (net.halalaboos.mcwrapper.api.block.tileentity.TileEntity tileEntity : getWorld().getTileEntities()) {
+			float renderX = (float) (tileEntity.getPosition().getX() - mc.getRenderManager().viewerPosX);
+			float renderY = (float) (tileEntity.getPosition().getY() - mc.getRenderManager().viewerPosY);
+			float renderZ = (float) (tileEntity.getPosition().getZ() - mc.getRenderManager().viewerPosZ);
+			float dist = (float) getPlayer().getDistanceTo(tileEntity.getPosition().toDouble()) / 128;
 			float alpha = dist > 0.25F ? 0.25F : dist;
+
 			if (!isEnabledInstance(tileEntity))
 				continue;
-			if (o instanceof TileEntityChest) {
-				final TileEntityChest chest = (TileEntityChest) o;
+			if (tileEntity instanceof Chest) {
+				Chest chest = (Chest)tileEntity;
 				if (this.lines.isEnabled()) {
-					huzuni.renderManager.addLine(renderX + 0.5F, renderY, renderZ + 0.5F, 1F, chest.getBlockType() == Blocks.TRAPPED_CHEST ? 0F : 1F, 0F, alpha);
+					huzuni.renderManager.addLine(renderX + 0.5F, renderY, renderZ + 0.5F, 1F, chest.getType() == Chest.ChestType.TRAP ? 0F : 1F, 0F, alpha);
 				}
 				GlStateManager.pushMatrix();
 				GlStateManager.translate(renderX, renderY, renderZ);
-				if (chest.adjacentChestXPos != null) {
+				if (chest.getAdjacentXPos() != null) {
 					if (boxes.isEnabled()) {
 						colorChest(chest, alpha);
 						left.setOpaque(true);
@@ -110,7 +113,7 @@ public class StorageESP extends BasicMod implements Renderer {
 						left.setOpaque(false);
 						left.render();
 					}
-				} else if (chest.adjacentChestZPos != null) {
+				} else if (chest.getAdjacentZPos() != null) {
 					if (boxes.isEnabled()) {
 						colorChest(chest, alpha);
 						right.setOpaque(true);
@@ -121,7 +124,7 @@ public class StorageESP extends BasicMod implements Renderer {
 						right.setOpaque(false);
 						right.render();
 					}
-				} else if (chest.adjacentChestXNeg == null && chest.adjacentChestZNeg == null) {
+				} else if (chest.getAdjacentXNeg() == null && chest.getAdjacentZNeg() == null) {
 					if (boxes.isEnabled()) {
 						colorChest(chest, alpha);
 						normal.setOpaque(true);
@@ -135,15 +138,15 @@ public class StorageESP extends BasicMod implements Renderer {
 				}
 				GlStateManager.popMatrix();
 			}
-			if (tileEntity instanceof TileEntityEnderChest || tileEntity instanceof TileEntityEnchantmentTable) renderBox(tileEntity, 1F, 0.1F, 1F);
-			if (tileEntity instanceof TileEntityFurnace) renderBox(tileEntity, 0.25F, 0.25F, 0.25F);
-			if (tileEntity instanceof TileEntityDropper || tileEntity instanceof TileEntityDispenser) renderBox(tileEntity, 0.5F, 0.5F, 0.5F);
-			if (tileEntity instanceof TileEntityHopper || tileEntity instanceof TileEntityBrewingStand) renderBox(tileEntity, 0.25F, 0.25F, 0.25F);
+			if (tileEntity instanceof EnderChest || tileEntity instanceof EnchantingTable) renderBox(tileEntity, 1F, 0.1F, 1F);
+			if (tileEntity instanceof Furnace) renderBox(tileEntity, 0.25F, 0.25F, 0.25F);
+			if (tileEntity instanceof Dropper || tileEntity instanceof Dispenser) renderBox(tileEntity, 0.5F, 0.5F, 0.5F);
+			if (tileEntity instanceof Hopper || tileEntity instanceof BrewingStand) renderBox(tileEntity, 0.25F, 0.25F, 0.25F);
 		}
 	}
 
-	private void colorChest(TileEntityChest tileEntity, float alpha) {
-		if (tileEntity.getBlockType() == Blocks.TRAPPED_CHEST)
+	private void colorChest(Chest tileEntity, float alpha) {
+		if (tileEntity.getType() == Chest.ChestType.TRAP)
 			GLManager.glColor(1F, 0F, 0F, fade.isEnabled() ? alpha : 0.25F);
 		else
 			GLManager.glColor(1F, 1F, 0F, fade.isEnabled() ? alpha : 0.25F);
@@ -152,12 +155,12 @@ public class StorageESP extends BasicMod implements Renderer {
 	/**
      * Renders a box with the given r, g, b values over the given tile entity.
      * */
-	private void renderBox(TileEntity tileEntity, float r, float g, float b) {
-		float dist = (float) mc.player.getDistance(tileEntity.getPos().getX(), tileEntity.getPos().getY(), tileEntity.getPos().getZ()) / 128F;
+	private void renderBox(net.halalaboos.mcwrapper.api.block.tileentity.TileEntity tileEntity, float r, float g, float b) {
+		float dist = (float) getPlayer().getDistanceTo(tileEntity.getPosition().toDouble()) / 128;
 		float alpha = dist > 0.25F ? 0.25F : dist;
-		float renderX = (float) (tileEntity.getPos().getX() - mc.getRenderManager().viewerPosX);
-		float renderY = (float) (tileEntity.getPos().getY() - mc.getRenderManager().viewerPosY);
-		float renderZ = (float) (tileEntity.getPos().getZ() - mc.getRenderManager().viewerPosZ);
+		float renderX = (float) (tileEntity.getPosition().getX() - mc.getRenderManager().viewerPosX);
+		float renderY = (float) (tileEntity.getPosition().getY() - mc.getRenderManager().viewerPosY);
+		float renderZ = (float) (tileEntity.getPosition().getZ() - mc.getRenderManager().viewerPosZ);
 		if (this.lines.isEnabled()) {
 			huzuni.renderManager.addLine(renderX + 0.5F, renderY, renderZ + 0.5F, r, g, b, fade.isEnabled() ? alpha : 0.25F);
 		}

@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.impl.mixin.world;
 
+import net.halalaboos.mcwrapper.api.block.tileentity.TileEntity;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
@@ -20,13 +21,9 @@ import java.util.List;
 	@Shadow public abstract boolean setBlockToAir(BlockPos pos);
 	@Shadow @Final public List<EntityPlayer> playerEntities;
 	@Shadow @Final public List<net.minecraft.entity.Entity> loadedEntityList;
-
-	@Shadow
-	public abstract List<net.minecraft.entity.Entity> getEntitiesWithinAABBExcludingEntity(@Nullable net.minecraft.entity.Entity entityIn, AxisAlignedBB bb);
-
-	@Shadow
-	@Nullable
-	public abstract net.minecraft.entity.Entity getEntityByID(int id);
+	@Shadow public abstract List<net.minecraft.entity.Entity> getEntitiesWithinAABBExcludingEntity(@Nullable net.minecraft.entity.Entity entityIn, AxisAlignedBB bb);
+	@Shadow @Nullable public abstract net.minecraft.entity.Entity getEntityByID(int id);
+	@Shadow @Final public List<net.minecraft.tileentity.TileEntity> loadedTileEntityList;
 
 	@Override
 	public void setToAir(Vector3i pos) {
@@ -41,6 +38,11 @@ import java.util.List;
 	@Override
 	public Collection<Entity> getEntities() {
 		return ((Collection<Entity>)(Object)this.loadedEntityList);
+	}
+
+	@Override
+	public Collection<TileEntity> getTileEntities() {
+		return ((Collection<TileEntity>)(Object)this.loadedTileEntityList);
 	}
 
 	@Override

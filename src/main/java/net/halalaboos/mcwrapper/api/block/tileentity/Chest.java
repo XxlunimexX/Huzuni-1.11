@@ -7,4 +7,9 @@ public interface Chest extends TileEntity {
 	Chest getAdjacentXNeg();
 	Chest getAdjacentZPos();
 
+	ChestType getType();
+
+	enum ChestType {
+		NORMAL, TRAP
+	}
 }

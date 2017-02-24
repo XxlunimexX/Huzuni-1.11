@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.api.world;
 
+import net.halalaboos.mcwrapper.api.block.tileentity.TileEntity;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
@@ -22,6 +23,8 @@ public interface World {
 	 * Returns a list of all of the loaded Entities.
 	 */
 	Collection<Entity> getEntities();
+
+	Collection<TileEntity> getTileEntities();
 
 	Entity getEntity(int entityId);
 
