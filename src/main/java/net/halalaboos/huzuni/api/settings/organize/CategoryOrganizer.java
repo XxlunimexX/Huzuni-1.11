@@ -8,7 +8,7 @@ import net.halalaboos.huzuni.api.mod.Mod;
 public class CategoryOrganizer extends Organizer {
 
 	public CategoryOrganizer() {
-		super("Category");
+		super("Category", false);
 
 	}
 

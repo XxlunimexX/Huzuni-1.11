@@ -12,9 +12,12 @@ import java.util.List;
 public abstract class Organizer implements Comparator<Mod> {
 	
 	private final String name;
-	
-	public Organizer(String name) {
+
+	private boolean useDisplay = false;
+
+	public Organizer(String name, boolean useDisplay) {
 		this.name = name;
+		this.useDisplay = useDisplay;
 	}
 	
 	public String getName() {
@@ -28,5 +31,13 @@ public abstract class Organizer implements Comparator<Mod> {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public boolean isUseDisplay() {
+		return useDisplay;
+	}
+
+	public void setUseDisplay(boolean useDisplay) {
+		this.useDisplay = useDisplay;
 	}
 }

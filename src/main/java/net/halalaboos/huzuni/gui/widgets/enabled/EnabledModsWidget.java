@@ -33,7 +33,7 @@ public class EnabledModsWidget extends BackgroundWidget {
 	
 	private final Mode<String> modColor = new Mode<>("Mod color", "Coloring used for each mod.", "Mod", "Category", "Growing rainbow", "Static rainbow");
 	
-	private final Mode<Organizer> listOrganization = new Mode<Organizer>("List organization", "Organization method used for mods.", new RandomOrganizer(), new UpwardOrganizer(), new DownwardOrganizer(), new CategoryOrganizer(), new AlphabeticalOrganizer()) {
+	private final Mode<Organizer> listOrganization = new Mode<Organizer>("List organization", "Organization method used for mods.", new RandomOrganizer(), new UpwardOrganizer(true), new DownwardOrganizer(true), new CategoryOrganizer(), new AlphabeticalOrganizer(true)) {
 		@Override
 		public void setSelectedItem(int selectedItem) {
 			super.setSelectedItem(selectedItem);

@@ -34,11 +34,15 @@ public class Container extends Component {
         // Used to ensure only one component is updated with a true hover state. When this container has a hover state of false, no component will receive a true hover state.
         boolean hover = isHovered();
 
+        // Reset the tool tip, since we will be calculating the hover state of each component.
+        this.tooltip = null;
+
         // Iterate backwards through each component and update their hovered state along with updating them.
         for (int i = components.size() - 1; i >= 0; i--) {
             Component component = components.get(i);
             // Set hover true if no other component has been set hovered = true and this component has the mouse over it.
             if (hover && component.isPointInside(inputUtility.getMouseX(), inputUtility.getMouseY())) {
+                this.tooltip = component.getTooltip();
                 component.setHovered(true);
                 hover = false;
             } else
@@ -68,14 +72,7 @@ public class Container extends Component {
 
     @Override
     public String getTooltip() {
-        // Sends the tooltip of the component which is hovered.
-        for (int i = components.size() - 1; i >= 0; i--) {
-            Component component = components.get(i);
-            if (component.isPointInside(inputUtility.getMouseX(), inputUtility.getMouseY())) {
-                return component.getTooltip();
-            }
-        }
-        return null;
+        return tooltip;
     }
 
     /**
@@ -99,23 +96,6 @@ public class Container extends Component {
         }
     }
 
-    public Layout getLayout() {
-        return layout;
-    }
-
-    /**
-     * Sets this containers layout.
-     * */
-    public void setLayout(Layout layout) {
-        this.layout = layout;
-        if (this.layout == null)
-            this.layout = new PaddedLayout();
-    }
-
-    public List<Component> getComponents() {
-        return components;
-    }
-
     /**
      * Adds this component to this container.
      * */
@@ -126,9 +106,30 @@ public class Container extends Component {
         return components.add(component);
     }
 
-    /**
-     * Removes this component from this container.
-     * */
+    @Override
+    protected void setInputUtility(InputUtility inputUtility) {
+        super.setInputUtility(inputUtility);
+        // Update every child with the new gui utility.
+        for (Component child : components) {
+            child.setInputUtility(inputUtility);
+        }
+    }
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+        // Ensure no negative layout.
+        if (this.layout == null)
+            this.layout = new PaddedLayout();
+    }
+
+    public List<Component> getComponents() {
+        return components;
+    }
+
     public boolean remove(Component component) {
         return components.remove(component);
     }
@@ -139,15 +140,6 @@ public class Container extends Component {
 
     public void setLayering(boolean layering) {
         this.layering = layering;
-    }
-
-    @Override
-    protected void setInputUtility(InputUtility inputUtility) {
-        super.setInputUtility(inputUtility);
-        // Update every child with the new gui utility.
-        for (Component child : components) {
-            child.setInputUtility(inputUtility);
-        }
     }
 
     public boolean isAutoLayout() {

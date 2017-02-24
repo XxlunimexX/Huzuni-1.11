@@ -27,6 +27,11 @@ public interface InputUtility {
     int getHeight();
 
     /**
+     * @return The user's clipboard string.
+     * */
+    String getClipboard();
+
+    /**
      * @return True if the x and y positions are within the rectangle specified by the int array in the form: x, y, width, height.
      * */
     boolean isPointInside(int x, int y, int[] rect);

@@ -12,7 +12,7 @@ import java.util.Random;
 public class RandomOrganizer extends Organizer {
 
 	public RandomOrganizer() {
-		super("Random");
+		super("Random", false);
 
 	}
 

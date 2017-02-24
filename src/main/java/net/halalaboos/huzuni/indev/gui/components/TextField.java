@@ -8,6 +8,8 @@ import net.halalaboos.huzuni.indev.gui.actions.ClickAction;
 import net.halalaboos.huzuni.indev.gui.actions.KeystrokeAction;
 import org.lwjgl.input.Keyboard;
 
+import java.awt.*;
+
 /**
  * Simple text field implementation. <br/>
  * Created by Brandon Williams on 1/15/2017.
@@ -18,6 +20,8 @@ public class TextField extends Component {
      * Every character which is allowed to be typed into this text field.
      * */
     private String validCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-=[]\\;',./`~!@#$%^&*()_+{}|:\"<>?; ";
+
+    private Color color = Color.WHITE;
 
     private String text, defaultText;
 
@@ -55,6 +59,10 @@ public class TextField extends Component {
                     case Keyboard.KEY_DELETE:
                         forwardSpace();
                         break;
+                    case Keyboard.KEY_V:
+                        if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) {
+                            this.append(inputUtility.getClipboard());
+                        }
                     default:
                         break;
                 }
@@ -75,6 +83,8 @@ public class TextField extends Component {
                 this.text = this.text.concat(string);
             } else if (pointer > 0) {
                 this.text = this.text.substring(0, pointer) + string + this.text.substring(pointer, this.text.length());
+            } else if (pointer == 0) {
+                this.text = string + this.text;
             }
             pointer += string.length();
         }
@@ -196,5 +206,13 @@ public class TextField extends Component {
 
     public void setValidCharacters(String validCharacters) {
         this.validCharacters = validCharacters;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

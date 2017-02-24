@@ -41,10 +41,10 @@ public class TextFieldRenderer implements ComponentRenderer<TextField> {
             RenderUtils.drawRect(textField.getArea());
         }
         if (textField.hasText()) {
-            int color = textField.isTyping() ? typing.getRGB() : notTyping.getRGB();
+            int color = textField.isTyping() ? textField.getColor().getRGB() : textField.getColor().darker().getRGB();
             drawString(textField.getFont(), textField.getRenderText(textField.isTyping()), textField.getX(), textField.getY() + textField.getHeight() / 2, color);
         } else {
-            drawString(textField.getFont(), textField.getDefaultText(), textField.getX(), textField.getY() + textField.getHeight() / 2, new Color(108, 108, 108, 255).getRGB());
+            drawString(textField.getFont(), textField.getDefaultText(), textField.getX(), textField.getY() + textField.getHeight() / 2, notTyping.getRGB());
         }
     }
 

@@ -7,14 +7,14 @@ import net.halalaboos.huzuni.api.mod.Mod;
  * */
 public class UpwardOrganizer extends Organizer {
 
-	public UpwardOrganizer() {
-		super("Upward");
+	public UpwardOrganizer(boolean useDisplay) {
+		super("Upward", useDisplay);
 
 	}
 
 	@Override
 	public int compare(Mod o1, Mod o2) {
-		return o2.getDisplayNameForRender().length() - o1.getDisplayNameForRender().length();
+		return isUseDisplay() ? o2.getDisplayNameForRender().length() - o1.getDisplayNameForRender().length() : o2.getName().length() - o1.getName().length();
 	}
 
 }

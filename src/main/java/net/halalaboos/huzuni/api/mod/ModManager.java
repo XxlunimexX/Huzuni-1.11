@@ -52,7 +52,7 @@ public final class ModManager extends JsonFileHandler {
 	@Override
 	public void load() {
 		super.load();
-		new AlphabeticalOrganizer().organize(mods);
+		new AlphabeticalOrganizer(false).organize(mods);
 	}
 	
 	/**

@@ -37,6 +37,8 @@ public abstract class Component {
      * */
     protected FontData font = new FontData();
 
+    protected String tooltip = null;
+
     protected Component parent;
 
     /**
@@ -76,7 +78,11 @@ public abstract class Component {
      * @return The tooltip associated with this component.
      * */
     public String getTooltip() {
-        return null;
+        return tooltip;
+    }
+
+    public void setTooltip(String tooltip) {
+        this.tooltip = tooltip;
     }
 
     /**

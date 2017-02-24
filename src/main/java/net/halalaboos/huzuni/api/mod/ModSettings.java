@@ -3,11 +3,11 @@ package net.halalaboos.huzuni.api.mod;
 import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.api.settings.ColorNode;
 import net.halalaboos.huzuni.api.settings.Node;
+import net.halalaboos.huzuni.api.settings.StringNode;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 
 import java.awt.*;
-import java.io.IOException;
 
 /**
  * Settings node which is applied to all mods. <br/>
@@ -22,15 +22,15 @@ public class ModSettings extends Node {
 	
 	private final Toggleable displayable = new Toggleable("Displayable", "Will allow the mod to be rendered in-game when enabled");
 	
-	private String displayName;
+	private final StringNode displayName;
 	
 	public ModSettings(Mod mod) {
 		super("settings", "Modify the settings of " + mod.getName());
-		this.addChildren(displayable, displayColor);
+		displayName = new StringNode("Display Name", mod.getName(), "Adjust the name this mod is displayed with in-game.");
+		this.addChildren(displayable, displayColor, displayName);
 		displayColor.setColor(GLManager.getRandomColor());
 		displayable.setEnabled(true);
 		this.mod = mod;
-		this.displayName = mod.getName();
 	}
 
 	@Override
@@ -38,26 +38,12 @@ public class ModSettings extends Node {
 		return mod.hasNode(json);
 	}
 
-	@Override
-	public void save(JsonObject json) throws IOException {
-		super.save(json);
-		json.addProperty("displayName", displayName);
-	}
-
-	@Override
-	public void load(JsonObject json) throws IOException {
-		super.load(json);
-		if (hasNode(json)) {
-			displayName = json.get("displayName").getAsString();
-		}
-	}
-
 	public String getDisplayName() {
-		return displayName;
+		return displayName.getText();
 	}
 
 	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
+		this.displayName.setText(displayName);
 	}
 	
 	public Color getDisplayColor() {

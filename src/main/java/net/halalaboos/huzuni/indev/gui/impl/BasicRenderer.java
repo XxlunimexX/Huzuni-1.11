@@ -1,14 +1,23 @@
 package net.halalaboos.huzuni.indev.gui.impl;
 
+import net.halalaboos.huzuni.api.gui.font.FontData;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.indev.gui.*;
+import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.components.*;
 import net.halalaboos.huzuni.api.gui.font.BasicFontRenderer;
 import net.halalaboos.huzuni.api.gui.font.FontRenderer;
+import net.halalaboos.huzuni.indev.gui.components.Button;
+import net.halalaboos.huzuni.indev.gui.components.Checkbox;
+import net.halalaboos.huzuni.indev.gui.components.Label;
+import net.halalaboos.huzuni.indev.gui.components.TextField;
 import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
+import net.halalaboos.huzuni.indev.gui.render.PopupRenderer;
 import net.halalaboos.huzuni.indev.gui.render.RenderManager;
 
-import java.awt.Color;
+import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
 
 /**
  * Basic implementation of the renderer for the GUI. <br/>
@@ -26,7 +35,7 @@ public class BasicRenderer extends RenderManager implements InputUtility {
     public final FontRenderer fontRenderer = new BasicFontRenderer();
 
     public BasicRenderer() {
-        super();
+        super(new BasicPopupRenderer());
         this.setRenderer(Button.class, new ButtonRenderer(fontRenderer));
         this.setRenderer(Checkbox.class, new CheckboxRenderer(fontRenderer));
         this.setRenderer(Container.class, new ContainerRenderer());
@@ -54,6 +63,21 @@ public class BasicRenderer extends RenderManager implements InputUtility {
     @Override
     public int getHeight() {
         return GLManager.getScreenHeight();
+    }
+
+    @Override
+    public String getClipboard() {
+        try {
+            Transferable transferable = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
+
+            if (transferable != null && transferable.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+                return (String) transferable.getTransferData(DataFlavor.stringFlavor);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+
     }
 
     @Override

@@ -1,11 +1,11 @@
 package net.halalaboos.huzuni.indev;
 
 import net.halalaboos.huzuni.api.mod.Mod;
-import net.halalaboos.huzuni.api.settings.Node;
-import net.halalaboos.huzuni.api.settings.Toggleable;
-import net.halalaboos.huzuni.api.settings.Value;
+import net.halalaboos.huzuni.api.mod.ModSettings;
+import net.halalaboos.huzuni.api.settings.*;
 import net.halalaboos.huzuni.api.util.RateLimiter;
 import net.halalaboos.huzuni.gui.screen.HuzuniScreen;
+import net.halalaboos.huzuni.indev.gui.Component;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.ContainerManager;
 import net.halalaboos.huzuni.indev.gui.components.*;
@@ -46,12 +46,12 @@ public class GuiTestScreen  extends HuzuniScreen {
     public GuiTestScreen() {
         super();
         BasicRenderer renderer = new BasicRenderer();
-        manager = new ContainerManager(renderer, renderer);
         title = huzuni.fontManager.getFont("Roboto Condensed", 48, Font.BOLD, true);
         description = huzuni.fontManager.getFont("Roboto Condensed", 16, Font.ITALIC, true);
         mods = huzuni.fontManager.getFont("Roboto Condensed", 18, Font.PLAIN, true);
         defaultFont = huzuni.fontManager.getFont("Roboto Condensed", 20, Font.PLAIN, true);
         textField = huzuni.fontManager.getFont("Roboto Condensed", 20, Font.ITALIC, true);
+        manager = new ContainerManager(renderer, renderer, defaultFont);
         //blurShader = new ResourceLocation("shaders/post/blur.json");
     }
 
@@ -151,7 +151,7 @@ public class GuiTestScreen  extends HuzuniScreen {
     /**
      * Invoked by mod buttons to load their settings.
      * */
-    public void loadModSettings(Mod mod) {
+    public void loadMod(Mod mod) {
         settings.clear();
 
         // Create the title label.
@@ -163,21 +163,43 @@ public class GuiTestScreen  extends HuzuniScreen {
         description.setPosition(10, 40);
         settings.add(description);
 
-        TextField nameField = new TextField("lined", mod.settings.getDisplayName(), mod.getName());
-        nameField.setSize(100, textField.getFontHeight() + 2);
-        nameField.setPosition(10, settings.getHeight() - nameField.getHeight() - 2);
-        nameField.setFont(textField);
-        settings.add(nameField);
+        int settingsHeight = loadModSettings(10, settings.getHeight() - 2, 4, mod.settings);
 
         ScrollableContainer childContainer = new ScrollableContainer("invisible-background");
         childContainer.setLayout(new ListLayout(1, 1));
         childContainer.setPosition(10, 60);
-        childContainer.setSize(settings.getWidth() - 20, settings.getHeight() - 60 - nameField.getHeight() - 2);
+        childContainer.setSize(settings.getWidth() - 20, settings.getHeight() - 60 - settingsHeight - 2);
 
         loadNodes(mod, childContainer);
         childContainer.layout();
         settings.add(childContainer);
         settings.layout();
+    }
+
+    /**
+     * @return The total height of the components from the provided mod settings.
+     * */
+    private int loadModSettings(int x, int y, int padding, ModSettings modSettings) {
+        int startY = y;
+        for (Node child : modSettings.getChildren()) {
+            Component component = null;
+            if (child instanceof StringNode) {
+                component = new StringNodeContainer((StringNode) child, defaultFont, textField);
+            } else if (child instanceof Toggleable) {
+                component = new ToggleableCheckbox((Toggleable) child);
+                component.setTooltip(child.getDescription());
+                component.setFont(defaultFont);
+            } else if (child instanceof ColorNode) {
+                component = new ColorNodeContainer((ColorNode) child, defaultFont, textField);
+            }
+            if (component != null) {
+                component.setPosition(x, y - component.getHeight());
+                y -= component.getHeight() + padding;
+                settings.add(component);
+            }
+        }
+        // Return the difference from the start y position to the final y position. This calculates the height.
+        return startY - y;
     }
 
     private void loadNodes(Node node, Container container) {
@@ -187,6 +209,7 @@ public class GuiTestScreen  extends HuzuniScreen {
             // Create a check box for the toggleable.
             if (child instanceof Toggleable) {
                 ToggleableCheckbox checkbox = new ToggleableCheckbox((Toggleable) child);
+                checkbox.setTooltip(child.getDescription());
                 checkbox.setFont(defaultFont);
                 container.add(checkbox);
 
@@ -200,14 +223,14 @@ public class GuiTestScreen  extends HuzuniScreen {
 
                 // If we have JUST a node.
             } else if (child.getClass().isAssignableFrom(Node.class)) {
-                Container container1 = new Container("goob");
-                container1.setUseLayoutSize(true);
-                container1.setLayering(false);
-                container1.setAutoLayout(true);
-                container1.setLayout(new GridLayout(2, GridLayout.INFINITE_LENGTH, 0, 0, 1));
-                loadNodes(child, container1);
-                container1.layout();
-                container.add(container1);
+                Container internal = new Container("internal");
+                internal.setUseLayoutSize(true);
+                internal.setLayering(false);
+                internal.setAutoLayout(true);
+                internal.setLayout(new GridLayout(2, GridLayout.INFINITE_LENGTH, 0, 0, 1));
+                loadNodes(child, internal);
+                internal.layout();
+                container.add(internal);
             }
         }
     }

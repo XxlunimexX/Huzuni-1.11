@@ -19,6 +19,12 @@ public class RenderManager {
      * */
     private final Map<ComponentRendererMatcher, ComponentRenderer> renderers = new HashMap<>();
 
+    private final PopupRenderer popupRenderer;
+
+    public RenderManager(PopupRenderer popupRenderer) {
+        this.popupRenderer = popupRenderer;
+    }
+
     /**
      * Assigns this renderer to the class specified. Can render subclasses of this class.
      * */
@@ -66,6 +72,10 @@ public class RenderManager {
             }
             renderer.get().getValue().post(component);
         }
+    }
+
+    public PopupRenderer getPopupRenderer() {
+        return popupRenderer;
     }
 
     /**

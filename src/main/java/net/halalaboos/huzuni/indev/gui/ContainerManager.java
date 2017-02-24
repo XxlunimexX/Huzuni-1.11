@@ -1,6 +1,7 @@
 package net.halalaboos.huzuni.indev.gui;
 
 import com.sun.javafx.scene.traversal.Direction;
+import net.halalaboos.huzuni.api.gui.font.FontData;
 import net.halalaboos.huzuni.indev.gui.actions.Actions;
 import net.halalaboos.huzuni.indev.gui.actions.ClickAction;
 import net.halalaboos.huzuni.indev.gui.actions.KeystrokeAction;
@@ -21,9 +22,14 @@ public class ContainerManager {
 
     private InputUtility inputUtility;
 
-    public ContainerManager(RenderManager renderManager, InputUtility inputUtility) {
+    private final FontData popupFont;
+
+    private String tooltip = null;
+
+    public ContainerManager(RenderManager renderManager, InputUtility inputUtility, FontData popupFont) {
         this.renderManager = renderManager;
         this.inputUtility = inputUtility;
+        this.popupFont = popupFont;
     }
 
     /**
@@ -33,6 +39,7 @@ public class ContainerManager {
         for (Container container : containers) {
             renderManager.render(container);
         }
+        renderManager.getPopupRenderer().drawTooltip(popupFont, tooltip, inputUtility.getMouseX(), inputUtility.getMouseY() - popupFont.getFontHeight());
     }
 
     /**
@@ -41,10 +48,15 @@ public class ContainerManager {
     public void update() {
         // Used to ensure only one container is updated with a true hover state.
         boolean hover = true;
+
+        // Reset the tool tip, since we will be calculating the hover state of each component.
+        this.tooltip = null;
+
         for (int i = containers.size() - 1; i >= 0; i--) {
             Container container = containers.get(i);
             // Set hover true if no other container has been set hovered = true and this container has the mouse over it.
             if (hover && container.isPointInside(inputUtility.getMouseX(), inputUtility.getMouseY())) {
+                this.tooltip = container.getTooltip();
                 container.setHovered(true);
                 hover = false;
             } else

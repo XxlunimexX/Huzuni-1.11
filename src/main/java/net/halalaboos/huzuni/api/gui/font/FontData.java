@@ -110,6 +110,8 @@ public final class FontData {
      * @return The bounds of the character within the font image.
      * */
     public CharacterData getCharacterBounds(char character) {
+        if (!hasFont())
+            return null;
         return characterBounds[character];
     }
 
@@ -117,6 +119,8 @@ public final class FontData {
      * @return The total width of each character within the string.
      * */
     public int getStringWidth(String text) {
+        if (!hasFont())
+            return 0;
         int width = 0;
         for (char c : text.toCharArray()) {
             width += characterBounds[c].width;
@@ -129,7 +133,7 @@ public final class FontData {
      * @return True if the character has been mapped in this font.
      * */
     public boolean hasBounds(char character) {
-        return character >= 0 && character < 256;
+        return character < 256;
     }
 
     /**
@@ -148,6 +152,8 @@ public final class FontData {
      * @return The input trimmed to fit the length expected.
      * */
     public String trim(String input, int length, boolean backwards) {
+        if (!hasFont())
+            return input;
         char[] characters = input.toCharArray();
         // Our start index will be 0 if we are trimming from the beginning and length - 1 if we are trimming from the end.
         int index = backwards ? characters.length - 1 : 0, current = 0;

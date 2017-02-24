@@ -22,7 +22,7 @@ public class ModButton extends Button {
     @Override
     public void onPressed() {
         super.onPressed();
-        guiScreen.loadModSettings(mod);
+        guiScreen.loadMod(mod);
     }
 
     public Mod getMod() {

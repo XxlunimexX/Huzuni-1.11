@@ -28,8 +28,12 @@ public class ValueContainer extends Container {
         this.add(description = new Label("description", value.getDescription()));
         this.add(slider = new Slider("slider"));
         // Set the default dimensions of the slider as well as updating it's percentage to reflect the value node.
-        slider.setSize(150, 12);
-        slider.setSliderPercentage((value.getValue() - value.getMinValue()) / (value.getMaxValue() - value.getMinValue()));    }
+        this.slider.setSize(150, 12);
+        this.slider.setSliderPercentage((value.getValue() - value.getMinValue()) / (value.getMaxValue() - value.getMinValue()));
+        // Unnecessary!
+        // this.slider.setTooltip(value.getDescription());
+        this.layout();
+    }
 
     @Override
     public void update() {

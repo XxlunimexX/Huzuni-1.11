@@ -7,13 +7,13 @@ import net.halalaboos.huzuni.api.mod.Mod;
  * */
 public class AlphabeticalOrganizer extends Organizer {
 
-	public AlphabeticalOrganizer() {
-		super("Alphabetical");
+	public AlphabeticalOrganizer(boolean useDisplay) {
+		super("Alphabetical", useDisplay);
 
 	}
 
 	@Override
 	public int compare(Mod o1, Mod o2) {
-		return o1.getDisplayNameForRender().compareTo(o2.getDisplayNameForRender());
+		return isUseDisplay() ? o1.getDisplayNameForRender().compareTo(o2.getDisplayNameForRender()) : o1.getName().compareTo(o2.getName());
 	}
 }
