@@ -5,6 +5,9 @@
   "refmap": "mixins.huzuni.refmap.json",
   "mixins": [
     "MixinMinecraft",
+    "block.MixinBlock",
+    "block.tileentity.MixinTileEntity",
+    "block.tileentity.MixinTileEntityChest",
     "entity.MixinEntity",
     "entity.MixinEntityFishHook",
     "entity.living.MixinEntityAgeable",
