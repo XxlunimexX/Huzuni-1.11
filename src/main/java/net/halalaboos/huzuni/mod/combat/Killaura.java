@@ -35,41 +35,28 @@ public class Killaura extends BasicMod implements Renderer {
 	private final Texture select = new Texture("select.png");
 	
 	public final Toggleable players = new Toggleable("Players", "Attack players");
-
 	public final Toggleable mobs = new Toggleable("Mobs", "Attack mobs");
-
 	public final Toggleable animals = new Toggleable("Animals", "Attack animals");
-
 	public final Toggleable invisibles = new Toggleable("Invisible", "Attack invisibles");
 
 	public final Toggleable silent = new Toggleable("Silent", "The aimbot will be silent");
-
 	public final Toggleable randomMisses = new Toggleable("Random misses", "Randomly misses the entity");
-
 	public final Toggleable interact = new Toggleable("Interact", "Interacts with entities rather than hitting them");
-
 	public final Toggleable smartAttack = new Toggleable("Smart attack", "Attacks entities when the attack power exceeds or reaches their health");
-
 	public final Toggleable selection = new Toggleable("Entity selection", "Select specific entities to attack");
-
 	public final Toggleable checkAge = new Toggleable("Check age", "Check the age of the entity before attacking");
 
 	public final Toggleable strengthRandomization = new Toggleable("Randomize Strength", "Randomize the rate when attacking based on strength");
-
 	public final Toggleable speedRandomization = new Toggleable("Randomize Speed", "Randomize the rate when attacking based on speed");
 
 	public final Value strength = new Value("Strength", "%", 0F, 100F, 100F, 1F, "Attack strength");
-
 	public final Value speed = new Value("Speed", "", 1F, 8F, 15F, "Attack speed (in hits per second)");
-
 	public final Value reach = new Value("Reach", " blocks", 3F, 3.8F, 6F, "Attack reach");
-
 	public final Value fov = new Value("FOV", "", 10F, 60F, 180F, 1F, "FOV you will attack entities inside of");
-
 	public final Value rotationRate = new Value("Rotation rate", "", 2F, 10F, 180F, 1F, "Maximum rate the rotation will be updated (the smaller, the smoother)");
 
 	public final Mode<String> priority = new Mode<>("Attack Priority", "Determines which entity will be selected for attack", "Closest to crosshair", "Closest to player", "Triggerbot");
-		
+
 	private final LookTask lookTask = new LookTask(this);
 	
 	private final EntityTracker tracker = new EntityTracker();
@@ -90,9 +77,9 @@ public class Killaura extends BasicMod implements Renderer {
 		super("Kill aura", "Attack entities surrounding the player", Keyboard.KEY_R);
 		setAuthor("Halalaboos");
 
-		Node entities = new Node("Entities", "gof");
-		entities.addChildren(players, mobs, animals);
-		this.addChildren(entities, invisibles, silent, randomMisses, interact, smartAttack, selection, checkAge, priority, strength, strengthRandomization, speed, speedRandomization, reach, fov, rotationRate);
+		Node entities = new Node("Entities", "Entities to target");
+		entities.addChildren(players, mobs, animals, invisibles);
+		this.addChildren(entities, silent, randomMisses, interact, smartAttack, selection, checkAge, priority, strength, strengthRandomization, speed, speedRandomization, reach, fov, rotationRate);
 
 		silent.setEnabled(true);
 		players.setEnabled(true);

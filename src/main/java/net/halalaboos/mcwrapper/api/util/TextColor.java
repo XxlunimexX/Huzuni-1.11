@@ -2,6 +2,13 @@ package net.halalaboos.mcwrapper.api.util;
 
 import java.util.Locale;
 
+/**
+ * Minecraft uses special formatting codes for their text rendering.  These formatting codes can apply color changes,
+ * effects, etc.
+ * <p>Using these formatting codes is pretty straightforward.  All that needs to be done is call the formatting code
+ * in a method that uses text rendering.  </p>
+ * <p>For example, <code>drawString(TextColor.GOLD + "Hello world!", x, y)</code> Would render gold-colored text.</p>
+ */
 public enum TextColor {
 
 	BLACK("BLACK", '0', 0),

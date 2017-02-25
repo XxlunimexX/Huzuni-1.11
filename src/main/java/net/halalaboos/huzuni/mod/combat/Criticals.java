@@ -47,7 +47,7 @@ public class Criticals extends BasicMod {
 		Player player = MCWrapper.getAdapter().getMinecraft().getPlayer();
 		boolean preGround = player.isOnGround();
 		player.setOnGround(false);
-		player.doJump();
+		player.jump();
 		player.setOnGround(preGround);
 	}
 	

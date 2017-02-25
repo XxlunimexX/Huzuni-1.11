@@ -15,7 +15,7 @@ public interface Living extends Entity {
 	/**
 	 * Makes the Entity jump.
 	 */
-	void doJump();
+	void jump();
 
 	/**
 	 * @return Whether or not the Entity is climbing on a block such as a ladder or vine.

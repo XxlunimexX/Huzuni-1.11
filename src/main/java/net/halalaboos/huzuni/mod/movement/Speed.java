@@ -68,7 +68,7 @@ public class Speed extends BasicMod {
 			mode.getSelectedItem().onUpdate(this, mc, event);
 			if (modifyMovement && MCWrapper.getPlayer().isOnGround()) {
 				if ((stairs.isEnabled() && isUnderStairs()) || bunnyHop.isEnabled()) {
-					MCWrapper.getPlayer().doJump();
+					MCWrapper.getPlayer().jump();
 				}
 			}
 		}

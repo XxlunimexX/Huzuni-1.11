@@ -6,16 +6,16 @@ import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.impl.mixin.entity.MixinEntity;
 import net.minecraft.util.EnumHand;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 
 @Mixin(net.minecraft.entity.EntityLivingBase.class)
+@Implements(@Interface(iface = Living.class, prefix = "api$"))
 public abstract class MixinEntityLiving extends MixinEntity implements Living {
 
 	@Shadow public abstract float getHealth();
 	@Shadow public abstract float getMaxHealth();
 	@Shadow public abstract boolean isOnLadder();
-	@Shadow protected abstract void jump();
+	@Shadow protected abstract void shadow$jump();
 	@Shadow public abstract net.minecraft.item.ItemStack getHeldItem(EnumHand hand);
 	@Shadow public int maxHurtResistantTime;
 
@@ -27,9 +27,9 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 		return new HealthData(getHealth(), getMaxHealth());
 	}
 
-	@Override
-	public void doJump() {
-		jump();
+	@Intrinsic
+	public void api$jump() {
+		shadow$jump();
 	}
 
 	@Override
