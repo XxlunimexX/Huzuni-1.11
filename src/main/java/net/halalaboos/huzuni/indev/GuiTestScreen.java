@@ -99,10 +99,7 @@ public class GuiTestScreen  extends HuzuniScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         while (updateLimiter.reached())
             manager.update();
-        //glEnable(GL_STENCIL_TEST);
         manager.render();
-        //glDisable(GL_STENCIL_TEST);
-        //GLManager.update();
         GlStateManager.disableBlend();
     }
 
@@ -212,13 +209,15 @@ public class GuiTestScreen  extends HuzuniScreen {
                 // Create the color node container for color nodes.
             } else if (child instanceof ColorNode) {
                 component = new ColorNodeContainer((ColorNode) child, defaultFont, textField);
+
+                // Create the item list container for item lists.
             } else if (child instanceof ItemList) {
-                component = new ItemListContainer((ItemList) child, defaultFont, !((ItemList) child).isOrdered());
+                component = new ItemListContainer((ItemList) child, defaultFont);
             }
 
             // If the node had a component made for it, we position it and either decrement or increment the y position.
             if (component != null) {
-                component.setPosition(x, y + (reversed ? -component.getHeight() : 0));
+                component.setPosition(x, y - (reversed ? component.getHeight() : 0));
                 y += reversed ? -component.getHeight() - padding : component.getHeight() + padding;
                 container.add(component);
             }

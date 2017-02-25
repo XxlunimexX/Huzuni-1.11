@@ -12,7 +12,7 @@ import net.halalaboos.huzuni.indev.gui.layouts.ListLayout;
  */
 public class ItemListContainer extends ScrollableContainer {
 
-    public ItemListContainer(ItemList<Nameable> itemList, FontData itemFont, boolean moveable) {
+    public ItemListContainer(ItemList<Nameable> itemList, FontData itemFont) {
         super("invisible");
         this.setLayout(new ListLayout(0, 1));
         this.setAutoLayout(true);
