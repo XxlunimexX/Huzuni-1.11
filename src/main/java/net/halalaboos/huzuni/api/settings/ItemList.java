@@ -12,7 +12,7 @@ import java.util.List;
  * */
 public abstract class ItemList <I extends Nameable> extends Node {
 	
-	private final List<I> items = new ArrayList<I>();
+	private final List<I> items = new ArrayList<>();
 	
 	private boolean ordered = false, expandable = true;
 	

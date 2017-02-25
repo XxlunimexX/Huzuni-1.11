@@ -39,7 +39,7 @@ public abstract class Component {
 
     protected String tooltip = null;
 
-    protected Component parent;
+    private Component parent;
 
     /**
      * Each activator will be mapped to it's respective action.
@@ -109,6 +109,32 @@ public abstract class Component {
     }
 
     /**
+     * Adds an actionListener to this component. Will update them with action information.
+     * */
+    public void addListener(Actions action, ActionListener actionListener) {
+        // Grab the actions object from within our listeners map and use this optional's 'isPresent' value to determine if we
+        // Must update our listeners list for this action type or create that list.
+        Optional<Actions> optional = this.listeners.keySet().stream().filter(internalActivation -> internalActivation == action).findFirst();
+        if (optional.isPresent()) {
+            this.listeners.get(optional.get()).add(actionListener);
+        } else {
+            List list = new ArrayList();
+            list.add(actionListener);
+            this.listeners.put(action, list);
+        }
+    }
+
+    /**
+     * Will remove this component from it's parent.
+     * */
+    public void dispose() {
+        if (parent instanceof Container) {
+            ((Container) parent).remove(this);
+            this.parent = null;
+        }
+    }
+
+    /**
      * @return An int array containing the x, y, width, and height of this component.
      * */
     public int[] getArea() {
@@ -165,20 +191,6 @@ public abstract class Component {
 
     protected void setHovered(boolean hovered) {
         this.hovered = hovered;
-    }
-
-    /**
-     * Adds an actionListener to this component. Will update them with action information.
-     * */
-    public void addListener(Actions action, ActionListener actionListener) {
-        // Grab the actions object from within our listeners map and use this optional's 'isPresent' value to determine if we
-        // Must update our listeners list for this action type or create that list.
-        Optional<Actions> optional = this.listeners.keySet().stream().filter(internalActivation -> internalActivation == action).findFirst();
-        if (optional.isPresent()) {
-            this.listeners.get(optional.get()).add(actionListener);
-        } else {
-            this.listeners.put(action, Arrays.asList(actionListener));
-        }
     }
 
     /**

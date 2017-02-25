@@ -1,5 +1,6 @@
 package net.halalaboos.huzuni.indev;
 
+import net.halalaboos.huzuni.api.gui.font.FontData;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.indev.gui.components.Checkbox;
 
@@ -11,9 +12,12 @@ public class ToggleableCheckbox extends Checkbox {
 
     private final Toggleable toggleable;
 
-    public ToggleableCheckbox(Toggleable toggleable) {
+    public ToggleableCheckbox(Toggleable toggleable, FontData font) {
         super("toggleable", toggleable.getName(), toggleable.isEnabled());
         this.toggleable = toggleable;
+        this.setFont(font);
+        this.update();
+        this.setTooltip(toggleable.getDescription());
     }
 
     @Override

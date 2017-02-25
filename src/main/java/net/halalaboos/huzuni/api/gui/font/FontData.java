@@ -160,8 +160,9 @@ public final class FontData {
 
         while (backwards ? index >= 0 : index < characters.length) {
             // If the current string length + the next character is too long, then go backward an index and return the trimmed string.
-            if (current + characterBounds[characters[index]].width > length) {
-                return backwards ? input.substring(index, input.length()) : input.substring(0, index);
+            if (current + characterBounds[characters[index]].width > length && index > 0) {
+                // Return the substring of the index - 1, since the current index is too long.
+                return backwards ? input.substring(index + 1, input.length()) : input.substring(0, index - 1);
             }
             current += characterBounds[characters[index]].width;
             index += backwards ? -1 : 1;

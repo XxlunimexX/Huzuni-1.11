@@ -126,6 +126,18 @@ public class Container extends Component {
             this.layout = new PaddedLayout();
     }
 
+    @Override
+    public boolean isPointInside(int x, int y) {
+        boolean inside = super.isPointInside(x, y);
+        for (int i = components.size() - 1; i >= 0; i--) {
+            Component component = components.get(i);
+            if (component.isPointInside(x, y)) {
+                inside = true;
+            }
+        }
+        return inside;
+    }
+
     public List<Component> getComponents() {
         return components;
     }

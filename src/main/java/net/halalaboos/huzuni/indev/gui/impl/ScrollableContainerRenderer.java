@@ -5,7 +5,7 @@ import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
 import net.halalaboos.huzuni.indev.gui.render.ComponentRenderer;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
+import static org.lwjgl.opengl.GL11.*;
 
 
 /**
@@ -22,7 +22,20 @@ public class ScrollableContainerRenderer implements ComponentRenderer<Scrollable
 
     @Override
     public void pre(ScrollableContainer container) {
-        GL11.glEnable(GL11.GL_SCISSOR_TEST);
+        /*glEnable(GL_STENCIL_TEST);
+        glStencilFunc(GL_ALWAYS, 1, 0xFF);
+        glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+        glStencilMask(0xFF);
+        glColorMask(false, false, false, false);
+        glDepthMask(false);
+        RenderUtils.drawRect(container.getRenderArea());
+        glColorMask(true, true, true, true);
+        glDepthMask(true);
+        glStencilFunc(GL_EQUAL, 1, 0xFF);
+        glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+        //glColorMask(false, false, false, false);
+        //glDepthMask(false);*/
+        glEnable(GL_SCISSOR_TEST);
         GLManager.glScissor(container.getArea());
     }
 
@@ -48,6 +61,7 @@ public class ScrollableContainerRenderer implements ComponentRenderer<Scrollable
 
     @Override
     public void post(ScrollableContainer container) {
-        GL11.glDisable(GL11.GL_SCISSOR_TEST);
+        glDisable(GL_SCISSOR_TEST);
+        //glDisable(GL_STENCIL_TEST);
     }
 }

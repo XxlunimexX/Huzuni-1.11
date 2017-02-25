@@ -26,10 +26,11 @@ public class StringNodeContainer extends Container {
         this.setAutoLayout(true);
         this.add(title = new Label("title", stringNode.getName()));
         this.title.setFont(titleFont);
+        this.title.setTooltip(stringNode.getDescription());
         this.add(textField = new TextField("lined", stringNode.getText(), stringNode.getDefaultText()));
         this.textField.setFont(textFont);
         this.textField.setSize(100, textFont.getFontHeight() + 2);
-        this.textField.setTooltip(stringNode.getDescription());
+        // this.textField.setTooltip(stringNode.getDescription());
         this.layout();
     }
 

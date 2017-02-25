@@ -2,7 +2,6 @@ package net.halalaboos.huzuni.indev;
 
 import net.halalaboos.huzuni.api.gui.font.FontData;
 import net.halalaboos.huzuni.api.settings.ColorNode;
-import net.halalaboos.huzuni.api.settings.StringNode;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.components.Label;
 import net.halalaboos.huzuni.indev.gui.components.TextField;
@@ -29,13 +28,14 @@ public class ColorNodeContainer extends Container {
         this.setAutoLayout(true);
         this.add(title = new Label("title", colorNode.getName()));
         this.title.setFont(titleFont);
-        this.add(textField = new TextField("lined", Integer.toHexString(colorNode.getColor().getRGB()).substring(2).toUpperCase(), ""));
+        this.title.setTooltip(colorNode.getDescription());
+        this.add(textField = new TextField("lined", Integer.toHexString(colorNode.getColor().getRGB()).substring(2).toUpperCase(), "RRGGBB"));
         this.textField.setFont(textFont);
         this.textField.setSize(100, textFont.getFontHeight() + 2);
         this.textField.setColor(colorNode.getColor());
         this.textField.setValidCharacters("0123456789abcdefABDCEF");
         this.textField.setMaxLength(6);
-        this.textField.setTooltip(colorNode.getDescription());
+        this.textField.setTooltip("Enter a hexadecimal color!");
         this.layout();
     }
 

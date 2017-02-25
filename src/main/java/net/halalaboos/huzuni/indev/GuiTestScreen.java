@@ -1,14 +1,12 @@
 package net.halalaboos.huzuni.indev;
 
 import net.halalaboos.huzuni.api.mod.Mod;
-import net.halalaboos.huzuni.api.mod.ModSettings;
 import net.halalaboos.huzuni.api.settings.*;
 import net.halalaboos.huzuni.api.util.RateLimiter;
 import net.halalaboos.huzuni.gui.screen.HuzuniScreen;
 import net.halalaboos.huzuni.indev.gui.Component;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.ContainerManager;
-import net.halalaboos.huzuni.indev.gui.components.*;
 import net.halalaboos.huzuni.indev.gui.components.Button;
 import net.halalaboos.huzuni.indev.gui.components.Label;
 import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
@@ -25,6 +23,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Testing the new GUI API. <br/>
@@ -99,7 +99,9 @@ public class GuiTestScreen  extends HuzuniScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         while (updateLimiter.reached())
             manager.update();
+        //glEnable(GL_STENCIL_TEST);
         manager.render();
+        //glDisable(GL_STENCIL_TEST);
         //GLManager.update();
         GlStateManager.disableBlend();
     }
@@ -163,76 +165,66 @@ public class GuiTestScreen  extends HuzuniScreen {
         description.setPosition(10, 40);
         settings.add(description);
 
-        int settingsHeight = loadModSettings(10, settings.getHeight() - 2, 4, mod.settings);
+        int settingsHeight = loadNodes(mod.settings, 10, settings.getHeight() - 10, 4, settings, true);
 
         ScrollableContainer childContainer = new ScrollableContainer("invisible-background");
-        childContainer.setLayout(new ListLayout(1, 1));
         childContainer.setPosition(10, 60);
-        childContainer.setSize(settings.getWidth() - 20, settings.getHeight() - 60 - settingsHeight - 2);
+        childContainer.setSize(settings.getWidth() - 20, settings.getHeight() - 66 - settingsHeight);
 
-        loadNodes(mod, childContainer);
+        loadNodes(mod, 0, 0, 1, childContainer, false);
         childContainer.layout();
         settings.add(childContainer);
         settings.layout();
     }
 
     /**
-     * @return The total height of the components from the provided mod settings.
+     * @return The total height of the components from the provided node.
      * */
-    private int loadModSettings(int x, int y, int padding, ModSettings modSettings) {
+    private int loadNodes(Node node, int x, int y, int padding, Container container, boolean reversed) {
         int startY = y;
-        for (Node child : modSettings.getChildren()) {
-            Component component = null;
-            if (child instanceof StringNode) {
-                component = new StringNodeContainer((StringNode) child, defaultFont, textField);
-            } else if (child instanceof Toggleable) {
-                component = new ToggleableCheckbox((Toggleable) child);
-                component.setTooltip(child.getDescription());
-                component.setFont(defaultFont);
-            } else if (child instanceof ColorNode) {
-                component = new ColorNodeContainer((ColorNode) child, defaultFont, textField);
-            }
-            if (component != null) {
-                component.setPosition(x, y - component.getHeight());
-                y -= component.getHeight() + padding;
-                settings.add(component);
-            }
-        }
-        // Return the difference from the start y position to the final y position. This calculates the height.
-        return startY - y;
-    }
-
-    private void loadNodes(Node node, Container container) {
         // Create the components for each child within the node.
         for (Node child : node.getChildren()) {
+            Component component = null;
 
             // Create a check box for the toggleable.
             if (child instanceof Toggleable) {
-                ToggleableCheckbox checkbox = new ToggleableCheckbox((Toggleable) child);
-                checkbox.setTooltip(child.getDescription());
-                checkbox.setFont(defaultFont);
-                container.add(checkbox);
+                component = new ToggleableCheckbox((Toggleable) child, defaultFont);
 
                 // Create value container for each value.
             } else if (child instanceof Value) {
-                ValueContainer valueContainer = new ValueContainer((Value) child);
-                valueContainer.getTitle().setFont(defaultFont);
-                valueContainer.getDescription().setFont(this.description);
-                valueContainer.getDescription().setColor(new Color(118, 118, 118));
-                container.add(valueContainer);
+                component = new ValueContainer((Value) child, defaultFont, description);
 
                 // If we have JUST a node.
             } else if (child.getClass().isAssignableFrom(Node.class)) {
-                Container internal = new Container("internal");
+                Container internal = new Container("invisible");
                 internal.setUseLayoutSize(true);
                 internal.setLayering(false);
                 internal.setAutoLayout(true);
                 internal.setLayout(new GridLayout(2, GridLayout.INFINITE_LENGTH, 0, 0, 1));
-                loadNodes(child, internal);
+                loadNodes(child, x, y, padding, internal, reversed);
                 internal.layout();
-                container.add(internal);
+                component = internal;
+
+                // Create the string node container for string nodes.
+            } else if (child instanceof StringNode) {
+                component = new StringNodeContainer((StringNode) child, defaultFont, textField);
+
+                // Create the color node container for color nodes.
+            } else if (child instanceof ColorNode) {
+                component = new ColorNodeContainer((ColorNode) child, defaultFont, textField);
+            } else if (child instanceof ItemList) {
+                component = new ItemListContainer((ItemList) child, defaultFont, !((ItemList) child).isOrdered());
+            }
+
+            // If the node had a component made for it, we position it and either decrement or increment the y position.
+            if (component != null) {
+                component.setPosition(x, y + (reversed ? -component.getHeight() : 0));
+                y += reversed ? -component.getHeight() - padding : component.getHeight() + padding;
+                container.add(component);
             }
         }
+        // Return the difference from the start y position to the final y position. This calculates the height.
+        return reversed ? (startY - y) : (y - startY);
     }
 
 }

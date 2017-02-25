@@ -40,6 +40,7 @@ public class ScrollableContainer extends Container {
     public void update() {
         verticalScrollbar.update();
         horizontalScrollbar.update();
+        // Laid out before updating to ensure that the scrollbar's offset is always applied.
         layout();
         super.update();
     }
