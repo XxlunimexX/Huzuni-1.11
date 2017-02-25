@@ -34,7 +34,7 @@ public class Glide extends BasicMod {
 	@EventMethod
 	public void onUpdate(UpdateEvent event) {
 		if (shouldGlide() && event.type == Type.PRE) {
-			getPlayer().getVelocity().setY(-0.0315F);
+			getPlayer().setVelocity(getPlayer().getVelocity().setY(-0.0315F));
 			getPlayer().setJumpMovementFactor(getPlayer().getJumpMovementFactor() * 1.21337F);
 		}
 	}
