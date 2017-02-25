@@ -91,7 +91,7 @@ public final class MinecraftUtils {
 	 * */
 	public static boolean checkType(net.halalaboos.mcwrapper.api.entity.Entity entity, boolean invisible, boolean mob,
 									boolean animal, boolean player) {
-		return !entity.isDead() && !(entity.getInvisible() && !invisible) &&
+		return !entity.isDead() && !(entity.isInvisible() && !invisible) &&
 				(mob && entity instanceof Monster || animal && entity instanceof Animal && !(entity instanceof Monster)
 						|| player && entity instanceof Player && !((Player) entity).isNPC());
 	}

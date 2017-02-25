@@ -11,8 +11,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -20,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.text.DecimalFormat;
 import java.util.UUID;
 
+@Implements(@Interface(iface = Entity.class, prefix = "api$"))
 @Mixin(net.minecraft.entity.Entity.class) public abstract class MixinEntity implements Entity {
 
 	@Shadow public net.minecraft.world.World world;
@@ -49,10 +49,10 @@ import java.util.UUID;
 	@Shadow public abstract boolean isInLava();
 	@Shadow public abstract boolean isInsideOfMaterial(Material materialIn);
 	@Shadow	public boolean onGround;
-	@Shadow public abstract void setSprinting(boolean sprinting);
-	@Shadow public abstract boolean isSprinting();
-	@Shadow public abstract boolean isSneaking();
-	@Shadow public abstract boolean isInvisible();
+	@Shadow public abstract void shadow$setSprinting(boolean sprinting);
+	@Shadow public abstract boolean shadow$isSprinting();
+	@Shadow public abstract boolean shadow$isSneaking();
+	@Shadow public abstract boolean shadow$isInvisible();
 	@Shadow public int ticksExisted;
 	@Shadow public abstract ITextComponent getDisplayName();
 	@Shadow public abstract AxisAlignedBB getEntityBoundingBox();
@@ -241,19 +241,19 @@ import java.util.UUID;
 		this.onGround = onGround;
 	}
 
-	@Override
-	public void setSprint(boolean sprint) {
-		this.setSprinting(sprint);
+	@Intrinsic
+	public void api$setSprinting(boolean sprint) {
+		shadow$setSprinting(sprint);
 	}
 
-	@Override
-	public boolean getSprinting() {
-		return isSprinting();
+	@Intrinsic
+	public boolean api$isSprinting() {
+		return shadow$isSprinting();
 	}
 
-	@Override
-	public boolean getSneaking() {
-		return isSneaking();
+	@Intrinsic
+	public boolean api$isSneaking() {
+		return shadow$isSneaking();
 	}
 
 	@Override
@@ -265,9 +265,9 @@ import java.util.UUID;
 		return x + ", " + y + ", " + z;
 	}
 
-	@Override
-	public boolean getInvisible() {
-		return isInvisible();
+	@Intrinsic
+	public boolean api$isInvisible() {
+		return shadow$isInvisible();
 	}
 
 	@Override

@@ -159,17 +159,17 @@ public interface Entity extends Identifiable, Nameable {
 	/**
 	 * Sets Entity's sprinting state.
 	 */
-	void setSprint(boolean sprint);
+	void setSprinting(boolean sprint);
 
 	/**
 	 * @return Whether or not the Entity is sprinting.
 	 */
-	boolean getSprinting();
+	boolean isSprinting();
 
 	/**
 	 * @return Whether or not the Entity is sneaking.
 	 */
-	boolean getSneaking();
+	boolean isSneaking();
 
 	/**
 	 * @return The Entity's position in a String format.
@@ -187,7 +187,7 @@ public interface Entity extends Identifiable, Nameable {
 	/**
 	 * @return Whether or not the Entity is currently invisible.
 	 */
-	boolean getInvisible();
+	boolean isInvisible();
 
 	/**
 	 * @return The amount of ticks the Entity has existed for.
