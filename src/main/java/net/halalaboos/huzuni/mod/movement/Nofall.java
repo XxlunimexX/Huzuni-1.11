@@ -12,7 +12,7 @@ import org.lwjgl.input.Keyboard;
 public class Nofall extends BasicMod {
 	
 	public Nofall() {
-		super("Nofall", "Prevents fall damage from occuring", Keyboard.KEY_N);
+		super("Nofall", "Prevents fall damage from occurring", Keyboard.KEY_N);
 		setAuthor("Halalaboos");
 		this.setCategory(Category.MOVEMENT);
 	}
