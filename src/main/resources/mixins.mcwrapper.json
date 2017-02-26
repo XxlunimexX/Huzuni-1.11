@@ -14,6 +14,7 @@
     "block.tileentity.MixinTileEntityEnderChest",
     "block.tileentity.MixinTileEntityFurnace",
     "block.tileentity.MixinTileEntityHopper",
+    "block.MixinBlock",
     "entity.MixinEntity",
     "entity.MixinEntityItem",
     "entity.MixinEntityXPOrb",

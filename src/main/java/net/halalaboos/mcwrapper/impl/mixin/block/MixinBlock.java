@@ -7,6 +7,9 @@ import net.halalaboos.mcwrapper.api.world.World;
 import net.halalaboos.mcwrapper.impl.Convert;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.RegistryNamespacedDefaultedByKey;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
@@ -18,6 +21,10 @@ public abstract class MixinBlock implements Block {
 
 	@Shadow
 	public abstract String getLocalizedName();
+
+	@Shadow
+	@Final
+	public static RegistryNamespacedDefaultedByKey<ResourceLocation, net.minecraft.block.Block> REGISTRY;
 
 	@Override
 	public float getSlipperiness() {
@@ -37,5 +44,10 @@ public abstract class MixinBlock implements Block {
 	@Override
 	public String name() {
 		return getLocalizedName();
+	}
+
+	@Override
+	public int getId() {
+		return REGISTRY.getIDForObject((net.minecraft.block.Block) (Object) this);
 	}
 }

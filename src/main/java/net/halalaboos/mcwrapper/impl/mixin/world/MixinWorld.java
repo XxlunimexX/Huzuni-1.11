@@ -1,10 +1,13 @@
 package net.halalaboos.mcwrapper.impl.mixin.world;
 
+import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.block.tileentity.TileEntity;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.halalaboos.mcwrapper.api.world.World;
+import net.halalaboos.mcwrapper.impl.Convert;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -24,6 +27,9 @@ import java.util.List;
 	@Shadow public abstract List<net.minecraft.entity.Entity> getEntitiesWithinAABBExcludingEntity(@Nullable net.minecraft.entity.Entity entityIn, AxisAlignedBB bb);
 	@Shadow @Nullable public abstract net.minecraft.entity.Entity getEntityByID(int id);
 	@Shadow @Final public List<net.minecraft.tileentity.TileEntity> loadedTileEntityList;
+
+	@Shadow
+	public abstract IBlockState getBlockState(BlockPos pos);
 
 	@Override
 	public void setToAir(Vector3i pos) {
@@ -48,5 +54,10 @@ import java.util.List;
 	@Override
 	public Entity getEntity(int entityId) {
 		return ((Entity) getEntityByID(entityId));
+	}
+
+	@Override
+	public Block getBlock(Vector3i pos) {
+		return ((Block) getBlockState(Convert.to(pos)).getBlock());
 	}
 }

@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.api;
 
+import net.halalaboos.mcwrapper.api.registry.BlockRegistry;
 import net.halalaboos.mcwrapper.api.registry.ItemRegistry;
 import net.halalaboos.mcwrapper.api.world.World;
 
@@ -30,4 +31,6 @@ public interface MinecraftAdapter {
 	MinecraftClient getMinecraft();
 
 	ItemRegistry getItemRegistry();
+
+	BlockRegistry getBlockRegistry();
 }

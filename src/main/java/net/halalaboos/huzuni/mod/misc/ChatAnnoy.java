@@ -6,14 +6,17 @@ import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.util.Timer;
+import net.halalaboos.mcwrapper.api.block.Block;
+import net.halalaboos.mcwrapper.api.block.BlockTypes;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.ExperienceOrb;
 import net.halalaboos.mcwrapper.api.entity.ItemPickup;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.halalaboos.mcwrapper.api.item.Items;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.network.play.server.SPacketCollectItem;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.Random;
 
@@ -95,16 +98,17 @@ public class ChatAnnoy extends BasicMod {
 	private void alertDigging(CPacketPlayerDigging digging) {
 		//Check if the player has (pretty much) broken a block and also an additional random check
 		if (getController().getBlockDamage() >= 0.9F && random.nextBoolean()) {
+			BlockPos pos = digging.getPosition();
 			//The block the Player broke
-			Block block = mc.world.getBlockState(digging.getPosition()).getBlock();
+			Block block = getWorld().getBlock(new Vector3i(pos.getX(), pos.getY(), pos.getZ()));
 			//The name of the Block
-			String name = block.getLocalizedName();
+			String name = block.name();
 			//Check if the Block isn't air and the last block we sent to chat isn't the same as this one
-			if (block != Blocks.AIR && !name.equals(lastBlockName)) {
+			if (block != BlockTypes.AIR && !name.equals(lastBlockName)) {
 				//Sends the message
 				getPlayer().sendMessage(String.format(getDigMessage(), name.toLowerCase()));
 				//Set the last block name to the current block name
-				lastBlockName = block.getLocalizedName();
+				lastBlockName = block.name();
 			}
 			//Reset the timer.
 			timer.reset();
@@ -129,6 +133,7 @@ public class ChatAnnoy extends BasicMod {
 				ItemPickup pickup = ((ItemPickup) entity);
 				//The actual item stack that will be obtained
 				ItemStack itemStack = pickup.getItem();
+
 				//Check if the name isn't the last sent item name
 				if (!itemStack.getName().equals(lastItemName)) {
 					//The item's name

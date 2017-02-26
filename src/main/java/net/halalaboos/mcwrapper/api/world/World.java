@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.api.world;
 
+import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.block.tileentity.TileEntity;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
@@ -28,4 +29,5 @@ public interface World {
 
 	Entity getEntity(int entityId);
 
+	Block getBlock(Vector3i pos);
 }

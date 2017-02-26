@@ -12,4 +12,5 @@ public interface Block extends Nameable {
 
 	float blockStrength(Player player, World world, Vector3i pos);
 
+	int getId();
 }
