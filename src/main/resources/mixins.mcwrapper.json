@@ -15,6 +15,8 @@
     "block.tileentity.MixinTileEntityFurnace",
     "block.tileentity.MixinTileEntityHopper",
     "entity.MixinEntity",
+    "entity.MixinEntityItem",
+    "entity.MixinEntityXPOrb",
     "entity.MixinEntityFishHook",
     "entity.living.MixinEntityAgeable",
     "entity.living.MixinEntityAnimal",

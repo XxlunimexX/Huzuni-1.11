@@ -196,6 +196,7 @@ public enum Huzuni {
 		modManager.addMod(new Cheststealer());
 		modManager.addMod(new Retard());
 		modManager.addMod(new NoSlowdown());
+		modManager.addMod(new ChatAnnoy());
 		commandManager.addCommand(new Help());
 		commandManager.addCommand(new Say());
 		commandManager.addCommand(new GetCoords());

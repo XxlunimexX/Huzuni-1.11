@@ -16,6 +16,9 @@ public abstract class MixinBlock implements Block {
 	@Shadow public float slipperiness;
 	@Shadow private IBlockState defaultBlockState;
 
+	@Shadow
+	public abstract String getLocalizedName();
+
 	@Override
 	public float getSlipperiness() {
 		return slipperiness;
@@ -29,5 +32,10 @@ public abstract class MixinBlock implements Block {
 	@Override
 	public float blockStrength(Player player, World world, Vector3i pos) {
 		return defaultBlockState.getBlockHardness(Minecraft.getMinecraft().world, Convert.to(pos));
+	}
+
+	@Override
+	public String name() {
+		return getLocalizedName();
 	}
 }
