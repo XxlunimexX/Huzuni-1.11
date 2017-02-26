@@ -269,7 +269,7 @@ public final class MinecraftUtils {
      */
 	public static float[] getRotationsNeeded(double x, double y, double z) {
         double xSize = x - getPlayer().getX();
-        double ySize = y - (getPlayer().getY() + getPlayer().getEye());
+        double ySize = y - (getPlayer().getY() + getPlayer().getEyeHeight());
         double zSize = z - getPlayer().getZ();
         
         double theta = (double) MathUtils.sqrt(xSize * xSize + zSize * zSize);

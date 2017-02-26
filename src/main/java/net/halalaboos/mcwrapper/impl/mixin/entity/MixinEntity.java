@@ -42,7 +42,7 @@ import java.util.UUID;
 	@Shadow public float stepHeight;
 	@Shadow public abstract UUID getUniqueID();
 	@Shadow public abstract String getName();
-	@Shadow public abstract float getEyeHeight();
+	@Shadow public abstract float shadow$getEyeHeight();
 	@Shadow public abstract int getEntityId();
 	@Shadow public abstract void setPosition(double x, double y, double z);
 	@Shadow public abstract boolean isInWater();
@@ -176,9 +176,9 @@ import java.util.UUID;
 		return height;
 	}
 
-	@Override
-	public float getEye() {
-		return getEyeHeight();
+	@Intrinsic
+	public float api$getEyeHeight() {
+		return shadow$getEyeHeight();
 	}
 
 	@Override

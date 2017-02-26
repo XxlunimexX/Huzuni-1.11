@@ -114,7 +114,7 @@ public interface Entity extends Identifiable, Nameable {
 	/**
 	 * @return The Entity's eye level.
 	 */
-	float getEye();
+	float getEyeHeight();
 
 	/**
 	 * @return How far the Entity has fallen.
