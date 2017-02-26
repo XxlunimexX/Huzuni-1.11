@@ -6,26 +6,28 @@ import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
+import net.halalaboos.mcwrapper.api.block.BlockTypes;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 public class NoSlowdown extends BasicMod {
 
 	private final Toggleable itemUse = new Toggleable("Item Use", "Move at normal speeds using items.");
-
-	//todo
-	private final Value iceSpeed = new Value("Ice Speed", 0.5F, 1F, 1F, 0.1F, "Speed on ice");
+	private final Toggleable fastIce = new Toggleable("Fast Ice", "Move on ice at normal (or fast) speeds.");
+	private final Value iceSpeed = new Value("Ice Slipperiness", 0.3F, 0.45F, 0.98F, 0.1F, "The lower, the faster.");
 
 	public NoSlowdown() {
 		super("No slowdown", "Prevents various things from slowing you down.");
 		setAuthor("brudin");
 		setCategory(Category.MOVEMENT);
 		itemUse.setEnabled(true);
-		addChildren(itemUse/*, ICE_SPEED*/);
+		fastIce.setEnabled(true);
+		addChildren(itemUse, fastIce, iceSpeed);
 	}
 
 	@EventManager.EventMethod
 	public void onMove(PlayerMoveEvent event) {
+		setIceSpeed(fastIce.isEnabled());
 		getPlayer().setItemUseSlowdown(!itemUse.isEnabled());
 	}
 
@@ -38,5 +40,12 @@ public class NoSlowdown extends BasicMod {
 	protected void onDisable() {
 		huzuni.eventManager.removeListener(this);
 		getPlayer().setItemUseSlowdown(true);
+		setIceSpeed(false);
+	}
+
+	private void setIceSpeed(boolean enabled) {
+		float speed = enabled ? iceSpeed.getValue() : 0.98F;
+		BlockTypes.ICE.setSlipperiness(speed);
+		BlockTypes.PACKED_ICE.setSlipperiness(speed);
 	}
 }

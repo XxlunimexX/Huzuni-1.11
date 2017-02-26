@@ -15,6 +15,7 @@
     "block.tileentity.MixinTileEntityFurnace",
     "block.tileentity.MixinTileEntityHopper",
     "block.MixinBlock",
+    "block.types.MixinBlockStairs",
     "entity.MixinEntity",
     "entity.MixinEntityItem",
     "entity.MixinEntityXPOrb",

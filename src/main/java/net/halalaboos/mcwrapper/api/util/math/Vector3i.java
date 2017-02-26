@@ -12,6 +12,12 @@ public class Vector3i {
 		this.z = z;
 	}
 
+	public Vector3i(double x, double y, double z) {
+		this.x = (int)x;
+		this.y = (int)y;
+		this.z = (int)z;
+	}
+
 	/**
 	 * Helps simplify the process of adding a value to only one of the points of the Vector, rather
 	 * than having to use {@link #add(int)}.
