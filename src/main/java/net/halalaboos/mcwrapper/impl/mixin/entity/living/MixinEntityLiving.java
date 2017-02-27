@@ -4,9 +4,14 @@ import net.halalaboos.mcwrapper.api.entity.living.data.HealthData;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.potion.PotionEffect;
 import net.halalaboos.mcwrapper.impl.mixin.entity.MixinEntity;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.EnumHand;
 import org.spongepowered.asm.mixin.*;
+
+import java.util.Collection;
+import java.util.Map;
 
 @Mixin(net.minecraft.entity.EntityLivingBase.class)
 @Implements(@Interface(iface = Living.class, prefix = "api$"))
@@ -20,6 +25,7 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 	@Shadow public int maxHurtResistantTime;
 	@Shadow public float jumpMovementFactor;
 	@Shadow protected int activeItemStackUseCount;
+	@Shadow @Final private Map<Potion, net.minecraft.potion.PotionEffect> activePotionsMap;
 
 	@Override
 	public HealthData getHealthData() {
@@ -59,5 +65,10 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 	@Override
 	public int getItemUseTicks() {
 		return activeItemStackUseCount;
+	}
+
+	@Override
+	public Collection<PotionEffect> getEffects() {
+		return ((Collection<PotionEffect>)(Object) activePotionsMap.values());
 	}
 }

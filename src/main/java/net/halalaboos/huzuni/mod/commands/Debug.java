@@ -7,6 +7,8 @@ import net.halalaboos.mcwrapper.api.MinecraftClient;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.potion.PotionEffect;
+import net.minecraft.util.text.translation.I18n;
 
 public class Debug extends BasicCommand {
 
@@ -30,8 +32,8 @@ public class Debug extends BasicCommand {
 		huzuni.addChatMessage(String.format("You've got %s corndog saturation!", player.getSaturation()));
 		huzuni.addChatMessage(String.format("Held item: %s (x%s), id %s", name, size, id));
 		String output = "";
-		for (net.halalaboos.mcwrapper.api.item.Item item : MCWrapper.getAdapter().getItemRegistry().getRegisteredItems()) {
-			output += item.getId() + " "  + item.name() + "\n";
+		for (PotionEffect effect : player.getEffects()) {
+			output += I18n.translateToLocal(effect.getEffect().name()) + "\n";
 		}
 		System.out.println(output);
 	}

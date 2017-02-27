@@ -60,7 +60,7 @@ import java.util.UUID;
 	@Shadow public boolean isCollided;
 	@Shadow public boolean isCollidedVertically;
 	@Shadow protected abstract void setRotation(float yaw, float pitch);
-	@Shadow public abstract boolean isRiding();
+	@Shadow public abstract boolean shadow$isRiding();
 
 	private AABB aabb;
 
@@ -268,6 +268,11 @@ import java.util.UUID;
 	@Intrinsic
 	public boolean api$isInvisible() {
 		return shadow$isInvisible();
+	}
+
+	@Intrinsic
+	public boolean api$isRiding() {
+		return shadow$isRiding();
 	}
 
 	@Override

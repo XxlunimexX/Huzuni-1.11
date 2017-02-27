@@ -9,6 +9,8 @@ import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.mcwrapper.api.entity.living.Animal;
 import net.halalaboos.mcwrapper.api.entity.living.Monster;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
+import net.halalaboos.mcwrapper.api.potion.Potion;
+import net.halalaboos.mcwrapper.api.potion.PotionEffect;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -24,8 +26,6 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Session;
@@ -454,13 +454,13 @@ public final class MinecraftUtils {
 
 	public static int getPotionY() {
 		boolean hidden = true;
-		Collection<PotionEffect> effects = mc.player.getActivePotionEffects();
+		Collection<PotionEffect> effects = getPlayer().getEffects();
 		if (!effects.isEmpty()) {
 			for (PotionEffect effect : effects) {
-				if (effect.doesShowParticles()) hidden = false;
-				Potion potion = effect.getPotion();
-				if (potion.hasStatusIcon() && (potion.shouldRenderHUD(effect) || potion.shouldRender(effect))) {
-					if (!potion.isBeneficial()) {
+				if (effect.showParticles()) hidden = false;
+				Potion potion = effect.getEffect();
+				if (potion.hasIcon()) {
+					if (potion.getType() != Potion.Type.BENEFICIAL) {
 						return 52;
 					}
 				}

@@ -16,6 +16,8 @@
     "block.tileentity.MixinTileEntityHopper",
     "block.MixinBlock",
     "block.types.MixinBlockStairs",
+    "client.MixinPlayerControllerMP",
+    "client.gui.MixinFontRenderer",
     "entity.MixinEntity",
     "entity.MixinEntityArrow",
     "entity.MixinEntityItem",
@@ -37,9 +39,6 @@
     "item.types.MixinItemSnowball",
     "item.types.MixinItemEnderPearl",
     "item.types.MixinItemEgg",
-    "client.MixinPlayerControllerMP",
-    "client.gui.MixinFontRenderer",
-    "world.MixinWorld",
     "network.MixinServerData",
     "network.MixinNetworkPlayerInfo",
     "network.packet.MixinPacket",
@@ -48,6 +47,9 @@
     "network.packet.server.MixinPacketEntityVelocity",
     "network.packet.server.MixinPacketExplosion",
     "network.packet.server.MixinPacketSpawnObject",
-    "network.packet.server.MixinPacketUpdateHealth"
+    "network.packet.server.MixinPacketUpdateHealth",
+    "potion.MixinPotion",
+    "potion.MixinPotionEffect",
+    "world.MixinWorld"
   ]
 }

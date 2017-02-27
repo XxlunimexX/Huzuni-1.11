@@ -221,6 +221,8 @@ public interface Entity extends Identifiable, Nameable {
 
 	boolean isCollided(CollisionType type);
 
+	boolean isRiding();
+
 	enum CollisionType {
 		HORIZONTAL, VERTICAL, BOTH
 	}

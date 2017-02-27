@@ -4,6 +4,9 @@ import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.data.HealthData;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.potion.PotionEffect;
+
+import java.util.Collection;
 
 public interface Living extends Entity {
 
@@ -49,4 +52,6 @@ public interface Living extends Entity {
 	float getJumpMovementFactor();
 
 	int getItemUseTicks();
+
+	Collection<PotionEffect> getEffects();
 }
