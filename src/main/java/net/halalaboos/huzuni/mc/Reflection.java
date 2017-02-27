@@ -28,16 +28,8 @@ public class Reflection {
 	 */
 	private static Field persistantChatGUI;
 
-	/**
-	 * Used for Projectiles.
-	 *
-	 * Field: EntityArrow#inGround
-	 */
-	private static Field inGround;
-
 	static {
 		persistantChatGUI = setAccessible(GuiIngame.class, "field_73840_e", "persistantChatGUI");
-		inGround = setAccessible(EntityArrow.class, "field_70254_i", "inGround");
 	}
 
 	private static Field setAccessible(Class clazz, String name, String deobfName) {
@@ -48,15 +40,6 @@ public class Reflection {
 		} catch (ReflectionHelper.UnableToFindFieldException e) {
 			e.printStackTrace();
 			return null;
-		}
-	}
-
-	public static boolean getInGround(EntityArrow arrow) {
-		try {
-			return inGround.getBoolean(arrow);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-			return false;
 		}
 	}
 

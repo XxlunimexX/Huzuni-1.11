@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.api.util;
 
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
-import net.halalaboos.mcwrapper.api.item.Items;
+import net.halalaboos.mcwrapper.api.item.ItemTypes;
 
 /**
  * Created by Brandon Williams on 2/21/2017.
@@ -19,15 +19,15 @@ public class ProjectileUtils {
         int id = itemStack.getItemType().getId();
 
         // A switch statement is not possible since each case must be a constant and it is the id of each item that must be checked.
-        if (id == Items.BOW.getId()) {
+        if (id == ItemTypes.BOW.getId()) {
             return ProjectileType.BOW;
-        } else if (id == Items.EXPERIENCE_BOTTLE.getId()) {
+        } else if (id == ItemTypes.EXPERIENCE_BOTTLE.getId()) {
             return ProjectileType.EXPERIENCE;
-        } else if (id == Items.EGG.getId() || id == Items.SNOWBALL.getId() || id == Items.ENDER_PEARL.getId()) {
+        } else if (id == ItemTypes.EGG.getId() || id == ItemTypes.SNOWBALL.getId() || id == ItemTypes.ENDER_PEARL.getId()) {
             return ProjectileType.DEFAULT;
-        } else if (id == Items.SPLASH_POTION.getId()) {
+        } else if (id == ItemTypes.SPLASH_POTION.getId()) {
             return ProjectileType.POTION;
-        }  else if (id == Items.FISHING_ROD.getId()) {
+        }  else if (id == ItemTypes.FISHING_ROD.getId()) {
             return ProjectileType.FISHING_ROD;
         }
         return ProjectileType.NONE;

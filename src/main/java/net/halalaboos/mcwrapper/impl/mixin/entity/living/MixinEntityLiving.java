@@ -18,9 +18,8 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 	@Shadow protected abstract void shadow$jump();
 	@Shadow public abstract net.minecraft.item.ItemStack getHeldItem(EnumHand hand);
 	@Shadow public int maxHurtResistantTime;
-
-	@Shadow
-	public float jumpMovementFactor;
+	@Shadow public float jumpMovementFactor;
+	@Shadow protected int activeItemStackUseCount;
 
 	@Override
 	public HealthData getHealthData() {
@@ -55,5 +54,10 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 	@Override
 	public void setJumpMovementFactor(float movementFactor) {
 		this.jumpMovementFactor = movementFactor;
+	}
+
+	@Override
+	public int getItemUseTicks() {
+		return activeItemStackUseCount;
 	}
 }

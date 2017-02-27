@@ -47,4 +47,6 @@ public interface Living extends Entity {
 	 * Represents how far the Entity will move each tick when jumping.
 	 */
 	float getJumpMovementFactor();
+
+	int getItemUseTicks();
 }

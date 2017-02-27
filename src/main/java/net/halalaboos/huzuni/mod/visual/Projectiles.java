@@ -8,7 +8,10 @@ import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.mc.Reflection;
+import net.halalaboos.mcwrapper.api.entity.Arrow;
+import net.halalaboos.mcwrapper.api.item.types.Bow;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -27,6 +30,7 @@ import org.lwjgl.util.glu.GLU;
 
 import java.util.List;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 import static org.lwjgl.opengl.GL11.GL_LINES;
 import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
 
@@ -72,36 +76,42 @@ public class Projectiles extends BasicMod implements Renderer {
 			int mode = 0;
 			float velocity;
 
-			if (item.getItem() instanceof ItemBow)
+			if (item.getItem() instanceof Bow)
                 mode = 1;
             else if (item.getItem() instanceof ItemSplashPotion)
             	mode = 2;
-			
-			double posX = mc.getRenderManager().viewerPosX - (double) (MathUtils.cos(mc.player.rotationYaw / 180.0F * (float) Math.PI) * 0.16F),
-	                posY = (mc.getRenderManager().viewerPosY + (double) mc.player.getEyeHeight()) - 0.10000000149011612D,
-	                posZ = mc.getRenderManager().viewerPosZ - (double) (MathUtils.sin(mc.player.rotationYaw / 180.0F * (float) Math.PI) * 0.16F),
-	                motionX = (double) (-MathUtils.sin(mc.player.rotationYaw / 180.0F * (float) Math.PI) * MathUtils.cos(mc.player.rotationPitch / 180.0F * (float) Math.PI)) * (mode == 1 ? 1.0 : 0.4),
-	                motionY = (double) (-MathUtils.sin(mc.player.rotationPitch / 180.0F * (float) Math.PI)) * (mode == 1 ? 1.0 : 0.4),
-	                motionZ = (double) (MathUtils.cos(mc.player.rotationYaw / 180.0F * (float) Math.PI) * MathUtils.cos(mc.player.rotationPitch / 180.0F * (float) Math.PI)) * (mode == 1 ? 1.0 : 0.4);
-			if (mc.player.getItemInUseCount() <= 0 && mode == 1)
+
+            float yaw = getPlayer().getYaw();
+            float pitch = getPlayer().getPitch();
+			Vector3d cam = getMinecraft().getCamera();
+			double posX = cam.getX() - (double) (MathUtils.cos(yaw / 180.0F * (float) Math.PI) * 0.16F),
+	                posY = (cam.getY() + (double) getPlayer().getEyeHeight()) - 0.10000000149011612D,
+	                posZ = cam.getZ() - (double) (MathUtils.sin(yaw / 180.0F * (float) Math.PI) * 0.16F),
+	                motionX = (double) (-MathUtils.sin(yaw / 180.0F * (float) Math.PI) * MathUtils.cos(pitch / 180.0F * (float) Math.PI)) * (mode == 1 ? 1.0 : 0.4),
+	                motionY = (double) (-MathUtils.sin(pitch / 180.0F * (float) Math.PI)) * (mode == 1 ? 1.0 : 0.4),
+	                motionZ = (double) (MathUtils.cos(yaw / 180.0F * (float) Math.PI) * MathUtils.cos(pitch / 180.0F * (float) Math.PI)) * (mode == 1 ? 1.0 : 0.4);
+			if (getPlayer().getItemUseTicks() <= 0 && mode == 1)
 				velocity = 1F;
 			else
-				velocity = ItemBow.getArrowVelocity(72000 - mc.player.getItemInUseCount());
+				velocity = Bow.getVelocity(72000 - getPlayer().getItemUseTicks());
 			renderProjectile(mode, velocity, posX, posY, posZ, motionX, motionY, motionZ, null);
 		}
 		if (arrows.isEnabled()) {
-			for (Object o : mc.world.loadedEntityList) {
-				if (o instanceof EntityArrow) {
-					EntityArrow entity = (EntityArrow) o;
-					if (entity.isDead || Reflection.getInGround(entity))
+			for (net.halalaboos.mcwrapper.api.entity.Entity o : getWorld().getEntities()) {
+				if (o instanceof Arrow) {
+					Arrow entity = (Arrow) o;
+					if (entity.isDead() || entity.isInGround())
 						continue;
-					renderProjectile(1, -1, entity.posX, entity.posY, entity.posZ, entity.motionX, entity.motionY, entity.motionZ, entity.shootingEntity != null ? entity.shootingEntity.getName() : null);
+					Vector3d vel = entity.getVelocity();
+					Vector3d pos = entity.getLocation();
+					renderProjectile(1, -1, pos.getX(), pos.getY(), pos.getZ(), vel.getX(), vel.getY(), vel.getZ(), entity.getSource() != null ? entity.getSource().name() : null);
 				}
 			}
 		}
 	}
 	
 	private void renderProjectile(int mode, float velocity, double x, double y, double z, double motionX, double motionY, double motionZ, String text) {
+		Vector3d cam = getMinecraft().getCamera();
 		if (velocity != -1) {
 			float theta = MathUtils.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
 	        motionX /= (double) theta;
@@ -118,9 +128,9 @@ public class Projectiles extends BasicMod implements Renderer {
         
         if (text != null) {
 			GlStateManager.pushMatrix();
-			RenderUtils.prepareBillboarding((float) (x - mc.getRenderManager().viewerPosX), (float) (y - mc.getRenderManager().viewerPosY), (float) (z - mc.getRenderManager().viewerPosZ), true);
+			RenderUtils.prepareBillboarding((float) (x - cam.getX()), (float) (y - cam.getY()), (float) (z - cam.getZ()), true);
 			GlStateManager.enableTexture2D();
-			mc.fontRenderer.drawStringWithShadow(text, -mc.fontRenderer.getStringWidth(text) / 2, 1, 0xFFFFFFF);
+			getTextRenderer().render(text, -getTextRenderer().getWidth(text) / 2, 1, 0xFFFFFFF, true);
 			GlStateManager.disableTexture2D();
 			GlStateManager.popMatrix();
         }
@@ -139,8 +149,7 @@ public class Projectiles extends BasicMod implements Renderer {
             AxisAlignedBB boundingBox = new AxisAlignedBB(x - size, y - size, z - size, x + size, y + size, z + size);
 
             List<Entity> entities = mc.world.getEntitiesWithinAABBExcludingEntity(mc.player, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
-            for (int index = 0; index < entities.size(); ++index) {
-                Entity entity = entities.get(index);
+            for (int index = 0; index < entities.size(); ++index) {Entity entity = entities.get(index);
 
                 if (entity.canBeCollidedWith() && entity != mc.player) {
                     AxisAlignedBB entityBoundingBox = entity.getEntityBoundingBox().expand(0.3D, 0.3D, 0.3D);
@@ -165,13 +174,13 @@ public class Projectiles extends BasicMod implements Renderer {
             motionZ *= motionAdjustment;
             motionY -= gravity;
             if (lines.isEnabled())
-            	renderer.pos(x - mc.getRenderManager().viewerPosX, y - mc.getRenderManager().viewerPosY, z - mc.getRenderManager().viewerPosZ).endVertex();
+            	renderer.pos(x - cam.getX(), y - cam.getY(), z - cam.getZ()).endVertex();
     	}
     	 if (lines.isEnabled())
     		 tessellator.draw();
     	if (landing.isEnabled()) {
 	        GlStateManager.pushMatrix();
-	        GlStateManager.translate(x - mc.getRenderManager().viewerPosX, y - mc.getRenderManager().viewerPosY, z - mc.getRenderManager().viewerPosZ);
+	        GlStateManager.translate(x - cam.getX(), y - cam.getY(), z - cam.getZ());
 	        if (collision != null) {
 	            switch (collision.sideHit.getIndex()) {
 	                case 2:
@@ -212,7 +221,7 @@ public class Projectiles extends BasicMod implements Renderer {
 	}
 	
 	private boolean isThrowable(Item item) {
-		return item instanceof ItemBow || item instanceof ItemSnowball || item instanceof ItemEnderPearl || item instanceof ItemEgg || item instanceof ItemSplashPotion;
+		return item instanceof Bow || item instanceof ItemSnowball || item instanceof ItemEnderPearl || item instanceof ItemEgg || item instanceof ItemSplashPotion;
 	}
 	
 	private float getMult(int mode) {
