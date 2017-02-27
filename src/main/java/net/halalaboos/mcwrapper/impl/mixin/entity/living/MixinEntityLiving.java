@@ -26,10 +26,14 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 	@Shadow public float jumpMovementFactor;
 	@Shadow protected int activeItemStackUseCount;
 	@Shadow @Final private Map<Potion, net.minecraft.potion.PotionEffect> activePotionsMap;
+	@Shadow public abstract float getAbsorptionAmount();
+
+	@Shadow
+	public abstract int getTotalArmorValue();
 
 	@Override
 	public HealthData getHealthData() {
-		return new HealthData(getHealth(), getMaxHealth());
+		return new HealthData(getHealth(), getMaxHealth(), getAbsorptionAmount());
 	}
 
 	@Intrinsic
@@ -70,5 +74,10 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 	@Override
 	public Collection<PotionEffect> getEffects() {
 		return ((Collection<PotionEffect>)(Object) activePotionsMap.values());
+	}
+
+	@Override
+	public int getTotalArmor() {
+		return getTotalArmorValue();
 	}
 }

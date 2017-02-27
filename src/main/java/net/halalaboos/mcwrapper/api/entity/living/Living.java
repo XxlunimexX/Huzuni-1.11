@@ -54,4 +54,6 @@ public interface Living extends Entity {
 	int getItemUseTicks();
 
 	Collection<PotionEffect> getEffects();
+
+	int getTotalArmor();
 }

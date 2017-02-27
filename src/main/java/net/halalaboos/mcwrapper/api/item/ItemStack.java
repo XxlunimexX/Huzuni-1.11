@@ -7,6 +7,8 @@ public interface ItemStack {
 	 */
 	int getSize();
 
+	int getMaxSize();
+
 	/**
 	 * @return The item that the stack consists of.
 	 */
@@ -18,6 +20,8 @@ public interface ItemStack {
 	String getName();
 
 	int getMaxUseTicks();
+
+	boolean empty();
 
 	//TEMP
 	void renderInGui(int x, int y);

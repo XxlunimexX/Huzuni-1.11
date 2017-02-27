@@ -13,12 +13,13 @@ import net.halalaboos.mcwrapper.api.entity.living.Monster;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.potion.Potion;
 import net.halalaboos.mcwrapper.api.potion.PotionEffect;
+import net.halalaboos.mcwrapper.api.world.Fluid;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Session;
@@ -320,38 +321,40 @@ public class MinecraftUtilsNew {
 
 	public static float calculatePlayerDamage(Living entity, ItemStack item, float cooldown) {
 		float attackAttribute = (float) mc.player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-//		if (item != null) {
-//			Multimap<String, AttributeModifier> attributes = item.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
-//			Collection<AttributeModifier> attackModifier = attributes.get(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
-//			for (AttributeModifier modifier : attackModifier) {
-//				attackAttribute += modifier.getAmount();
-//			}
-//
+		if (item != null) {
+			Multimap<String, AttributeModifier> attributes = item.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
+			Collection<AttributeModifier> attackModifier = attributes.get(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+			for (AttributeModifier modifier : attackModifier) {
+				attackAttribute += modifier.getAmount();
+			}
+
 //			float enchantModifier = EnchantmentHelper.getModifierForCreature(item, entity.getCreatureAttribute());
-//			attackAttribute *= (0.2F + cooldown * cooldown * 0.8F);
-//			enchantModifier *= cooldown;
-//			if (attackAttribute > 0.0F || enchantModifier > 0.0F) {
-//				boolean hasKnockback = false;
-//				boolean hasCritical = false;
-//				hasCritical = hasKnockback && getPlayer().getFallDistance() > 0.0F && !getPlayer().isOnGround() && !getPlayer().isClimbing() && !getPlayer().isInFluid(Fluid.WATER) && !mc.player.isPotionActive(MobEffects.BLINDNESS) && !getPlayer().isRiding();
-//				hasCritical = hasCritical && !mc.player.isSprinting();
-//				if (hasCritical) {
-//					attackAttribute *= 1.5F;
-//				}
-//				attackAttribute += enchantModifier;
-//
-//				attackAttribute = CombatRules.getDamageAfterMagicAbsorb(attackAttribute, (float) entity.getTotalArmorValue());
-//				attackAttribute = Math.max(attackAttribute - entity.getAbsorptionAmount(), 0.0F);
-//				return attackAttribute;
-//			} else
-//				return 0F;
-//		}
+			float enchantModifier = 1; //todo
+			attackAttribute *= (0.2F + cooldown * cooldown * 0.8F);
+			enchantModifier *= cooldown;
+			if (attackAttribute > 0.0F || enchantModifier > 0.0F) {
+				boolean hasKnockback = false;
+				boolean hasCritical = false;
+				hasCritical = hasKnockback && getPlayer().getFallDistance() > 0.0F && !getPlayer().isOnGround() && !getPlayer().isClimbing() && !getPlayer().isInFluid(Fluid.WATER) && !mc.player.isPotionActive(MobEffects.BLINDNESS) && !getPlayer().isRiding();
+				hasCritical = hasCritical && !getPlayer().isSprinting();
+				if (hasCritical) {
+					attackAttribute *= 1.5F;
+				}
+				attackAttribute += enchantModifier;
+
+				attackAttribute = getDamageAfterPotion(attackAttribute, (float) entity.getTotalArmor());
+				attackAttribute = Math.max(attackAttribute - entity.getHealthData().getAbsorptionAmount(), 0.0F);
+				return attackAttribute;
+			} else
+				return 0F;
+		}
 		return attackAttribute;
 	}
 
 	public static float calculatePlayerDamageWithAttackSpeed(Living entity, ItemStack item) {
 		float attackAttribute = calculatePlayerDamage(entity, item, 1.0F);
 		if (item != null) {
+			//todo
 			Multimap<String, AttributeModifier> attributes = item.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
 			Collection<AttributeModifier> speedModifier = attributes.get(SharedMonsterAttributes.ATTACK_SPEED.getName());
 			float speedAttribute = (float) mc.player.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).getBaseValue();
@@ -361,6 +364,17 @@ public class MinecraftUtilsNew {
 			}
 		}
 		return attackAttribute;
+	}
+
+	public static float getDamageAfterAbsorb(float damage, float armor, float armorToughness) {
+		float f = 2.0F + armorToughness / 4.0F;
+		float f1 = net.halalaboos.mcwrapper.api.util.math.MathUtils.clamp(armor - damage / f, armor * 0.2F, 20.0F);
+		return damage * (1.0F - f1 / 25.0F);
+	}
+
+	public static float getDamageAfterPotion(float damage, float enchantLevel) {
+		float f = net.halalaboos.mcwrapper.api.util.math.MathUtils.clamp(enchantLevel, 0.0F, 20.0F);
+		return damage * (1.0F - f / 25.0F);
 	}
 
 	public static int getPotionY() {
@@ -383,14 +397,14 @@ public class MinecraftUtilsNew {
 	/**
 	 * @return True if the item is shift clickable.
 	 */
-	public static boolean isShiftable(ItemStack preferedItem) {
-		if (preferedItem == null || preferedItem.isEmpty())
+	public static boolean isShiftable(net.halalaboos.mcwrapper.api.item.ItemStack preferedItem) {
+		if (preferedItem == null || preferedItem.empty())
 			return true;
 		for (int o = 36; o < 45; o++) {
-			if (mc.player.inventoryContainer.getSlot(o).getHasStack()) {
-				ItemStack item = mc.player.inventoryContainer.getSlot(o).getStack();
-				if (Item.getIdFromItem(item.getItem()) == Item.getIdFromItem(preferedItem.getItem())) {
-					if (item.getCount() + preferedItem.getCount() <= preferedItem.getMaxStackSize())
+			if (getPlayer().getInventoryContainer().getSlotAt(o).hasItem()) {
+				net.halalaboos.mcwrapper.api.item.ItemStack item = getPlayer().getInventoryContainer().getSlotAt(o).getItem();
+				if (item.getItemType().getId() == preferedItem.getItemType().getId()) {
+					if (item.getSize() + preferedItem.getSize() <= preferedItem.getMaxSize())
 						return true;
 				}
 			} else

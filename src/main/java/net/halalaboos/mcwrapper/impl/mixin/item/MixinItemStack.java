@@ -18,6 +18,12 @@ public abstract class MixinItemStack implements ItemStack {
 	@Shadow
 	public abstract int getMaxItemUseDuration();
 
+	@Shadow
+	public abstract boolean isEmpty();
+
+	@Shadow
+	public abstract int getMaxStackSize();
+
 	private Minecraft mc = Minecraft.getMinecraft();
 
 	@Override
@@ -63,6 +69,16 @@ public abstract class MixinItemStack implements ItemStack {
 		mc.getRenderItem().zLevel = -150F;
 		mc.getRenderItem().renderItemAndEffectIntoGUI(getMCItemStack(), x, y);
 		mc.getRenderItem().zLevel = 0F;
+	}
+
+	@Override
+	public int getMaxSize() {
+		return getMaxStackSize();
+	}
+
+	@Override
+	public boolean empty() {
+		return isEmpty();
 	}
 
 	private net.minecraft.item.ItemStack getMCItemStack() {

@@ -48,4 +48,5 @@ public class MCWrapper {
 	public static TextRenderer getTextRenderer() {
 		return getMinecraft().getTextRenderer();
 	}
+
 }

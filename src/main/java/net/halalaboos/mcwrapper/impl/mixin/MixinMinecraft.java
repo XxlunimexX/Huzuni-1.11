@@ -37,42 +37,18 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Shadow private int rightClickDelayTimer;
 	@Shadow public abstract float getRenderPartialTicks();
 	@Shadow @Final private Timer timer;
-
-	@Shadow
-	public EntityPlayerSP player;
-
-	@Shadow
-	public WorldClient world;
-
-	@Shadow
-	public int displayWidth;
-
-	@Shadow
-	public int displayHeight;
-
-	@Shadow
-	public GameSettings gameSettings;
-
-	@Shadow
-	public abstract boolean isSingleplayer();
-
-	@Shadow
-	@Nullable
-	public abstract ServerData getCurrentServerData();
-
+	@Shadow public EntityPlayerSP player;
+	@Shadow public WorldClient world;
+	@Shadow public int displayWidth;
+	@Shadow public int displayHeight;
+	@Shadow public GameSettings gameSettings;
+	@Shadow public abstract boolean isSingleplayer();
+	@Shadow @Nullable public abstract ServerData getCurrentServerData();
 	@Shadow public GuiIngame ingameGUI;
-
-	@Shadow
-	private static int debugFPS;
-
-	@Shadow
-	public PlayerControllerMP playerController;
-
-	@Shadow
-	private RenderManager renderManager;
-
-	@Shadow
-	public FontRenderer fontRenderer;
+	@Shadow private static int debugFPS;
+	@Shadow public PlayerControllerMP playerController;
+	@Shadow private RenderManager renderManager;
+	@Shadow public FontRenderer fontRenderer;
 
 	@Inject(method = "run()V", at = @At(value = "INVOKE",
 			target = "Lnet/minecraft/client/Minecraft;init()V",

@@ -72,6 +72,24 @@ public class MathUtils {
 		return Sin.table[(int)((radians + PI / 2) * radToIndex) & SIN_MASK];
 	}
 
+	/**
+	 * Clamps the given input between the maximum and -maximum
+	 */
+	public static float clamp(float input, float max) {
+		return clamp(input, max, -max);
+	}
+
+	/**
+	 * Clamps the input between the maximum and minimum values.
+	 * */
+	public static float clamp(float input, float max, float min) {
+		if (input > max)
+			input = max;
+		if (input < min)
+			input = min;
+		return input;
+	}
+
 	private static class Sin {
 		static final float[] table = new float[SIN_COUNT];
 

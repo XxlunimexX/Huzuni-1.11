@@ -31,6 +31,8 @@
     "entity.living.player.MixinEntityPlayer",
     "entity.living.player.MixinEntityPlayerSP",
     "entity.living.player.MixinAbstractClientPlayer",
+    "inventory.MixinSlot",
+    "inventory.MixinContainer",
     "item.MixinItem",
     "item.MixinItemStack",
     "item.types.MixinItemBow",

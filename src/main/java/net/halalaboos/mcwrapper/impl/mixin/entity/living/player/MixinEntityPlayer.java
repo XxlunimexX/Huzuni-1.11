@@ -3,6 +3,7 @@ package net.halalaboos.mcwrapper.impl.mixin.entity.living.player;
 import com.mojang.authlib.GameProfile;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
+import net.halalaboos.mcwrapper.api.inventory.Container;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.impl.mixin.entity.living.MixinEntityLiving;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -18,11 +19,8 @@ public abstract class MixinEntityPlayer extends MixinEntityLiving implements Pla
 	@Shadow public InventoryPlayer inventory;
 	@Shadow protected FoodStats foodStats;
 	@Shadow public abstract float getCooledAttackStrength(float adjustTicks);
-
-	private boolean npc = false;
-
-	@Shadow
-	public abstract GameProfile getGameProfile();
+	@Shadow public abstract GameProfile getGameProfile();
+	@Shadow public net.minecraft.inventory.Container inventoryContainer;
 
 	@Override
 	public boolean isNPC() {
@@ -56,4 +54,11 @@ public abstract class MixinEntityPlayer extends MixinEntityLiving implements Pla
 	public GameProfile getProfile() {
 		return getGameProfile();
 	}
+
+	@Override
+	public Container getInventoryContainer() {
+		return ((Container) inventoryContainer);
+	}
+
+	private boolean npc = false;
 }
