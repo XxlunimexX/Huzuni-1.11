@@ -23,6 +23,11 @@ public abstract class MixinFontRenderer implements TextRenderer {
 	}
 
 	@Override
+	public void render(String text, float x, float y, int color) {
+		drawStringWithShadow(text, x, y, color);
+	}
+
+	@Override
 	public int getHeight() {
 		return FONT_HEIGHT;
 	}

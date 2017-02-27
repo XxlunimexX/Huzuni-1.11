@@ -9,8 +9,13 @@ import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.api.task.LookTask;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
+import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
+import net.halalaboos.mcwrapper.api.item.Item;
+import net.halalaboos.mcwrapper.api.item.types.*;
+import net.halalaboos.mcwrapper.api.item.types.Throwable;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.*;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
  * Stl's bow aimbot.
@@ -60,7 +65,7 @@ public class Bowaimbot extends BasicMod {
 		target = MinecraftUtils.getClosestEntity(reach.getValue(), 2.5F, invisible.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled(), checkAge.isEnabled());
 		if (target == null)
 			return;
-		int use = mc.player.getHeldItemMainhand().getMaxItemUseDuration() - mc.player.getItemInUseCount();
+		int use = getPlayer().getHeldItem(Hand.MAIN).getMaxUseTicks() - getPlayer().getItemUseTicks();
 		float progress = use / 20.0F;
 		progress = (progress * progress + progress * 2.0F) / 3.0F;
 		if (progress >= 1.0F)
@@ -75,11 +80,11 @@ public class Bowaimbot extends BasicMod {
      * @return True if the player is using a bow.
      * */
 	private boolean isUsingBow() {
-		if (!mc.player.getHeldItemMainhand().isEmpty()) {
-            Item item = mc.player.getHeldItemMainhand().getItem();
-            if (!(item instanceof ItemBow || item instanceof ItemSnowball || item instanceof ItemEnderPearl || item instanceof ItemEgg || (item instanceof ItemPotion && mc.player.getHeldItemMainhand().getItemDamage() != 0)))
+		if (getPlayer().getHeldItem(Hand.MAIN) != null) {
+            Item item = getPlayer().getHeldItem(Hand.MAIN).getItemType();
+            if (!(item instanceof Throwable))
                 return false;
-            if ((item instanceof ItemBow)) {
+            if (item instanceof Bow) {
                 return true;
             }
         }

@@ -17,5 +17,11 @@ public interface ItemStack {
 	 */
 	String getName();
 
+	int getMaxUseTicks();
+
+	//TEMP
 	void renderInGui(int x, int y);
+
+	//TEMP
+	void render3D(int x, int y);
 }

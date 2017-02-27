@@ -77,7 +77,7 @@ public class ESP extends BasicMod implements Renderer {
 						(properties.isEnabled() && !MinecraftUtils.checkProperties(entity)) ||
 						(checkAge.isEnabled() && !MinecraftUtils.checkAge(entity)))
 					continue;
-				Vector3d renderPos = entity.getInterpolatedPosition().sub(getMinecraft().getCamera());
+				Vector3d renderPos = entity.getRenderPosition();
 				float distance = (float)MCWrapper.getPlayer().getDistanceTo(entity);
 				int entityId = entity.getEntityListId();
 				if (entityId < 0) entityId = 420;

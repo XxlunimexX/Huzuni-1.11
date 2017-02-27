@@ -7,7 +7,7 @@ import java.util.Locale;
  * effects, etc.
  * <p>Using these formatting codes is pretty straightforward.  All that needs to be done is call the formatting code
  * in a method that uses text rendering.  </p>
- * <p>For example, <code>drawString(TextColor.GOLD + "Hello world!", x, y)</code> Would render gold-colored text.</p>
+ * <p>For example, <code>getTextRenderer().render(TextColor.GOLD + "Hello world!", x, y)</code> Would render gold-colored text.</p>
  */
 public enum TextColor {
 

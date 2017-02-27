@@ -18,6 +18,10 @@ public class Convert {
 		return new AABB(bb.minX, bb.minY, bb.minZ, bb.maxX, bb.maxY, bb.maxZ);
 	}
 
+	public static AxisAlignedBB to(AABB bb) {
+		return new AxisAlignedBB(bb.min.getX(), bb.min.getY(), bb.min.getZ(), bb.max.getX(), bb.max.getY(), bb.max.getZ());
+	}
+
 	public static Vector3i from(BlockPos pos) {
 		return new Vector3i(pos.getX(), pos.getY(), pos.getZ());
 	}

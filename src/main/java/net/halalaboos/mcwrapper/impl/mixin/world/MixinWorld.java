@@ -1,13 +1,16 @@
 package net.halalaboos.mcwrapper.impl.mixin.world;
 
+import com.google.common.base.Predicate;
 import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.block.tileentity.TileEntity;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
+import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.halalaboos.mcwrapper.api.world.World;
 import net.halalaboos.mcwrapper.impl.Convert;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -59,5 +62,11 @@ import java.util.List;
 	@Override
 	public Block getBlock(Vector3i pos) {
 		return ((Block) getBlockState(Convert.to(pos)).getBlock());
+	}
+
+	//this might be broken... lol
+	@Override
+	public Collection<Entity> getEntitiesInBox(AABB aabb) {
+		return ((Collection<Entity>)(Object)getEntitiesWithinAABBExcludingEntity(Minecraft.getMinecraft().player, Convert.to(aabb)));
 	}
 }

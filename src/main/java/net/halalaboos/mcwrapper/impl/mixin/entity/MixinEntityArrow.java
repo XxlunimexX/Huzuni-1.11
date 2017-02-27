@@ -1,6 +1,6 @@
 package net.halalaboos.mcwrapper.impl.mixin.entity;
 
-import net.halalaboos.mcwrapper.api.entity.Arrow;
+import net.halalaboos.mcwrapper.api.entity.projectile.Arrow;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.minecraft.entity.projectile.EntityArrow;
 import org.spongepowered.asm.mixin.Mixin;

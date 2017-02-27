@@ -10,12 +10,14 @@ import net.halalaboos.huzuni.api.util.gl.Box;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.mcwrapper.api.block.tileentity.*;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Keyboard;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
@@ -87,9 +89,11 @@ public class StorageESP extends BasicMod implements Renderer {
 	@Override
 	public void render(float partialTicks) {
 		for (net.halalaboos.mcwrapper.api.block.tileentity.TileEntity tileEntity : getWorld().getTileEntities()) {
-			float renderX = (float) (tileEntity.getPosition().getX() - mc.getRenderManager().viewerPosX);
-			float renderY = (float) (tileEntity.getPosition().getY() - mc.getRenderManager().viewerPosY);
-			float renderZ = (float) (tileEntity.getPosition().getZ() - mc.getRenderManager().viewerPosZ);
+			Vector3d cam = getMinecraft().getCamera();
+			Vector3d renderPos = tileEntity.getPosition().toDouble().sub(cam);
+			float renderX = (float) (renderPos.getX());
+			float renderY = (float) (renderPos.getY());
+			float renderZ = (float) (renderPos.getZ());
 			float dist = (float) getPlayer().getDistanceTo(tileEntity.getPosition().toDouble()) / 128;
 			float alpha = dist > 0.25F ? 0.25F : dist;
 

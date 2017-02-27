@@ -1,5 +1,6 @@
 package net.halalaboos.huzuni;
 
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -12,6 +13,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -82,11 +84,11 @@ public final class RenderManager {
 		Tessellator tessellator = Tessellator.getInstance();
     	VertexBuffer vertexBuffer = tessellator.getBuffer();
     	vertexBuffer.begin(GL_LINES, DefaultVertexFormats.POSITION_COLOR);
-		Vec3d start = new Vec3d(0, 0, 1)
-				.rotatePitch(-(float) Math.toRadians(Minecraft.getMinecraft().player.rotationPitch))
-				.rotateYaw(-(float) Math.toRadians(Minecraft.getMinecraft().player.rotationYaw));
+		Vector3d start = new Vector3d(0, 0, 1)
+				.rotatePitch(-(float) Math.toRadians(getPlayer().getPitch()))
+				.rotateYaw(-(float) Math.toRadians(getPlayer().getYaw()));
 		for (float[] point : lines) {
-	    	vertexBuffer.pos(start.xCoord, start.yCoord + Minecraft.getMinecraft().player.getEyeHeight(), start.zCoord).color(point[3], point[4], point[5], point[6]).endVertex();
+	    	vertexBuffer.pos(start.getX(), start.getY() + Minecraft.getMinecraft().player.getEyeHeight(), start.getZ()).color(point[3], point[4], point[5], point[6]).endVertex();
 	    	vertexBuffer.pos(point[0], point[1], point[2]).color(point[3], point[4], point[5], point[6]).endVertex();
 		}
     	tessellator.draw();

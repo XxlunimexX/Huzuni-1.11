@@ -7,9 +7,10 @@ import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.settings.Value;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
-import net.halalaboos.huzuni.mc.Reflection;
-import net.halalaboos.mcwrapper.api.entity.Arrow;
+import net.halalaboos.mcwrapper.api.entity.projectile.Arrow;
 import net.halalaboos.mcwrapper.api.item.types.Bow;
+import net.halalaboos.mcwrapper.api.item.types.SplashPotion;
+import net.halalaboos.mcwrapper.api.item.types.Throwable;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.minecraft.block.BlockLiquid;
@@ -20,7 +21,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.*;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.*;
@@ -78,7 +78,7 @@ public class Projectiles extends BasicMod implements Renderer {
 
 			if (item.getItem() instanceof Bow)
                 mode = 1;
-            else if (item.getItem() instanceof ItemSplashPotion)
+            else if (item.getItem() instanceof SplashPotion)
             	mode = 2;
 
             float yaw = getPlayer().getYaw();
@@ -150,7 +150,6 @@ public class Projectiles extends BasicMod implements Renderer {
 
             List<Entity> entities = mc.world.getEntitiesWithinAABBExcludingEntity(mc.player, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
             for (int index = 0; index < entities.size(); ++index) {Entity entity = entities.get(index);
-
                 if (entity.canBeCollidedWith() && entity != mc.player) {
                     AxisAlignedBB entityBoundingBox = entity.getEntityBoundingBox().expand(0.3D, 0.3D, 0.3D);
                     RayTraceResult entityCollision = entityBoundingBox.calculateIntercept(present, future);
@@ -221,7 +220,7 @@ public class Projectiles extends BasicMod implements Renderer {
 	}
 	
 	private boolean isThrowable(Item item) {
-		return item instanceof Bow || item instanceof ItemSnowball || item instanceof ItemEnderPearl || item instanceof ItemEgg || item instanceof ItemSplashPotion;
+		return item instanceof Throwable;
 	}
 	
 	private float getMult(int mode) {

@@ -184,6 +184,11 @@ public interface Entity extends Identifiable, Nameable {
 		return getPreviousLocation().add(getLocation().sub(getPreviousLocation()).scale(delta));
 	}
 
+	default Vector3d getRenderPosition() {
+		Vector3d cam = MCWrapper.getMinecraft().getCamera();
+		return getInterpolatedPosition().sub(cam);
+	}
+
 	/**
 	 * @return Whether or not the Entity is currently invisible.
 	 */

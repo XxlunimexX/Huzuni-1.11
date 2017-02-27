@@ -27,6 +27,7 @@ import net.minecraft.util.EnumHand;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getTextRenderer;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 import static org.lwjgl.opengl.GL11.glLineWidth;
 
@@ -94,7 +95,7 @@ public class Nametags extends BasicMod implements Renderer {
 			scale = 1D;
 
 		String text = (huzuni.friendManager.isFriend(entity.getName()) ? huzuni.friendManager.getAlias(entity.getName()) : entity.getDisplayName().getFormattedText()) + getHealth(entity) + (entity.isInvisibleToPlayer(mc.player) ? TextColor.BLUE + " [Invisible]" : "") + getPing(entity);
-		int width = mc.fontRenderer.getStringWidth(text);
+		int width = getTextRenderer().getWidth(text);
 		GlStateManager.pushMatrix();
 		RenderUtils.prepareBillboarding((float) x, (float) y + entity.height + 0.5F, (float) z, true);
 		GlStateManager.scale(scale, scale, scale);
@@ -107,7 +108,7 @@ public class Nametags extends BasicMod implements Renderer {
 		if (healthMode.getSelected() == 1)
 			renderHealth(entity);
 
-		mc.fontRenderer.drawStringWithShadow(text, -width / 2, 0, color);
+		getTextRenderer().render(text, -width / 2, 0, color, true);
 
 		GL11.glPolygonOffset(1.0F, -2000000.0F);
 		GlStateManager.enablePolygonOffset();
@@ -209,7 +210,7 @@ public class Nametags extends BasicMod implements Renderer {
 				GlStateManager.pushMatrix();
 				GlStateManager.scale(scale, scale, scale);
 				if (Enchantment.getEnchantmentByID(compound.getByte("id")) != null)
-					mc.fontRenderer.drawStringWithShadow(Enchantment.getEnchantmentByID(compound.getByte("id")).getTranslatedName(compound.getByte("lvl")).substring(0, 4) + " " + compound.getByte("lvl"), x * scaleInverse, ((int) y + (increment * j)) * scaleInverse, 0xFFFFFF);
+					getTextRenderer().render(Enchantment.getEnchantmentByID(compound.getByte("id")).getTranslatedName(compound.getByte("lvl")).substring(0, 4) + " " + compound.getByte("lvl"), x * scaleInverse, ((int) y + (increment * j)) * scaleInverse, 0xFFFFFF);
 				GlStateManager.popMatrix();
 			}
 		}
