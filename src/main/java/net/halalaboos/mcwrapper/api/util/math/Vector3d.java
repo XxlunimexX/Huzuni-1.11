@@ -142,4 +142,8 @@ public class Vector3d {
 		this.z = z;
 		return this;
 	}
+
+	public Vector3i toInt() {
+		return new Vector3i(this);
+	}
 }

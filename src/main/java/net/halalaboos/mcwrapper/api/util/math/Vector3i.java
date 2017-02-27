@@ -18,6 +18,10 @@ public class Vector3i {
 		this.z = (int)z;
 	}
 
+	public Vector3i(Vector3d vec) {
+		this(vec.getX(), vec.getY(), vec.getZ());
+	}
+
 	/**
 	 * Helps simplify the process of adding a value to only one of the points of the Vector, rather
 	 * than having to use {@link #add(int)}.

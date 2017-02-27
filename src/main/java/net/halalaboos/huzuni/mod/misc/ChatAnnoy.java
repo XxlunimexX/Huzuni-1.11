@@ -12,7 +12,6 @@ import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.ExperienceOrb;
 import net.halalaboos.mcwrapper.api.entity.ItemPickup;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
-import net.halalaboos.mcwrapper.api.item.Items;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.network.play.server.SPacketCollectItem;

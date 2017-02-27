@@ -13,16 +13,19 @@ import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.huzuni.mod.movement.Freecam;
+import net.halalaboos.mcwrapper.api.network.packet.server.HealthUpdatePacket;
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.network.play.server.SPacketUpdateHealth;
-import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
 
 /**
@@ -32,9 +35,9 @@ public class Breadcrumb extends BasicMod implements Renderer {
 
 	private final Texture breadIcon = new Texture("bread.png");
 
-	private final List<BlockPos> points = new ArrayList<>();
+	private final List<Vector3i> points = new ArrayList<>();
 
-	private BlockPos lastPosition = new BlockPos(0, 0, 0);
+	private Vector3i lastPosition = new Vector3i(0, 0, 0);
 	
 	public final Value opacity = new Value("Opacity", "%", 0F, 50F, 100F, 1F, "Opacity of the icon.");
 
@@ -69,20 +72,18 @@ public class Breadcrumb extends BasicMod implements Renderer {
 	public void onDisable() {
 		huzuni.eventManager.removeListener(this);
 		huzuni.renderManager.removeWorldRenderer(this);
-		lastPosition = new BlockPos(0, 0, 0);
+		lastPosition = new Vector3i(0, 0, 0);
 		clearPoints();
 	}
 	
 	@Override
 	public void render(float partialTicks) {
 		if (bread.isEnabled()) {
-			for (BlockPos position : points) {
-				float renderX = (float) (position.getX() - mc.getRenderManager().viewerPosX);
-				float renderY = (float) (position.getY() - mc.getRenderManager().viewerPosY);
-				float renderZ = (float) (position.getZ() - mc.getRenderManager().viewerPosZ);
+			for (Vector3i position : points) {
+				Vector3d renderPos = position.toDouble().sub(getMinecraft().getCamera());
 				GLManager.glColor(1F, 1F, 1F, opacity.getValue() / 100F);
 				GlStateManager.pushMatrix();
-				RenderUtils.prepareBillboarding(renderX, renderY, renderZ, true);
+				RenderUtils.prepareBillboarding(((float) renderPos.getX()), ((float) renderPos.getY()), ((float) renderPos.getZ()), true);
 				GlStateManager.scale(0.25, 0.25, 0.25);
 				breadIcon.bindTexture();
 				breadIcon.render(-32F, -32F + (bounce.getValue() == 0F ? 0F : (float) (bounce.getValue() * Math.cos(Math.toRadians(System.currentTimeMillis() % 360)))), 64, 64);
@@ -95,16 +96,14 @@ public class Breadcrumb extends BasicMod implements Renderer {
 			Tessellator tessellator = Tessellator.getInstance();
 	    	VertexBuffer renderer = tessellator.getBuffer();
 	    	renderer.begin(GL_LINE_STRIP, DefaultVertexFormats.POSITION);
-			for (BlockPos position : points) {
-				float renderX = (float) (position.getX() - mc.getRenderManager().viewerPosX);
-				float renderY = (float) (position.getY() - mc.getRenderManager().viewerPosY);
-				float renderZ = (float) (position.getZ() - mc.getRenderManager().viewerPosZ);
-		    	renderer.pos(renderX, renderY, renderZ).endVertex();
+			for (Vector3i position : points) {
+				Vector3d renderPos = position.toDouble().sub(getMinecraft().getCamera());
+		    	renderer.pos(renderPos.getX(), renderPos.getY(), renderPos.getZ()).endVertex();
 			}
 	    	tessellator.draw();
 		}
-		if (lastPosition.distanceSq(mc.player.posX, mc.player.posY, mc.player.posZ) >= distance.getValue() && !Freecam.INSTANCE.isEnabled()) {
-			lastPosition = new BlockPos(mc.player.posX, mc.player.posY, mc.player.posZ);
+		if (lastPosition.toDouble().distanceTo(getPlayer().getLocation()) >= distance.getValue() && !Freecam.INSTANCE.isEnabled()) {
+			lastPosition = new Vector3i(getPlayer().getLocation());
 			points.add(lastPosition);
 		}
 	}
@@ -112,9 +111,9 @@ public class Breadcrumb extends BasicMod implements Renderer {
 	@EventMethod
 	public void onPacket(PacketEvent event) {
 		if (clearOnDeath.isEnabled()) {
-			if (event.getPacket() instanceof SPacketUpdateHealth) {
-				SPacketUpdateHealth packet = (SPacketUpdateHealth)event.getPacket();
-				if (packet.getHealth() <= 0F) {
+			if (event.getPacket() instanceof HealthUpdatePacket) {
+				HealthUpdatePacket packet = (HealthUpdatePacket)event.getPacket();
+				if (packet.getHearts() <= 0F) {
 					clearPoints();
 				}
 			}
