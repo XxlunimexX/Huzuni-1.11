@@ -75,19 +75,10 @@ public class ArmorStatusWidget extends BackgroundWidget {
 	private void renderItemStack(ItemStack itemStack, int x, int y) {
 		if (itemStack == null)
 			return;
-		GlStateManager.pushMatrix();
-        RenderHelper.enableGUIStandardItemLighting();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        try {
-        	GlStateManager.translate(0.0F, 0.0F, 32.0F);
-        	mc.getRenderItem().zLevel = 200F;
-			mc.getRenderItem().renderItemAndEffectIntoGUI(itemStack, x, y);
-        	mc.getRenderItem().renderItemOverlayIntoGUI(mc.fontRenderer, itemStack, x, y, "");
-        	mc.getRenderItem().zLevel = 0F;
-        } catch (Exception e) {
-        	e.printStackTrace();
-        }
-        RenderHelper.disableStandardItemLighting();
-        GlStateManager.popMatrix();
+
+		//testing plz ignore
+		//this works tho :))
+		net.halalaboos.mcwrapper.api.item.ItemStack stack = (net.halalaboos.mcwrapper.api.item.ItemStack)(Object)itemStack;
+		stack.renderInGui(x, y);
 	}
 }

@@ -31,6 +31,7 @@
     "item.MixinItem",
     "item.MixinItemStack",
     "client.MixinPlayerControllerMP",
+    "client.gui.MixinFontRenderer",
     "world.MixinWorld",
     "network.MixinServerData",
     "network.MixinNetworkPlayerInfo",

@@ -17,4 +17,5 @@ public interface ItemStack {
 	 */
 	String getName();
 
+	void renderInGui(int x, int y);
 }

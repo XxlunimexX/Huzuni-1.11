@@ -9,13 +9,14 @@ import net.halalaboos.huzuni.api.settings.JsonFileHandler;
 import net.halalaboos.huzuni.api.settings.Nameable;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.math.BlockPos;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
  * Manages and allows easy access to all {@link Waypoint}s.
@@ -38,7 +39,7 @@ public final class WaypointManager extends JsonFileHandler {
 			String name = object.get("name").getAsString(), server = object.get("server").getAsString();
 			int x = object.get("x").getAsInt(), y = object.get("y").getAsInt(), z = object.get("z").getAsInt();
 			Color color = new Color(object.get("color").getAsInt());
-			return new Waypoint(name, server, new BlockPos(x, y, z), color);
+			return new Waypoint(name, server, new Vector3i(x, y, z), color);
 		}
 	
 	};
@@ -103,7 +104,7 @@ public final class WaypointManager extends JsonFileHandler {
 	 * Adds a death waypoint at the given position.
 	 * @param position The position at which to add the death {@link Waypoint}.
 	 * */
-	public void addDeathPoint(BlockPos position) {
+	public void addDeathPoint(Vector3i position) {
 		this.addDeathPoint(deathCount, position);
 	}
 	
@@ -112,7 +113,7 @@ public final class WaypointManager extends JsonFileHandler {
 	 * @param deathCount The amount of times the user has died.
 	 * @param position The position at which to add the death {@link Waypoint}.
 	 * */
-	private void addDeathPoint(int deathCount, BlockPos position) {
+	private void addDeathPoint(int deathCount, Vector3i position) {
 		String name = "Death Point " + deathCount;
 		if (addWaypoint(new Waypoint(name, position, Color.RED))) {
 			this.deathCount = deathCount + 1;
@@ -166,26 +167,26 @@ public final class WaypointManager extends JsonFileHandler {
 
         private String server;
 
-        private BlockPos position;
+        private Vector3i position;
 
         private ColorNode color = new ColorNode("color", Color.WHITE, "waypoint color");
 
-        public Waypoint(String name, String server, BlockPos position, Color color) {
+        public Waypoint(String name, String server, Vector3i position, Color color) {
             this.name = name;
             this.server = server;
             this.position = position;
             this.color.setColor(color);
         }
 
-        public Waypoint(String name, BlockPos position, Color color) {
+        public Waypoint(String name, Vector3i position, Color color) {
             this(name, MinecraftUtils.getCurrentServer(), position, color);
         }
 
-        public Waypoint(String name, BlockPos position) {
+        public Waypoint(String name, Vector3i position) {
             this(name, MinecraftUtils.getCurrentServer(), position, GLManager.getRandomColor());
         }
 
-        public Waypoint(BlockPos position) {
+        public Waypoint(Vector3i position) {
             this("Waypoint " + (int) (Math.random() * 500D), position);
         }
 
@@ -211,11 +212,11 @@ public final class WaypointManager extends JsonFileHandler {
             this.server = server;
         }
 
-        public BlockPos getPosition() {
+        public Vector3i getPosition() {
             return position;
         }
 
-        public void setPosition(BlockPos position) {
+        public void setPosition(Vector3i position) {
             this.position = position;
         }
 
@@ -230,7 +231,7 @@ public final class WaypointManager extends JsonFileHandler {
          * @return The distance between this location and the player.
          * */
         public float getDistance() {
-            return Minecraft.getMinecraft().player == null ? 0F : (float) Minecraft.getMinecraft().player.getDistance(position.getX(), position.getY(), position.getZ());
+            return getPlayer() == null ? 0F : (float) getPlayer().getDistanceTo(getPosition().toDouble());
         }
 
         public Color getColor() {

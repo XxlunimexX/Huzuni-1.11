@@ -36,6 +36,7 @@ import net.minecraft.util.math.Vec3d;
 import java.net.Proxy;
 import java.util.Collection;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
@@ -55,7 +56,7 @@ public final class MinecraftUtils {
 	 * @return The address the player is currently connected to.
 	 * */
 	public static String getCurrentServer() {
-		return mc.getCurrentServerData() == null ? "localhost" : mc.getCurrentServerData().serverIP;
+		return !getMinecraft().getServerInfo().isPresent() ? "localhost" : getMinecraft().getServerInfo().get().getIP();
 	}
 	
 	/**
@@ -63,7 +64,7 @@ public final class MinecraftUtils {
 	 * @return a {@link Session} class with the account's new session.
 	 * */
 	public static Session loginToMinecraft(String username, String password) throws AuthenticationException {
-		YggdrasilAuthenticationService authenticationService = new YggdrasilAuthenticationService( Proxy.NO_PROXY, "");
+		YggdrasilAuthenticationService authenticationService = new YggdrasilAuthenticationService(Proxy.NO_PROXY, "");
 		YggdrasilUserAuthentication userAuthentication = (YggdrasilUserAuthentication) authenticationService .createUserAuthentication(Agent.MINECRAFT);
 		userAuthentication.setUsername(username);
 		userAuthentication.setPassword(password);

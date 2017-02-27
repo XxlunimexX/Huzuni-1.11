@@ -20,6 +20,7 @@ import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.input.Keyboard;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 import static org.lwjgl.opengl.GL11.GL_LINES;
 import static org.lwjgl.opengl.GL11.GL_LINE_LOOP;
@@ -76,28 +77,25 @@ public class ESP extends BasicMod implements Renderer {
 						(properties.isEnabled() && !MinecraftUtils.checkProperties(entity)) ||
 						(checkAge.isEnabled() && !MinecraftUtils.checkAge(entity)))
 					continue;
-				Vector3d pos = entity.getInterpolatedPosition();
-				double rX = pos.getX() - mc.getRenderManager().viewerPosX;
-				double rY = pos.getY() - mc.getRenderManager().viewerPosY;
-				double rZ = pos.getZ() - mc.getRenderManager().viewerPosZ;
+				Vector3d renderPos = entity.getInterpolatedPosition().sub(getMinecraft().getCamera());
 				float distance = (float)MCWrapper.getPlayer().getDistanceTo(entity);
 				int entityId = entity.getEntityListId();
 				if (entityId < 0) entityId = 420;
 				boolean friend = huzuni.friendManager.isFriend(entity.name());
 				if (lines.isEnabled()) {
-					drawLine(((float) rX), ((float) rY), ((float) rZ), entity, distance, friend);
+					drawLine(((float) renderPos.getX()), ((float) renderPos.getY()), ((float) renderPos.getZ()), entity, distance, friend);
 				}
 				setColor(entity, distance, friend, false, opacity.getValue() / 100F);
 				if (mode.getSelected() == 1) {
 					GlStateManager.pushMatrix();
-					GlStateManager.translate(rX, rY, rZ);
+					GlStateManager.translate(renderPos.getX(), renderPos.getY(), renderPos.getZ());
 					GlStateManager.rotate(-entity.getRotation().yaw, 0F, 1F, 0F);
 					generateVbo(entity, entityId);
 					box[entityId].render();
 					GlStateManager.popMatrix();
 				} else if (mode.getSelected() == 2) {
 					GlStateManager.pushMatrix();
-					GlStateManager.translate(rX, rY, rZ);
+					GlStateManager.translate(renderPos.getX(), renderPos.getY(), renderPos.getZ());
 					GlStateManager.rotate(-MCWrapper.getPlayer().getRotation().yaw, 0F, 1F, 0F);
 					float width = (float) (entity.getBoundingBox().max.getX() - entity.getBoundingBox().min.getX()),
 							height = (float) (entity.getBoundingBox().max.getY() - entity.getBoundingBox().min.getY());
@@ -113,8 +111,8 @@ public class ESP extends BasicMod implements Renderer {
 					GLManager.glColor(1F, distance / 64F, 0F, 1F);
 					VertexBuffer renderer = tessellator.getBuffer();
 					renderer.begin(GL_LINES, DefaultVertexFormats.POSITION);
-					renderer.pos(rX, rY, rZ).endVertex();
-					renderer.pos(rX, rY + entity.getHeight(), rZ).endVertex();
+					renderer.pos(renderPos.getX(), renderPos.getY(), renderPos.getZ()).endVertex();
+					renderer.pos(renderPos.getX(), renderPos.getY() + entity.getHeight(), renderPos.getZ()).endVertex();
 					tessellator.draw();
 				}
 			}

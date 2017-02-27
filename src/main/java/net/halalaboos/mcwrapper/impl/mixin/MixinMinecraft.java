@@ -4,6 +4,7 @@ import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.MinecraftClient;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.client.Controller;
+import net.halalaboos.mcwrapper.api.client.gui.TextRenderer;
 import net.halalaboos.mcwrapper.api.network.ServerInfo;
 import net.halalaboos.mcwrapper.api.util.Resolution;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
@@ -11,6 +12,7 @@ import net.halalaboos.mcwrapper.api.world.World;
 import net.halalaboos.mcwrapper.impl.OnePointElevenAdapter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.ServerData;
@@ -18,6 +20,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.Timer;
+import net.minecraftforge.fml.client.SplashProgress;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -67,6 +70,9 @@ public abstract class MixinMinecraft implements MinecraftClient {
 
 	@Shadow
 	private RenderManager renderManager;
+
+	@Shadow
+	public FontRenderer fontRenderer;
 
 	@Inject(method = "run()V", at = @At(value = "INVOKE",
 			target = "Lnet/minecraft/client/Minecraft;init()V",
@@ -154,5 +160,10 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Override
 	public Vector3d getCamera() {
 		return new Vector3d(renderManager.viewerPosX, renderManager.viewerPosY, renderManager.viewerPosZ);
+	}
+
+	@Override
+	public TextRenderer getTextRenderer() {
+		return ((TextRenderer) fontRenderer);
 	}
 }
