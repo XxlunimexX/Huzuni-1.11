@@ -51,6 +51,7 @@ public class Freecam extends BasicMod {
 	        	 if (mc.player != null)
 					 Flight.INSTANCE.setEnabled(oldFlying);
 	        }
+			mc.renderGlobal.loadRenderers(); //Fixes culling updates
 		}
     }
 	

@@ -47,5 +47,6 @@ public class NoSlowdown extends BasicMod {
 		float speed = enabled ? iceSpeed.getValue() : 0.98F;
 		BlockTypes.ICE.setSlipperiness(speed);
 		BlockTypes.PACKED_ICE.setSlipperiness(speed);
+		BlockTypes.FROSTED_ICE.setSlipperiness(speed);
 	}
 }

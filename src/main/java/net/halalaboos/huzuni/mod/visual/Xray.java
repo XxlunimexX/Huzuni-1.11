@@ -5,14 +5,12 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.ItemSelector;
 import net.halalaboos.huzuni.api.settings.Value;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockBush;
-import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Keyboard;
-
-import java.util.Arrays;
 
 /**
  * Shows blocks hidden behind other blocks.
@@ -104,11 +102,12 @@ public class Xray extends BasicMod {
 
 	private void fastReload() {
     	if (mc.world != null) {
-    		int x = (int) mc.player.posX;
-    		int z = (int) mc.player.posZ;
-    		int viewDistance = 16 * mc.gameSettings.renderDistanceChunks;
-			mc.world.markBlockRangeForRenderUpdate(x - viewDistance, 0, z - viewDistance, x + viewDistance, 256, z + viewDistance);
-		}
+//    		int x = (int) mc.player.posX;
+//    		int z = (int) mc.player.posZ;
+//    		int viewDistance = 16 * mc.gameSettings.renderDistanceChunks;
+//			mc.world.markBlockRangeForRenderUpdate(x - viewDistance, 0, z - viewDistance, x + viewDistance, 256, z + viewDistance);
+			mc.renderGlobal.loadRenderers();
+    	}
 	}
 	
 	@Override
@@ -118,7 +117,7 @@ public class Xray extends BasicMod {
 	}
 	
 	public boolean isEnabled(Block block) {
-		return blockList.isEnabledObject(block);
+		return blockList.isEnabledObject(block) || block instanceof BlockBed;
 	}
 
 	public boolean shouldIgnore(Block block) {

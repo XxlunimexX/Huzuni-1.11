@@ -50,6 +50,7 @@
     "network.packet.server.MixinPacketExplosion",
     "network.packet.server.MixinPacketSpawnObject",
     "network.packet.server.MixinPacketUpdateHealth",
+    "network.packet.server.MixinPacketCollectItem",
     "potion.MixinPotion",
     "potion.MixinPotionEffect",
     "world.MixinWorld"

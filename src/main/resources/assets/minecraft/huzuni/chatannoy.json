@@ -1,0 +1,23 @@
+{
+  "dig": [
+    {"message": "I have done it! I mined $BLOCK!"},
+    {"message": "Wow! I can't believe I just mined some $BLOCK!!"},
+    {"message": "Guess who just mined some fresh $BLOCK?"},
+    {"message": "Another day, another $BLOCK dug."},
+    {"message": "Knock knock. Who's there? $BLOCK. $BLOCK who? The $BLOCK that I just mined!"},
+    {"message": "I just broke some $BLOCK, isn't that cool?"},
+    {"message": "I didn't just mine $BLOCK."}
+  ],
+  "time": [
+    {"message": "The time is currently $TIME!"},
+    {"message": "$PLAYER doesn't know that it's currently $TIME!"},
+    {"message": "Don't worry, $PLAYER, the time is $TIME."},
+    {"message": "According to $PLAYER it is currently $TIME."},
+  ],
+  "pickup": [
+    {"message": "I have done it! I picked up some $ITEM!"},
+    {"message": "Wow, I just picked up some more $ITEM!!"},
+    {"message": "Guess who just picked up some fresh $ITEM?"},
+    {"message": "i hav picked up $ITEM."}
+  ]
+}

@@ -14,7 +14,7 @@ import java.util.Map;
  * */
 public final class FriendManager extends JsonFileHandler {
 	
-	private static final Color color = new Color(0x59BFFF);
+	private static final Color color = new Color(0xBEEF);
 	
 	private final Map<String, String> friends = new HashMap<String, String>();
 	

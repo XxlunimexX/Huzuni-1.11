@@ -1,7 +1,9 @@
 package net.halalaboos.huzuni.mod.misc;
 
+
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.event.PacketEvent;
+import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Toggleable;
@@ -12,11 +14,13 @@ import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.ExperienceOrb;
 import net.halalaboos.mcwrapper.api.entity.ItemPickup;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.network.packet.server.ItemPickupPacket;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
-import net.minecraft.network.play.server.SPacketCollectItem;
 import net.minecraft.util.math.BlockPos;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getController;
@@ -49,6 +53,9 @@ public class ChatAnnoy extends BasicMod {
 	//The last sent item name
 	private String lastItemName;
 
+	//The last sent time
+	private String lastTimeSent;
+
 	public ChatAnnoy() {
 		super("Chat annoy", "Annoy others in chat!");
 		setAuthor("brudin");
@@ -60,6 +67,7 @@ public class ChatAnnoy extends BasicMod {
 
 	@Override
 	protected void onEnable() {
+		lastTimeSent = getCurrentTime();
 		huzuni.eventManager.addListener(this);
 	}
 
@@ -75,17 +83,28 @@ public class ChatAnnoy extends BasicMod {
 	public void onPacket(PacketEvent event) {
 		if (event.type == PacketEvent.Type.SENT) {
 			if (timer.hasReach(1500) && random.nextBoolean()) {
-				if (event.getPacket() instanceof CPacketPlayerDigging) {
+				if (dig.isEnabled() && event.getPacket() instanceof CPacketPlayerDigging) {
 					CPacketPlayerDigging packet = (CPacketPlayerDigging) event.getPacket();
 					alertDigging(packet);
 				}
 			}
 		} else {
-			if (timer.hasReach(1500) && random.nextBoolean()) {
-				if (event.getPacket() instanceof SPacketCollectItem) {
-					SPacketCollectItem packet = (SPacketCollectItem) event.getPacket();
+			if (pickup.isEnabled() && timer.hasReach(250) && random.nextBoolean()) {
+				if (event.getPacket() instanceof ItemPickupPacket) {
+					ItemPickupPacket packet = (ItemPickupPacket) event.getPacket();
 					alertPickup(packet);
 				}
+			}
+		}
+	}
+
+	@EventMethod
+	public void onTick(UpdateEvent event) {
+		if (event.type == UpdateEvent.Type.PRE) {
+			if (timer.hasReach(1500) && time.isEnabled() && !getCurrentTime().equals(lastTimeSent)) {
+				getPlayer().sendMessage(String.format(getTimeMessage(), getCurrentTime()));
+				lastTimeSent = getCurrentTime();
+				timer.reset();
 			}
 		}
 	}
@@ -118,9 +137,9 @@ public class ChatAnnoy extends BasicMod {
 	 * Randomly sends a chat message when the Player picks up an Item.
 	 * @param collectItem The pickup packet
 	 */
-	private void alertPickup(SPacketCollectItem collectItem) {
-		int collector = collectItem.getEntityID();
-		int collected = collectItem.getCollectedItemEntityID();
+	private void alertPickup(ItemPickupPacket collectItem) {
+		int collector = collectItem.getCollector();
+		int collected = collectItem.getCollected();
 
 		//Check if it was you who picked up the item
 		if (getPlayer().getId() == collector) {
@@ -146,6 +165,17 @@ public class ChatAnnoy extends BasicMod {
 		}
 		//Reset the timer
 		timer.reset();
+	}
+
+	private String getCurrentTime() {
+		return LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm a"));
+	}
+
+	/**
+	 * The message sent for time changes
+	 */
+	private String getTimeMessage() {
+		return "time flies my man it's already %s";
 	}
 
 	/**
