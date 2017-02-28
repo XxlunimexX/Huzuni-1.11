@@ -15,7 +15,6 @@ public class Timer extends BasicMod {
 	
 	public final Value speed = new Value("Multiplier", "", 0.1F, 1F, 5F, 0.1F, "Timer speed multiplier");
 
-
 	public Timer() {
 		super("Timer", "Allows you to adjust the in-game clock speed");
 		this.setCategory(Category.MISC);

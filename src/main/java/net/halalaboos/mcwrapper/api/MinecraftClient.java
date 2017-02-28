@@ -68,6 +68,8 @@ public interface MinecraftClient {
 	 */
 	void clearMessages(boolean sentMessages);
 
+	boolean useUnicode();
+
 	/**
 	 * @return The current framerate.
 	 */

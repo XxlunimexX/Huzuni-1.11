@@ -36,4 +36,5 @@ public interface World {
 	Entity getEntity(int entityId);
 
 	Block getBlock(Vector3i pos);
+	Block getBlock(int x, int y, int z);
 }

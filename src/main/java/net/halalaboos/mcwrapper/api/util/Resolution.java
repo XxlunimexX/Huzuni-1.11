@@ -1,5 +1,7 @@
 package net.halalaboos.mcwrapper.api.util;
 
+import net.halalaboos.mcwrapper.api.MCWrapper;
+
 public class Resolution {
 
 	/**
@@ -12,6 +14,8 @@ public class Resolution {
 	 */
 	public int scaledWidth, scaledHeight;
 
+	public int factor;
+
 	public Resolution(int width, int height, int scaleSetting) {
 		this.width = width;
 		this.height = height;
@@ -22,18 +26,21 @@ public class Resolution {
 	 * Sets the scaled width and height based on the given scale setting.
 	 */
 	public void scale(int scaleSetting) {
-		int scaleFactor = 1;
+		this.scaledWidth = width;
+		this.scaledHeight = height;
+		this.factor = 1;
+		boolean unicode = MCWrapper.getMinecraft().useUnicode();
 		if (scaleSetting == 0) {
 			scaleSetting = 1000;
 		}
-		while (scaleFactor < scaleSetting && width / (scaleFactor + 1) >= 320
-				&& height / (scaleFactor + 1) >= 240) {
-			scaleFactor++;
+		while (this.factor < scaleSetting && this.scaledWidth / (this.factor + 1) >= 320 &&
+				this.scaledHeight / (this.factor + 1) >= 240) {
+			++this.factor;
 		}
-		if (scaleFactor % 2 != 0 && scaleFactor != 1) {
-			scaleFactor--;
+		if (unicode && this.factor % 2 != 0 && this.factor != 1) {
+			--this.factor;
 		}
-		this.scaledWidth = width / scaleFactor;
-		this.scaledHeight = height / scaleFactor;
+		this.scaledWidth = this.scaledWidth / factor;
+		this.scaledHeight = this.scaledHeight / factor;
 	}
 }

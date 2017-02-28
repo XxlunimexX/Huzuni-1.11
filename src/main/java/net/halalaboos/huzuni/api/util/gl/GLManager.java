@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -42,7 +43,7 @@ public final class GLManager {
 	
 	public static void glScissor(float x, float y, float x1, float y1) {
 		int factor = getScaleFactor();
-		GL11.glScissor((int) (x * factor), (int) (Minecraft.getMinecraft().displayHeight - (y1 * factor)), (int) ((x1 - x) * factor), (int) ((y1 - y) * factor));
+		GL11.glScissor((int) (x * factor), (int) (getMinecraft().getScreenResolution().height - (y1 * factor)), (int) ((x1 - x) * factor), (int) ((y1 - y) * factor));
 	}
 	
 	public static int genTexture() {
@@ -145,32 +146,18 @@ public final class GLManager {
 	}
     
     public static int getScreenWidth() {
-    	return Minecraft.getMinecraft().displayWidth / getScaleFactor();
+    	return getMinecraft().getScreenResolution().scaledWidth;
     }
 
     public static int getScreenHeight() {
-    	return Minecraft.getMinecraft().displayHeight / getScaleFactor();
+    	return getMinecraft().getScreenResolution().scaledHeight;
     }
 
     /**
      * @return The scale factor used with the player's screen resolution and gui scale information.
      * */
     public static int getScaleFactor() {
-		int scaleFactor = 1;
-		boolean isUnicode = Minecraft.getMinecraft().isUnicode();
-		int scaleSetting = Minecraft.getMinecraft().gameSettings.guiScale;
-
-		if (scaleSetting == 0) {
-			scaleSetting = 1000;
-		}
-		while (scaleFactor < scaleSetting && Minecraft.getMinecraft().displayWidth / (scaleFactor + 1) >= 320 && Minecraft.getMinecraft().displayHeight / (scaleFactor + 1) >= 240) {
-			scaleFactor++;
-		}
-
-		if (isUnicode && scaleFactor % 2 != 0 && scaleFactor != 1) {
-			scaleFactor--;
-		}
-		return scaleFactor;
+		return getMinecraft().getScreenResolution().factor;
 	}
     
     public static void glColor(float red, float green, float blue, float alpha) {

@@ -6,6 +6,7 @@ import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
 import net.halalaboos.huzuni.Huzuni;
+import net.halalaboos.mcwrapper.api.block.BlockTypes;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.Animal;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
@@ -13,6 +14,7 @@ import net.halalaboos.mcwrapper.api.entity.living.Monster;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.potion.Potion;
 import net.halalaboos.mcwrapper.api.potion.PotionEffect;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.halalaboos.mcwrapper.api.world.Fluid;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -302,7 +304,7 @@ public class MinecraftUtilsNew {
 	public static EnumFacing getAdjacent(BlockPos position) {
 		for (EnumFacing face : EnumFacing.values()) {
 			BlockPos otherPosition = position.offset(face);
-			if (mc.world.getBlockState(otherPosition).getBlock() != Blocks.AIR) {
+			if (getWorld().getBlock(position.getX(), position.getY(), position.getZ()) != BlockTypes.AIR) {
 				EnumFacing otherFace = face.getOpposite();
 				Vec3d playerVec = new Vec3d(mc.player.posX, mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
 				Vec3d blockVec = new Vec3d(otherPosition.getX() + 0.5F + (float) (otherFace.getDirectionVec().getX()) / 2F, otherPosition.getY() + 0.5F + (float) (otherFace.getDirectionVec().getY()) / 2F, otherPosition.getZ() + 0.5F + (float) (otherFace.getDirectionVec().getZ()) / 2F);

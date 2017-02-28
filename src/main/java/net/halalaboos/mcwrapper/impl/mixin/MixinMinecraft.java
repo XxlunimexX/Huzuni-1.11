@@ -20,7 +20,6 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.Timer;
-import net.minecraftforge.fml.client.SplashProgress;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -49,6 +48,9 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Shadow public PlayerControllerMP playerController;
 	@Shadow private RenderManager renderManager;
 	@Shadow public FontRenderer fontRenderer;
+
+	@Shadow
+	public abstract boolean isUnicode();
 
 	@Inject(method = "run()V", at = @At(value = "INVOKE",
 			target = "Lnet/minecraft/client/Minecraft;init()V",
@@ -141,5 +143,10 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Override
 	public TextRenderer getTextRenderer() {
 		return ((TextRenderer) fontRenderer);
+	}
+
+	@Override
+	public boolean useUnicode() {
+		return isUnicode();
 	}
 }

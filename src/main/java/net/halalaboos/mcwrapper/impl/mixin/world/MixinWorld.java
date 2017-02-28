@@ -1,6 +1,5 @@
 package net.halalaboos.mcwrapper.impl.mixin.world;
 
-import com.google.common.base.Predicate;
 import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.block.tileentity.TileEntity;
 import net.halalaboos.mcwrapper.api.entity.Entity;
@@ -62,6 +61,11 @@ import java.util.List;
 	@Override
 	public Block getBlock(Vector3i pos) {
 		return ((Block) getBlockState(Convert.to(pos)).getBlock());
+	}
+
+	@Override
+	public Block getBlock(int x, int y, int z) {
+		return getBlock(new Vector3i(x, y, z));
 	}
 
 	//this might be broken... lol
