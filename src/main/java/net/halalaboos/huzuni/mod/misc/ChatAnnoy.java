@@ -1,6 +1,5 @@
 package net.halalaboos.huzuni.mod.misc;
 
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
