@@ -23,7 +23,7 @@ public class Debug extends BasicCommand {
 		MinecraftClient minecraft = adapter.getMinecraft();
 		ClientPlayer player = minecraft.getPlayer();
 		ItemStack itemStack = player.getHeldItem(Hand.MAIN);
-		String name = itemStack.getName();
+		String name = itemStack.name();
 		int id = itemStack.getItemType().getId();
 		int size = itemStack.getSize();
 		float health = player.getHealthData().getCurrentHealth() / 2;
@@ -34,7 +34,7 @@ public class Debug extends BasicCommand {
 		huzuni.addChatMessage(String.format("Held item: %s (x%s), id %s", name, size, id));
 		try {
 			ItemStack stack = ItemStack.from(ItemTypes.ACACIA_BOAT, 1);
-			huzuni.addChatMessage(stack.getName() + " " + stack.getSize());
+			huzuni.addChatMessage(stack.name() + " " + stack.getSize());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -42,6 +42,7 @@ public class Debug extends BasicCommand {
 		for (PotionEffect effect : player.getEffects()) {
 			output += I18n.translateToLocal(effect.getEffect().name()) + "\n";
 		}
+
 		System.out.println(output);
 	}
 }

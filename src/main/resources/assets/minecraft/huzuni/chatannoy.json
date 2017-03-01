@@ -1,23 +1,34 @@
-{
-  "dig": [
-    {"message": "I have done it! I mined $BLOCK!"},
-    {"message": "Wow! I can't believe I just mined some $BLOCK!!"},
-    {"message": "Guess who just mined some fresh $BLOCK?"},
-    {"message": "Another day, another $BLOCK dug."},
-    {"message": "Knock knock. Who's there? $BLOCK. $BLOCK who? The $BLOCK that I just mined!"},
-    {"message": "I just broke some $BLOCK, isn't that cool?"},
-    {"message": "I didn't just mine $BLOCK."}
-  ],
-  "time": [
-    {"message": "The time is currently $TIME!"},
-    {"message": "$PLAYER doesn't know that it's currently $TIME!"},
-    {"message": "Don't worry, $PLAYER, the time is $TIME."},
-    {"message": "According to $PLAYER it is currently $TIME."},
-  ],
-  "pickup": [
-    {"message": "I have done it! I picked up some $ITEM!"},
-    {"message": "Wow, I just picked up some more $ITEM!!"},
-    {"message": "Guess who just picked up some fresh $ITEM?"},
-    {"message": "i hav picked up $ITEM."}
-  ]
-}
+[
+  {
+    "category": "dig",
+    "messages": [
+      "I have done it! I mined $BLOCK!",
+      "Wow! I can't believe I just mined some $BLOCK!!",
+      "Guess who just mined some fresh $BLOCK?",
+      "Another day, another $BLOCK dug.",
+      "Knock knock. Who's there? $BLOCK. $BLOCK who? The $BLOCK that I just mined!",
+      "I just broke some $BLOCK, isn't that cool?",
+      "I didn't just mine $BLOCK."
+    ]
+  },
+  {
+    "category": "time",
+    "messages": [
+      "The time is currently $TIME!",
+      "$PLAYER doesn't know that it's currently $TIME!",
+      "Don't worry, $PLAYER, the time is $TIME.",
+      "According to $PLAYER it is currently $TIME."
+    ]
+  },
+  {
+    "category": "pickup",
+    "messages": [
+      "I have done it! I picked up some $ITEM!",
+      "Wow, I just picked up some more $ITEM!!",
+      "Guess who just picked up some fresh $ITEM?",
+      "I have picked up $ITEM.",
+      "I just picked up $ITEM!",
+      "$PLAYER, I have $ITEM now!  Cool, huh?"
+    ]
+  }
+]

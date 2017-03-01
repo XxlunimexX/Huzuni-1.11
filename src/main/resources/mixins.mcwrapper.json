@@ -43,6 +43,7 @@
     "item.types.MixinItemEgg",
     "network.MixinServerData",
     "network.MixinNetworkPlayerInfo",
+    "network.MixinNetHandlerPlayClient",
     "network.packet.MixinPacket",
     "network.packet.client.MixinPacketChatMessage",
     "network.packet.client.MixinPacketUseEntity",

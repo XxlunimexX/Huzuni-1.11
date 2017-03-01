@@ -14,4 +14,5 @@ public interface PlayerInfo {
 	 */
 	int getPing();
 
+	String getName(boolean formatted);
 }

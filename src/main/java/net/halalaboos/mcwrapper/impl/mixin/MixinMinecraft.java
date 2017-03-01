@@ -5,6 +5,7 @@ import net.halalaboos.mcwrapper.api.MinecraftClient;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.client.Controller;
 import net.halalaboos.mcwrapper.api.client.gui.TextRenderer;
+import net.halalaboos.mcwrapper.api.network.NetworkHandler;
 import net.halalaboos.mcwrapper.api.network.ServerInfo;
 import net.halalaboos.mcwrapper.api.util.Resolution;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
@@ -17,6 +18,7 @@ import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.Timer;
@@ -51,6 +53,10 @@ public abstract class MixinMinecraft implements MinecraftClient {
 
 	@Shadow
 	public abstract boolean isUnicode();
+
+	@Shadow
+	@Nullable
+	public abstract NetHandlerPlayClient getConnection();
 
 	@Inject(method = "run()V", at = @At(value = "INVOKE",
 			target = "Lnet/minecraft/client/Minecraft;init()V",
@@ -140,5 +146,11 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Override
 	public boolean useUnicode() {
 		return isUnicode();
+	}
+
+	@Override
+	public Optional<NetworkHandler> getNetworkHandler() {
+		if (getConnection() == null) return Optional.empty();
+		return Optional.of((NetworkHandler) getConnection());
 	}
 }

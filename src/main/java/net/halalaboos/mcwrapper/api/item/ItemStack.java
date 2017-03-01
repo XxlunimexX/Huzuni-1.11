@@ -1,8 +1,9 @@
 package net.halalaboos.mcwrapper.api.item;
 
 import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.attribute.Nameable;
 
-public interface ItemStack {
+public interface ItemStack extends Nameable {
 
 	/**
 	 * @return The amount of items in the stack.
@@ -15,11 +16,6 @@ public interface ItemStack {
 	 * @return The item that the stack consists of.
 	 */
 	Item getItemType();
-
-	/**
-	 * @return The name of the ItemStack.
-	 */
-	String getName();
 
 	int getMaxUseTicks();
 

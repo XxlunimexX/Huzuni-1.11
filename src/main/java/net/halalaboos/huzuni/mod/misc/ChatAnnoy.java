@@ -1,6 +1,8 @@
 package net.halalaboos.huzuni.mod.misc;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.api.event.UpdateEvent;
@@ -8,24 +10,33 @@ import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.util.Timer;
+import net.halalaboos.huzuni.mod.commands.Debug;
 import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.block.BlockTypes;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.ExperienceOrb;
 import net.halalaboos.mcwrapper.api.entity.ItemPickup;
+import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.network.NetworkHandler;
+import net.halalaboos.mcwrapper.api.network.PlayerInfo;
 import net.halalaboos.mcwrapper.api.network.packet.server.ItemPickupPacket;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import org.apache.commons.lang3.StringUtils;
 
+import javax.annotation.Nullable;
+import java.io.*;
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Random;
+import java.util.*;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getController;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
+import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
 /**
  * Randomly sends messages in chat under certain circumstances to annoy other players.
@@ -56,6 +67,9 @@ public class ChatAnnoy extends BasicMod {
 	//The last sent time
 	private String lastTimeSent;
 
+	//The messages to send - Category (e.g. dig, time, pickup), Messages
+	private final Map<String, List<String>> messageMap = new HashMap<>();
+
 	public ChatAnnoy() {
 		super("Chat annoy", "Annoy others in chat!");
 		setAuthor("brudin");
@@ -69,6 +83,14 @@ public class ChatAnnoy extends BasicMod {
 	protected void onEnable() {
 		lastTimeSent = getCurrentTime();
 		huzuni.eventManager.addListener(this);
+		if (messageMap.isEmpty()) {
+			try {
+				//todo change this lol
+				loadMessages(Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("huzuni/chatannoy.json")).getInputStream());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
@@ -102,7 +124,7 @@ public class ChatAnnoy extends BasicMod {
 	public void onTick(UpdateEvent event) {
 		if (event.type == UpdateEvent.Type.PRE) {
 			if (timer.hasReach(1500) && time.isEnabled() && !getCurrentTime().equals(lastTimeSent)) {
-				getPlayer().sendMessage(String.format(getTimeMessage(), getCurrentTime()));
+				getPlayer().sendMessage(getMessage("time", null, null));
 				lastTimeSent = getCurrentTime();
 				timer.reset();
 			}
@@ -124,7 +146,7 @@ public class ChatAnnoy extends BasicMod {
 			//Check if the Block isn't air and the last block we sent to chat isn't the same as this one
 			if (block != BlockTypes.AIR && !name.equals(lastBlockName)) {
 				//Sends the message
-				getPlayer().sendMessage(String.format(getDigMessage(), name.toLowerCase()));
+				getPlayer().sendMessage(getMessage("dig", block, null));
 				//Set the last block name to the current block name
 				lastBlockName = block.name();
 			}
@@ -153,42 +175,63 @@ public class ChatAnnoy extends BasicMod {
 				ItemStack itemStack = pickup.getItem();
 
 				//Check if the name isn't the last sent item name
-				if (!itemStack.getName().equals(lastItemName)) {
-					//The item's name
-					String name = itemStack.getName();
+				if (!itemStack.name().equals(lastItemName)) {
 					//Send the alert in chat
-					getPlayer().sendMessage(String.format(getPickupMessage(), name.toUpperCase()));
+					getPlayer().sendMessage(getMessage("pickup", null, itemStack));
 					//Set the last item to this one
-					lastItemName = itemStack.getName();
+					lastItemName = itemStack.name();
 				}
 			}
+			System.out.println(getRandomPlayer());
 		}
 		//Reset the timer
 		timer.reset();
+	}
+
+	private void loadMessages(InputStream file) {
+		try {
+			Gson gson = new Gson();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(file));
+			Type type = new TypeToken<List<ChatMessage>>(){}.getType();
+			List<ChatMessage> chatMessage = gson.fromJson(reader, type);
+			for (ChatMessage msg : chatMessage) {
+				messageMap.put(msg.category, msg.messages);
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private String getCurrentTime() {
 		return LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm a"));
 	}
 
-	/**
-	 * The message sent for time changes
-	 */
-	private String getTimeMessage() {
-		return "time flies my man it's already %s";
+	private String getMessage(String category, @Nullable Block block, @Nullable ItemStack itemStack) {
+		int size = messageMap.get(category).size() - 1;
+		String message = messageMap.get(category).get(random.nextInt(size));
+		message = StringUtils.replace(message, "$PLAYER", getRandomPlayer());
+		message = StringUtils.replace(message, "$TIME", getCurrentTime());
+		if (block != null) {
+			message = StringUtils.replace(message, "$BLOCK", block.name());
+		}
+		if (itemStack != null) {
+			message = StringUtils.replace(message, "$ITEM", itemStack.name());
+		}
+		return message;
 	}
 
-	/**
-	 * The 'pickup' message.
-	 */
-	private String getPickupMessage() {
-		return "i hav picked up %s!";
+	private String getRandomPlayer() {
+		if (!getMinecraft().getNetworkHandler().isPresent() || !getMinecraft().isRemote()) return "you";
+		NetworkHandler netHandler = getMinecraft().getNetworkHandler().get();
+		List<PlayerInfo> list = new ArrayList<>(netHandler.getPlayers());
+		String out = list.get(random.nextInt(list.size() - 1)).getName(false);
+		if (out.equals(getPlayer().name())) return getRandomPlayer();
+		return out;
 	}
 
-	/**
-	 * The 'dig' message.
-	 */
-	private String getDigMessage() {
-		return "i did it i mined %s :OOO";
+	private class ChatMessage {
+		String category;
+		List<String> messages;
 	}
 }

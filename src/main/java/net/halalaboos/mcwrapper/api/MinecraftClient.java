@@ -3,6 +3,7 @@ package net.halalaboos.mcwrapper.api;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.client.Controller;
 import net.halalaboos.mcwrapper.api.client.gui.TextRenderer;
+import net.halalaboos.mcwrapper.api.network.NetworkHandler;
 import net.halalaboos.mcwrapper.api.network.ServerInfo;
 import net.halalaboos.mcwrapper.api.util.Resolution;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
@@ -78,4 +79,6 @@ public interface MinecraftClient {
 	Vector3d getCamera();
 
 	TextRenderer getTextRenderer();
+
+	Optional<NetworkHandler> getNetworkHandler();
 }

@@ -37,7 +37,7 @@ public abstract class MixinItemStack implements ItemStack {
 	}
 
 	@Override
-	public String getName() {
+	public String name() {
 		return getDisplayName();
 	}
 
