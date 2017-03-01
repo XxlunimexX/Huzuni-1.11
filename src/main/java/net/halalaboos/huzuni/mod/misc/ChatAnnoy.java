@@ -10,20 +10,17 @@ import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.settings.Toggleable;
 import net.halalaboos.huzuni.api.util.Timer;
-import net.halalaboos.huzuni.mod.commands.Debug;
 import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.block.BlockTypes;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.ExperienceOrb;
 import net.halalaboos.mcwrapper.api.entity.ItemPickup;
-import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.network.NetworkHandler;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;
 import net.halalaboos.mcwrapper.api.network.packet.server.ItemPickupPacket;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -41,7 +38,7 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 /**
  * Randomly sends messages in chat under certain circumstances to annoy other players.
  *
- * TODO: Randomized messages from a json file (before release)
+ * TODO: Remove minecraft code
  */
 public class ChatAnnoy extends BasicMod {
 
@@ -182,7 +179,6 @@ public class ChatAnnoy extends BasicMod {
 					lastItemName = itemStack.name();
 				}
 			}
-			System.out.println(getRandomPlayer());
 		}
 		//Reset the timer
 		timer.reset();
@@ -208,7 +204,7 @@ public class ChatAnnoy extends BasicMod {
 	}
 
 	private String getMessage(String category, @Nullable Block block, @Nullable ItemStack itemStack) {
-		int size = messageMap.get(category).size() - 1;
+		int size = messageMap.get(category).size();
 		String message = messageMap.get(category).get(random.nextInt(size));
 		message = StringUtils.replace(message, "$PLAYER", getRandomPlayer());
 		message = StringUtils.replace(message, "$TIME", getCurrentTime());
