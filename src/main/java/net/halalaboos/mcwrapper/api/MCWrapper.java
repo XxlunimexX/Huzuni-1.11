@@ -33,10 +33,6 @@ public class MCWrapper {
 		return getAdapter().getMinecraftVersion();
 	}
 
-	public static void onSetWorld(World world) {
-		getAdapter().setWorld(world);
-	}
-
 	public static World getWorld() {
 		return getMinecraft().getWorld();
 	}

@@ -1,8 +1,12 @@
 package net.halalaboos.mcwrapper.api;
 
+import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.util.Builder;
 import net.halalaboos.mcwrapper.api.registry.BlockRegistry;
 import net.halalaboos.mcwrapper.api.registry.ItemRegistry;
 import net.halalaboos.mcwrapper.api.world.World;
+
+import java.util.function.Supplier;
 
 /**
  * A MinecraftAdapter is, in simple terms, the 'heart' of any implementation of the MCWrapper.
@@ -21,11 +25,6 @@ public interface MinecraftAdapter {
 	String getMinecraftVersion();
 
 	/**
-	 * Performed when the world is set.  This is mainly just for testing and will most likely be removed at some point.
-	 */
-	void setWorld(World world);
-
-	/**
 	 * @return The {@link MinecraftClient} instance.
 	 */
 	MinecraftClient getMinecraft();
@@ -33,4 +32,40 @@ public interface MinecraftAdapter {
 	ItemRegistry getItemRegistry();
 
 	BlockRegistry getBlockRegistry();
+
+	/**
+	 * The adapter will need its own implementation of the various {@link Builder} classes; this will return the
+	 * (registered) implementation of the 'base' builder class.
+	 *
+	 * <p>For example, if you look at {@link ItemStack#getBuilder()}, you will see that it points to this method, but
+	 * doesn't specifically call the version-specific implementation of the builder - that is where this method comes
+	 * in.</p>
+	 *
+	 * <p>This means that you wouldn't use <code>OnePointElevenItemStackBuilder</code> as a parameter here - you would
+	 * use <code>ItemStack.Builder</code>.</p>
+	 *
+	 * <p>It will look through the registered Builder classes and return an instance of the implementation if it
+	 * exists.</p>
+	 *
+	 * @param builder The base {@link Builder}
+	 * @return The registered implementation of the specified {@link Builder}.
+	 */
+	<T extends Builder> T getBuilder(Class<? extends Builder> builder);
+
+	/**
+	 * All version-specific {@link Builder} implementations will need to be registered in the adapter, which will be
+	 * done using this method.
+	 *
+	 * <p>For example, in the case of {@link ItemStack.Builder}, you will need to make your own implementation of that
+	 * builder and then register it here like so:</p>
+	 *
+	 * <p><code>this.registerBuilder(ItemStack.Builder.class, ItemStackBuilder::new);</code></p>
+	 *
+	 * <p>In this case, this method will then add the <code>builder</code> and <code>instance</code> to a
+	 * map containing the builders and instances.</p>
+	 *
+	 * @param builder The base builder
+	 * @param instance The version-specific implementation
+	 */
+	<T> void registerBuilder(Class<T> builder, Supplier<? extends T> instance);
 }

@@ -59,14 +59,6 @@ public abstract class MixinMinecraft implements MinecraftClient {
 		MCWrapper.setAdapter(new OnePointElevenAdapter((Minecraft)(Object)this));
 	}
 
-	@Inject(method = "loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;Ljava/lang/String;)V",
-			at = @At(value = "INVOKE",
-					target = "Lnet/minecraft/client/multiplayer/WorldClient;spawnEntity(Lnet/minecraft/entity/Entity;)Z",
-					shift = At.Shift.AFTER))
-	public void setWorld(WorldClient world, String loadingMessage, CallbackInfo ci) {
-		MCWrapper.onSetWorld(((World) world));
-	}
-
 	@Override
 	public int getRightClickDelayTimer() {
 		return rightClickDelayTimer;

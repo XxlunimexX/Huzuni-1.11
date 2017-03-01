@@ -1,5 +1,7 @@
 package net.halalaboos.mcwrapper.api.item;
 
+import net.halalaboos.mcwrapper.api.MCWrapper;
+
 public interface ItemStack {
 
 	/**
@@ -28,4 +30,20 @@ public interface ItemStack {
 
 	//TEMP
 	void render3D(int x, int y);
+
+	static Builder getBuilder() {
+		return MCWrapper.getAdapter().getBuilder(Builder.class);
+	}
+
+	static ItemStack from(Item item, int size) {
+		return getBuilder().setItem(item).setSize(size).build();
+	}
+
+	interface Builder extends net.halalaboos.mcwrapper.api.util.Builder<ItemStack> {
+
+		Builder setItem(Item item);
+
+		Builder setSize(int size);
+
+	}
 }

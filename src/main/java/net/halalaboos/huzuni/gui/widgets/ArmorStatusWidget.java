@@ -2,10 +2,10 @@ package net.halalaboos.huzuni.gui.widgets;
 
 import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.api.gui.widget.Glue;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
+import net.halalaboos.mcwrapper.api.inventory.Slot;
+import net.halalaboos.mcwrapper.api.item.ItemStack;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
  * Widget which renders the player's equipped armor.
@@ -34,13 +34,13 @@ public class ArmorStatusWidget extends BackgroundWidget {
 			incrementX = 21;
 			incrementY = 0;
 		}
-		renderItemStack(getWearingArmor(0).getStack(), x + 2, y + 2);
+		renderItemStack(getWearingArmor(0).getItem(), x + 2, y + 2);
 		x += incrementX; y += incrementY;
-		renderItemStack(getWearingArmor(1).getStack(), x + 2, y + 2);
+		renderItemStack(getWearingArmor(1).getItem(), x + 2, y + 2);
 		x += incrementX; y += incrementY;
-		renderItemStack(getWearingArmor(2).getStack(), x + 2, y + 2);
+		renderItemStack(getWearingArmor(2).getItem(), x + 2, y + 2);
 		x += incrementX; y += incrementY;
-		renderItemStack(getWearingArmor(3).getStack(), x + 2, y + 2);
+		renderItemStack(getWearingArmor(3).getItem(), x + 2, y + 2);
 	}
 	
 	@Override
@@ -66,7 +66,7 @@ public class ArmorStatusWidget extends BackgroundWidget {
 	}
 	
 	private Slot getWearingArmor(int armorType) {
-		return mc.player.inventoryContainer.getSlot(5 + armorType);
+		return getPlayer().getInventoryContainer().getSlotAt(5 + armorType);
 	}
 
 	/**
@@ -75,10 +75,6 @@ public class ArmorStatusWidget extends BackgroundWidget {
 	private void renderItemStack(ItemStack itemStack, int x, int y) {
 		if (itemStack == null)
 			return;
-
-		//testing plz ignore
-		//this works tho :))
-		net.halalaboos.mcwrapper.api.item.ItemStack stack = (net.halalaboos.mcwrapper.api.item.ItemStack)(Object)itemStack;
-		stack.renderInGui(x, y);
+		itemStack.renderInGui(x, y);
 	}
 }
