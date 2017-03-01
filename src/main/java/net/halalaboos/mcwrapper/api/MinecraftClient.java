@@ -5,10 +5,13 @@ import net.halalaboos.mcwrapper.api.client.Controller;
 import net.halalaboos.mcwrapper.api.client.gui.TextRenderer;
 import net.halalaboos.mcwrapper.api.network.NetworkHandler;
 import net.halalaboos.mcwrapper.api.network.ServerInfo;
+import net.halalaboos.mcwrapper.api.util.AssetLocation;
 import net.halalaboos.mcwrapper.api.util.Resolution;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.world.World;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Optional;
 
 /**
@@ -81,4 +84,6 @@ public interface MinecraftClient {
 	TextRenderer getTextRenderer();
 
 	Optional<NetworkHandler> getNetworkHandler();
+
+	InputStream getInputStream(AssetLocation asset) throws IOException;
 }

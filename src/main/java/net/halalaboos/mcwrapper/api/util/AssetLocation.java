@@ -14,6 +14,10 @@ public class AssetLocation {
 		this.PATH = path;
 	}
 
+	public AssetLocation(String path) {
+		this("minecraft", path);
+	}
+
 	/**
 	 * The domain, or source of this asset.  Assets that are from mods would generally have the name of
 	 * the mod as the domain.

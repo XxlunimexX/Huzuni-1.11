@@ -18,10 +18,9 @@ import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.network.NetworkHandler;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;
 import net.halalaboos.mcwrapper.api.network.packet.server.ItemPickupPacket;
+import net.halalaboos.mcwrapper.api.util.AssetLocation;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nullable;
@@ -74,8 +73,7 @@ public class ChatAnnoy extends BasicMod {
 		huzuni.eventManager.addListener(this);
 		if (messageMap.isEmpty()) {
 			try {
-				//todo change this lol
-				loadMessages(Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("huzuni/chatannoy.json")).getInputStream());
+				loadMessages(getMinecraft().getInputStream(new AssetLocation("huzuni/chatannoy.json")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
