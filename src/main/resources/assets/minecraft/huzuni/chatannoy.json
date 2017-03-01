@@ -17,7 +17,13 @@
       "The time is currently $TIME!",
       "$PLAYER doesn't know that it's currently $TIME!",
       "Don't worry, $PLAYER, the time is $TIME.",
-      "According to $PLAYER it is currently $TIME."
+      "According to $PLAYER it is currently $TIME.",
+      "Everybody, EVERYBODY CALM DOWN! THE TIME IS $TIME.",
+      "Fun fact: it's $TIME.",
+      "If someone asked the time, it's $TIME.",
+      "Beep boop it's $TIME my man",
+      "Woo-wee! Time flies, it's already $TIME.",
+      "$PLAYER, chill out it's only $TIME."
     ]
   },
   {
