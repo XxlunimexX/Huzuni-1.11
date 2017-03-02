@@ -40,7 +40,6 @@ public class Killaura extends BasicMod implements Renderer {
 	public final Toggleable invisibles = new Toggleable("Invisible", "Attack invisibles");
 
 	public final Toggleable silent = new Toggleable("Silent", "The aimbot will be silent");
-	public final Toggleable randomMisses = new Toggleable("Random misses", "Randomly misses the entity");
 	public final Toggleable interact = new Toggleable("Interact", "Interacts with entities rather than hitting them");
 	public final Toggleable smartAttack = new Toggleable("Smart attack", "Attacks entities when the attack power exceeds or reaches their health");
 	public final Toggleable selection = new Toggleable("Entity selection", "Select specific entities to attack");
@@ -50,6 +49,7 @@ public class Killaura extends BasicMod implements Renderer {
 	public final Toggleable speedRandomization = new Toggleable("Randomize Speed", "Randomize the rate when attacking based on speed");
 
 	public final Value strength = new Value("Strength", "%", 0F, 100F, 100F, 1F, "Attack strength");
+	public final Value accuracy = new Value("Accuracy", "%", 0F, 100F, 100F, 1F, "Accuracy of attacks (hit/miss)");
 	public final Value speed = new Value("Speed", "", 1F, 8F, 15F, "Attack speed (in hits per second)");
 	public final Value reach = new Value("Reach", " blocks", 3F, 3.8F, 6F, "Attack reach");
 	public final Value fov = new Value("FOV", "", 10F, 60F, 180F, 1F, "FOV you will attack entities inside of");
@@ -79,7 +79,7 @@ public class Killaura extends BasicMod implements Renderer {
 
 		Node entities = new Node("Entities", "Entities to target");
 		entities.addChildren(players, mobs, animals, invisibles);
-		this.addChildren(entities, silent, randomMisses, interact, smartAttack, selection, checkAge, priority, strength, strengthRandomization, speed, speedRandomization, reach, fov, rotationRate);
+		this.addChildren(entities, silent, interact, smartAttack, selection, checkAge, priority, accuracy, strength, strengthRandomization, speed, speedRandomization, reach, fov, rotationRate);
 
 		silent.setEnabled(true);
 		players.setEnabled(true);
@@ -217,25 +217,17 @@ public class Killaura extends BasicMod implements Renderer {
 	
 	private void attackEntity() {
 		float cooldown = mc.player.getCooledAttackStrength(0.0F);
+		float accuracyPercent = accuracy.getValue() / 100F;
 		if (((timer.hasReach((int) (1000F / (speedRandomization.isEnabled() ? randomizedSpeed : this.speed.getValue()))) && (cooldown >= (strengthRandomization.isEnabled() ? (randomizedStrength / 100F) : (strength.getValue() / 100F)))) || calculateSmartAttack())) {
-			if (this.randomMisses.isEnabled()) {
-				// Essentially a random.nextBoolean().
-				if (random.nextFloat() > 0.5F) {
-					if (interact.isEnabled())
-						mc.playerController.interactWithEntity(mc.player, entity, mc.objectMouseOver, EnumHand.MAIN_HAND);
-					else
-						mc.playerController.attackEntity(mc.player, entity);
-                    calculateRandomization();
-					hitOrMiss = "Hit";
-				} else
-					hitOrMiss = "Miss";
-			} else {
+			if (accuracyPercent >= random.nextFloat()) {
 				if (interact.isEnabled())
 					mc.playerController.interactWithEntity(mc.player, entity, mc.objectMouseOver, EnumHand.MAIN_HAND);
 				else
 					mc.playerController.attackEntity(mc.player, entity);
-                calculateRandomization();
-			}
+				calculateRandomization();
+				hitOrMiss = null;
+			} else
+				hitOrMiss = "Miss";
 			mc.player.swingArm(EnumHand.MAIN_HAND);
 			timer.reset();
 		}
