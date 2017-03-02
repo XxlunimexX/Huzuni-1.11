@@ -1,6 +1,6 @@
 package net.halalaboos.mcwrapper.api.util;
 
-public class AssetLocation {
+public class ResourcePath {
 
 	private final String DOMAIN;
 	private final String PATH;
@@ -9,12 +9,12 @@ public class AssetLocation {
 	 * @param domain {@link #getDomain()}
 	 * @param path {@link #getPath()}
 	 */
-	public AssetLocation(String domain, String path) {
+	public ResourcePath(String domain, String path) {
 		this.DOMAIN = domain;
 		this.PATH = path;
 	}
 
-	public AssetLocation(String path) {
+	public ResourcePath(String path) {
 		this("minecraft", path);
 	}
 
@@ -36,9 +36,9 @@ public class AssetLocation {
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) return true;
-		else if (!(obj instanceof AssetLocation)) return false;
+		else if (!(obj instanceof ResourcePath)) return false;
 		else {
-			AssetLocation assetLocation = (AssetLocation)obj;
+			ResourcePath assetLocation = (ResourcePath)obj;
 			return this.getPath().equals(assetLocation.getPath()) && this.getDomain().equals(assetLocation.getDomain());
 		}
 	}

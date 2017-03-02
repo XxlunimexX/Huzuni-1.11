@@ -7,7 +7,7 @@ import net.halalaboos.mcwrapper.api.client.Controller;
 import net.halalaboos.mcwrapper.api.client.gui.TextRenderer;
 import net.halalaboos.mcwrapper.api.network.NetworkHandler;
 import net.halalaboos.mcwrapper.api.network.ServerInfo;
-import net.halalaboos.mcwrapper.api.util.AssetLocation;
+import net.halalaboos.mcwrapper.api.util.ResourcePath;
 import net.halalaboos.mcwrapper.api.util.Resolution;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.world.World;
@@ -163,7 +163,7 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	}
 
 	@Override
-	public InputStream getInputStream(AssetLocation asset) throws IOException {
+	public InputStream getInputStream(ResourcePath asset) throws IOException {
 		return getResourceManager().getResource(new ResourceLocation(asset.toString())).getInputStream();
 	}
 }
