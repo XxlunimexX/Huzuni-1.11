@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.impl;
 
+import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.mcwrapper.api.MinecraftAdapter;
 import net.halalaboos.mcwrapper.api.MinecraftClient;
 import net.halalaboos.mcwrapper.api.util.Builder;
@@ -26,6 +27,7 @@ public class OnePointElevenAdapter implements MinecraftAdapter {
 	public OnePointElevenAdapter(Minecraft mc) {
 		this.mc = ((MinecraftClient) mc);
 		registerBuilder(ItemStack.Builder.class, ItemStackBuilder::new);
+		Huzuni.INSTANCE.start();
 	}
 
 	@Override

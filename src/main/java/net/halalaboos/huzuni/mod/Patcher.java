@@ -6,9 +6,16 @@ import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.huzuni.mod.movement.Flight;
 import net.halalaboos.huzuni.mod.movement.Freecam;
+import net.halalaboos.mcwrapper.api.event.MouseEvent;
+import net.halalaboos.mcwrapper.api.util.MouseButton;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.CPacketPlayerAbilities;
 import net.minecraft.network.play.client.CPacketTabComplete;
 import net.minecraft.network.play.server.SPacketPlayerAbilities;
+import net.minecraft.util.math.RayTraceResult;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getEventManager;
 
 /**
  * @since 5:05 PM on 3/21/2015
@@ -30,6 +37,24 @@ public class Patcher {
 
 	public void init() {
 		Huzuni.INSTANCE.eventManager.addListener(this);
+		getEventManager().subscribe(MouseEvent.class, event -> {
+			if (event.getButton() == MouseButton.MIDDLE) {
+				if (Minecraft.getMinecraft().objectMouseOver != null) {
+					RayTraceResult result = Minecraft.getMinecraft().objectMouseOver;
+					if (result.typeOfHit == RayTraceResult.Type.ENTITY && result.entityHit instanceof EntityPlayer) {
+						if (Huzuni.INSTANCE.friendManager.isFriend(result.entityHit.getName())) {
+							Huzuni.INSTANCE.addChatMessage(String.format("Removed %s as a friend.", result.entityHit.getName()));
+							Huzuni.INSTANCE.friendManager.removeFriend(result.entityHit.getName());
+							Huzuni.INSTANCE.friendManager.save();
+						} else {
+							Huzuni.INSTANCE.friendManager.addFriend(result.entityHit.getName());
+							Huzuni.INSTANCE.addChatMessage(String.format("Added %s as a friend.", result.entityHit.getName()));
+							Huzuni.INSTANCE.friendManager.save();
+						}
+					}
+				}
+			}
+		});
 	}
 
 	@EventMethod

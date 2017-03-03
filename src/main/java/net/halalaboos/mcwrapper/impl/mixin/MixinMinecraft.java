@@ -1,6 +1,7 @@
 package net.halalaboos.mcwrapper.impl.mixin;
 
 import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.MCWrapperHooks;
 import net.halalaboos.mcwrapper.api.MinecraftClient;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.client.Controller;
@@ -25,6 +26,8 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Timer;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -71,6 +74,21 @@ public abstract class MixinMinecraft implements MinecraftClient {
 			shift = At.Shift.AFTER))
 	public void initWrapper(CallbackInfo ci) {
 		MCWrapper.setAdapter(new OnePointElevenAdapter((Minecraft)(Object)this));
+	}
+
+	@Inject(method = "runTickKeyboard()V", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Keyboard;getEventKeyState()Z"))
+	public void onKeyPress(CallbackInfo ci) {
+		if (Keyboard.getEventKeyState()) {
+			int keyCode = Keyboard.getEventKey();
+			MCWrapperHooks.keyTyped(keyCode);
+		}
+	}
+
+	@Inject(method = "runTickMouse()V", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Mouse;getEventButton()I"))
+	public void onMouseClick(CallbackInfo ci) {
+		if (Mouse.getEventButtonState()) {
+			MCWrapperHooks.mouseClicked(Mouse.getEventButton());
+		}
 	}
 
 	@Override

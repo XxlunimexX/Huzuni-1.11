@@ -74,7 +74,7 @@ public class ChatAnnoy extends BasicMod {
 		if (messageMap.isEmpty()) {
 			try {
 				loadMessages(getMinecraft().getInputStream(new ResourcePath("huzuni/chatannoy.json")));
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -268,7 +268,7 @@ public class ChatAnnoy extends BasicMod {
 				messageMap.put(msg.category, msg.messages);
 			}
 			reader.close();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

@@ -28,19 +28,6 @@ import javax.annotation.Nullable;
 	@Shadow
 	public abstract void displayGuiScreen(@Nullable GuiScreen guiScreenIn);
 
-	@Inject(method = "run()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;init()V", shift = At.Shift.AFTER))
-	public void inject(CallbackInfo callbackInfo) {
-		Huzuni.INSTANCE.start();
-	}
-
-	@Inject(method = "runTickKeyboard()V", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Keyboard;getEventKeyState()Z"))
-	public void onKeyPress(CallbackInfo ci) {
-		if (Keyboard.getEventKeyState()) {
-			int keyCode = Keyboard.getEventKey();
-			Wrapper.keyTyped(keyCode);
-		}
-	}
-
 	@Inject(method = "runTickMouse()V", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Mouse;getEventButton()I"))
 	public void onMouseClick(CallbackInfo ci) {
 		if (Mouse.getEventButtonState()) {

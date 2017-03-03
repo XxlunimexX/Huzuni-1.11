@@ -4,6 +4,7 @@ import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.client.Controller;
 import net.halalaboos.mcwrapper.api.client.gui.TextRenderer;
 import net.halalaboos.mcwrapper.api.world.World;
+import net.halalaboos.tukio.EventManager;
 
 /**
  * Serves as a wrapper for the current {@link MinecraftAdapter}.  This is what any code using MCWrapper should point to,
@@ -12,6 +13,7 @@ import net.halalaboos.mcwrapper.api.world.World;
 public class MCWrapper {
 
 	private static MinecraftAdapter adapter = null;
+	private static EventManager eventManager = null;
 
 	public static void setAdapter(MinecraftAdapter adapter) {
 		if (MCWrapper.adapter == null) MCWrapper.adapter = adapter;
@@ -45,4 +47,10 @@ public class MCWrapper {
 		return getMinecraft().getTextRenderer();
 	}
 
+	public static EventManager getEventManager() {
+		if (eventManager == null) {
+			eventManager = new EventManager();
+		}
+		return eventManager;
+	}
 }

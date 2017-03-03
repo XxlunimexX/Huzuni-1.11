@@ -21,14 +21,14 @@ import java.util.List;
 public abstract class JsonFileHandler {
 
 	protected final Huzuni huzuni;
-	
+
 	protected File file;
-	
+
 	public JsonFileHandler(Huzuni huzuni, File file) {
 		this.huzuni = huzuni;
 		this.file = file;
 	}
-	
+
 	/**
 	 * Loads a {@link List} of {@link JsonObject}s from the {@link File} specified.
 	 * */
@@ -59,10 +59,11 @@ public abstract class JsonFileHandler {
 			try {
 				file.createNewFile();
 			} catch (IOException e) {
+				e.printStackTrace();
 				Huzuni.LOGGER.log(Level.ERROR, String.format("Error creating file '%s', e: %s", file.getAbsolutePath(), e.getMessage()));
 			}
 	}
-	
+
 	/**
 	 * Saves a {@link List} of {@link JsonObject}s into the {@link File} specified. Invokes the {@link save(List<JsonObject>)} function to allow objects to be added into the list.
 	 * */
@@ -91,18 +92,18 @@ public abstract class JsonFileHandler {
 				} catch (IOException e) {}
 		}
 	}
-	
+
 	/**
 	 * Invoked to allow this class to initialize itself.
 	 * */
 	public abstract void init();
-	
+
 	/**
 	 * Allows for objects to be added into a list for saving into a {@link File}.
 	 * @param objects the {@link List} of all {@link JsonObject}s to be saved.
 	 * */
 	protected abstract void save(List<JsonObject> objects) throws IOException;
-	
+
 	/**
 	 * Invoked when a {@link JsonObject} is loaded from the {@link File}.
 	 * @param object the {@link JsonObject} that is loaded.
@@ -116,5 +117,5 @@ public abstract class JsonFileHandler {
 	public void setFile(File file) {
 		this.file = file;
 	}
-	
+
 }
