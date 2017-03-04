@@ -13,6 +13,7 @@ import net.halalaboos.huzuni.api.task.MineTask;
 import net.halalaboos.huzuni.api.util.BlockLocator;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
+import net.halalaboos.mcwrapper.api.event.WorldLoadEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -57,6 +58,9 @@ public final class Nuker extends BasicMod {
 		this.setCategory(Category.MINING);
 		silent.setEnabled(true);
 		huzuni.lookManager.registerTaskHolder(this);
+		subscribe(WorldLoadEvent.class, event -> {
+			if (mineTask.hasBlock()) huzuni.lookManager.withdrawTask(mineTask);
+		});
 	}
 	
 	@Override
@@ -93,12 +97,6 @@ public final class Nuker extends BasicMod {
 			mineTask.setBlock(blockLocator.getPosition(), blockLocator.getFace());
 			huzuni.lookManager.requestTask(this, mineTask);
 		}
-	}
-
-	@EventMethod
-	public void loadWorld(LoadWorldEvent event) {
-		if (mineTask.hasBlock())
-			huzuni.lookManager.withdrawTask(mineTask);
 	}
 	
 	@EventMethod

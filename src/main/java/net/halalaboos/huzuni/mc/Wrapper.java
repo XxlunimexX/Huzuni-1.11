@@ -1,8 +1,6 @@
 package net.halalaboos.huzuni.mc;
 
 import net.halalaboos.huzuni.Huzuni;
-import net.halalaboos.huzuni.api.event.KeyPressEvent;
-import net.halalaboos.huzuni.api.event.LoadWorldEvent;
 import net.halalaboos.huzuni.api.event.MouseClickEvent;
 import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.halalaboos.huzuni.mod.visual.Xray;
@@ -13,7 +11,7 @@ public final class Wrapper {
 	private static final Huzuni huzuni = Huzuni.INSTANCE;
 		
 	private Wrapper() {
-		
+
 	}
 	
 	public static void onMouseClicked(int buttonId) {
@@ -30,11 +28,6 @@ public final class Wrapper {
 			}
 		}
 		huzuni.lookManager.cancelTask();
-		huzuni.eventManager.invoke(new LoadWorldEvent(world));
-	}
-	
-	public static void keyTyped(int keyCode) {
-		huzuni.eventManager.invoke(new KeyPressEvent(keyCode));
 	}
 
 	public static boolean shouldIgnoreCulling() {

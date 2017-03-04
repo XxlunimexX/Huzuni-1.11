@@ -2,9 +2,6 @@ package net.halalaboos.huzuni.mod.visual;
 
 import net.halalaboos.huzuni.RenderManager.Renderer;
 import net.halalaboos.huzuni.WaypointManager.Waypoint;
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.PacketEvent;
-import net.halalaboos.huzuni.api.event.PacketEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicCommand;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.mod.Mod;

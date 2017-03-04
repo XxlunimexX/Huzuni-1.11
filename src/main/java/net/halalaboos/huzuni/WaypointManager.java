@@ -1,14 +1,13 @@
 package net.halalaboos.huzuni;
 
 import com.google.gson.JsonObject;
-import net.halalaboos.huzuni.api.event.LoadWorldEvent;
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.node.ColorNode;
 import net.halalaboos.huzuni.api.node.ItemList;
 import net.halalaboos.huzuni.api.node.JsonFileHandler;
 import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.mcwrapper.api.event.WorldLoadEvent;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
 import java.awt.*;
@@ -16,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getEventManager;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
@@ -52,7 +52,7 @@ public final class WaypointManager extends JsonFileHandler {
 	
 	@Override
 	public void init() {
-		huzuni.eventManager.addListener(this);
+		getEventManager().subscribe(WorldLoadEvent.class, event -> deathCount = 0);
 	}
 
 	@Override
@@ -147,11 +147,6 @@ public final class WaypointManager extends JsonFileHandler {
 				count++;
 		}
 		return count;
-	}
-	
-	@EventMethod
-	public void onWorldLoad(LoadWorldEvent event) {
-		deathCount = 0;
 	}
 	
 	public ItemList<Waypoint> getWaypoints() {

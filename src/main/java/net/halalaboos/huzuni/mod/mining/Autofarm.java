@@ -12,6 +12,7 @@ import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.MineTask;
 import net.halalaboos.huzuni.api.task.PlaceTask;
 import net.halalaboos.huzuni.api.util.BlockLocator;
+import net.halalaboos.mcwrapper.api.event.WorldLoadEvent;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockFarmland;
@@ -112,6 +113,12 @@ public final class Autofarm extends BasicMod {
 		this.setCategory(Category.MINING);
 		silent.setEnabled(true);
 		huzuni.lookManager.registerTaskHolder(this);
+		subscribe(WorldLoadEvent.class, event -> {
+			if (mineTask.hasBlock())
+				huzuni.lookManager.withdrawTask(mineTask);
+			if (placeTask.hasBlock())
+				huzuni.lookManager.withdrawTask(placeTask);
+		});
 	}
 	
 	@Override
@@ -161,14 +168,6 @@ public final class Autofarm extends BasicMod {
 				huzuni.lookManager.requestTask(this, placeTask);
 			}
 		}
-	}
-
-	@EventMethod
-	public void onWorldLoad(LoadWorldEvent event) {
-		if (mineTask.hasBlock())
-			huzuni.lookManager.withdrawTask(mineTask);
-		if (placeTask.hasBlock())
-			huzuni.lookManager.withdrawTask(placeTask);
 	}
 	
 	@Override

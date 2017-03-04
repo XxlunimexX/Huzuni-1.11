@@ -6,6 +6,7 @@ import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
+import net.halalaboos.mcwrapper.api.network.packet.client.UseEntityPacket;
 import net.minecraft.network.play.client.CPacketUseEntity;
 
 /**
@@ -32,9 +33,9 @@ public class Criticals extends BasicMod {
 	@EventMethod
 	public void onPacket(PacketEvent event) {
 		if (event.type == PacketEvent.Type.SENT) {
-			if (event.getPacket() instanceof CPacketUseEntity) {
-				CPacketUseEntity packetUseEntity = (CPacketUseEntity)event.getPacket();
-				if (packetUseEntity.getAction() == CPacketUseEntity.Action.ATTACK) {
+			if (event.getPacket() instanceof UseEntityPacket) {
+				UseEntityPacket packetUseEntity = (UseEntityPacket)event.getPacket();
+				if (packetUseEntity.getUseAction() == UseEntityPacket.UseAction.ATTACK) {
 					if (shouldCritical()) {
 						doCrit();
 					}

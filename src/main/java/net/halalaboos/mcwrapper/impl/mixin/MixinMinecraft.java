@@ -91,6 +91,13 @@ public abstract class MixinMinecraft implements MinecraftClient {
 		}
 	}
 
+
+	@Inject(method = "loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;Ljava/lang/String;)V", at = @At("HEAD"))
+	public void onLoadWorld(@Nullable WorldClient worldClientIn, String loadingMessage, CallbackInfo ci) {
+		if (worldClientIn != null) {
+			MCWrapperHooks.joinWorld((World)worldClientIn);
+		}
+	}
 	@Override
 	public int getRightClickDelayTimer() {
 		return rightClickDelayTimer;
