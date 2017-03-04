@@ -3,7 +3,6 @@ package net.halalaboos.huzuni.mod.misc;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
@@ -14,6 +13,8 @@ import net.halalaboos.mcwrapper.api.block.BlockTypes;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.ExperienceOrb;
 import net.halalaboos.mcwrapper.api.entity.ItemPickup;
+import net.halalaboos.mcwrapper.api.event.PacketReadEvent;
+import net.halalaboos.mcwrapper.api.event.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.network.NetworkHandler;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;
@@ -65,6 +66,23 @@ public class ChatAnnoy extends BasicMod {
 		pickup.setEnabled(true);
 		lastSentMessages.put("pickup", "");
 		lastSentMessages.put("dig", "");
+		subscribe(PacketSendEvent.class, event -> {
+			if (timer.hasReach(1500) && random.nextBoolean()) {
+				if (dig.isEnabled() && event.getPacket() instanceof CPacketPlayerDigging) {
+					//todo dig wrapper
+					CPacketPlayerDigging packet = (CPacketPlayerDigging) event.getPacket();
+					alertDigging(packet);
+				}
+			}
+		});
+		subscribe(PacketReadEvent.class, event -> {
+			if (pickup.isEnabled() && timer.hasReach(250) && random.nextBoolean()) {
+				if (event.getPacket() instanceof ItemPickupPacket) {
+					ItemPickupPacket packet = (ItemPickupPacket) event.getPacket();
+					alertPickup(packet);
+				}
+			}
+		});
 	}
 
 	@Override
@@ -83,29 +101,6 @@ public class ChatAnnoy extends BasicMod {
 	@Override
 	protected void onDisable() {
 		huzuni.eventManager.removeListener(this);
-	}
-
-	/**
-	 * Performed when packets are read/sent, used to call the actual annoy modes.
-	 */
-	@EventMethod
-	public void onPacket(PacketEvent event) {
-		if (event.type == PacketEvent.Type.SENT) {
-			if (timer.hasReach(1500) && random.nextBoolean()) {
-				if (dig.isEnabled() && event.getPacket() instanceof CPacketPlayerDigging) {
-					//todo dig wrapper
-					CPacketPlayerDigging packet = (CPacketPlayerDigging) event.getPacket();
-					alertDigging(packet);
-				}
-			}
-		} else {
-			if (pickup.isEnabled() && timer.hasReach(250) && random.nextBoolean()) {
-				if (event.getPacket() instanceof ItemPickupPacket) {
-					ItemPickupPacket packet = (ItemPickupPacket) event.getPacket();
-					alertPickup(packet);
-				}
-			}
-		}
 	}
 
 	@EventMethod

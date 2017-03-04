@@ -1,18 +1,17 @@
 package net.halalaboos.huzuni.mod;
 
 import net.halalaboos.huzuni.Huzuni;
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.huzuni.mod.movement.Flight;
 import net.halalaboos.huzuni.mod.movement.Freecam;
+import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.event.MouseEvent;
 import net.halalaboos.mcwrapper.api.event.PacketReadEvent;
+import net.halalaboos.mcwrapper.api.event.PacketSendEvent;
+import net.halalaboos.mcwrapper.api.network.packet.client.PlayerAbilitiesPacket;
+import net.halalaboos.mcwrapper.api.network.packet.client.TabCompletePacket;
 import net.halalaboos.mcwrapper.api.util.MouseButton;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.play.client.CPacketPlayerAbilities;
-import net.minecraft.network.play.client.CPacketTabComplete;
 import net.minecraft.network.play.server.SPacketPlayerAbilities;
 import net.minecraft.util.math.RayTraceResult;
 
@@ -42,7 +41,7 @@ public class Patcher {
 			if (event.getButton() == MouseButton.MIDDLE) {
 				if (Minecraft.getMinecraft().objectMouseOver != null) {
 					RayTraceResult result = Minecraft.getMinecraft().objectMouseOver;
-					if (result.typeOfHit == RayTraceResult.Type.ENTITY && result.entityHit instanceof EntityPlayer) {
+					if (result.typeOfHit == RayTraceResult.Type.ENTITY && result.entityHit instanceof Player) {
 						if (Huzuni.INSTANCE.friendManager.isFriend(result.entityHit.getName())) {
 							Huzuni.INSTANCE.addChatMessage(String.format("Removed %s as a friend.", result.entityHit.getName()));
 							Huzuni.INSTANCE.friendManager.removeFriend(result.entityHit.getName());
@@ -62,26 +61,18 @@ public class Patcher {
 				shouldHideFlying = !(packet.isAllowFlying() || packet.isFlying());
 			}
 		});
-	}
-
-	@EventMethod
-	public void onPacket(PacketEvent event) {
-		if (event.type == PacketEvent.Type.SENT) {
-			if (event.getPacket() instanceof CPacketTabComplete) {
-				event.setPacket(hideCommands((CPacketTabComplete) event.getPacket()));
+		getEventManager().subscribe(PacketSendEvent.class, event -> {
+			if (event.getPacket() instanceof TabCompletePacket) {
+				TabCompletePacket packet = (TabCompletePacket)event.getPacket();
+				packet.setText(hideCommands(packet.getText()));
 			}
-			
-			if (event.getPacket() instanceof CPacketPlayerAbilities) {
-				event.setPacket(removeFlying((CPacketPlayerAbilities) event.getPacket()));
+			if (event.getPacket() instanceof PlayerAbilitiesPacket) {
+				PlayerAbilitiesPacket packet = (PlayerAbilitiesPacket)event.getPacket();
+				if ((Freecam.INSTANCE.isEnabled() || Flight.INSTANCE.isEnabled()) && shouldHideFlying) {
+					packet.setFlying(false);
+				}
 			}
-		}
-	}
-
-	private CPacketPlayerAbilities removeFlying(CPacketPlayerAbilities packet) {
-		if ((Freecam.INSTANCE.isEnabled() || Flight.INSTANCE.isEnabled()) && shouldHideFlying) {
-			packet.setFlying(false);
-		}
-		return packet;
+		});
 	}
 
 	/**
@@ -93,19 +84,16 @@ public class Patcher {
 	 * Instead of sending that entire message, it will only be sending:
 	 * 		b
 	 * Fun!
-	 * @param packet	The tab complete packet to modify
-	 * @return			A new tab complete packet!
 	 */
-	private CPacketTabComplete hideCommands(CPacketTabComplete packet) {
-		String packetOutput = packet.getMessage();
-		if (!packetOutput.startsWith(Huzuni.INSTANCE.commandManager.getCommandPrefix()))
-			return packet;
-		String[] packetOutputArray = packetOutput.split(" ");
+	private String hideCommands(String input) {
+		if (!input.startsWith(Huzuni.INSTANCE.commandManager.getCommandPrefix()))
+			return input;
+		String[] packetOutputArray = input.split(" ");
 		String toSend = packetOutputArray[packetOutputArray.length - 1];
 		if (toSend.startsWith(Huzuni.INSTANCE.commandManager.getCommandPrefix())) {
 			toSend = toSend.substring(1, toSend.length());
 		}
 		Huzuni.INSTANCE.addNotification(NotificationType.INFO, "Patcher", 5000, "Hiding tab information!");
-		return new CPacketTabComplete(toSend, packet.getTargetBlock(), packet.hasTargetBlock());
+		return toSend;
 	}
 }

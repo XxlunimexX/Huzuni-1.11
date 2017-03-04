@@ -1,7 +1,6 @@
 package net.halalaboos.huzuni.mod.mining;
 
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
@@ -10,6 +9,7 @@ import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.HotbarTask;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.Timer;
+import net.halalaboos.mcwrapper.api.event.PacketSendEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -87,21 +87,21 @@ public class Autotool extends BasicMod {
 		digSpeed = Potion.getPotionFromResourceLocation("haste");
 		digSlowdown = Potion.getPotionFromResourceLocation("mining_fatigue");
 		huzuni.hotbarManager.registerTaskHolder(this);
+		subscribe(PacketSendEvent.class, this::onPacket);
 	}
-	
+
 	@Override
 	public void onEnable() {
 		huzuni.eventManager.addListener(this);
 	}
-	
+
 	@Override
 	public void onDisable() {
 		huzuni.eventManager.removeListener(this);
 		huzuni.hotbarManager.withdrawTask(hotbarTask);
 	}
-	
-	@EventMethod
-	public void onPacket(PacketEvent event) {
+
+	private void onPacket(PacketSendEvent event) {
 		if (event.getPacket() instanceof CPacketPlayerDigging) {
 			CPacketPlayerDigging packet = (CPacketPlayerDigging) event.getPacket();
 			if (!mc.playerController.isInCreativeMode() && packet.getAction() == CPacketPlayerDigging.Action.START_DESTROY_BLOCK) {

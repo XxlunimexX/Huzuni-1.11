@@ -1,23 +1,45 @@
 package net.halalaboos.mcwrapper.impl.mixin.network;
 
+import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.event.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.network.NetworkHandler;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketClientStatus;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Collection;
 
 @Mixin(NetHandlerPlayClient.class)
 public abstract class MixinNetHandlerPlayClient implements NetworkHandler {
 
-	@Shadow public abstract Collection<NetworkPlayerInfo> getPlayerInfoMap();
+	@Final
+	@Shadow private NetworkManager netManager;
 
-	@Shadow
-	public abstract void sendPacket(Packet<?> packetIn);
+	/**
+	 * Publishes the {@link PacketSendEvent}.
+	 *
+	 * @author b
+	 */
+	@Overwrite
+	public void sendPacket(Packet<?> packet) {
+		if (packet == null) return;
+		PacketSendEvent event = new PacketSendEvent(((net.halalaboos.mcwrapper.api.network.packet.Packet) packet));
+		MCWrapper.getEventManager().publish(event);
+		if (event.isCancelled()) return;
+		netManager.sendPacket(packet);
+	}
+
+	@Shadow public abstract Collection<NetworkPlayerInfo> getPlayerInfoMap();
 
 	@SuppressWarnings("unchecked")
 	@Override

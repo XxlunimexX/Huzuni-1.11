@@ -1,8 +1,6 @@
 package net.halalaboos.huzuni.mod.visual;
 
 import net.halalaboos.huzuni.RenderManager.Renderer;
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.mod.CommandPointer;
@@ -13,6 +11,7 @@ import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.huzuni.mod.movement.Freecam;
+import net.halalaboos.mcwrapper.api.event.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.network.packet.server.HealthUpdatePacket;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
@@ -36,19 +35,14 @@ public class Breadcrumb extends BasicMod implements Renderer {
 	private final Texture breadIcon = new Texture("bread.png");
 
 	private final List<Vector3i> points = new ArrayList<>();
-
 	private Vector3i lastPosition = new Vector3i(0, 0, 0);
 	
 	public final Value opacity = new Value("Opacity", "%", 0F, 50F, 100F, 1F, "Opacity of the icon.");
-
-    public final Value bounce = new Value("Bounce" ,0F, 0F, 10F, "Amount the icon will bounce.");
-
-    public final Value distance = new Value("Distance", " blocks", 1F, 15F, 30F, 1F, "Distance between each point.");
+	public final Value bounce = new Value("Bounce" ,0F, 0F, 10F, "Amount the icon will bounce.");
+	public final Value distance = new Value("Distance", " blocks", 1F, 15F, 30F, 1F, "Distance between each point.");
 
     public final Toggleable lines = new Toggleable("Lines", "Render lines between each point.");
-
     public final Toggleable bread = new Toggleable("Bread", "Render the bread icon at each point.");
-
     public final Toggleable clearOnDeath = new Toggleable("Clear on death", "When enabled, the points will clear when the player dies.");
 
 	public Breadcrumb() {
@@ -60,17 +54,25 @@ public class Breadcrumb extends BasicMod implements Renderer {
 		bread.setEnabled(true);
 		clearOnDeath.setEnabled(true);
 		huzuni.commandManager.generateCommands(this);
+		subscribe(PacketReadEvent.class, event -> {
+			if (clearOnDeath.isEnabled()) {
+				if (event.getPacket() instanceof HealthUpdatePacket) {
+					HealthUpdatePacket packet = (HealthUpdatePacket)event.getPacket();
+					if (packet.getHearts() <= 0F) {
+						clearPoints();
+					}
+				}
+			}
+		});
 	}
 	
 	@Override
 	public void onEnable() {
-		huzuni.eventManager.addListener(this);
 		huzuni.renderManager.addWorldRenderer(this);
 	}
 	
 	@Override
 	public void onDisable() {
-		huzuni.eventManager.removeListener(this);
 		huzuni.renderManager.removeWorldRenderer(this);
 		lastPosition = new Vector3i(0, 0, 0);
 		clearPoints();
@@ -105,18 +107,6 @@ public class Breadcrumb extends BasicMod implements Renderer {
 		if (lastPosition.toDouble().distanceTo(getPlayer().getLocation()) >= distance.getValue() && !Freecam.INSTANCE.isEnabled()) {
 			lastPosition = new Vector3i(getPlayer().getLocation());
 			points.add(lastPosition);
-		}
-	}
-	
-	@EventMethod
-	public void onPacket(PacketEvent event) {
-		if (clearOnDeath.isEnabled()) {
-			if (event.getPacket() instanceof HealthUpdatePacket) {
-				HealthUpdatePacket packet = (HealthUpdatePacket)event.getPacket();
-				if (packet.getHearts() <= 0F) {
-					clearPoints();
-				}
-			}
 		}
 	}
 	

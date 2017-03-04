@@ -1,13 +1,12 @@
 package net.halalaboos.huzuni.mod.combat;
 
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.mcwrapper.api.MCWrapper;
-import net.halalaboos.mcwrapper.api.entity.living.player.Player;
+import net.halalaboos.mcwrapper.api.event.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.network.packet.client.UseEntityPacket;
-import net.minecraft.network.play.client.CPacketUseEntity;
+import net.halalaboos.mcwrapper.api.world.Fluid;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
  * Attempts to force criticals by jumping.
@@ -18,21 +17,7 @@ public class Criticals extends BasicMod {
 		super("Criticals", "Automagically critical with each hit");
 		this.setCategory(Category.COMBAT);
 		setAuthor("brudin");
-	}
-	
-	@Override
-	public void onEnable() {
-		huzuni.eventManager.addListener(this);
-	}
-	
-	@Override
-	public void onDisable() {
-		huzuni.eventManager.removeListener(this);
-	}
-
-	@EventMethod
-	public void onPacket(PacketEvent event) {
-		if (event.type == PacketEvent.Type.SENT) {
+		subscribe(PacketSendEvent.class, event -> {
 			if (event.getPacket() instanceof UseEntityPacket) {
 				UseEntityPacket packetUseEntity = (UseEntityPacket)event.getPacket();
 				if (packetUseEntity.getUseAction() == UseEntityPacket.UseAction.ATTACK) {
@@ -41,19 +26,18 @@ public class Criticals extends BasicMod {
 					}
 				}
 			}
-		}
+		});
 	}
 	
 	private void doCrit() {
-		Player player = MCWrapper.getAdapter().getMinecraft().getPlayer();
-		boolean preGround = player.isOnGround();
-		player.setOnGround(false);
-		player.jump();
-		player.setOnGround(preGround);
+		boolean preGround = getPlayer().isOnGround();
+		getPlayer().setOnGround(false);
+		getPlayer().jump();
+		getPlayer().setOnGround(preGround);
 	}
 	
 	private boolean shouldCritical() {
-		return !mc.player.isInWater() && mc.player.onGround && !mc.player.isOnLadder();
+		return !getPlayer().isInFluid(Fluid.WATER) && getPlayer().isOnGround() && !getPlayer().isClimbing();
 	}
 	
 }

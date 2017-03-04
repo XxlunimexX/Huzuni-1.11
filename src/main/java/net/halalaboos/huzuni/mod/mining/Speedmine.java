@@ -1,13 +1,13 @@
 package net.halalaboos.huzuni.mod.mining;
 
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
+import net.halalaboos.mcwrapper.api.event.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
@@ -41,6 +41,7 @@ public class Speedmine extends BasicMod {
 		this.setCategory(Category.MINING);
 		setAuthor("Halalaboos");
 		this.addChildren(speed, breakPercent, hitDelay, noSlow);
+		subscribe(PacketSendEvent.class, this::onPacket);
 	}
 
 	@Override
@@ -52,10 +53,9 @@ public class Speedmine extends BasicMod {
 	protected void onDisable() {
 		huzuni.eventManager.removeListener(this);
 	}
-	
-	@EventMethod
-	public void onPacket(PacketEvent event) {
-		if (event.type == PacketEvent.Type.SENT && getController() != null && getController().getGameType() != GameType.CREATIVE) {
+
+	private void onPacket(PacketSendEvent event) {
+		if (getController() != null && getController().getGameType() != GameType.CREATIVE) {
 			if (event.getPacket() instanceof CPacketPlayerDigging) {
 				CPacketPlayerDigging packet = (CPacketPlayerDigging) event.getPacket();
 				if (packet.getAction() == CPacketPlayerDigging.Action.START_DESTROY_BLOCK) {

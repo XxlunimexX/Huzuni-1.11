@@ -49,6 +49,7 @@
     "network.packet.client.MixinPacketChatMessage",
     "network.packet.client.MixinPacketUseEntity",
     "network.packet.client.MixinPacketTabComplete",
+    "network.packet.client.MixinPacketPlayerAbilities",
     "network.packet.server.MixinPacketEntityVelocity",
     "network.packet.server.MixinPacketExplosion",
     "network.packet.server.MixinPacketSpawnObject",
