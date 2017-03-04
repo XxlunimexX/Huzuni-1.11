@@ -7,6 +7,7 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.util.Timer;
+import net.halalaboos.mcwrapper.api.event.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.network.packet.client.UseEntityPacket;
 import net.halalaboos.mcwrapper.api.network.packet.server.EntityVelocityPacket;
 import net.halalaboos.mcwrapper.api.network.packet.server.ExplosionPacket;
@@ -36,6 +37,32 @@ public class Antiknockback extends BasicMod {
 		this.addChildren(combat, combatTime, percentage);
 		this.setCategory(Category.MOVEMENT);
 		setAuthor("brudin");
+		subscribe(PacketReadEvent.class, event -> {
+			if (event.getPacket() instanceof UseEntityPacket) {
+				UseEntityPacket packet = (UseEntityPacket) event.getPacket();
+				//Reset the combat timer when we attack an entity since we are in combat now
+				if (packet.getUseAction() == UseEntityPacket.UseAction.ATTACK) {
+					timer.reset();
+				}
+			} else if (event.getPacket() instanceof EntityVelocityPacket) {
+				EntityVelocityPacket packet = (EntityVelocityPacket) event.getPacket();
+				//Check if the Packet directed at the Player
+				if (packet.getId() == getPlayer().getId()) {
+					if (!combat.isEnabled() || !timer.hasReach((int) combatTime.getValue())) {
+						//Don't bother doing any calculations since we are going to be removing the knockback entirely
+						if (percentage.getValue() == 1F) {
+							event.setCancelled(true);
+						} else {
+							//Set the velocity based on the percentage value
+							packet.setVelocity(adjustVelocity(packet.getVelocity(), 1F - (percentage.getValue() / 100F)));
+						}
+					}
+				}
+			} else if (event.getPacket() instanceof ExplosionPacket) {
+				//Avoid being knocked back by Explosions
+				event.setCancelled(true);
+			}
+		});
 	}
 	
 	@Override
@@ -50,30 +77,6 @@ public class Antiknockback extends BasicMod {
 
 	@EventMethod
 	public void onPacket(PacketEvent event) {
-		if (event.getPacket() instanceof UseEntityPacket) {
-			UseEntityPacket packet = (UseEntityPacket) event.getPacket();
-			//Reset the combat timer when we attack an entity since we are in combat now
-			if (packet.getUseAction() == UseEntityPacket.UseAction.ATTACK) {
-				timer.reset();
-			}
-		} else if (event.getPacket() instanceof EntityVelocityPacket) {
-			EntityVelocityPacket packet = (EntityVelocityPacket) event.getPacket();
-			//Check if the Packet directed at the Player
-			if (packet.getId() == getPlayer().getId()) {
-				if (!combat.isEnabled() || !timer.hasReach((int) combatTime.getValue())) {
-					//Don't bother doing any calculations since we are going to be removing the knockback entirely
-					if (percentage.getValue() == 1F) {
-						event.setCancelled(true);
-					} else {
-						//Set the velocity based on the percentage value
-						packet.setVelocity(adjustVelocity(packet.getVelocity(), 1F - (percentage.getValue() / 100F)));
-					}
-				}
-			}
-		} else if (event.getPacket() instanceof ExplosionPacket) {
-			//Avoid being knocked back by Explosions
-			event.setCancelled(true);
-		}
 	}
 
 	/**

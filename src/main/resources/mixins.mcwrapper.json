@@ -42,6 +42,7 @@
     "item.types.MixinItemEnderPearl",
     "item.types.MixinItemEgg",
     "network.MixinServerData",
+    "network.MixinNetworkManager",
     "network.MixinNetworkPlayerInfo",
     "network.MixinNetHandlerPlayClient",
     "network.packet.MixinPacket",

@@ -204,6 +204,13 @@ public class ChatAnnoy extends BasicMod {
 	 * @return The message to send
 	 */
 	private String getMessage(String category, @Nullable Block block, @Nullable ItemStack itemStack) {
+		if (messageMap.isEmpty()) {
+			try {
+				loadMessages(getMinecraft().getInputStream(new ResourcePath("huzuni/chatannoy.json")));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		int size = messageMap.get(category).size();
 		String message = messageMap.get(category).get(random.nextInt(size));
 		message = message.replace("$PLAYER", getRandomPlayer()).replace("$TIME", getCurrentTime());

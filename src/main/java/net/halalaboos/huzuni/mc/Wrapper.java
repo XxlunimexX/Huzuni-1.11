@@ -34,7 +34,6 @@ public final class Wrapper {
 	}
 	
 	public static void keyTyped(int keyCode) {
-		huzuni.guiManager.widgetManager.keyTyped(keyCode);
 		huzuni.eventManager.invoke(new KeyPressEvent(keyCode));
 	}
 

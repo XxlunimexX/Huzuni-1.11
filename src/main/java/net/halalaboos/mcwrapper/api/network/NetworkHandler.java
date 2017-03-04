@@ -6,4 +6,6 @@ public interface NetworkHandler {
 
 	Collection<PlayerInfo> getPlayers();
 
+	void sendRespawn();
+
 }

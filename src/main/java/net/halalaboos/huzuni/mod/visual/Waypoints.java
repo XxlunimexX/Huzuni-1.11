@@ -13,6 +13,7 @@ import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.api.util.gl.Texture;
+import net.halalaboos.mcwrapper.api.event.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.network.packet.server.HealthUpdatePacket;
 import net.halalaboos.mcwrapper.api.util.TextColor;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
@@ -116,6 +117,15 @@ public class Waypoints extends Mod implements Renderer {
 			}
 			
 		}));
+		subscribe(PacketReadEvent.class, event -> {
+			if (event.getPacket() instanceof HealthUpdatePacket) {
+				HealthUpdatePacket packet = (HealthUpdatePacket) event.getPacket();
+				if (packet.getHearts() <= 0.0F && getPlayer().getLocation() != null) {
+					huzuni.waypointManager.addDeathPoint(getPlayer().getLocation().toInt());
+					huzuni.waypointManager.save();
+				}
+			}
+		});
 	}
 	
 	@Override
@@ -180,19 +190,6 @@ public class Waypoints extends Mod implements Renderer {
 			}
 		}
 		glLineWidth(huzuni.settings.lineSize.getValue());
-	}
-	
-	@EventMethod
-	public void onPacket(PacketEvent event) {
-		if (event.type == Type.READ) {
-			if (event.getPacket() instanceof HealthUpdatePacket) {
-				HealthUpdatePacket packet = (HealthUpdatePacket) event.getPacket();
-				if (packet.getHearts() <= 0.0F && getPlayer().getLocation() != null) {
-					huzuni.waypointManager.addDeathPoint(getPlayer().getLocation().toInt());
-					huzuni.waypointManager.save();
-				}
-			}
-		}
 	}
 	
 }

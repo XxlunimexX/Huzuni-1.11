@@ -8,10 +8,13 @@ import net.halalaboos.huzuni.api.gui.widget.WidgetGlue;
 import net.halalaboos.huzuni.api.node.JsonFileHandler;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.mcwrapper.api.event.KeyboardEvent;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getEventManager;
 
 /**
  * Manages widgets and handles their logic/render. Can save or load the widgets.
@@ -24,6 +27,8 @@ public class WidgetManager extends JsonFileHandler {
 	
 	public WidgetManager(Huzuni huzuni) {
 		super(huzuni, null);
+
+		getEventManager().subscribe(KeyboardEvent.class, event -> keyTyped(event.getKeyCode()));
 	}
 
 	/***

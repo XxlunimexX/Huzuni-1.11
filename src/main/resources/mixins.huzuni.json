@@ -6,7 +6,6 @@
   "mixins": [
     "MixinNetHandlerPlayClient",
     "MixinPlayerController",
-    "MixinNetworkManager",
     "MixinEntityRenderer",
     "MixinEntity",
     "MixinRenderPlayer",

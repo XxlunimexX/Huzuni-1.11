@@ -1,10 +1,11 @@
-package net.halalaboos.huzuni.mc.mixin;
+package net.halalaboos.mcwrapper.impl.mixin.network;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
-import net.halalaboos.huzuni.Huzuni;
-import net.halalaboos.huzuni.api.event.PacketEvent;
+import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.event.PacketReadEvent;
 import net.minecraft.network.INetHandler;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.ThreadQuickExitException;
 import org.spongepowered.asm.mixin.Final;
@@ -14,20 +15,20 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(net.minecraft.network.NetworkManager.class) public class MixinNetworkManager {
+@Mixin(NetworkManager.class)
+public class MixinNetworkManager {
 
-	@Shadow @Final private Channel channel;
-	@Shadow @Final private INetHandler packetListener;
+	@Shadow private Channel channel;
+	@Shadow private INetHandler packetListener;
 
 	@Inject(method = "channelRead0", at = @At("HEAD"), cancellable = true)
 	void readPacket(ChannelHandlerContext context, Packet packet, CallbackInfo ci) {
 		if (channel.isOpen()) {
 			try {
-				PacketEvent event = new PacketEvent(PacketEvent.Type.READ, packet);
-				Huzuni.INSTANCE.eventManager.invoke(event);
-				Packet outPacket = event.getPacket();
+				PacketReadEvent event = new PacketReadEvent((net.halalaboos.mcwrapper.api.network.packet.Packet)packet);
+				MCWrapper.getEventManager().publish(event);
 				if (event.isCancelled()) ci.cancel();
-				((Packet<INetHandler>)outPacket).processPacket(this.packetListener);
+				((Packet<INetHandler>)packet).processPacket(this.packetListener);
 			} catch (ThreadQuickExitException ignored) {}
 		}
 		ci.cancel();

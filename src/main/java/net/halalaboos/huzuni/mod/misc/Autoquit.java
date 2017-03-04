@@ -1,10 +1,9 @@
 package net.halalaboos.huzuni.mod.misc;
 
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Value;
+import net.halalaboos.mcwrapper.api.event.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.network.packet.server.HealthUpdatePacket;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
@@ -21,21 +20,7 @@ public class Autoquit extends BasicMod {
 		this.setCategory(Category.MISC);
 		setAuthor("brudin");
 		this.addChildren(health);
-	}
-	
-	@Override
-	public void onEnable() {
-		huzuni.eventManager.addListener(this);
-	}
-	
-	@Override
-	public void onDisable() {
-		huzuni.eventManager.removeListener(this);
-	}
-
-	@EventMethod
-	public void onPacket(PacketEvent event) {
-		if(event.type == PacketEvent.Type.READ) {
+		subscribe(PacketReadEvent.class, event -> {
 			if(event.getPacket() instanceof HealthUpdatePacket) {
 				HealthUpdatePacket packetUpdateHealth = (HealthUpdatePacket)event.getPacket();
 				if(packetUpdateHealth.getHearts() <= health.getValue()) {
@@ -43,7 +28,6 @@ public class Autoquit extends BasicMod {
 					setEnabled(false);
 				}
 			}
-		}
+		});
 	}
-
 }

@@ -7,6 +7,7 @@ import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.huzuni.mod.movement.Flight;
 import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.halalaboos.mcwrapper.api.event.MouseEvent;
+import net.halalaboos.mcwrapper.api.event.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.util.MouseButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,16 +56,16 @@ public class Patcher {
 				}
 			}
 		});
-	}
-
-	@EventMethod
-	public void onPacket(PacketEvent event) {
-		if (event.type == PacketEvent.Type.READ) {
+		getEventManager().subscribe(PacketReadEvent.class, event -> {
 			if (event.getPacket() instanceof SPacketPlayerAbilities) {
 				SPacketPlayerAbilities packet = (SPacketPlayerAbilities) event.getPacket();
 				shouldHideFlying = !(packet.isAllowFlying() || packet.isFlying());
 			}
-		}
+		});
+	}
+
+	@EventMethod
+	public void onPacket(PacketEvent event) {
 		if (event.type == PacketEvent.Type.SENT) {
 			if (event.getPacket() instanceof CPacketTabComplete) {
 				event.setPacket(hideCommands((CPacketTabComplete) event.getPacket()));
