@@ -3,6 +3,7 @@ package net.halalaboos.mcwrapper.impl;
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.mcwrapper.api.MinecraftAdapter;
 import net.halalaboos.mcwrapper.api.MinecraftClient;
+import net.halalaboos.mcwrapper.api.client.GLState;
 import net.halalaboos.mcwrapper.api.util.Builder;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.registry.BlockRegistry;
@@ -43,6 +44,11 @@ public class OnePointElevenAdapter implements MinecraftAdapter {
 	@Override
 	public BlockRegistry getBlockRegistry() {
 		return this.blockRegistry;
+	}
+
+	@Override
+	public GLState getGLStateManager() {
+		return GLStateImpl.getInstance();
 	}
 
 	@SuppressWarnings("unchecked")

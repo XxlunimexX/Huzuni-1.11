@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.api;
 
+import net.halalaboos.mcwrapper.api.client.GLState;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.util.Builder;
 import net.halalaboos.mcwrapper.api.registry.BlockRegistry;
@@ -32,6 +33,8 @@ public interface MinecraftAdapter {
 	ItemRegistry getItemRegistry();
 
 	BlockRegistry getBlockRegistry();
+
+	GLState getGLStateManager();
 
 	/**
 	 * The adapter will need its own implementation of the various {@link Builder} classes; this will return the

@@ -1,7 +1,6 @@
 package net.halalaboos.huzuni.api.util.gl;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -17,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -161,23 +161,23 @@ public final class GLManager {
 	}
     
     public static void glColor(float red, float green, float blue, float alpha) {
-		GlStateManager.color(red, green, blue, alpha);
+		getGLStateManager().color(red, green, blue, alpha);
 	}
     
     public static void glColor(Color color) {
-		GlStateManager.color((float) color.getRed() / 255F, (float) color.getGreen() / 255F, (float) color.getBlue() / 255F, (float) color.getAlpha() / 255F);
+		getGLStateManager().color((float) color.getRed() / 255F, (float) color.getGreen() / 255F, (float) color.getBlue() / 255F, (float) color.getAlpha() / 255F);
 	}
 	
 	public static void glColor(Color color, float alpha) {
-		GlStateManager.color((float) color.getRed() / 255F, (float) color.getGreen() / 255F, (float) color.getBlue() / 255F, alpha);
+		getGLStateManager().color((float) color.getRed() / 255F, (float) color.getGreen() / 255F, (float) color.getBlue() / 255F, alpha);
 	}
 	
 	public static void glColor(int color) {
-		GlStateManager.color((float) (color >> 16 & 255) / 255F, (float) (color >> 8 & 255) / 255F, (float) (color & 255) / 255F, (color >> 24 & 0xff) / 255F);
+		getGLStateManager().color((float) (color >> 16 & 255) / 255F, (float) (color >> 8 & 255) / 255F, (float) (color & 255) / 255F, (color >> 24 & 0xff) / 255F);
 	}
 	
 	public static void glColor(int color, float alpha) {
-		GlStateManager.color((float) (color >> 16 & 255) / 255F, (float) (color >> 8 & 255) / 255F, (float) (color & 255) / 255F, alpha);
+		getGLStateManager().color((float) (color >> 16 & 255) / 255F, (float) (color >> 8 & 255) / 255F, (float) (color & 255) / 255F, alpha);
 	}
 	
 	/**

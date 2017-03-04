@@ -14,12 +14,12 @@ import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.input.Keyboard;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 import static org.lwjgl.opengl.GL11.GL_LINES;
 import static org.lwjgl.opengl.GL11.GL_LINE_LOOP;
@@ -86,16 +86,16 @@ public class ESP extends BasicMod implements Renderer {
 				}
 				setColor(entity, distance, friend, false, opacity.getValue() / 100F);
 				if (mode.getSelected() == 1) {
-					GlStateManager.pushMatrix();
-					GlStateManager.translate(renderPos.getX(), renderPos.getY(), renderPos.getZ());
-					GlStateManager.rotate(-entity.getRotation().yaw, 0F, 1F, 0F);
+					getGLStateManager().pushMatrix();
+					getGLStateManager().translate(renderPos.getX(), renderPos.getY(), renderPos.getZ());
+					getGLStateManager().rotate(-entity.getRotation().yaw, 0F, 1F, 0F);
 					generateVbo(entity, entityId);
 					box[entityId].render();
-					GlStateManager.popMatrix();
+					getGLStateManager().popMatrix();
 				} else if (mode.getSelected() == 2) {
-					GlStateManager.pushMatrix();
-					GlStateManager.translate(renderPos.getX(), renderPos.getY(), renderPos.getZ());
-					GlStateManager.rotate(-MCWrapper.getPlayer().getRotation().yaw, 0F, 1F, 0F);
+					getGLStateManager().pushMatrix();
+					getGLStateManager().translate(renderPos.getX(), renderPos.getY(), renderPos.getZ());
+					getGLStateManager().rotate(-MCWrapper.getPlayer().getRotation().yaw, 0F, 1F, 0F);
 					float width = (float) (entity.getBoundingBox().max.getX() - entity.getBoundingBox().min.getX()),
 							height = (float) (entity.getBoundingBox().max.getY() - entity.getBoundingBox().min.getY());
 					VertexBuffer vertexBuffer = tessellator.getBuffer();
@@ -105,7 +105,7 @@ public class ESP extends BasicMod implements Renderer {
 					vertexBuffer.pos(width, height, 0F).endVertex();
 					vertexBuffer.pos(width, 0, 0F).endVertex();
 					tessellator.draw();
-					GlStateManager.popMatrix();
+					getGLStateManager().popMatrix();
 				} else if (mode.getSelected() == 3) {
 					GLManager.glColor(1F, distance / 64F, 0F, 1F);
 					VertexBuffer renderer = tessellator.getBuffer();
