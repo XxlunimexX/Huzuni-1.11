@@ -2,9 +2,9 @@ package net.halalaboos.huzuni.api.mod;
 
 import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.Huzuni;
-import net.halalaboos.huzuni.api.settings.JsonFileHandler;
-import net.halalaboos.huzuni.api.settings.Node;
-import net.halalaboos.huzuni.api.settings.organize.AlphabeticalOrganizer;
+import net.halalaboos.huzuni.api.node.JsonFileHandler;
+import net.halalaboos.huzuni.api.node.Node;
+import net.halalaboos.huzuni.api.node.organize.AlphabeticalOrganizer;
 import net.halalaboos.mcwrapper.api.event.KeyboardEvent;
 
 import java.io.IOException;

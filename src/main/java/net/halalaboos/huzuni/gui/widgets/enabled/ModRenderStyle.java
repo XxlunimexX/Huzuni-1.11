@@ -3,7 +3,7 @@ package net.halalaboos.huzuni.gui.widgets.enabled;
 import net.halalaboos.huzuni.api.gui.Theme;
 import net.halalaboos.huzuni.api.gui.widget.Glue;
 import net.halalaboos.huzuni.api.mod.Mod;
-import net.halalaboos.huzuni.api.settings.Nameable;
+import net.halalaboos.huzuni.api.node.Nameable;
 
 /**
  * Used to stylize the mods rendered within the enabled mods widget.

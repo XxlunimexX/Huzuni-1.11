@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.indev;
 
 import net.halalaboos.huzuni.api.gui.font.FontData;
-import net.halalaboos.huzuni.api.settings.Value;
+import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.components.Label;
 import net.halalaboos.huzuni.indev.gui.components.Slider;

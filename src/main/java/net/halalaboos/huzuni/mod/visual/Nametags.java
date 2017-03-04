@@ -3,15 +3,14 @@ package net.halalaboos.huzuni.mod.visual;
 import net.halalaboos.huzuni.RenderManager.Renderer;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.huzuni.api.settings.Mode;
-import net.halalaboos.huzuni.api.settings.Toggleable;
-import net.halalaboos.huzuni.api.settings.Value;
+import net.halalaboos.huzuni.api.node.Mode;
+import net.halalaboos.huzuni.api.node.Toggleable;
+import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.halalaboos.mcwrapper.api.util.TextColor;
-import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -28,7 +27,6 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getTextRenderer;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 import static org.lwjgl.opengl.GL11.glLineWidth;
 
 /**

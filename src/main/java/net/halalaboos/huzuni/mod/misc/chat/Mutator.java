@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.mod.misc.chat;
 
-import net.halalaboos.huzuni.api.settings.Toggleable;
+import net.halalaboos.huzuni.api.node.Toggleable;
 
 /**
  * Modifies messages before sending them.

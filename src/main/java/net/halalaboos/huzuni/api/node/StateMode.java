@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.api.settings;
+package net.halalaboos.huzuni.api.node;
 
 /**
  * Mode which contains only state items and updates them when they are selected or deselected.

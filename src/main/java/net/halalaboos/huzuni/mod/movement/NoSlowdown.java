@@ -4,8 +4,8 @@ import net.halalaboos.huzuni.api.event.EventManager;
 import net.halalaboos.huzuni.api.event.PlayerMoveEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.huzuni.api.settings.Toggleable;
-import net.halalaboos.huzuni.api.settings.Value;
+import net.halalaboos.huzuni.api.node.Toggleable;
+import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.mcwrapper.api.block.BlockTypes;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;

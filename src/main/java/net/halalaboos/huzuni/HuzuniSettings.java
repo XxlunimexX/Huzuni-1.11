@@ -2,7 +2,7 @@ package net.halalaboos.huzuni;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.halalaboos.huzuni.api.settings.*;
+import net.halalaboos.huzuni.api.node.*;
 import net.halalaboos.huzuni.settings.KeyOpenMenu;
 import net.halalaboos.huzuni.settings.KeyOpenTest;
 import net.halalaboos.huzuni.settings.Team;

@@ -3,7 +3,7 @@ package net.halalaboos.huzuni.api.mod;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.Huzuni;
-import net.halalaboos.huzuni.api.settings.Node;
+import net.halalaboos.huzuni.api.node.Node;
 import net.minecraft.client.Minecraft;
 
 import java.io.IOException;

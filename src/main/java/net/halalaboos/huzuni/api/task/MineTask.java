@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.api.task;
 
-import net.halalaboos.huzuni.api.mod.Mod;
+import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.api.util.MathUtils;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.mod.movement.Freecam;
@@ -29,12 +29,14 @@ public class MineTask extends LookTask {
 	
 	protected int mineDelay = 100;
 		
-	public MineTask(Mod mod) {
-		super(mod);
+	public MineTask(Nameable handler) {
+		super(handler);
+		addDependency("main_interact");
 	}
 	
-	public MineTask(Mod mod, BlockPos position, EnumFacing face) {
-		super(mod, position.getX(), position.getY(), position.getZ());
+	public MineTask(Nameable handler, BlockPos position, EnumFacing face) {
+		super(handler, position.getX(), position.getY(), position.getZ());
+		addDependency("main_interact");
 		this.position = position;
 		this.face = face;
 	}

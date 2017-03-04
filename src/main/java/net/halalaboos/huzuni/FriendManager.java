@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni;
 
 import com.google.gson.JsonObject;
-import net.halalaboos.huzuni.api.settings.JsonFileHandler;
+import net.halalaboos.huzuni.api.node.JsonFileHandler;
 
 import java.awt.*;
 import java.io.IOException;

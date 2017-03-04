@@ -1,10 +1,10 @@
 package net.halalaboos.huzuni.api.mod;
 
 import com.google.gson.JsonObject;
-import net.halalaboos.huzuni.api.settings.ColorNode;
-import net.halalaboos.huzuni.api.settings.Node;
-import net.halalaboos.huzuni.api.settings.StringNode;
-import net.halalaboos.huzuni.api.settings.Toggleable;
+import net.halalaboos.huzuni.api.node.ColorNode;
+import net.halalaboos.huzuni.api.node.Node;
+import net.halalaboos.huzuni.api.node.StringNode;
+import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 
 import java.awt.*;

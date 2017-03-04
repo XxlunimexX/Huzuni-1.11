@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.settings;
 
 import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.api.gui.components.tree.TreeComponentFactory;
-import net.halalaboos.huzuni.api.settings.Node;
+import net.halalaboos.huzuni.api.node.Node;
 import net.halalaboos.huzuni.gui.tree.components.TeamComponent;
 import net.halalaboos.mcwrapper.api.util.TextColor;
 import net.minecraft.entity.Entity;

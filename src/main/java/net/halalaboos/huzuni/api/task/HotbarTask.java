@@ -1,20 +1,18 @@
 package net.halalaboos.huzuni.api.task;
 
-import net.halalaboos.huzuni.api.mod.Mod;
+import net.halalaboos.huzuni.api.node.Nameable;
 import net.minecraft.item.ItemStack;
 
-public abstract class HotbarTask implements Task {
-	
-	protected final Mod mod;
-	
-	protected boolean running = false;
-	
+public abstract class HotbarTask extends BasicTask {
+
 	protected int slot = -1;
-	
-	public HotbarTask(Mod mod) {
-		this.mod = mod;
+
+	public HotbarTask(Nameable handler) {
+		super(handler);
+		addDependency("hotbar");
 	}
-	
+
+
 	@Override
 	public void onPreUpdate() {
 		ItemStack current = null;
@@ -50,21 +48,6 @@ public abstract class HotbarTask implements Task {
 	@Override
 	public void onTaskCancelled() {
 	}
-
-	@Override
-	public boolean isRunning() {
-		return running;
-	}
-
-	@Override
-	public void setRunning(boolean running) {
-		this.running = running;
-	}
-
-	@Override
-	public Mod getMod() {
-		return mod;
-	}
 	
 	protected abstract boolean isValid(ItemStack itemStack);
 	
@@ -75,5 +58,4 @@ public abstract class HotbarTask implements Task {
 	public boolean hasSlot() {
 		return slot != -1 && isValid(mc.player.inventory.getStackInSlot(slot));
 	}
-	
 }

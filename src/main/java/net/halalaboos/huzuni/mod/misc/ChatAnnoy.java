@@ -7,7 +7,7 @@ import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.huzuni.api.settings.Toggleable;
+import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.block.BlockTypes;

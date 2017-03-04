@@ -1,8 +1,8 @@
 package net.halalaboos.huzuni.api.gui.components.tree;
 
 import net.halalaboos.huzuni.api.gui.Theme;
-import net.halalaboos.huzuni.api.settings.ItemSelector;
-import net.halalaboos.huzuni.api.settings.ItemSelector.ItemData;
+import net.halalaboos.huzuni.api.node.ItemSelector;
+import net.halalaboos.huzuni.api.node.ItemSelector.ItemData;
 
 public class ItemSelectorComponent extends NodeTreeComponent<ItemSelector<?>> {
 	

@@ -45,6 +45,12 @@ public class ScrollableContainer extends Container {
         super.update();
     }
 
+    @Override
+    public boolean isPointInside(int x, int y) {
+        // Include this to ensure that the offset does not affect the interactions between components outside the viewable area.
+        return super.isPointInside(x, y) && inputUtility.isPointInside(x, y, getRenderArea());
+    }
+
     /**
      * @return True if this container's SCROLLBAR was clicked and if this container's SCROLLBAR has been clicked upon.
      * */

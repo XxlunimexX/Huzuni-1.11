@@ -6,7 +6,7 @@ import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.api.gui.widget.ScreenGlue;
 import net.halalaboos.huzuni.api.gui.widget.Widget;
 import net.halalaboos.huzuni.api.gui.widget.WidgetGlue;
-import net.halalaboos.huzuni.api.settings.Mode;
+import net.halalaboos.huzuni.api.node.Mode;
 import net.halalaboos.huzuni.gui.widgets.*;
 import net.halalaboos.huzuni.gui.widgets.enabled.EnabledModsWidget;
 import net.halalaboos.huzuni.gui.widgets.tabbed.TabbedMenuWidget;

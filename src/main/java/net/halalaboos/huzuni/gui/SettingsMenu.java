@@ -12,7 +12,7 @@ import net.halalaboos.huzuni.api.gui.widget.Widget;
 import net.halalaboos.huzuni.api.mod.BasicKeybind;
 import net.halalaboos.huzuni.api.mod.Mod;
 import net.halalaboos.huzuni.api.mod.ModSettings;
-import net.halalaboos.huzuni.api.settings.*;
+import net.halalaboos.huzuni.api.node.*;
 import net.halalaboos.huzuni.api.task.TaskManager;
 import net.halalaboos.huzuni.api.util.IncrementalPosition;
 import net.halalaboos.huzuni.api.util.gl.GLManager;

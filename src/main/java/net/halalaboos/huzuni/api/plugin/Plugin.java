@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.api.plugin;
 
 import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.Huzuni;
-import net.halalaboos.huzuni.api.settings.JsonFileHandler;
+import net.halalaboos.huzuni.api.node.JsonFileHandler;
 
 import java.io.IOException;
 import java.util.List;

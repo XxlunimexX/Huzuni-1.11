@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.api.mod;
 
 import com.google.gson.JsonObject;
-import net.halalaboos.huzuni.api.settings.Node;
+import net.halalaboos.huzuni.api.node.Node;
 import org.lwjgl.input.Keyboard;
 
 import java.io.IOException;

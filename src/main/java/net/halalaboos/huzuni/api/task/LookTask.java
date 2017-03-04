@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.api.task;
 
-import net.halalaboos.huzuni.api.mod.Mod;
+import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -10,27 +10,27 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 /**
  * Task which allows the players rotations to be faked server-side.
  * */
-public class LookTask implements Task {
-		
-	protected final Mod mod;
-	
+public class LookTask extends BasicTask {
+
 	protected float yaw, pitch, oldYaw, oldPitch;
 
-	protected boolean reset = true, running = false;
-	
-	public LookTask(Mod mod) {
-		this(mod, 0F, 0F);
+	protected boolean reset = true;
+
+	public LookTask(Nameable handler) {
+		this(handler, 0F, 0F);
 	}
 	
-	public LookTask(Mod mod, double x, double y, double z) {
-		this.mod = mod;
+	public LookTask(Nameable handler, double x, double y, double z) {
+		super(handler);
+		addDependency("look");
 		float[] rotations = MinecraftUtils.getRotationsNeeded(x, y, z);
 		this.yaw = rotations[0];
 		this.pitch = rotations[1];
 	}
 	
-	public LookTask(Mod mod, float yaw, float pitch) {
-		this.mod = mod;
+	public LookTask(Nameable handler, float yaw, float pitch) {
+		super(handler);
+		addDependency("look");
 		this.yaw = yaw;
 		this.pitch = pitch;
 	}
@@ -104,22 +104,6 @@ public class LookTask implements Task {
 	}
 
 	@Override
-	public boolean isRunning() {
-		return running;
-	}
-
-	@Override
-	public void setRunning(boolean running) {
-		this.running = running;
-	}
-	
-	@Override
-	public Mod getMod() {
-		return mod;
-	}
-
-	@Override
 	public void onTaskCancelled() {
 	}
-	
 }

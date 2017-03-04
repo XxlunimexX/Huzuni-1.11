@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.api.gui.components.tree;
 
-import net.halalaboos.huzuni.api.settings.Node;
+import net.halalaboos.huzuni.api.node.Node;
 
 import java.util.HashMap;
 import java.util.Map;

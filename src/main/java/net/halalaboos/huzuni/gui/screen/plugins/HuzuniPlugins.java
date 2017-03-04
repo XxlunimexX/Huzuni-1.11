@@ -4,7 +4,7 @@ import net.halalaboos.huzuni.api.gui.components.tree.NodeTree;
 import net.halalaboos.huzuni.api.gui.components.tree.NodeTreeComponent;
 import net.halalaboos.huzuni.api.gui.components.tree.TreeComponentFactory;
 import net.halalaboos.huzuni.api.plugin.Plugin;
-import net.halalaboos.huzuni.api.settings.Node;
+import net.halalaboos.huzuni.api.node.Node;
 import net.halalaboos.huzuni.gui.BasicTheme;
 import net.halalaboos.huzuni.gui.containers.SettingsContainer;
 import net.halalaboos.huzuni.gui.screen.HuzuniScreen;

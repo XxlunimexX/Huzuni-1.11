@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.gui.widgets.tabbed;
 
 import net.halalaboos.huzuni.api.gui.Theme;
 import net.halalaboos.huzuni.api.gui.widget.Glue;
-import net.halalaboos.huzuni.api.settings.Nameable;
+import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.api.util.IncrementalPosition;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import org.lwjgl.opengl.GL11;

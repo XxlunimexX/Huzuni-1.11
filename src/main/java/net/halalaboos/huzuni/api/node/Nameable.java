@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.api.settings;
+package net.halalaboos.huzuni.api.node;
 
 /**
  * This interface allows an object to contain a name and a description.

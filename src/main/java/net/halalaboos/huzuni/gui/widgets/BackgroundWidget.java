@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.gui.widgets;
 
 import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.api.gui.widget.Widget;
-import net.halalaboos.huzuni.api.settings.Toggleable;
+import net.halalaboos.huzuni.api.node.Toggleable;
 
 /**
  * Abstract Widget implementation that contains a background node and premade rendering for the background node.

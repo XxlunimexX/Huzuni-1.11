@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.mod.mining.templates;
 
-import net.halalaboos.huzuni.api.settings.Nameable;
+import net.halalaboos.huzuni.api.node.Nameable;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 

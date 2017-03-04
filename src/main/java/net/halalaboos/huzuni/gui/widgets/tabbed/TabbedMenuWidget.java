@@ -6,7 +6,7 @@ import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.api.gui.widget.Widget;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.mod.Mod;
-import net.halalaboos.huzuni.api.settings.*;
+import net.halalaboos.huzuni.api.node.*;
 import net.halalaboos.huzuni.api.util.IncrementalPosition;
 import org.lwjgl.input.Keyboard;
 

@@ -4,7 +4,7 @@ import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.event.PacketEvent;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.mod.Mod;
-import net.halalaboos.huzuni.api.settings.Node;
+import net.halalaboos.huzuni.api.node.Node;
 import net.halalaboos.huzuni.mod.misc.chat.mutators.*;
 import net.minecraft.network.play.client.CPacketChatMessage;
 

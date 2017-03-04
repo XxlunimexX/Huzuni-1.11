@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.api.gui.components;
 
 import net.halalaboos.huzuni.api.gui.Container;
-import net.halalaboos.huzuni.api.settings.Nameable;
+import net.halalaboos.huzuni.api.node.Nameable;
 
 /**
  * Tab item used in the {@link TabComponent}. provides a {@link Container} for render when selected.

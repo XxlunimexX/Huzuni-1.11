@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.api.gui.components.tree;
 
 import net.halalaboos.huzuni.api.gui.Theme;
 import net.halalaboos.huzuni.api.gui.components.BasicSlider;
-import net.halalaboos.huzuni.api.settings.ColorNode;
+import net.halalaboos.huzuni.api.node.ColorNode;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 
 import java.awt.*;

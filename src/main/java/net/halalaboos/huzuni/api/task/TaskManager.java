@@ -3,8 +3,8 @@ package net.halalaboos.huzuni.api.task;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.api.event.UpdateEvent;
-import net.halalaboos.huzuni.api.settings.Nameable;
-import net.halalaboos.huzuni.api.settings.Node;
+import net.halalaboos.huzuni.api.node.Nameable;
+import net.halalaboos.huzuni.api.node.Node;
 
 import java.io.IOException;
 import java.util.ArrayList;

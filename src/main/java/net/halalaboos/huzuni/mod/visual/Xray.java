@@ -2,8 +2,8 @@ package net.halalaboos.huzuni.mod.visual;
 
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.huzuni.api.settings.ItemSelector;
-import net.halalaboos.huzuni.api.settings.Value;
+import net.halalaboos.huzuni.api.node.ItemSelector;
+import net.halalaboos.huzuni.api.node.Value;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockBush;

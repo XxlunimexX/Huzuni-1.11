@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.indev;
 
 import net.halalaboos.huzuni.api.mod.Mod;
-import net.halalaboos.huzuni.api.settings.*;
+import net.halalaboos.huzuni.api.node.*;
 import net.halalaboos.huzuni.api.util.RateLimiter;
 import net.halalaboos.huzuni.gui.screen.HuzuniScreen;
 import net.halalaboos.huzuni.indev.gui.Component;
@@ -23,8 +23,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-
-import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Testing the new GUI API. <br/>

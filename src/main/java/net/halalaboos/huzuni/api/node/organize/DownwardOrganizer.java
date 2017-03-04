@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.api.settings.organize;
+package net.halalaboos.huzuni.api.node.organize;
 
 import net.halalaboos.huzuni.api.mod.Mod;
 

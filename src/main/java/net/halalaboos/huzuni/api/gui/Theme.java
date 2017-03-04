@@ -2,8 +2,8 @@ package net.halalaboos.huzuni.api.gui;
 
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.gui.components.tree.NodeTreeComponent;
-import net.halalaboos.huzuni.api.settings.Nameable;
-import net.halalaboos.huzuni.api.settings.Node;
+import net.halalaboos.huzuni.api.node.Nameable;
+import net.halalaboos.huzuni.api.node.Node;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.minecraft.client.Minecraft;

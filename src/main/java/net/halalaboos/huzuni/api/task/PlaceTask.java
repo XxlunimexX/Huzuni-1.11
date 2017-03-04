@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.api.task;
 
-import net.halalaboos.huzuni.api.mod.Mod;
+import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.api.util.MathUtils;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.mod.movement.Freecam;
@@ -31,12 +31,14 @@ public class PlaceTask extends LookTask {
 	
 	protected boolean naturalPlacement = true;
 			
-	public PlaceTask(Mod mod) {
-		super(mod);
+	public PlaceTask(Nameable handler) {
+		super(handler);
+		addDependency("off_interact");
 	}
 	
-	public PlaceTask(Mod mod, BlockPos position, EnumFacing face) {
-		super(mod, position.getX(), position.getY(), position.getZ());
+	public PlaceTask(Nameable handler, BlockPos position, EnumFacing face) {
+		super(handler, position.getX(), position.getY(), position.getZ());
+		addDependency("off_interact");
 		this.position = position;
 		this.face = face;
 	}

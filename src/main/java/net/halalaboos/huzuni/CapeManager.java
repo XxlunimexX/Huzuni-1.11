@@ -2,7 +2,7 @@ package net.halalaboos.huzuni;
 
 import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.api.mod.CommandPointer;
-import net.halalaboos.huzuni.api.settings.JsonFileHandler;
+import net.halalaboos.huzuni.api.node.JsonFileHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.HttpUtil;

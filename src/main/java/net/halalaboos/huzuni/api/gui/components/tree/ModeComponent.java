@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.api.gui.components.tree;
 
 import net.halalaboos.huzuni.api.gui.Theme;
-import net.halalaboos.huzuni.api.settings.Mode;
+import net.halalaboos.huzuni.api.node.Mode;
 
 public class ModeComponent extends NodeTreeComponent<Mode<?>> {
 	

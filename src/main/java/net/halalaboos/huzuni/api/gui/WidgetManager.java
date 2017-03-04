@@ -5,7 +5,7 @@ import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.gui.widget.ScreenGlue;
 import net.halalaboos.huzuni.api.gui.widget.Widget;
 import net.halalaboos.huzuni.api.gui.widget.WidgetGlue;
-import net.halalaboos.huzuni.api.settings.JsonFileHandler;
+import net.halalaboos.huzuni.api.node.JsonFileHandler;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 
