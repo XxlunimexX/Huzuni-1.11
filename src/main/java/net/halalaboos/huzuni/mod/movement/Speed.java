@@ -103,7 +103,7 @@ public class Speed extends BasicMod {
      * */
 	public boolean shouldModifyMovement() {
 		ClientPlayer player = MCWrapper.getPlayer();
-        return !player.isFlying() && player.getForwardMovement()> 0 && !player.isSneaking() &&
+        return player.getForwardMovement()> 0 && !player.isSneaking() &&
 				!player.isCollided(Entity.CollisionType.HORIZONTAL) &&
 				player.getFood() > 6 && !player.isInFluid(Fluid.WATER) && !player.isInFluid(Fluid.LAVA);
     }
