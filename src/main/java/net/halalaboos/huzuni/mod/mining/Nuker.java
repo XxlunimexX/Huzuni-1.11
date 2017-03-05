@@ -1,8 +1,6 @@
 package net.halalaboos.huzuni.mod.mining;
 
-import net.halalaboos.huzuni.api.event.LoadWorldEvent;
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.MouseClickEvent;
 import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicMod;
@@ -13,7 +11,9 @@ import net.halalaboos.huzuni.api.task.MineTask;
 import net.halalaboos.huzuni.api.util.BlockLocator;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
+import net.halalaboos.mcwrapper.api.event.MouseEvent;
 import net.halalaboos.mcwrapper.api.event.WorldLoadEvent;
+import net.halalaboos.mcwrapper.api.util.MouseButton;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -61,6 +61,7 @@ public final class Nuker extends BasicMod {
 		subscribe(WorldLoadEvent.class, event -> {
 			if (mineTask.hasBlock()) huzuni.lookManager.withdrawTask(mineTask);
 		});
+		subscribe(MouseEvent.class, this::onMouseClicked);
 	}
 	
 	@Override
@@ -98,10 +99,9 @@ public final class Nuker extends BasicMod {
 			huzuni.lookManager.requestTask(this, mineTask);
 		}
 	}
-	
-	@EventMethod
-	public void onMouseClicked(MouseClickEvent event) {
-		if (event.buttonId == 1) {
+
+	private void onMouseClicked(MouseEvent event) {
+		if (event.getButton() == MouseButton.RIGHT) {
 			if (mc.objectMouseOver != null) {
 				if (mc.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK) {
 					IBlockState blockState = mc.world.getBlockState(mc.objectMouseOver.getBlockPos());

@@ -2,7 +2,6 @@ package net.halalaboos.huzuni.mod.combat;
 
 import net.halalaboos.huzuni.RenderManager.Renderer;
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.MouseClickEvent;
 import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
@@ -19,6 +18,8 @@ import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
+import net.halalaboos.mcwrapper.api.event.MouseEvent;
+import net.halalaboos.mcwrapper.api.util.MouseButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -90,6 +91,8 @@ public class Killaura extends BasicMod implements Renderer {
 		this.setCategory(Category.COMBAT);
 		huzuni.lookManager.registerTaskHolder(this);
 		calculateRandomization();
+
+		subscribe(MouseEvent.class, this::onMouseClick);
 	}
 
 	@Override
@@ -273,10 +276,9 @@ public class Killaura extends BasicMod implements Renderer {
 		GlStateManager.disableTexture2D();
 		GlStateManager.popMatrix();
 	}
-	
-	@EventMethod
-	public void onMouseClick(MouseClickEvent event) {
-		if (selection.isEnabled() && event.buttonId == 1) {
+
+	private void onMouseClick(MouseEvent event) {
+		if (selection.isEnabled() && event.getButton() == MouseButton.RIGHT) {
 			if (clickTimer.hasReach(500)) {
 				clicks = 1;
 			}  else {

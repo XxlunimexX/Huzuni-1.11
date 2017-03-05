@@ -1,7 +1,6 @@
 package net.halalaboos.huzuni.mc;
 
 import net.halalaboos.huzuni.Huzuni;
-import net.halalaboos.huzuni.api.event.MouseClickEvent;
 import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.halalaboos.huzuni.mod.visual.Xray;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -12,10 +11,6 @@ public final class Wrapper {
 		
 	private Wrapper() {
 
-	}
-	
-	public static void onMouseClicked(int buttonId) {
-		huzuni.eventManager.invoke(new MouseClickEvent(buttonId));
 	}
 	
 	public static void loadWorld(WorldClient world) {

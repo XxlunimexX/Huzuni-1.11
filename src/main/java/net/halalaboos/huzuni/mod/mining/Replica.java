@@ -2,7 +2,6 @@ package net.halalaboos.huzuni.mod.mining;
 
 import net.halalaboos.huzuni.RenderManager.Renderer;
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.MouseClickEvent;
 import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicCommand;
@@ -18,6 +17,8 @@ import net.halalaboos.huzuni.api.util.gl.Box;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.huzuni.mod.mining.templates.*;
+import net.halalaboos.mcwrapper.api.event.MouseEvent;
+import net.halalaboos.mcwrapper.api.util.MouseButton;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.Blocks;
@@ -85,6 +86,8 @@ public final class Replica extends BasicMod implements Renderer {
 			}
 		
 		});
+
+		subscribe(MouseEvent.class, this::onMouseClicked);
 	}
 
 	@Override
@@ -145,9 +148,8 @@ public final class Replica extends BasicMod implements Renderer {
 		}
 	}
 
-	@EventMethod
-	public void onMouseClicked(MouseClickEvent event) {
-		if (event.buttonId == 1) {
+	private void onMouseClicked(MouseEvent event) {
+		if (event.getButton() == MouseButton.RIGHT) {
 			if (mc.objectMouseOver != null) {
 				if (mc.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK) {
 					if (!templateBuilder.hasPositions()) {
