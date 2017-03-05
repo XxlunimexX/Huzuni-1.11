@@ -3,11 +3,12 @@ package net.halalaboos.huzuni.gui.screen;
 import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.gui.SettingsMenu;
-import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 
 public class HuzuniSettingsMenu extends HuzuniScreen {
 
@@ -31,7 +32,7 @@ public class HuzuniSettingsMenu extends HuzuniScreen {
 		}
 		settingsMenu.renderMenu(width, height, 30, 1);
 		GLManager.update();
-		GlStateManager.disableBlend();
+		getGLStateManager().disableBlend();
 	}
 	
 	@Override

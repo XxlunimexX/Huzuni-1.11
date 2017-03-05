@@ -24,6 +24,7 @@ public class OnePointElevenAdapter implements MinecraftAdapter {
 	private ItemRegistry itemRegistry = new OnePointElevenItemRegistry();
 	private BlockRegistry blockRegistry = new OnePointElevenBlockRegistry();
 	private final Map<Class<?>, Supplier<?>> builderMap = new IdentityHashMap<>();
+	private GLStateImpl glState = new GLStateImpl();
 
 	public OnePointElevenAdapter(Minecraft mc) {
 		this.mc = ((MinecraftClient) mc);
@@ -48,7 +49,7 @@ public class OnePointElevenAdapter implements MinecraftAdapter {
 
 	@Override
 	public GLState getGLStateManager() {
-		return GLStateImpl.getInstance();
+		return glState;
 	}
 
 	@SuppressWarnings("unchecked")

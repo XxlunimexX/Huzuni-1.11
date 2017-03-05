@@ -4,10 +4,10 @@
 package net.halalaboos.huzuni.api.gui.font;
 
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
-import net.minecraft.client.renderer.GlStateManager;
 
 import java.awt.*;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 
@@ -107,12 +107,12 @@ public final class MinecraftFontRenderer extends BasicFontRenderer {
         // Multiplied positions since we'll be rendering this at half scale (to look nice!)
         x *= 2F;
         y *= 2F;
-		GlStateManager.pushMatrix();
-		GlStateManager.scale(0.5F, 0.5F, 0.5F);
-		GlStateManager.enableAlpha();
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		GlStateManager.color((float) (color >> 16 & 255) / 255.0F, (float) (color >> 8 & 255) / 255.0F, (float) (color & 255) / 255.0F, alpha);
+		getGLStateManager().pushMatrix();
+		getGLStateManager().scale(0.5F, 0.5F, 0.5F);
+		getGLStateManager().enableAlpha();
+		getGLStateManager().enableBlend();
+		getGLStateManager().blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		getGLStateManager().color((float) (color >> 16 & 255) / 255.0F, (float) (color >> 8 & 255) / 255.0F, (float) (color & 255) / 255.0F, alpha);
 		int size = text.length();
 		currentFont.bind();
 		for (int i = 0; i < size; i++) {
@@ -137,7 +137,7 @@ public final class MinecraftFontRenderer extends BasicFontRenderer {
 					}
 					
 					int colorcode = colorCode[colorIndex];
-					GlStateManager.color((float) (colorcode >> 16 & 255) / 255.0F, (float) (colorcode >> 8 & 255) / 255.0F, (float) (colorcode & 255) / 255.0F, alpha);
+					getGLStateManager().color((float) (colorcode >> 16 & 255) / 255.0F, (float) (colorcode >> 8 & 255) / 255.0F, (float) (colorcode & 255) / 255.0F, alpha);
                 } else if (colorIndex == 16) { // random case
                     randomCase = true;
 				} else if (colorIndex == 17) { // bold
@@ -168,7 +168,7 @@ public final class MinecraftFontRenderer extends BasicFontRenderer {
                     randomCase = false;
                     underline = false;
                     strikethrough = false;
-                    GlStateManager.color((float) (color >> 16 & 255) / 255.0F, (float) (color >> 8 & 255) / 255.0F, (float) (color & 255) / 255.0F, alpha);
+					getGLStateManager().color((float) (color >> 16 & 255) / 255.0F, (float) (color >> 8 & 255) / 255.0F, (float) (color & 255) / 255.0F, alpha);
                     currentFont = fontData;
 					currentFont.bind();
                 }
@@ -195,7 +195,7 @@ public final class MinecraftFontRenderer extends BasicFontRenderer {
 				}
 			}
 		}
-		GlStateManager.popMatrix();
+		getGLStateManager().popMatrix();
 		return x;
 	}
 

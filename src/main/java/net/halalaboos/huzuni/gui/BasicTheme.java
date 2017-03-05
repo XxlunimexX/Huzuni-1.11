@@ -15,12 +15,12 @@ import net.halalaboos.huzuni.gui.containers.SettingsContainer;
 import net.halalaboos.huzuni.gui.tree.components.TeamComponent;
 import net.halalaboos.mcwrapper.api.util.TextColor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 
 import java.awt.*;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -95,11 +95,11 @@ public class BasicTheme extends Theme {
 	private void renderItemStack(ItemStack itemStack, int x, int y, float delta) {
 		if (itemStack == null)
 			return;
-		GlStateManager.pushMatrix();
+		getGLStateManager().pushMatrix();
         RenderHelper.enableGUIStandardItemLighting();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		getGLStateManager().color(1.0F, 1.0F, 1.0F, 1.0F);
         try {
-    		GlStateManager.translate(0.0F, 0.0F, 32.0F);
+			getGLStateManager().translate(0.0F, 0.0F, 32.0F);
         	Minecraft.getMinecraft().getRenderItem().zLevel = 200F;
         	Minecraft.getMinecraft().getRenderItem().renderItemAndEffectIntoGUI(itemStack, x, y);
         	Minecraft.getMinecraft().getRenderItem().renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer, itemStack, x, y, "");
@@ -108,7 +108,7 @@ public class BasicTheme extends Theme {
         	e.printStackTrace();
         }
         RenderHelper.disableStandardItemLighting();
-		GlStateManager.popMatrix();
+		getGLStateManager().popMatrix();
 	}
 
 	public class SettingsContainerRenderer implements ComponentRenderer<SettingsContainer> {

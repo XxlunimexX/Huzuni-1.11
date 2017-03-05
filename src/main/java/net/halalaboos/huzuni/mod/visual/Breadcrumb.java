@@ -15,7 +15,6 @@ import net.halalaboos.mcwrapper.api.event.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.network.packet.server.HealthUpdatePacket;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -23,6 +22,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
@@ -84,15 +84,15 @@ public class Breadcrumb extends BasicMod implements Renderer {
 			for (Vector3i position : points) {
 				Vector3d renderPos = position.toDouble().sub(getMinecraft().getCamera());
 				GLManager.glColor(1F, 1F, 1F, opacity.getValue() / 100F);
-				GlStateManager.pushMatrix();
+				getGLStateManager().pushMatrix();
 				RenderUtils.prepareBillboarding(((float) renderPos.getX()), ((float) renderPos.getY()), ((float) renderPos.getZ()), true);
-				GlStateManager.scale(0.25, 0.25, 0.25);
+				getGLStateManager().scale(0.25F, 0.25F, 0.25F);
 				breadIcon.bindTexture();
 				breadIcon.render(-32F, -32F + (bounce.getValue() == 0F ? 0F : (float) (bounce.getValue() * Math.cos(Math.toRadians(System.currentTimeMillis() % 360)))), 64, 64);
-				GlStateManager.popMatrix();
+				getGLStateManager().popMatrix();
 			}
 		}
-		GlStateManager.disableTexture2D();
+		getGLStateManager().disableTexture2D();
 		if (lines.isEnabled()) {
 			GLManager.glColor(1F, 1F, 1F, opacity.getValue() / 100F);
 			Tessellator tessellator = Tessellator.getInstance();

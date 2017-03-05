@@ -17,7 +17,8 @@ import net.halalaboos.huzuni.api.task.TaskManager;
 import net.halalaboos.huzuni.api.util.IncrementalPosition;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.gui.containers.SettingsContainer;
-import net.minecraft.client.renderer.GlStateManager;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 
 /**
  * Main menu used within the mod. Allows the user to access all mods, widgets, and settings.
@@ -116,11 +117,11 @@ public class SettingsMenu {
 		container.getTheme().drawBackgroundRect(x, y, width, height, false);
 		boolean mouseOver = mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + height;
 		
-		GlStateManager.pushMatrix();
-		GlStateManager.translate(x + height / 2 - container.getTheme().getStringHeight("Settings") / 2 + 2 - container.getTheme().getStringHeight("Settings"), y + width / 2, 0F);
-		GlStateManager.rotate(90F, 0F, 0F, 1F);
+		getGLStateManager().pushMatrix();
+		getGLStateManager().translate(x + height / 2 - container.getTheme().getStringHeight("Settings") / 2 + 2 - container.getTheme().getStringHeight("Settings"), y + width / 2, 0F);
+		getGLStateManager().rotate(90F, 0F, 0F, 1F);
 		container.getTheme().drawStringWithShadow("Settings", 0, 0, mouseOver ? 0xFFFFAA : 0xFFFFFF);
-		GlStateManager.popMatrix();
+		getGLStateManager().popMatrix();
 		
 		if (mouseOver)
 			container.getTheme().drawTooltip(tooltip, mouseX, mouseY);

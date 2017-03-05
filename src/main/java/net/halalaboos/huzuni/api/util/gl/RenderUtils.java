@@ -1,19 +1,18 @@
 package net.halalaboos.huzuni.api.util.gl;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.GlStateManager.DestFactor;
-import net.minecraft.client.renderer.GlStateManager.SourceFactor;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
- * Utility class to assist in rendering. Uses the {@link Tessellator} and {@link GlStateManager} classes provided by Minecraft.
+ * Utility class to assist in rendering.
  * */
 public final class RenderUtils {
 	
@@ -40,9 +39,9 @@ public final class RenderUtils {
 	 * */
 	public static void drawBorder(float size, float x, float y, float x1, float y1) {
 		glLineWidth(size);
-		GlStateManager.disableTexture2D();
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+		getGLStateManager().disableTexture2D();
+		getGLStateManager().enableBlend();
+		getGLStateManager().blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     	VertexBuffer vertexBuffer = tessellator.getBuffer();
     	vertexBuffer.begin(GL_LINE_LOOP, DefaultVertexFormats.POSITION);
     	vertexBuffer.pos(x, y, 0F).endVertex();
@@ -50,7 +49,7 @@ public final class RenderUtils {
     	vertexBuffer.pos(x1, y1, 0F).endVertex();
     	vertexBuffer.pos(x1, y, 0F).endVertex();
     	tessellator.draw();
-		GlStateManager.enableTexture2D();
+		getGLStateManager().enableTexture2D();
 	}
 	
 	/**
@@ -58,15 +57,15 @@ public final class RenderUtils {
 	 * */
 	public static void drawLine(float size, float x, float y, float x1, float y1) {
 		glLineWidth(size);
-		GlStateManager.disableTexture2D();
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+		getGLStateManager().disableTexture2D();
+		getGLStateManager().enableBlend();
+		getGLStateManager().blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     	VertexBuffer vertexBuffer = tessellator.getBuffer();
     	vertexBuffer.begin(GL_LINES, DefaultVertexFormats.POSITION);
     	vertexBuffer.pos(x, y, 0F).endVertex();
     	vertexBuffer.pos(x1, y1, 0F).endVertex();
     	tessellator.draw();
-    	GlStateManager.enableTexture2D();
+    	getGLStateManager().enableTexture2D();
 	}
 
 	/**
@@ -87,9 +86,9 @@ public final class RenderUtils {
 	 * Renders a simple rectangle around the given x, y, x1, and y1 coordinates.
 	 * */
 	public static void drawRect(float x, float y, float x1, float y1) {
-		GlStateManager.disableTexture2D();
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+		getGLStateManager().disableTexture2D();
+		getGLStateManager().enableBlend();
+		getGLStateManager().blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     	VertexBuffer vertexBuffer = tessellator.getBuffer();
     	vertexBuffer.begin(GL_QUADS, DefaultVertexFormats.POSITION);
     	vertexBuffer.pos(x, y1, 0F).endVertex();
@@ -97,7 +96,7 @@ public final class RenderUtils {
     	vertexBuffer.pos(x1, y, 0F).endVertex();
     	vertexBuffer.pos(x, y, 0F).endVertex();
     	tessellator.draw();
-    	GlStateManager.enableTexture2D();
+    	getGLStateManager().enableTexture2D();
 	}
 	
 	/**

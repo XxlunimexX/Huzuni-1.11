@@ -1,12 +1,12 @@
 package net.halalaboos.huzuni.api.util.gl;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 
 /**
@@ -41,7 +41,7 @@ public class Texture {
 	
 	public void bindTexture() {
         Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-		GlStateManager.enableTexture2D();
+		getGLStateManager().enableTexture2D();
 	}
 	
 	@Override

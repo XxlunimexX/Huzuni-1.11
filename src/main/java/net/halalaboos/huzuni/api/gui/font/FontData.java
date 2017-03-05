@@ -1,11 +1,11 @@
 package net.halalaboos.huzuni.api.gui.font;
 
 import net.halalaboos.huzuni.api.util.gl.GLManager;
-import net.minecraft.client.renderer.GlStateManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -103,7 +103,7 @@ public final class FontData {
      * Binds the font texture.
      * */
     public void bind() {
-        GlStateManager.bindTexture(texId);
+		getGLStateManager().bindTexture(texId);
     }
 
     /**

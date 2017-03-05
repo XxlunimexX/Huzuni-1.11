@@ -1,5 +1,7 @@
 package net.halalaboos.mcwrapper.api.client;
 
+import org.lwjgl.opengl.GL11;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public interface GLState {
@@ -20,6 +22,36 @@ public interface GLState {
 		glPopMatrix();
 	}
 
+	default void lineWidth(float width) {
+		glLineWidth(width);
+	}
+
 	void color(float red, float green, float blue, float alpha);
+
+	void disableTexture2D();
+
+	void enableTexture2D();
+
+	void enableDepth();
+
+	void disableDepth();
+
+	void enableAlpha();
+
+	void disableAlpha();
+
+	void depthMask(boolean depthMask);
+
+	void blendFunc(int src, int dst);
+
+	void enableBlend();
+
+	default void scale(float x, float y, float z) {
+		GL11.glScalef(x, y, z);
+	}
+
+	void bindTexture(int texId);
+
+	void disableBlend();
 
 }

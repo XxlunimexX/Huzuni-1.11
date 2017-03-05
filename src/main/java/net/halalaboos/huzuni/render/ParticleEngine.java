@@ -6,14 +6,13 @@ package net.halalaboos.huzuni.render;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.GlStateManager.DestFactor;
-import net.minecraft.client.renderer.GlStateManager.SourceFactor;
+import org.lwjgl.opengl.GL11;
 
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -39,18 +38,18 @@ public class ParticleEngine {
     }
 
     public void render() {
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
-        GlStateManager.enableTexture2D();
+        getGLStateManager().enableBlend();
+		getGLStateManager().blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		getGLStateManager().enableTexture2D();
         for (Particle particle : particles) {
             particle.applyPhysics();
-            GlStateManager.pushMatrix();
+			getGLStateManager().pushMatrix();
             texture.bindTexture();
             float scale = ((particle.life) / (getMaxLife())) / 5;
             glScalef(scale, scale, scale);
             GLManager.glColor(1F, 1F, 1F, ((particle.life) / (getMaxLife())) / 5);
             renderTexture(320, 32, particle.x * (1F / scale), particle.y * (1F / scale), 32, 32, 320 - (MathUtils.ceil(particle.life / (getMaxLife() / 10F)) * 32), 0, 32, 32);
-            GlStateManager.popMatrix();
+			getGLStateManager().popMatrix();
         }
     }
     

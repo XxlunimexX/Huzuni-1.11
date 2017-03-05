@@ -2,17 +2,16 @@ package net.halalaboos.huzuni;
 
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL32;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -46,20 +45,20 @@ public final class RenderManager {
 	 * Enables the gl constants required for 3-d rendering within the world.
 	 * */
 	public void enableGlConstants() {
-    	GlStateManager.pushMatrix();
-    	GlStateManager.disableAlpha();
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		GlStateManager.disableTexture2D();
-		GlStateManager.disableDepth();
-		GlStateManager.depthMask(false);
+    	getGLStateManager().pushMatrix();
+		getGLStateManager().disableAlpha();
+		getGLStateManager().enableBlend();
+		getGLStateManager().blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		getGLStateManager().disableTexture2D();
+		getGLStateManager().disableDepth();
+		getGLStateManager().depthMask(false);
 		if (huzuni.settings.lineSmooth.isEnabled())
 		    glEnable(GL_LINE_SMOOTH);
 		else
 			glDisable(GL_LINE_SMOOTH);
 		if (huzuni.settings.infiniteLines.isEnabled())
     		glEnable(GL32.GL_DEPTH_CLAMP);
-		GlStateManager.glLineWidth(huzuni.settings.lineSize.getValue());
+		getGLStateManager().lineWidth(huzuni.settings.lineSize.getValue());
 	}
 
 	/**
@@ -70,11 +69,11 @@ public final class RenderManager {
 			glDisable(GL_LINE_SMOOTH);
 		if (huzuni.settings.infiniteLines.isEnabled())
         	glDisable(GL32.GL_DEPTH_CLAMP);
-        GlStateManager.enableTexture2D();
-		GlStateManager.enableDepth();
-		GlStateManager.depthMask(true);
-		GlStateManager.enableAlpha();
-		GlStateManager.popMatrix();
+		getGLStateManager().enableTexture2D();
+		getGLStateManager().enableDepth();
+		getGLStateManager().depthMask(true);
+		getGLStateManager().enableAlpha();
+		getGLStateManager().popMatrix();
 	}
 
 	/**

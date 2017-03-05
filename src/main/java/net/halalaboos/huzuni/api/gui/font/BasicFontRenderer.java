@@ -2,7 +2,8 @@ package net.halalaboos.huzuni.api.gui.font;
 
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
-import net.minecraft.client.renderer.GlStateManager;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 
 /**
  * Basic implementation of the FontRenderer interface.
@@ -19,11 +20,11 @@ public class BasicFontRenderer implements FontRenderer {
 	public int drawString(FontData fontData, String text, int x, int y, int color) {
         if (!fontData.hasFont())
             return 0;
-        GlStateManager.pushMatrix();
-        GlStateManager.scale(0.5F, 0.5F, 0.5F);
+        getGLStateManager().pushMatrix();
+		getGLStateManager().scale(0.5F, 0.5F, 0.5F);
         x *= 2;
         y *= 2;
-        GlStateManager.enableBlend();
+		getGLStateManager().enableBlend();
 		fontData.bind();
 		GLManager.glColor(color);
 		int size = text.length();
@@ -39,7 +40,7 @@ public class BasicFontRenderer implements FontRenderer {
 				x += (area.width + kerning);
 			}
 		}
-		GlStateManager.popMatrix();
+		getGLStateManager().popMatrix();
 		return x;
 	}
 

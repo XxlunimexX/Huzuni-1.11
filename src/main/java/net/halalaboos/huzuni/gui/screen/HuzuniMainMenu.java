@@ -5,7 +5,6 @@ import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.halalaboos.huzuni.gui.screen.account.HuzuniAccounts;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.halalaboos.huzuni.render.PanoramaRenderer;
 import net.minecraft.realms.RealmsBridge;
@@ -15,6 +14,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 
 public class HuzuniMainMenu extends HuzuniScreen {
 	
@@ -104,13 +105,13 @@ public class HuzuniMainMenu extends HuzuniScreen {
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		GlStateManager.disableAlpha();
+		getGLStateManager().disableAlpha();
 		panoramaRenderer.renderSkybox(mouseX, mouseY, partialTicks);
-		GlStateManager.enableAlpha();
+		getGLStateManager().enableAlpha();
 		
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		float titleX = width / 2 - 150, titleY = 20;
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		getGLStateManager().color(1.0F, 1.0F, 1.0F, 1.0F);
 		TITLE.render(titleX, titleY + 10, 300, 100);
 		String forgeVersion = "Forge " + ForgeVersion.getVersion();
 		String huzuniVersion = Huzuni.VERSION + " (" + MCWrapper.getMinecraftVersion() + ")";
