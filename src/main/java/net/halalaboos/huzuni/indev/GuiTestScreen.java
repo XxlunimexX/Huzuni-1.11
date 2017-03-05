@@ -211,6 +211,10 @@ public class GuiTestScreen  extends HuzuniScreen {
                 // Create the item list container for item lists.
             } else if (child instanceof ItemList) {
                 component = new ItemListContainer((ItemList) child, defaultFont);
+
+                // Create the mode dropdown for modes.
+            }  else if (child instanceof Mode) {
+                component = new ModeDropdown<>((Mode) child, defaultFont);
             }
 
             // If the node had a component made for it, we position it and either decrement or increment the y position.

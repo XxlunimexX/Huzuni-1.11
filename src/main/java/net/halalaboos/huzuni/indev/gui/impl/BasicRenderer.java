@@ -1,6 +1,5 @@
 package net.halalaboos.huzuni.indev.gui.impl;
 
-import net.halalaboos.huzuni.api.gui.font.FontData;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.indev.gui.*;
 import net.halalaboos.huzuni.indev.gui.Container;
@@ -12,7 +11,6 @@ import net.halalaboos.huzuni.indev.gui.components.Checkbox;
 import net.halalaboos.huzuni.indev.gui.components.Label;
 import net.halalaboos.huzuni.indev.gui.components.TextField;
 import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
-import net.halalaboos.huzuni.indev.gui.render.PopupRenderer;
 import net.halalaboos.huzuni.indev.gui.render.RenderManager;
 
 import java.awt.*;
@@ -43,6 +41,7 @@ public class BasicRenderer extends RenderManager implements InputUtility {
         this.setRenderer(Slider.class, new SliderRenderer());
         this.setRenderer(Label.class, new LabelRenderer(fontRenderer));
         this.setRenderer(TextField.class, new TextFieldRenderer(fontRenderer));
+        this.setRenderer(Dropdown.class, new DropdownRenderer(fontRenderer));
     }
 
     @Override

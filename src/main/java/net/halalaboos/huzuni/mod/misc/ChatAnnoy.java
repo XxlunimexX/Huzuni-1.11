@@ -44,6 +44,7 @@ public class ChatAnnoy extends BasicMod {
 	private final Toggleable pickup = new Toggleable("Pickups", "Randomly post in chat when you pick up an item.");
 	private final Toggleable dig = new Toggleable("Mining", "Randomly post in chat when you break a block.");
 	private final Toggleable time = new Toggleable("Time", "Randomly post the time in chat.");
+	private final Toggleable khaled = new Toggleable("Khaled", "Will randomly post 'anotha one' when duplicate events occur.");
 
 	//Timer used to delay the sent messages
 	private final net.halalaboos.huzuni.api.util.Timer timer = new Timer();
@@ -61,7 +62,7 @@ public class ChatAnnoy extends BasicMod {
 		super("Chat annoy", "Annoy others in chat!");
 		setAuthor("brudin");
 		setCategory(Category.MISC);
-		addChildren(pickup, dig, time);
+		addChildren(pickup, dig, time, khaled);
 		dig.setEnabled(true);
 		pickup.setEnabled(true);
 		lastSentMessages.put("pickup", "");
@@ -169,12 +170,18 @@ public class ChatAnnoy extends BasicMod {
 				//The actual item stack that will be obtained
 				ItemStack itemStack = pickup.getItem();
 
-				//Check if the name isn't the last sent item name
-				if (!itemStack.name().equals(lastSentMessages.get("pickup"))) {
-					//Send the alert in chat
-					getPlayer().sendMessage(getMessage("pickup", null, itemStack));
-					//Set the last item to this one
-					lastSentMessages.put("pickup", itemStack.name());
+				boolean repeat = itemStack.name().equals(lastSentMessages.get("pickup"));
+				// Assert dominance.
+				if (khaled.isEnabled() && random.nextBoolean() && repeat) {
+					getPlayer().sendMessage("anotha one");
+				} else {
+					//Check if the name isn't the last sent item name
+					if (!repeat) {
+						//Send the alert in chat
+						getPlayer().sendMessage(getMessage("pickup", null, itemStack));
+						//Set the last item to this one
+						lastSentMessages.put("pickup", itemStack.name());
+					}
 				}
 			}
 		}

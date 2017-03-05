@@ -1,7 +1,8 @@
 package net.halalaboos.huzuni.api.task;
 
 import net.halalaboos.huzuni.api.node.Nameable;
-import net.minecraft.item.ItemStack;
+import net.halalaboos.mcwrapper.api.item.ItemStack;
+import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
 public abstract class HotbarTask extends BasicTask {
 
@@ -18,7 +19,7 @@ public abstract class HotbarTask extends BasicTask {
 		ItemStack current = null;
 		int currentSlot = -1;
 		for (int i = 0; i < 9; i++) {
-			ItemStack item = mc.player.inventory.getStackInSlot(i);
+			ItemStack item = getPlayer().getStack(i);
 			if (current != null) {
 				if (compare(current, item)) {
 					current = item;
@@ -52,10 +53,10 @@ public abstract class HotbarTask extends BasicTask {
 	protected abstract boolean isValid(ItemStack itemStack);
 	
 	protected boolean compare(ItemStack currentItem, ItemStack newItem) {
-		return newItem != null && currentItem.getCount() > newItem.getCount();
+		return newItem != null && currentItem.getSize() > newItem.getSize();
 	}
 	
 	public boolean hasSlot() {
-		return slot != -1 && isValid(mc.player.inventory.getStackInSlot(slot));
+		return slot != -1 && isValid(getPlayer().getStack(slot));
 	}
 }

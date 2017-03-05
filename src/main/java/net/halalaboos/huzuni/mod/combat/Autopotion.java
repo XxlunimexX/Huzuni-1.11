@@ -12,12 +12,8 @@ import net.halalaboos.huzuni.api.task.LookTask;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
-import net.minecraft.item.ItemGlassBottle;
-import net.minecraft.item.ItemSplashPotion;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.potion.PotionUtils;
+import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.item.types.Potion;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 
@@ -43,21 +39,21 @@ public class Autopotion extends BasicMod {
 
 		@Override
 		protected boolean isValid(ItemStack itemStack) {
-			return itemStack != null && isPotion(itemStack);
+			return itemStack != null && itemStack.getItemType() instanceof Potion;
 		}
 
 	};
 
 	private final ClickTask clickTask = new ClickTask(this);
 
-	private final Potion health;
+	//private final Potion health;
 
 	public Autopotion() {
 		super("Auto potion", "Automagically move health potions into the hotbar and use potions when the health reaches below a threshold");
 		setCategory(Category.COMBAT);
 		setAuthor("Halalaboos");
 		addChildren(swapDelay, useDelay, healthAmount, usePotions);
-		health = Potion.getPotionFromResourceLocation("instant_health");
+		//health = Potion.getPotionFromResourceLocation("instant_health");
 		huzuni.lookManager.registerTaskHolder(this);
 		huzuni.hotbarManager.registerTaskHolder(this);
 		huzuni.clickManager.registerTaskHolder(this);
@@ -145,7 +141,7 @@ public class Autopotion extends BasicMod {
 	/**
 	 * @return The index for the first usable potion found within the inventory.
 	 */
-	private int getUseablePotion() {
+	/*private int getUseablePotion() {
 		for (int o = 9; o < 36; o++) {
 			if (mc.player.inventoryContainer.getSlot(o).getHasStack()) {
 				ItemStack item = mc.player.inventoryContainer.getSlot(o).getStack();
@@ -154,12 +150,12 @@ public class Autopotion extends BasicMod {
 			}
 		}
 		return -1;
-	}
+	}*/
 
 	/**
 	 * @return The first index within the hotbar which either contains no item or an empty glass bottle.
 	 * */
-	private int findEmptyPotion() {
+	/*private int findEmptyPotion() {
 		for (int o = 36; o < 45; o++) {
 			ItemStack item = mc.player.inventoryContainer.getSlot(o).getStack();
 			if (item.isEmpty())
@@ -168,24 +164,24 @@ public class Autopotion extends BasicMod {
 				return o;
 		}
 		return -1;
-	}
+	}*/
 
 	/**
 	 * @return The index of the first potion within the hotbar.
 	 * */
-	private int findHotbarPotion() {
+	/*private int findHotbarPotion() {
 		for (int o = 0; o < 9; o++) {
 			ItemStack item = mc.player.inventory.getStackInSlot(o);
 			if (!item.isEmpty() && isPotion(item))
 				return o;
 		}
 		return -1;
-	}
+	}*/
 
 	/**
 	 * @return True if the item stack is a health potion.
 	 * */
-	private boolean isPotion(ItemStack itemStack) {
+	/*private boolean isPotion(ItemStack itemStack) {
 		if (itemStack.getItem() instanceof ItemSplashPotion) {
 			for (PotionEffect effect : PotionUtils.getEffectsFromStack(itemStack)) {
 				if (effect.getPotion() == health) {
@@ -194,7 +190,7 @@ public class Autopotion extends BasicMod {
 			}
 		}
 		return false;
-	}
+	}*/
 
 	/**
 	 * @return True if the player's health reaches below the threshold.
