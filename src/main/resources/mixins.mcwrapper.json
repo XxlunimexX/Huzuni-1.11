@@ -41,6 +41,7 @@
     "item.types.MixinItemSnowball",
     "item.types.MixinItemEnderPearl",
     "item.types.MixinItemEgg",
+    "item.types.MixinItemFood",
     "network.MixinServerData",
     "network.MixinNetworkManager",
     "network.MixinNetworkPlayerInfo",

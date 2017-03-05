@@ -1,7 +1,6 @@
 package net.halalaboos.mcwrapper.impl.mixin.item;
 
 import net.halalaboos.mcwrapper.api.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.RegistryNamespaced;
 import org.spongepowered.asm.mixin.Final;
