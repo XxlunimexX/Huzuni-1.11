@@ -14,7 +14,7 @@ import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.item.types.GlassBottle;
-import net.halalaboos.mcwrapper.api.item.types.Potion;
+import net.halalaboos.mcwrapper.api.item.types.PotionItem;
 import net.halalaboos.mcwrapper.api.item.types.SplashPotion;
 import net.halalaboos.mcwrapper.api.potion.PotionEffect;
 import net.minecraft.util.EnumActionResult;
@@ -45,7 +45,7 @@ public class Autopotion extends BasicMod {
 
 		@Override
 		protected boolean isValid(ItemStack itemStack) {
-			return !itemStack.empty() && itemStack.getItemType() instanceof Potion;
+			return !itemStack.empty() && itemStack.getItemType() instanceof PotionItem;
 		}
 
 	};
@@ -59,11 +59,6 @@ public class Autopotion extends BasicMod {
 		setCategory(Category.COMBAT);
 		setAuthor("Halalaboos");
 		addChildren(swapDelay, useDelay, healthAmount, usePotions);
-		try {
-			health = getAdapter().getPotionRegistry().getPotion("instant_health");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		huzuni.lookManager.registerTaskHolder(this);
 		huzuni.hotbarManager.registerTaskHolder(this);
 		huzuni.clickManager.registerTaskHolder(this);

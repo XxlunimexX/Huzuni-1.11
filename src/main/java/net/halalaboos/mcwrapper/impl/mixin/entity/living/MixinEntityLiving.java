@@ -5,6 +5,7 @@ import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.potion.PotionEffect;
+import net.halalaboos.mcwrapper.impl.Convert;
 import net.halalaboos.mcwrapper.impl.mixin.entity.MixinEntity;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.EnumHand;
@@ -30,6 +31,12 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 
 	@Shadow
 	public abstract int getTotalArmorValue();
+
+	@Shadow
+	public abstract void addPotionEffect(net.minecraft.potion.PotionEffect potioneffectIn);
+
+	@Shadow
+	public abstract void removePotionEffect(Potion potionIn);
 
 	@Override
 	public HealthData getHealthData() {
@@ -79,5 +86,15 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 	@Override
 	public int getTotalArmor() {
 		return getTotalArmorValue();
+	}
+
+	@Override
+	public void addEffect(PotionEffect effect) {
+		addPotionEffect(Convert.to(effect));
+	}
+
+	@Override
+	public void removeEffect(net.halalaboos.mcwrapper.api.potion.Potion potion) {
+		removePotionEffect(Convert.to(potion));
 	}
 }

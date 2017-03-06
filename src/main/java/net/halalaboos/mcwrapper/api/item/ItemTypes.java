@@ -2,7 +2,7 @@ package net.halalaboos.mcwrapper.api.item;
 
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.item.types.Bow;
-import net.halalaboos.mcwrapper.api.item.types.Potion;
+import net.halalaboos.mcwrapper.api.item.types.PotionItem;
 
 /**
  * Used to reference any of the (vanilla) Item types.
@@ -153,9 +153,9 @@ public class ItemTypes {
 	public static final Item GHAST_TEAR;
 	public static final Item GOLD_NUGGET;
 	public static final Item NETHER_WART;
-	public static final Potion POTIONITEM;
-	public static final Potion SPLASH_POTION;
-	public static final Potion LINGERING_POTION;
+	public static final PotionItem POTIONITEM;
+	public static final PotionItem SPLASH_POTION;
+	public static final PotionItem LINGERING_POTION;
 	public static final Item GLASS_BOTTLE;
 	public static final Item DRAGON_BREATH;
 	public static final Item SPIDER_EYE;
@@ -368,9 +368,9 @@ public class ItemTypes {
 		GHAST_TEAR = getItem("ghast_tear");
 		GOLD_NUGGET = getItem("gold_nugget");
 		NETHER_WART = getItem("nether_wart");
-		POTIONITEM = (Potion) getItem("potion");
-		SPLASH_POTION = (Potion) getItem("splash_potion");
-		LINGERING_POTION = (Potion) getItem("lingering_potion");
+		POTIONITEM = (PotionItem) getItem("potion");
+		SPLASH_POTION = (PotionItem) getItem("splash_potion");
+		LINGERING_POTION = (PotionItem) getItem("lingering_potion");
 		GLASS_BOTTLE = getItem("glass_bottle");
 		DRAGON_BREATH = getItem("dragon_breath");
 		SPIDER_EYE = getItem("spider_eye");

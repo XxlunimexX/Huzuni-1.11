@@ -13,6 +13,12 @@ public abstract class MixinPotionEffect implements PotionEffect {
 	@Shadow public abstract int shadow$getDuration();
 	@Shadow public abstract boolean doesShowParticles();
 
+	@Shadow
+	public abstract void setPotionDurationMax(boolean maxDuration);
+
+	@Shadow
+	private boolean showParticles;
+
 	@Override
 	public Potion getEffect() {
 		return ((Potion) getPotion());
@@ -31,5 +37,15 @@ public abstract class MixinPotionEffect implements PotionEffect {
 	@Override
 	public boolean showParticles() {
 		return doesShowParticles();
+	}
+
+	@Override
+	public void setInfinite(boolean infinite) {
+		setPotionDurationMax(infinite);
+	}
+
+	@Override
+	public void setParticles(boolean particles) {
+		showParticles = particles;
 	}
 }

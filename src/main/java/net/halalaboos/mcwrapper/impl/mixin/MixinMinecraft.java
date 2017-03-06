@@ -6,6 +6,7 @@ import net.halalaboos.mcwrapper.api.MinecraftClient;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.client.Controller;
 import net.halalaboos.mcwrapper.api.client.gui.TextRenderer;
+import net.halalaboos.mcwrapper.api.client.gui.screen.Screen;
 import net.halalaboos.mcwrapper.api.network.NetworkHandler;
 import net.halalaboos.mcwrapper.api.network.ServerInfo;
 import net.halalaboos.mcwrapper.api.util.ResourcePath;
@@ -13,10 +14,12 @@ import net.halalaboos.mcwrapper.api.util.Resolution;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.world.World;
 import net.halalaboos.mcwrapper.impl.OnePointElevenAdapter;
+import net.halalaboos.mcwrapper.impl.guiscreen.GuiScreenWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -68,6 +71,9 @@ public abstract class MixinMinecraft implements MinecraftClient {
 
 	@Shadow
 	public abstract IResourceManager getResourceManager();
+
+	@Shadow
+	public abstract void displayGuiScreen(@Nullable GuiScreen guiScreenIn);
 
 	@Inject(method = "run()V", at = @At(value = "INVOKE",
 			target = "Lnet/minecraft/client/Minecraft;init()V",
@@ -190,5 +196,10 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Override
 	public InputStream getInputStream(ResourcePath asset) throws IOException {
 		return getResourceManager().getResource(new ResourceLocation(asset.toString())).getInputStream();
+	}
+
+	@Override
+	public void showScreen(Screen screen) {
+		displayGuiScreen(new GuiScreenWrapper(screen));
 	}
 }

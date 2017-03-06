@@ -115,9 +115,6 @@ public class GuiTestScreen  extends HuzuniScreen {
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
-    	//if (keyCode == KEY_ESCAPE) {
-    	//	mc.entityRenderer.switchUseShader();
-		//}
         super.keyTyped(typedChar, keyCode);
         manager.keyTyped(typedChar, keyCode);
     }

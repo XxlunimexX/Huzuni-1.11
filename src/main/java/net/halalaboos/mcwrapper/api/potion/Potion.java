@@ -8,6 +8,8 @@ public interface Potion extends Nameable {
 
 	boolean hasIcon();
 
+	int id();
+
 	enum Type {
 		BAD, BENEFICIAL, NONE
 	}

@@ -4,6 +4,7 @@ import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.data.HealthData;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.potion.Potion;
 import net.halalaboos.mcwrapper.api.potion.PotionEffect;
 
 import java.util.Collection;
@@ -56,4 +57,8 @@ public interface Living extends Entity {
 	Collection<PotionEffect> getEffects();
 
 	int getTotalArmor();
+
+	void addEffect(PotionEffect effect);
+
+	void removeEffect(Potion potion);
 }

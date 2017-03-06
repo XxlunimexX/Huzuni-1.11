@@ -2,6 +2,9 @@ package net.halalaboos.mcwrapper.impl;
 
 import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
@@ -28,5 +31,13 @@ public class Convert {
 
 	public static BlockPos to(Vector3i pos) {
 		return new BlockPos(pos.getX(), pos.getY(), pos.getZ());
+	}
+
+	public static PotionEffect to(net.halalaboos.mcwrapper.api.potion.PotionEffect effect) {
+		return (PotionEffect)(Object)effect;
+	}
+
+	public static Potion to(net.halalaboos.mcwrapper.api.potion.Potion potion) {
+		return Potion.getPotionById(potion.id());
 	}
 }

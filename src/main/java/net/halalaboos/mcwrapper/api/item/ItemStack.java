@@ -21,8 +21,6 @@ public interface ItemStack extends Nameable {
 
 	boolean empty();
 
-
-
 	//TEMP
 	void renderInGui(int x, int y);
 

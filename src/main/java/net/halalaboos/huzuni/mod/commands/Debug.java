@@ -1,9 +1,6 @@
 package net.halalaboos.huzuni.mod.commands;
 
 import net.halalaboos.huzuni.api.mod.BasicCommand;
-import net.halalaboos.mcwrapper.api.MCWrapper;
-import net.halalaboos.mcwrapper.api.MinecraftAdapter;
-import net.halalaboos.mcwrapper.api.MinecraftClient;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
@@ -13,6 +10,7 @@ import net.halalaboos.mcwrapper.api.potion.PotionEffect;
 import net.minecraft.util.text.translation.I18n;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getAdapter;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 public class Debug extends BasicCommand {
 
@@ -22,9 +20,7 @@ public class Debug extends BasicCommand {
 
 	@Override
 	protected void runCommand(String input, String[] args) throws Exception {
-		MinecraftAdapter adapter = getAdapter();
-		MinecraftClient minecraft = adapter.getMinecraft();
-		ClientPlayer player = minecraft.getPlayer();
+		ClientPlayer player = getPlayer();
 		ItemStack itemStack = player.getHeldItem(Hand.MAIN);
 		String name = itemStack.name();
 		int id = itemStack.getItemType().getId();
@@ -48,7 +44,6 @@ public class Debug extends BasicCommand {
 
 		Potion potion = getAdapter().getPotionRegistry().getPotion("instant_health");
 		huzuni.addChatMessage(potion.name());
-
 		System.out.println(output);
 	}
 }

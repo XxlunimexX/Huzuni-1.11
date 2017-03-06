@@ -4,12 +4,14 @@ import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.mcwrapper.api.MinecraftAdapter;
 import net.halalaboos.mcwrapper.api.MinecraftClient;
 import net.halalaboos.mcwrapper.api.client.GLState;
+import net.halalaboos.mcwrapper.api.potion.PotionEffect;
 import net.halalaboos.mcwrapper.api.registry.PotionRegistry;
 import net.halalaboos.mcwrapper.api.util.Builder;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.registry.BlockRegistry;
 import net.halalaboos.mcwrapper.api.registry.ItemRegistry;
 import net.halalaboos.mcwrapper.impl.builder.ItemStackBuilder;
+import net.halalaboos.mcwrapper.impl.builder.PotionEffectBuilder;
 import net.halalaboos.mcwrapper.impl.registry.OnePointElevenBlockRegistry;
 import net.halalaboos.mcwrapper.impl.registry.OnePointElevenItemRegistry;
 import net.halalaboos.mcwrapper.impl.registry.OnePointElevenPotionRegistry;
@@ -32,6 +34,7 @@ public class OnePointElevenAdapter implements MinecraftAdapter {
 	public OnePointElevenAdapter(Minecraft mc) {
 		this.mc = ((MinecraftClient) mc);
 		registerBuilder(ItemStack.Builder.class, ItemStackBuilder::new);
+		registerBuilder(PotionEffect.Builder.class, PotionEffectBuilder::new);
 		Huzuni.INSTANCE.start();
 	}
 
