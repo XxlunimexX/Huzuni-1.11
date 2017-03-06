@@ -5,6 +5,8 @@ import net.halalaboos.huzuni.api.gui.components.BasicSlider;
 import net.halalaboos.huzuni.api.node.Value;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 public class ValueComponent extends NodeTreeComponent<Value> {
 
@@ -12,7 +14,7 @@ public class ValueComponent extends NodeTreeComponent<Value> {
 	
 	private final BasicSlider slider = new BasicSlider("", 0, 0, 0, 0, 7);
 	
-	private final DecimalFormat formatter = new DecimalFormat("#.#");
+	private final DecimalFormat formatter = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.US));
 	
 	public ValueComponent(Value node) {
 		super(node);

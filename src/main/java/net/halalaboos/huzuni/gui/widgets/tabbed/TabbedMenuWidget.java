@@ -11,7 +11,9 @@ import net.halalaboos.huzuni.api.util.IncrementalPosition;
 import org.lwjgl.input.Keyboard;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Widget which allows the user to enable/disable mods easily.
@@ -286,7 +288,7 @@ public class TabbedMenuWidget extends Widget {
 
         private final Value value;
 
-        private final DecimalFormat formatter = new DecimalFormat("#.#");
+        private final DecimalFormat formatter = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.US));
 
         public ValueTab(Value value) {
             super(value.getName(), value.getDescription());

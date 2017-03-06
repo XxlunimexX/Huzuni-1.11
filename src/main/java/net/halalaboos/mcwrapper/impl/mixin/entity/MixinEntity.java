@@ -17,6 +17,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import java.util.UUID;
 
 @Implements(@Interface(iface = Entity.class, prefix = "api$"))
@@ -258,7 +260,7 @@ import java.util.UUID;
 
 	@Override
 	public String getCoordinates() {
-		DecimalFormat format = new DecimalFormat("0.0");
+		DecimalFormat format = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.US));
 		String x = format.format(getX());
 		String y = format.format(getY());
 		String z = format.format(getZ());
