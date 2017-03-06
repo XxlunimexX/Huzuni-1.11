@@ -12,6 +12,12 @@ import net.halalaboos.huzuni.indev.gui.render.ComponentRenderer;
  */
 public class ContainerRenderer implements ComponentRenderer<Container> {
 
+    private final BasicRenderer renderer;
+
+    public ContainerRenderer(BasicRenderer renderer) {
+        this.renderer = renderer;
+    }
+
     @Override
     public void pre(Container container) {
 
@@ -20,7 +26,7 @@ public class ContainerRenderer implements ComponentRenderer<Container> {
     @Override
     public void render(Container container) {
         if (!container.getTag().equals("invisible")) {
-            GLManager.glColor(BasicRenderer.SECONDARY_BACKGROUND);
+            GLManager.glColor(renderer.getPalette().getSecondaryBackground());
             RenderUtils.drawRect(container.getArea());
         }
     }

@@ -37,6 +37,11 @@ public abstract class MixinEntityPlayer extends MixinEntityLiving implements Pla
 	}
 
 	@Override
+	public boolean isHungry() {
+		return foodStats.needFood();
+	}
+
+	@Override
 	public float getSaturation() {
 		return foodStats.getSaturationLevel();
 	}

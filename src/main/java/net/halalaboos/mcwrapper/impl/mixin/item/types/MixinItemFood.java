@@ -26,6 +26,6 @@ public abstract class MixinItemFood extends MixinItem implements Food {
 
     @Override
     public boolean satisfiesHunger(Player player) {
-        return player.getFood() < 20;
+        return player.isHungry();
     }
 }

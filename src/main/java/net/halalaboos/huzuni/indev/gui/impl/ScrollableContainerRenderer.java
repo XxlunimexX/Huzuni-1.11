@@ -42,19 +42,19 @@ public class ScrollableContainerRenderer implements ComponentRenderer<Scrollable
     @Override
     public void render(ScrollableContainer container) {
         if (!container.getTag().equals("invisible-background")) {
-            GLManager.glColor(BasicRenderer.BACKGROUND);
+            GLManager.glColor(basicRenderer.getPalette().getBackground());
             RenderUtils.drawRect(container.getRenderArea());
         }
         if (container.getVerticalScrollbar().has()) {
-            GLManager.glColor(BasicRenderer.GREY);
+            GLManager.glColor(basicRenderer.getPalette().getDefaultComponent());
             RenderUtils.drawRect(container.getVerticalScrollbar().getArea());
-            GLManager.glColor(RenderUtils.getColorWithAffects(BasicRenderer.SCROLLBAR, container.getVerticalScrollbar().isScrolling() || (container.isHovered() && container.getVerticalScrollbar().isPointInsideBar(basicRenderer.getMouseX(), basicRenderer.getMouseY())), Mouse.isButtonDown(0)));
+            GLManager.glColor(RenderUtils.getColorWithAffects(basicRenderer.getPalette().getDefaultComponent().brighter(), container.getVerticalScrollbar().isScrolling() || (container.isHovered() && container.getVerticalScrollbar().isPointInsideBar(basicRenderer.getMouseX(), basicRenderer.getMouseY())), Mouse.isButtonDown(0)));
             RenderUtils.drawRect(container.getVerticalScrollbar().getScrollbar());
         }
         if (container.getHorizontalScrollbar().has()) {
-            GLManager.glColor(BasicRenderer.GREY);
+            GLManager.glColor(basicRenderer.getPalette().getDefaultComponent());
             RenderUtils.drawRect(container.getHorizontalScrollbar().getArea());
-            GLManager.glColor(RenderUtils.getColorWithAffects(BasicRenderer.SCROLLBAR, container.getHorizontalScrollbar().isScrolling() || (container.isHovered() && container.getHorizontalScrollbar().isPointInsideBar(basicRenderer.getMouseX(), basicRenderer.getMouseY())), Mouse.isButtonDown(0)));
+            GLManager.glColor(RenderUtils.getColorWithAffects(basicRenderer.getPalette().getDefaultComponent().brighter(), container.getHorizontalScrollbar().isScrolling() || (container.isHovered() && container.getHorizontalScrollbar().isPointInsideBar(basicRenderer.getMouseX(), basicRenderer.getMouseY())), Mouse.isButtonDown(0)));
             RenderUtils.drawRect(container.getHorizontalScrollbar().getScrollbar());
         }
     }

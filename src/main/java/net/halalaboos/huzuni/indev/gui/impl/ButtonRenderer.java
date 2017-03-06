@@ -1,14 +1,11 @@
 package net.halalaboos.huzuni.indev.gui.impl;
 
 import net.halalaboos.huzuni.api.gui.font.FontData;
-import net.halalaboos.huzuni.api.gui.font.FontRenderer;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.indev.gui.components.Button;
 import net.halalaboos.huzuni.indev.gui.render.ComponentRenderer;
 import org.lwjgl.input.Mouse;
-
-import java.awt.*;
 
 /**
  * Basic button renderer. <br/>
@@ -16,14 +13,10 @@ import java.awt.*;
  */
 public class ButtonRenderer implements ComponentRenderer<Button> {
 
-    private final Color buttonOn = new Color(255, 255, 255, 255);
+    private final BasicRenderer renderer;
 
-    private final Color buttonOff = new Color(138, 138, 138, 255);
-
-    private final FontRenderer fontRenderer;
-
-    public ButtonRenderer(FontRenderer fontRenderer) {
-        this.fontRenderer = fontRenderer;
+    public ButtonRenderer(BasicRenderer renderer) {
+        this.renderer = renderer;
     }
 
     @Override
@@ -33,9 +26,10 @@ public class ButtonRenderer implements ComponentRenderer<Button> {
 
     @Override
     public void render(Button button) {
-        GLManager.glColor(RenderUtils.getColorWithAffects(button.isHighlight() ? BasicRenderer.ENABLED : BasicRenderer.GREY, button.isHovered(), Mouse.isButtonDown(0)));
+        ColorPalette palette = renderer.getPalette();
+        GLManager.glColor(RenderUtils.getColorWithAffects(button.isHighlight() ? palette.getHighlightComponent() : palette.getDefaultComponent(), button.isHovered(), Mouse.isButtonDown(0)));
         RenderUtils.drawRect(button.getArea());
-        int color = button.isHighlight() ? buttonOn.getRGB() : buttonOff.getRGB();
+        int color = button.isHighlight() ? palette.getEnabledText().getRGB() : palette.getDisabledText().getRGB();
         drawString(button.getFont(), button.getText(), button.getX(), button.getY() + button.getHeight() / 2, color);
     }
 
@@ -48,6 +42,6 @@ public class ButtonRenderer implements ComponentRenderer<Button> {
      * Originally draws a centered string with the default font renderer.
      * */
     public void drawString(FontData fontData, String text, int x, int y, int color) {
-        fontRenderer.drawString(fontData, text.toUpperCase(), x + 4, y - fontData.getFontHeight() / 2, color);
+        renderer.getFontRenderer().drawString(fontData, text.toUpperCase(), x + 4, y - fontData.getFontHeight() / 2, color);
     }
 }

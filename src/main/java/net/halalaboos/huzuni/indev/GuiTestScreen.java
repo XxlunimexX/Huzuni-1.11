@@ -73,6 +73,7 @@ public class GuiTestScreen  extends HuzuniScreen {
         settings.setSize(width - scrollWidth, height);
 
         ScrollableContainer modsList = new ScrollableContainer("mods");
+        modsList.setLayering(false);
         modsList.setLayout(new ListLayout(6, 1));
         modsList.setPosition(x, y);
         modsList.setSize(scrollWidth, height);

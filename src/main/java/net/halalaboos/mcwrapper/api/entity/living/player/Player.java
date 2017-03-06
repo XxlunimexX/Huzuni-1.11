@@ -36,6 +36,11 @@ public interface Player extends Living {
 	float getFood();
 
 	/**
+	 * @return True if this player's food level is below it's max (20).
+	 * */
+	boolean isHungry();
+
+	/**
 	 * @return The saturation level
 	 */
 	float getSaturation();

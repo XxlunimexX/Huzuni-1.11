@@ -13,6 +13,12 @@ import org.lwjgl.input.Mouse;
  */
 public class SliderRenderer implements ComponentRenderer<Slider> {
 
+    private final BasicRenderer renderer;
+
+    public SliderRenderer(BasicRenderer renderer) {
+        this.renderer = renderer;
+    }
+
     @Override
     public void pre(Slider slider) {
 
@@ -20,9 +26,9 @@ public class SliderRenderer implements ComponentRenderer<Slider> {
 
     @Override
     public void render(Slider slider) {
-        GLManager.glColor(BasicRenderer.GREY);
+        GLManager.glColor(renderer.getPalette().getDefaultComponent());
         RenderUtils.drawRect(slider.getArea());
-        GLManager.glColor(RenderUtils.getColorWithAffects(BasicRenderer.ENABLED, slider.isSliding() || slider.isHovered(), Mouse.isButtonDown(0)));
+        GLManager.glColor(RenderUtils.getColorWithAffects(renderer.getPalette().getHighlightComponent(), slider.isSliding() || slider.isHovered(), Mouse.isButtonDown(0)));
         RenderUtils.drawRect(slider.getSliderBar());
     }
 

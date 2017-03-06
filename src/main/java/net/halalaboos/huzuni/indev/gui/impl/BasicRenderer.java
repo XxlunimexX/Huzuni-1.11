@@ -24,24 +24,21 @@ import java.awt.datatransfer.Transferable;
  */
 public class BasicRenderer extends RenderManager implements InputUtility {
 
-    public static final Color BACKGROUND = new Color(20, 20, 20, 255);
-    public static final Color SECONDARY_BACKGROUND = new Color(35, 35, 35, 255);
-    public static final Color ENABLED = new Color(41, 126, 37, 255);
-    public static final Color GREY = new Color(45, 45, 45, 255);
-    public static final Color SCROLLBAR = GREY.brighter();
+    private final FontRenderer fontRenderer = new BasicFontRenderer();
 
-    public final FontRenderer fontRenderer = new BasicFontRenderer();
+    private ColorPalette palette = ColorPalette.values()[(int) (Math.random() * ColorPalette.values().length)];
 
     public BasicRenderer() {
         super(new BasicPopupRenderer());
-        this.setRenderer(Button.class, new ButtonRenderer(fontRenderer));
-        this.setRenderer(Checkbox.class, new CheckboxRenderer(fontRenderer));
-        this.setRenderer(Container.class, new ContainerRenderer());
+        ((BasicPopupRenderer) getPopupRenderer()).setRenderer(this);
+        this.setRenderer(Button.class, new ButtonRenderer(this));
+        this.setRenderer(Checkbox.class, new CheckboxRenderer(this));
+        this.setRenderer(Container.class, new ContainerRenderer(this));
         this.setRenderer(ScrollableContainer.class, false, new ScrollableContainerRenderer(this));
-        this.setRenderer(Slider.class, new SliderRenderer());
+        this.setRenderer(Slider.class, new SliderRenderer(this));
         this.setRenderer(Label.class, new LabelRenderer(fontRenderer));
-        this.setRenderer(TextField.class, new TextFieldRenderer(fontRenderer));
-        this.setRenderer(Dropdown.class, new DropdownRenderer(fontRenderer));
+        this.setRenderer(TextField.class, new TextFieldRenderer(this));
+        this.setRenderer(Dropdown.class, new DropdownRenderer(this));
     }
 
     @Override
@@ -82,5 +79,17 @@ public class BasicRenderer extends RenderManager implements InputUtility {
     @Override
     public boolean isPointInside(int x, int y, int[] rect) {
         return x > rect[0] && y > rect[1] && x < rect[0] + rect[2] && y < rect[1] + rect[3];
+    }
+
+    public FontRenderer getFontRenderer() {
+        return fontRenderer;
+    }
+
+    public ColorPalette getPalette() {
+        return palette;
+    }
+
+    public void setPalette(ColorPalette palette) {
+        this.palette = palette;
     }
 }

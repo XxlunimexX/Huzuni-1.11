@@ -37,7 +37,7 @@ public class StringNodeContainer extends Container {
     @Override
     public void update() {
         // Update the string node.
-        this.stringNode.setText(textField.getText());
+        this.stringNode.setText(textField.hasText() ? textField.getText() : stringNode.getDefaultText());
         super.update();
     }
 }

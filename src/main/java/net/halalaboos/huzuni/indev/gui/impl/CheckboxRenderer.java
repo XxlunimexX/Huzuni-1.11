@@ -1,6 +1,5 @@
 package net.halalaboos.huzuni.indev.gui.impl;
 
-import net.halalaboos.huzuni.api.gui.font.FontRenderer;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.indev.gui.components.Checkbox;
@@ -13,10 +12,10 @@ import org.lwjgl.input.Mouse;
  */
 public class CheckboxRenderer implements ComponentRenderer<Checkbox> {
 
-    private final FontRenderer fontRenderer;
+    private final BasicRenderer renderer;
 
-    public CheckboxRenderer(FontRenderer fontRenderer) {
-        this.fontRenderer = fontRenderer;
+    public CheckboxRenderer(BasicRenderer renderer) {
+        this.renderer = renderer;
     }
 
     @Override
@@ -26,13 +25,14 @@ public class CheckboxRenderer implements ComponentRenderer<Checkbox> {
 
     @Override
     public void render(Checkbox checkbox) {
-        GLManager.glColor(RenderUtils.getColorWithAffects(BasicRenderer.GREY, checkbox.isHovered(), Mouse.isButtonDown(0)));
+        ColorPalette palette = renderer.getPalette();
+        GLManager.glColor(RenderUtils.getColorWithAffects(palette.getDefaultComponent(), checkbox.isHovered(), Mouse.isButtonDown(0)));
         RenderUtils.drawRect(checkbox.getCheckbox());
         if (checkbox.isEnabled()) {
-            GLManager.glColor(RenderUtils.getColorWithAffects(checkbox.isEnabled() ? BasicRenderer.ENABLED : BasicRenderer.GREY, checkbox.isHovered(), Mouse.isButtonDown(0)));
+            GLManager.glColor(RenderUtils.getColorWithAffects(checkbox.isEnabled() ? palette.getHighlightComponent() : palette.getDefaultComponent(), checkbox.isHovered(), Mouse.isButtonDown(0)));
             RenderUtils.drawRect(new int[] { checkbox.getX() + 2, checkbox.getY() + 2, 8, 8 });
         }
-        fontRenderer.drawString(checkbox.getFont(), checkbox.getText(), checkbox.getX() + 2 + net.halalaboos.huzuni.indev.gui.components.Checkbox.CHECKBOX_SIZE, checkbox.getY(), 0xFFFFFFFF);
+        renderer.getFontRenderer().drawString(checkbox.getFont(), checkbox.getText(), checkbox.getX() + 2 + net.halalaboos.huzuni.indev.gui.components.Checkbox.CHECKBOX_SIZE, checkbox.getY(), 0xFFFFFFFF);
     }
 
     @Override

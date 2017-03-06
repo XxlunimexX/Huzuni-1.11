@@ -15,8 +15,8 @@ public class ModeDropdown <I extends Nameable> extends Dropdown<I> {
     public ModeDropdown(Mode<I> mode, FontData font) {
         super("mode", mode.getItems());
         this.mode = mode;
-        this.setWidth(150);
         this.setFont(font);
+        this.setWidth(150);
         this.setSelected(mode.getSelected());
     }
 

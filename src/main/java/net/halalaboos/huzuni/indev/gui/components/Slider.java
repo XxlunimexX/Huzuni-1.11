@@ -59,7 +59,8 @@ public class Slider extends Component {
      * @return The area of the bar used by this slider.
      * */
     public int[] getSliderBar() {
-        return new int[] { getX() + (int) (sliderPercentage * getWidthForSlider()), getY(), getBarSize(), getHeight() };
+        return new int[] { getX(), getY(), (int) (sliderPercentage * getWidth()), getHeight() };
+        // return new int[] { getX() + (int) (sliderPercentage * getWidthForSlider()), getY(), getBarSize(), getHeight() };
     }
 
     /**

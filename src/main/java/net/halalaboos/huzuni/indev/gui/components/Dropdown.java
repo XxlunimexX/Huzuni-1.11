@@ -1,6 +1,5 @@
 package net.halalaboos.huzuni.indev.gui.components;
 
-import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.indev.gui.Component;
 import net.halalaboos.huzuni.indev.gui.actions.Actions;
 import net.halalaboos.huzuni.indev.gui.actions.ClickAction;
@@ -8,13 +7,15 @@ import net.halalaboos.huzuni.indev.gui.actions.ClickAction;
 /**
  * Created by Brandon Williams on 3/5/2017.
  */
-public class Dropdown <I extends Nameable> extends Component {
+public class Dropdown <I> extends Component {
 
     private I[] items;
 
     private boolean expanded = false;
 
     private int selected = 0;
+
+    private int itemHeight = 15;
 
     public Dropdown(String tag, I... items) {
         super(tag);
@@ -33,15 +34,18 @@ public class Dropdown <I extends Nameable> extends Component {
                     // Expand me!
                     expanded = true;
                 }
+            } else {
+                expanded = false;
             }
             return false;
         });
+        this.setHeight(itemHeight);
     }
 
     @Override
     public void update() {
         // Update the height with the font height + font height * items length.
-        setHeight(font.getFontHeight() + (expanded ? font.getFontHeight() * items.length : 0));
+        setHeight(itemHeight + (expanded ? itemHeight * items.length : 0));
     }
     @Override
     public boolean isPointInside(int x, int y) {
@@ -66,7 +70,15 @@ public class Dropdown <I extends Nameable> extends Component {
      * @return The area of the item at the index given.
      * */
     public int[] getItemArea(int index) {
-        return new int[] { getX(), getY() + font.getFontHeight() + index * font.getFontHeight(), getWidth(), font.getFontHeight() };
+        return new int[] { getX(), getY() + itemHeight + index * itemHeight, getWidth(), itemHeight };
+    }
+
+    public int getItemHeight() {
+        return itemHeight;
+    }
+
+    public void setItemHeight(int itemHeight) {
+        this.itemHeight = itemHeight;
     }
 
     public I[] getItems() {

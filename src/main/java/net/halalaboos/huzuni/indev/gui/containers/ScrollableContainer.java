@@ -21,8 +21,6 @@ public class ScrollableContainer extends Container {
         this.verticalScrollbar = new Scrollbar(inputUtility, 8);
         this.horizontalScrollbar = new Scrollbar(inputUtility, false,8);
         this.setLayout(new ScrollLayout());
-        this.setLayering(false);
-
         // Sets the SCROLLBAR activated
         this.addListener(Actions.MOUSEPRESS, (ClickAction.ClickActionListener) action -> updateMouseClick(action.x, action.y));
         // Sets scrolling to false once the mouse button is released.
