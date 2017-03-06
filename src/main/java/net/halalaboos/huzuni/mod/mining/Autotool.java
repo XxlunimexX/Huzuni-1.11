@@ -8,8 +8,11 @@ import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.HotbarTask;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
+import net.halalaboos.huzuni.api.util.MinecraftUtilsNew;
 import net.halalaboos.huzuni.api.util.Timer;
+import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.event.PacketSendEvent;
+import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -17,7 +20,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Enchantments;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.network.play.client.CPacketUseEntity.Action;
@@ -44,7 +46,8 @@ public class Autotool extends BasicMod {
 				if (digging && hasBlock()) {
 					return getRelativeBlockHardness(position, blockState, blockState.getBlock(), itemStack) > 0.055555556F;
 				} else if (weapon.isEnabled() && !digging && hasEntity()) {
-					return MinecraftUtils.calculatePlayerDamageWithAttackSpeed(entity, itemStack) > 1F;
+					return false;
+//					return MinecraftUtilsNew.calculatePlayerDamageWithAttackSpeed(entity, itemStack) > 1F;
 				} else
 					return false;
 			} else
@@ -59,9 +62,10 @@ public class Autotool extends BasicMod {
 					float newHardness = getRelativeBlockHardness(position, blockState, blockState.getBlock(), newItem);	
 					return currentHardness < newHardness;
 				} else {
-					float currentDamage = MinecraftUtils.calculatePlayerDamageWithAttackSpeed(entity, currentItem);
-					float newDamage = MinecraftUtils.calculatePlayerDamageWithAttackSpeed(entity, newItem);
-					return currentDamage < newDamage;
+//					float currentDamage = MinecraftUtils.calculatePlayerDamageWithAttackSpeed(entity, currentItem);
+//					float newDamage = MinecraftUtils.calculatePlayerDamageWithAttackSpeed(entity, newItem);
+//					return currentDamage < newDamage;
+					return false;
 				}
 			} else
 				return false;
@@ -72,7 +76,7 @@ public class Autotool extends BasicMod {
 	
 	private boolean digging = false;
 	
-	private EntityLivingBase entity = null;
+	private Living entity = null;
 	
 	private IBlockState blockState = null;
 	
@@ -119,7 +123,7 @@ public class Autotool extends BasicMod {
 					this.digging = false;
 					this.position = null;
 					this.blockState = null;
-					this.entity = (EntityLivingBase) entity;
+					this.entity = (Living) entity;
 					timer.reset();
 					huzuni.hotbarManager.requestTask(this, hotbarTask);
 				}
@@ -167,62 +171,64 @@ public class Autotool extends BasicMod {
      * @return True if the item stack can harvest the block.
      * */
 	public boolean canHarvestBlock(Block block, IBlockState blockState, ItemStack item) {
-		if (blockState.getMaterial().isToolNotRequired()) {
-			return true;
-		} else {
-			return item != null && item.canHarvestBlock(blockState);
-		}
+//		if (blockState.getMaterial().isToolNotRequired()) {
+//			return true;
+//		} else {
+//			return item != null && item.canHarvestBlock(blockState);
+//		}
+		return false;
 	}
 
 	/**
      * @return The strength of the item stack vs the block.
      * */
 	public float getStrength(Block block, IBlockState blockState, ItemStack item) {
-		float strength = item.getStrVsBlock(blockState);
-		if (strength > 1.0F) {
-			int efficiency = EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, item);
-
-			if (efficiency > 0 && item != null) {
-				strength += (float) (efficiency * efficiency + 1);
-			}
-		}
-		
-		if (mc.player.isPotionActive(digSpeed)) {
-			strength *= 1.0F + (float) (mc.player.getActivePotionEffect(digSpeed).getAmplifier() + 1) * 0.2F;
-		}
-		
-		if (mc.player.isPotionActive(digSlowdown)) {
-			float poitionModifier = 1.0F;
-
-			switch (mc.player.getActivePotionEffect(digSlowdown).getAmplifier()) {
-			case 0:
-				poitionModifier = 0.3F;
-				break;
-
-			case 1:
-				poitionModifier = 0.09F;
-				break;
-
-			case 2:
-				poitionModifier = 0.0027F;
-				break;
-
-			case 3:
-			default:
-				poitionModifier = 8.1E-4F;
-			}
-
-			strength *= poitionModifier;
-		}
-
-		if (mc.player.isInsideOfMaterial(Material.WATER) && !EnchantmentHelper.getAquaAffinityModifier(mc.player)) {
-			strength /= 5.0F;
-		}
-
-
-		if (!mc.player.onGround) {
-			strength /= 5.0F;
-		}
+		float strength = 1f;
+//		float strength = item.getStrVsBlock(blockState);
+//		if (strength > 1.0F) {
+//			int efficiency = EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, item);
+//
+//			if (efficiency > 0) {
+//				strength += (float) (efficiency * efficiency + 1);
+//			}
+//		}
+//
+//		if (mc.player.isPotionActive(digSpeed)) {
+//			strength *= 1.0F + (float) (mc.player.getActivePotionEffect(digSpeed).getAmplifier() + 1) * 0.2F;
+//		}
+//
+//		if (mc.player.isPotionActive(digSlowdown)) {
+//			float poitionModifier = 1.0F;
+//
+//			switch (mc.player.getActivePotionEffect(digSlowdown).getAmplifier()) {
+//			case 0:
+//				poitionModifier = 0.3F;
+//				break;
+//
+//			case 1:
+//				poitionModifier = 0.09F;
+//				break;
+//
+//			case 2:
+//				poitionModifier = 0.0027F;
+//				break;
+//
+//			case 3:
+//			default:
+//				poitionModifier = 8.1E-4F;
+//			}
+//
+//			strength *= poitionModifier;
+//		}
+//
+//		if (mc.player.isInsideOfMaterial(Material.WATER) && !EnchantmentHelper.getAquaAffinityModifier(mc.player)) {
+//			strength /= 5.0F;
+//		}
+//
+//
+//		if (!mc.player.onGround) {
+//			strength /= 5.0F;
+//		}
 		return strength;
 	}
 

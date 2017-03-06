@@ -2,6 +2,7 @@ package net.halalaboos.mcwrapper.api;
 
 import net.halalaboos.mcwrapper.api.client.GLState;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.registry.PotionRegistry;
 import net.halalaboos.mcwrapper.api.util.Builder;
 import net.halalaboos.mcwrapper.api.registry.BlockRegistry;
 import net.halalaboos.mcwrapper.api.registry.ItemRegistry;
@@ -33,6 +34,8 @@ public interface MinecraftAdapter {
 	ItemRegistry getItemRegistry();
 
 	BlockRegistry getBlockRegistry();
+
+	PotionRegistry getPotionRegistry();
 
 	GLState getGLStateManager();
 

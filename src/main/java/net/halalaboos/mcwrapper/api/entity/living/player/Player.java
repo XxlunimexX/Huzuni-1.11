@@ -3,6 +3,7 @@ package net.halalaboos.mcwrapper.api.entity.living.player;
 import com.mojang.authlib.GameProfile;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.inventory.Container;
+import net.halalaboos.mcwrapper.api.inventory.PlayerInventory;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 
 /**
@@ -42,4 +43,6 @@ public interface Player extends Living {
 	GameProfile getProfile();
 
 	Container getInventoryContainer();
+
+	PlayerInventory getPlayerInventory();
 }

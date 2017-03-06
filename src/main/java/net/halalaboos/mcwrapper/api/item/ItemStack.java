@@ -21,6 +21,8 @@ public interface ItemStack extends Nameable {
 
 	boolean empty();
 
+
+
 	//TEMP
 	void renderInGui(int x, int y);
 
@@ -36,10 +38,7 @@ public interface ItemStack extends Nameable {
 	}
 
 	interface Builder extends net.halalaboos.mcwrapper.api.util.Builder<ItemStack> {
-
 		Builder setItem(Item item);
-
 		Builder setSize(int size);
-
 	}
 }

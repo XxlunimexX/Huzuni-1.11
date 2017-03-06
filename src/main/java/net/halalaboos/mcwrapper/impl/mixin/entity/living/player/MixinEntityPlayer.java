@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.inventory.Container;
+import net.halalaboos.mcwrapper.api.inventory.PlayerInventory;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.impl.mixin.entity.living.MixinEntityLiving;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -58,6 +59,11 @@ public abstract class MixinEntityPlayer extends MixinEntityLiving implements Pla
 	@Override
 	public Container getInventoryContainer() {
 		return ((Container) inventoryContainer);
+	}
+
+	@Override
+	public PlayerInventory getPlayerInventory() {
+		return ((PlayerInventory) inventory);
 	}
 
 	private boolean npc = false;

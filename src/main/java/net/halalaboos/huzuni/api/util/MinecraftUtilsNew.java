@@ -400,11 +400,11 @@ public class MinecraftUtilsNew {
 	 * @return True if the item is shift clickable.
 	 */
 	public static boolean isShiftable(net.halalaboos.mcwrapper.api.item.ItemStack preferedItem) {
-		if (preferedItem == null || preferedItem.empty())
+		if (preferedItem.empty())
 			return true;
 		for (int o = 36; o < 45; o++) {
-			if (getPlayer().getInventoryContainer().getSlotAt(o).hasItem()) {
-				net.halalaboos.mcwrapper.api.item.ItemStack item = getPlayer().getInventoryContainer().getSlotAt(o).getItem();
+			if (!getPlayer().getPlayerInventory().getStack(o).empty()) {
+				net.halalaboos.mcwrapper.api.item.ItemStack item = getPlayer().getPlayerInventory().getStack(o);
 				if (item.getItemType().getId() == preferedItem.getItemType().getId()) {
 					if (item.getSize() + preferedItem.getSize() <= preferedItem.getMaxSize())
 						return true;
