@@ -172,7 +172,12 @@ public interface Entity extends Identifiable, Nameable {
 	boolean isSneaking();
 
 	/**
-	 * @return The Entity's position in a String format.
+	 * The Entity's position in a displayable format.
+	 *
+	 * <p>If you were to display Entity.getX(), it would result in a number like 1.10000002; this will format each
+	 * coordinate to a X.Y format.</p>
+	 *
+	 * @return x, y, z
 	 */
 	String getCoordinates();
 
