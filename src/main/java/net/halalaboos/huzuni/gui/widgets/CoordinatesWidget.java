@@ -24,7 +24,7 @@ public class CoordinatesWidget extends BackgroundWidget {
 	public void renderMenu(int x, int y, int width, int height) {
 		super.renderMenu(x, y, width, height);
 		if (multiLine.isEnabled()) {
-			renderMultiLine(x, y, width, height);
+			renderMultiLine(x, y);
 		} else {
 			String coordinates = getCoordinates();
 			theme.drawStringWithShadow(coordinates, x, y, 0xFFFFFF);
@@ -33,7 +33,7 @@ public class CoordinatesWidget extends BackgroundWidget {
 		}
 	}
 
-	private void renderMultiLine(int x, int y, int width, int height) {
+	private void renderMultiLine(int x, int y) {
 		String[] lines = getMultilineCoords();
 		int addedY = 0;
 		for (String coordinate : lines) {
