@@ -1,7 +1,6 @@
 package net.halalaboos.huzuni.indev.gui.impl;
 
 import net.halalaboos.huzuni.api.gui.font.FontData;
-import net.halalaboos.huzuni.api.gui.font.FontRenderer;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.indev.gui.components.TextField;
@@ -27,7 +26,7 @@ public class TextFieldRenderer implements ComponentRenderer<TextField> {
 
     @Override
     public void render(TextField textField) {
-        ColorPalette palette = renderer.getPalette();
+        ColorPack palette = renderer.getPalette();
         if (textField.getTag().equals("lined")) {
             GLManager.glColor(RenderUtils.getColorWithAffects(textField.isTyping() ? palette.getHighlightComponent() : palette.getDefaultComponent().brighter(), textField.isHovered(), Mouse.isButtonDown(0)));
             RenderUtils.drawLine(1F, textField.getX(), textField.getY() + textField.getHeight() - 1F, textField.getX() + textField.getWidth(), textField.getY() + textField.getHeight() - 1F);

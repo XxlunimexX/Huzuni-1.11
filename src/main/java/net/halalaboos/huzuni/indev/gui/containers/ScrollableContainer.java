@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.indev.gui.containers;
 
 import com.sun.javafx.scene.traversal.Direction;
 import net.halalaboos.huzuni.indev.gui.Container;
-import net.halalaboos.huzuni.indev.gui.InputUtility;
+import net.halalaboos.huzuni.indev.gui.Toolbox;
 import net.halalaboos.huzuni.indev.gui.actions.Actions;
 import net.halalaboos.huzuni.indev.gui.actions.ClickAction;
 import net.halalaboos.huzuni.indev.gui.actions.WheelActionListener;
@@ -18,8 +18,8 @@ public class ScrollableContainer extends Container {
 
     public ScrollableContainer(String tag) {
         super(tag);
-        this.verticalScrollbar = new Scrollbar(inputUtility, 8);
-        this.horizontalScrollbar = new Scrollbar(inputUtility, false,8);
+        this.verticalScrollbar = new Scrollbar(toolbox, 8);
+        this.horizontalScrollbar = new Scrollbar(toolbox, false,8);
         this.setLayout(new ScrollLayout());
         // Sets the SCROLLBAR activated
         this.addListener(Actions.MOUSEPRESS, (ClickAction.ClickActionListener) action -> updateMouseClick(action.x, action.y));
@@ -46,7 +46,7 @@ public class ScrollableContainer extends Container {
     @Override
     public boolean isPointInside(int x, int y) {
         // Include this to ensure that the offset does not affect the interactions between components outside the viewable area.
-        return super.isPointInside(x, y) && inputUtility.isPointInside(x, y, getRenderArea());
+        return super.isPointInside(x, y) && toolbox.isPointInside(x, y, getRenderArea());
     }
 
     /**
@@ -69,7 +69,7 @@ public class ScrollableContainer extends Container {
      * Updates the scroll bar based on the mouse wheel.
      * */
     private boolean updateMouseWheel(int direction) {
-        if (isHovered() && isPointInside(inputUtility.getMouseX(), inputUtility.getMouseY())) {
+        if (isHovered() && isPointInside(toolbox.getMouseX(), toolbox.getMouseY())) {
             verticalScrollbar.wheel(direction);
             horizontalScrollbar.wheel(direction);
             return true;
@@ -97,10 +97,10 @@ public class ScrollableContainer extends Container {
     }
 
     @Override
-    protected void setInputUtility(InputUtility inputUtility) {
-        super.setInputUtility(inputUtility);
-        this.verticalScrollbar.setInputUtility(inputUtility);
-        this.horizontalScrollbar.setInputUtility(inputUtility);
+    protected void setToolbox(Toolbox toolbox) {
+        super.setToolbox(toolbox);
+        this.verticalScrollbar.setToolbox(toolbox);
+        this.horizontalScrollbar.setToolbox(toolbox);
     }
 
     public Scrollbar getVerticalScrollbar() {

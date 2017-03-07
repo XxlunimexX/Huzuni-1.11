@@ -8,7 +8,7 @@ import java.awt.*;
  * Visit <a href="https://material.io/guidelines/style/color.html#color-color-palette">Here</a> to find out more. <br/>
  * Created by Brandon Williams on 3/6/2017.
  */
-public enum ColorPalette {
+public enum ColorPack {
 
     DEFAULT(0xFF297E25),
     RED(0xFFF44336),
@@ -33,11 +33,11 @@ public enum ColorPalette {
 
     private final Color background, secondaryBackground, defaultComponent, highlightComponent, enabledText, disabledText;
 
-    ColorPalette(int highlight) {
+    ColorPack(int highlight) {
         this(0xFF141414, 0xFF232323, 0xFF2D2D2D, highlight, 0xFFFFFFFF, 0xFF8A8A8A);
     }
 
-    ColorPalette(int background, int secondaryBackground, int defaultComponent, int highlightComponent, int enabledText, int disabledText) {
+    ColorPack(int background, int secondaryBackground, int defaultComponent, int highlightComponent, int enabledText, int disabledText) {
         this.background = new Color(background);
         this.secondaryBackground = new Color(secondaryBackground);
         this.defaultComponent = new Color(defaultComponent);

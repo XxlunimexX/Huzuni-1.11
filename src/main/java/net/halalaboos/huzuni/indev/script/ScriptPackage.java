@@ -1,7 +1,5 @@
 package net.halalaboos.huzuni.indev.script;
 
-import net.halalaboos.huzuni.indev.script.loadable.LoadableScript;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,15 +8,9 @@ import java.util.Map;
  */
 public class ScriptPackage {
 
-    private final Map<String, LoadableScript> loadedScripts = new HashMap<>();
+    private final Map<String, ScriptHandle> loadedScripts = new HashMap<>();
 
-    /**
-     * Destroys all loaded scripts.
-     * */
     public void destroy() {
-        for (LoadableScript script : loadedScripts.values()) {
-            script.destroy();
-        }
-        loadedScripts.clear();
+
     }
 }

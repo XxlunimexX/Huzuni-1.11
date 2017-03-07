@@ -41,7 +41,7 @@ public class Container extends Component {
         for (int i = components.size() - 1; i >= 0; i--) {
             Component component = components.get(i);
             // Set hover true if no other component has been set hovered = true and this component has the mouse over it.
-            if (hover && component.isPointInside(inputUtility.getMouseX(), inputUtility.getMouseY())) {
+            if (hover && component.isPointInside(toolbox.getMouseX(), toolbox.getMouseY())) {
                 this.tooltip = component.getTooltip();
                 component.setHovered(true);
                 hover = false;
@@ -101,17 +101,17 @@ public class Container extends Component {
      * */
     public boolean add(Component component) {
         // Update this component with the new gui utility.
-        component.setInputUtility(inputUtility);
+        component.setToolbox(toolbox);
         component.setParent(this);
         return components.add(component);
     }
 
     @Override
-    protected void setInputUtility(InputUtility inputUtility) {
-        super.setInputUtility(inputUtility);
+    protected void setToolbox(Toolbox toolbox) {
+        super.setToolbox(toolbox);
         // Update every child with the new gui utility.
         for (Component child : components) {
-            child.setInputUtility(inputUtility);
+            child.setToolbox(toolbox);
         }
     }
 

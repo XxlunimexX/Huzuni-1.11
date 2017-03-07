@@ -22,6 +22,7 @@ import net.halalaboos.huzuni.mod.combat.*;
 import net.halalaboos.huzuni.mod.commands.*;
 import net.halalaboos.huzuni.mod.mining.*;
 import net.halalaboos.huzuni.mod.misc.*;
+import net.halalaboos.huzuni.mod.misc.chat.ChatAnnoy;
 import net.halalaboos.huzuni.mod.misc.chat.ChatMutator;
 import net.halalaboos.huzuni.mod.movement.*;
 import net.halalaboos.huzuni.mod.visual.*;

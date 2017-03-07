@@ -20,15 +20,15 @@ public class ContainerManager {
 
     private RenderManager renderManager;
 
-    private InputUtility inputUtility;
+    private Toolbox toolbox;
 
     private final FontData popupFont;
 
     private String tooltip = null;
 
-    public ContainerManager(RenderManager renderManager, InputUtility inputUtility, FontData popupFont) {
+    public ContainerManager(RenderManager renderManager, Toolbox toolbox, FontData popupFont) {
         this.renderManager = renderManager;
-        this.inputUtility = inputUtility;
+        this.toolbox = toolbox;
         this.popupFont = popupFont;
     }
 
@@ -39,7 +39,7 @@ public class ContainerManager {
         for (Container container : containers) {
             renderManager.render(container);
         }
-        renderManager.getPopupRenderer().drawTooltip(popupFont, tooltip, inputUtility.getMouseX(), inputUtility.getMouseY() - popupFont.getFontHeight());
+        renderManager.getPopupRenderer().drawTooltip(popupFont, tooltip, toolbox.getMouseX(), toolbox.getMouseY() - popupFont.getFontHeight());
     }
 
     /**
@@ -55,7 +55,7 @@ public class ContainerManager {
         for (int i = containers.size() - 1; i >= 0; i--) {
             Container container = containers.get(i);
             // Set hover true if no other container has been set hovered = true and this container has the mouse over it.
-            if (hover && container.isPointInside(inputUtility.getMouseX(), inputUtility.getMouseY())) {
+            if (hover && container.isPointInside(toolbox.getMouseX(), toolbox.getMouseY())) {
                 this.tooltip = container.getTooltip();
                 container.setHovered(true);
                 hover = false;
@@ -111,7 +111,7 @@ public class ContainerManager {
      * Adds the container to this manager.
      * */
     public boolean add(Container container) {
-        container.setInputUtility(inputUtility);
+        container.setToolbox(toolbox);
         return this.containers.add(container);
     }
 

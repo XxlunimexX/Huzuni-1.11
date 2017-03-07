@@ -26,7 +26,7 @@ public class ButtonRenderer implements ComponentRenderer<Button> {
 
     @Override
     public void render(Button button) {
-        ColorPalette palette = renderer.getPalette();
+        ColorPack palette = renderer.getPalette();
         GLManager.glColor(RenderUtils.getColorWithAffects(button.isHighlight() ? palette.getHighlightComponent() : palette.getDefaultComponent(), button.isHovered(), Mouse.isButtonDown(0)));
         RenderUtils.drawRect(button.getArea());
         int color = button.isHighlight() ? palette.getEnabledText().getRGB() : palette.getDisabledText().getRGB();

@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.indev.gui.containers;
 
 import net.halalaboos.huzuni.indev.gui.Component;
-import net.halalaboos.huzuni.indev.gui.InputUtility;
+import net.halalaboos.huzuni.indev.gui.Toolbox;
 
 /**
  * Basic scrollbar logic. <br/>
@@ -14,7 +14,7 @@ public class Scrollbar {
      * */
     public static final int MINIMUM_SCROLLBAR_SIZE = 12;
 
-    private InputUtility inputUtility;
+    private Toolbox toolbox;
 
     // X and Y positions of this scroll bar.
     private int x, y;
@@ -46,12 +46,12 @@ public class Scrollbar {
     //
     private float scrollVelocity = 0;
 
-    public Scrollbar(InputUtility inputUtility, int barSize) {
-        this(inputUtility, true, barSize);
+    public Scrollbar(Toolbox toolbox, int barSize) {
+        this(toolbox, true, barSize);
     }
 
-    public Scrollbar(InputUtility inputUtility, boolean vertical, int barSize) {
-        this.inputUtility = inputUtility;
+    public Scrollbar(Toolbox toolbox, boolean vertical, int barSize) {
+        this.toolbox = toolbox;
         this.vertical = vertical;
         this.barSize = barSize;
     }
@@ -70,7 +70,7 @@ public class Scrollbar {
               -----------------(divided by)-----------------------
                       (total area - scrollbar length)
             */
-            this.scrollOffset = (int) ((float) (((vertical ? inputUtility.getMouseY() : inputUtility.getMouseX()) - mouseOffset) * (totalAreaLength - viewableAreaLength)) / (float) (viewableAreaLength - getScrollbarLength()));
+            this.scrollOffset = (int) ((float) (((vertical ? toolbox.getMouseY() : toolbox.getMouseX()) - mouseOffset) * (totalAreaLength - viewableAreaLength)) / (float) (viewableAreaLength - getScrollbarLength()));
         } else if (scrollVelocity != 0F) {
             // If the velocity is coming to a crawl..
             if (scrollVelocity <= 0.5F && scrollVelocity >= -0.5F) {
@@ -125,7 +125,7 @@ public class Scrollbar {
      * */
     public void setScrolling(boolean scrolling) {
         this.scrolling = scrolling;
-        this.mouseOffset = (vertical ? inputUtility.getMouseY() : inputUtility.getMouseX()) - getScrollbarPosition();
+        this.mouseOffset = (vertical ? toolbox.getMouseY() : toolbox.getMouseX()) - getScrollbarPosition();
     }
 
     /**
@@ -157,14 +157,14 @@ public class Scrollbar {
      * @return True if the x and y positions are within this scroll bar's area.
      * */
     public boolean isPointInside(int x, int y) {
-        return inputUtility.isPointInside(x, y, getArea());
+        return toolbox.isPointInside(x, y, getArea());
     }
 
     /**
      * @return True if the x and y positions are within the moveable scroll bar.
      * */
     public boolean isPointInsideBar(int x, int y) {
-        return inputUtility.isPointInside(x, y, getScrollbar());
+        return toolbox.isPointInside(x, y, getScrollbar());
     }
 
 
@@ -277,7 +277,7 @@ public class Scrollbar {
         return scrolling;
     }
 
-    protected void setInputUtility(InputUtility inputUtility) {
-        this.inputUtility = inputUtility;
+    protected void setToolbox(Toolbox toolbox) {
+        this.toolbox = toolbox;
     }
 }

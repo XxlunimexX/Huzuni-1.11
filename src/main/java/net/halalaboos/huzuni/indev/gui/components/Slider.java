@@ -46,7 +46,7 @@ public class Slider extends Component {
      * */
     public void updateSliding() {
         if (this.sliding) {
-            this.sliderPercentage = (inputUtility.getMouseX() - getX() - (getBarSize() / 2F)) / (getWidthForSlider());
+            this.sliderPercentage = (toolbox.getMouseX() - getX() - (getBarSize() / 2F)) / (getWidthForSlider());
             if (sliderPercentage > 1)
                 sliderPercentage = 1;
             if (sliderPercentage < 0)
@@ -67,7 +67,7 @@ public class Slider extends Component {
      * @return True if the given point is within the slider bar.
      * */
     public boolean isPointInsideSlider(int x, int y) {
-        return inputUtility.isPointInside(x, y, getSliderBar());
+        return toolbox.isPointInside(x, y, getSliderBar());
     }
 
     /**

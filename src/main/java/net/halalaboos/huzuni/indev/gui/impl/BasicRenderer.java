@@ -19,14 +19,14 @@ import java.awt.datatransfer.Transferable;
 
 /**
  * Basic implementation of the renderer for the GUI. <br/>
- * Also implements the InputUtility interface, making it work for both parameters of a ContainerManager. <br/>
+ * Also implements the Toolbox interface, making it work for both parameters of a ContainerManager. <br/>
  * Created by Brandon Williams on 2/13/2017.
  */
-public class BasicRenderer extends RenderManager implements InputUtility {
+public class BasicRenderer extends RenderManager implements Toolbox {
 
     private final FontRenderer fontRenderer = new BasicFontRenderer();
 
-    private ColorPalette palette = ColorPalette.values()[(int) (Math.random() * ColorPalette.values().length)];
+    private ColorPack palette = ColorPack.values()[(int) (Math.random() * ColorPack.values().length)];
 
     public BasicRenderer() {
         super(new BasicPopupRenderer());
@@ -85,11 +85,11 @@ public class BasicRenderer extends RenderManager implements InputUtility {
         return fontRenderer;
     }
 
-    public ColorPalette getPalette() {
+    public ColorPack getPalette() {
         return palette;
     }
 
-    public void setPalette(ColorPalette palette) {
+    public void setPalette(ColorPack palette) {
         this.palette = palette;
     }
 }

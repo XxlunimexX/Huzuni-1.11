@@ -58,7 +58,7 @@ public class Dropdown <I> extends Component {
     public int getHoveredItem(int x, int y) {
         if (expanded) {
             for (int i = 0; i < items.length; i++) {
-                if (inputUtility.isPointInside(x, y, getItemArea(i))) {
+                if (toolbox.isPointInside(x, y, getItemArea(i))) {
                     return i;
                 }
             }

@@ -1,36 +1,40 @@
 package net.halalaboos.huzuni.indev.script.meta;
 
 import net.halalaboos.huzuni.api.mod.Mod;
-import net.halalaboos.huzuni.indev.script.Evaluation;
-import net.halalaboos.huzuni.indev.script.SafeInvoker;
+import net.halalaboos.huzuni.indev.script.ScriptHandle;
+import net.halalaboos.tukio.Subscriber;
 
-import javax.script.Invocable;
+import javax.script.ScriptException;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
- * Wrapper implementation of the Mod class. Used by scripts. <br/>
- * Created by Brandon Williams on 2/18/2017.
+ * Carries a script handle for a mod. <br/>
+ * Created by Brandon Williams on 2/19/2017.
  */
 public class ScriptMod extends Mod {
 
-    private final SafeInvoker safeInvoker;
+    private final ScriptHandle script;
 
-    public ScriptMod(Evaluation evaluation, String name, String description) {
+    public ScriptMod(String name, String description, ScriptHandle script) throws ScriptException {
         super(name, description);
-        safeInvoker = new SafeInvoker((Invocable) evaluation.scriptEngine);
+        this.script = script;
+        // script.addGlobal("subscribe", (Consumer<Object>) this::subscribe);
     }
 
     @Override
     protected void onToggle() {
-        safeInvoker.safeInvoke("onToggle");
+        script.safeInvoke("onToggle");
     }
 
     @Override
     protected void onEnable() {
-        safeInvoker.safeInvoke("onEnable");
+        script.safeInvoke("onEnable");
     }
 
     @Override
     protected void onDisable() {
-        safeInvoker.safeInvoke("onDisable");
+        script.safeInvoke("onDisable");
     }
+
 }

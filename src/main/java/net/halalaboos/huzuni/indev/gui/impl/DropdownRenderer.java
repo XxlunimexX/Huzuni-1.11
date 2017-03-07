@@ -26,7 +26,7 @@ public class DropdownRenderer implements ComponentRenderer<Dropdown> {
 
     @Override
     public void render(Dropdown dropdown) {
-        ColorPalette palette = renderer.getPalette();
+        ColorPack palette = renderer.getPalette();
         GLManager.glColor(RenderUtils.getColorWithAffects(palette.getDefaultComponent(), dropdown.isExpanded() || dropdown.isHovered(), Mouse.isButtonDown(0)));
         RenderUtils.drawRect(dropdown.getArea());
         renderer.getFontRenderer().drawString(dropdown.getFont(), dropdown.getSelectedItem().toString(), dropdown.getX() + 3, dropdown.getY() + 1, palette.getEnabledText().getRGB());

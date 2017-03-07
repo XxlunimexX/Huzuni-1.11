@@ -25,7 +25,7 @@ public class CheckboxRenderer implements ComponentRenderer<Checkbox> {
 
     @Override
     public void render(Checkbox checkbox) {
-        ColorPalette palette = renderer.getPalette();
+        ColorPack palette = renderer.getPalette();
         GLManager.glColor(RenderUtils.getColorWithAffects(palette.getDefaultComponent(), checkbox.isHovered(), Mouse.isButtonDown(0)));
         RenderUtils.drawRect(checkbox.getCheckbox());
         if (checkbox.isEnabled()) {

@@ -61,7 +61,7 @@ public class TextField extends Component {
                         break;
                     case Keyboard.KEY_V:
                         if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) {
-                            this.append(inputUtility.getClipboard());
+                            this.append(toolbox.getClipboard());
                         }
                     default:
                         break;

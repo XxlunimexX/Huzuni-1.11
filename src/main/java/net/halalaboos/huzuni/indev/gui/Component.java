@@ -30,7 +30,7 @@ public abstract class Component {
     /**
      * Utility used within this component to access mouse information and screen information. Includes helper functions as well.
      * */
-    protected InputUtility inputUtility;
+    protected Toolbox toolbox;
 
     /**
      * Each component is going to have it's own font data associated with it.
@@ -210,8 +210,8 @@ public abstract class Component {
     /**
      * Setter for the utility which should only be accessed from a parent component.
      * */
-    protected void setInputUtility(InputUtility inputUtility) {
-        this.inputUtility = inputUtility;
+    protected void setToolbox(Toolbox toolbox) {
+        this.toolbox = toolbox;
     }
 
     public FontData getFont() {

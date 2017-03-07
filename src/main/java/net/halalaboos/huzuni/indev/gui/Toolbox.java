@@ -4,7 +4,7 @@ package net.halalaboos.huzuni.indev.gui;
  * Simple utility class used within the components system to perform simple calculations. <br/>
  * Created by Brandon Williams on 2/4/2017.
  */
-public interface InputUtility {
+public interface Toolbox {
 
     /**
      * @return The x position of the mouse.

@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.mod.misc;
+package net.halalaboos.huzuni.mod.misc.chat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
