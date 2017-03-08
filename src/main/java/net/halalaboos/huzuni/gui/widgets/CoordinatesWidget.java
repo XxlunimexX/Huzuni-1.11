@@ -57,7 +57,7 @@ public class CoordinatesWidget extends BackgroundWidget {
 	}
 
 	private String[] getMultilineCoords() {
-		DecimalFormat df = new DecimalFormat("#.0");
+		DecimalFormat df = new DecimalFormat("0.0");
 		String x = "X: " + df.format(getPlayer().getX());
 		String y = "Y: " + df.format(getPlayer().getY());
 		String z = "Z: " + df.format(getPlayer().getZ());

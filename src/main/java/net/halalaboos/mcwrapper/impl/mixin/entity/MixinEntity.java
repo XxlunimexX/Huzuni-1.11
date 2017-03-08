@@ -260,7 +260,7 @@ import java.util.UUID;
 
 	@Override
 	public String getCoordinates() {
-		DecimalFormat format = new DecimalFormat("#.0", new DecimalFormatSymbols(Locale.US));
+		DecimalFormat format = new DecimalFormat("0.0", new DecimalFormatSymbols(Locale.US));
 		String x = format.format(getX());
 		String y = format.format(getY());
 		String z = format.format(getZ());

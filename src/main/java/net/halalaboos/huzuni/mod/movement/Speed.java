@@ -21,6 +21,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import org.lwjgl.input.Keyboard;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
+
 /**
  * Allows the player to move at a faster rate.
  * */
@@ -66,9 +68,9 @@ public class Speed extends BasicMod {
 		if (event.type == Type.PRE) {
 			boolean modifyMovement = shouldModifyMovement();
 			mode.getSelectedItem().onUpdate(this, mc, event);
-			if (modifyMovement && MCWrapper.getPlayer().isOnGround()) {
+			if (modifyMovement && getPlayer().isOnGround()) {
 				if ((stairs.isEnabled() && isUnderStairs()) || bunnyHop.isEnabled()) {
-					MCWrapper.getPlayer().jump();
+					getPlayer().jump();
 				}
 			}
 		}
@@ -76,7 +78,7 @@ public class Speed extends BasicMod {
 	
 	@EventMethod
 	public void onPlayerMove(PlayerMoveEvent event) {
-		boolean onGround = MCWrapper.getPlayer().isOnGround();
+		boolean onGround = getPlayer().isOnGround();
 		event.setMotionX(event.getMotionX() * (onGround ? groundSpeed.getValue() : airSpeed.getValue()));
 		event.setMotionZ(event.getMotionZ() * (onGround ? groundSpeed.getValue() : airSpeed.getValue()));
         mode.getSelectedItem().onPlayerMove(this, mc, event);
@@ -102,10 +104,9 @@ public class Speed extends BasicMod {
      * @return True if the player's given circumstances are ideal for modifying movement.
      * */
 	public boolean shouldModifyMovement() {
-		ClientPlayer player = MCWrapper.getPlayer();
-        return player.getForwardMovement()> 0 && !player.isSneaking() &&
-				!player.isCollided(Entity.CollisionType.HORIZONTAL) &&
-				player.getFood() > 6 && !player.isInFluid(Fluid.WATER) && !player.isInFluid(Fluid.LAVA);
+		ClientPlayer player = getPlayer();
+        return player.getForwardMovement() > 0 && !player.isSneaking()  &&
+				!player.isCollided(Entity.CollisionType.HORIZONTAL) && player.getFood() > 6;
     }
 
     /**
@@ -119,7 +120,7 @@ public class Speed extends BasicMod {
 
         @Override
         public void onUpdate(Speed speed, Minecraft mc, UpdateEvent event) {
-			MCWrapper.getPlayer().setSprinting(speed.shouldModifyMovement());
+			getPlayer().setSprinting(speed.shouldModifyMovement());
         }
 
         @Override

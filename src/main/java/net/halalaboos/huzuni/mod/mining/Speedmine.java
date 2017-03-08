@@ -75,6 +75,9 @@ public class Speedmine extends BasicMod {
 	@EventMethod
 	public void onUpdate(UpdateEvent event) {
 		if (event.type == UpdateEvent.Type.PRE) {
+			if (getController().getHitDelay() > hitDelay.getValue()) {
+				getController().setHitDelay(((int) hitDelay.getValue()));
+			}
 			if (digging) {
 				IBlockState blockState = this.mc.world.getBlockState(position);
 				float multiplier = noSlow.isEnabled() && getPlayer().getFallDistance() <= 1F
@@ -84,7 +87,6 @@ public class Speedmine extends BasicMod {
 					getController().onBlockDestroy(new Vector3i(position.getX(), position.getY(), position.getZ()));
 					mc.getConnection().sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK, this.position, this.facing));
 					curBlockDamage = 0F;
-					getController().setHitDelay(((int) hitDelay.getValue()));
 					digging = false;
 				}
 			}
