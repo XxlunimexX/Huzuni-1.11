@@ -12,7 +12,6 @@ import java.io.Reader;
 /**
  * Loads mod files. <br/>
  * Created by Brandon Williams on 2/19/2017.
- */
 public class LoadableMod extends LoadableScript {
 
     private final String name, description;
@@ -41,3 +40,5 @@ public class LoadableMod extends LoadableScript {
         huzuni.modManager.removeMod(mod);
     }
 }
+
+ */

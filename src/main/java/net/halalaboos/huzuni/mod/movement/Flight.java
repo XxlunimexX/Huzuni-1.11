@@ -2,10 +2,11 @@ package net.halalaboos.huzuni.mod.movement;
 
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.event.PlayerMoveEvent;
-import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Value;
+import net.halalaboos.mcwrapper.api.event.PacketSendEvent;
+import net.halalaboos.mcwrapper.api.network.packet.client.PlayerPacket;
 import org.lwjgl.input.Keyboard;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
@@ -21,6 +22,16 @@ public class Flight extends BasicMod {
 		this.setAuthor("Halalaboos");
 		this.setCategory(Category.MOVEMENT);
 		addChildren(speed);
+		subscribe(PacketSendEvent.class, event -> {
+			//Check if it's the Player update packet
+			if (event.getPacket() instanceof PlayerPacket) {
+				PlayerPacket packet = (PlayerPacket)event.getPacket();
+				//Tell the server we're on the ground
+				packet.setOnGround(true);
+				//Enables creative flying
+				getPlayer().setFlying(true);
+			}
+		});
 	}
 
 	@Override
@@ -33,23 +44,6 @@ public class Flight extends BasicMod {
 		huzuni.eventManager.removeListener(this);
 		if (getPlayer() != null) {
 			getPlayer().setFlying(false);
-		}
-	}
-
-	@EventMethod
-	public void onUpdate(UpdateEvent event) {
-		switch (event.type) {
-			case PRE:
-				getPlayer().setFlying(true);
-				if (getPlayer().getFallDistance() > 3) {
-					getPlayer().setOnGround(true);
-				}
-				break;
-			case POST:
-				if (getPlayer().getFallDistance() > 3) {
-					getPlayer().setOnGround(false);
-				}
-				break;
 		}
 	}
 
