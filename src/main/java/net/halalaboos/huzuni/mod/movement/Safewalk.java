@@ -4,6 +4,8 @@ import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.mcwrapper.api.event.player.MoveEvent;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
+
 /**
  * Prevents the player from falling from the edges of blocks.
  * */
@@ -20,7 +22,7 @@ public class Safewalk extends BasicMod {
 		double x = event.getMotionX();
 		double y = event.getMotionY();
 		double z = event.getMotionZ();
-		if (mc.player.onGround) {
+		if (getPlayer().isOnGround()) {
 			double increment;
 			for (increment = 0.05D; x != 0.0D && mc.world.getCollisionBoxes(mc.player, mc.player.getEntityBoundingBox().offset(x, -1.0D, 0.0D)).isEmpty();) {
 				if (x < increment && x >= -increment) {

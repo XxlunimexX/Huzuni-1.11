@@ -9,6 +9,8 @@ import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
+
 /**
  * Steals items from within a chest once the chest was opened.
  * */
@@ -40,7 +42,7 @@ public class Cheststealer extends BasicMod {
 			if (mc.currentScreen instanceof GuiChest) {
 				if (chest != null && guiChest != null) {
 					if (!clickTask.hasClicks()) {
-						mc.player.closeScreen();
+						getPlayer().closeWindow();
 						chest = null;
 						guiChest = null;
 						huzuni.clickManager.withdrawTask(clickTask);

@@ -81,7 +81,7 @@ public class Autopotion extends BasicMod {
 		if (huzuni.hotbarManager.hasPriority(this) && huzuni.lookManager.hasPriority(this) && huzuni.clickManager.hasPriority(this) && usePotions.isEnabled() && needUsePotion()) {
 			int hotbarPotion = findHotbarPotion();
 			if (hotbarPotion != -1 && useTimer.hasReach((int) useDelay.getValue())) {
-				lookTask.setRotations(mc.player.rotationYaw, 90);
+				lookTask.setRotations(getPlayer().getYaw(), 90);
 				huzuni.lookManager.requestTask(this, lookTask);
 				huzuni.hotbarManager.requestTask(this, hotbarTask);
 				useTimer.reset();
@@ -195,7 +195,7 @@ public class Autopotion extends BasicMod {
 	 * @return True if the player's health reaches below the threshold.
 	 * */
 	private boolean needUsePotion() {
-		return mc.player.getHealth() <= healthAmount.getValue();
+		return getPlayer().getHealthData().getCurrentHealth() <= healthAmount.getValue();
 	}
 
 	/**

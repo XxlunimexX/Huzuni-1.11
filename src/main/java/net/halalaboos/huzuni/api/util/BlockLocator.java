@@ -5,6 +5,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getController;
+
 /**
  * Finds the closest block within a radius from the player position, starting with the blocks the player is facing.
  * */
@@ -86,7 +88,7 @@ public abstract class BlockLocator {
 	 * @return True if the {@code distance} is less than the block reach distance.
 	 * */
 	protected boolean isWithinDistance(double distance) {
-		return !distanceCheck || distance < mc.playerController.getBlockReachDistance();
+		return !distanceCheck || distance < getController().getBlockReach();
 	}
 	
 	/**

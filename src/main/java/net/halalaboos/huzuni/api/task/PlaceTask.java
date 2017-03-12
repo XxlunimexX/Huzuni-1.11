@@ -4,6 +4,7 @@ import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.api.util.MathUtils;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.mod.movement.Freecam;
+import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemBlock;
@@ -15,6 +16,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getController;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
  * Look task which simulates block placement server-sided.
@@ -98,7 +102,7 @@ public class PlaceTask extends LookTask {
 	 * @return True if the player should face the position.
 	 * */
 	protected boolean shouldRotate() {
-		return mc.player.getHeldItemMainhand() != null && hasRequiredItem(mc.player.getHeldItemMainhand()) && isWithinDistance();
+		return getPlayer().getHeldItem(Hand.MAIN) != null && hasRequiredItem(mc.player.getHeldItemMainhand()) && isWithinDistance();
 	}
 	
 	protected void reset() {
@@ -122,7 +126,7 @@ public class PlaceTask extends LookTask {
 	 * @return True if the position is within the player's reach distance.
 	 * */
 	public boolean isWithinDistance() {
-		return MathUtils.getDistance(position) < mc.playerController.getBlockReachDistance();
+		return MathUtils.getDistance(position) < getController().getBlockReach();
 	}
 
 	/**

@@ -5,13 +5,13 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.LookTask;
-import net.halalaboos.huzuni.api.util.MinecraftUtils;
+import net.halalaboos.huzuni.api.util.MinecraftUtilsNew;
+import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.item.Item;
 import net.halalaboos.mcwrapper.api.item.types.*;
 import net.halalaboos.mcwrapper.api.item.types.Throwable;
-import net.minecraft.entity.EntityLivingBase;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
@@ -22,7 +22,7 @@ public class Bowaimbot extends BasicMod {
 		
 	private final LookTask lookTask = new LookTask(this);
 	
-	private EntityLivingBase target = null;
+	private Living target = null;
 	
 	public final Toggleable silent  = new Toggleable("Silent", "Makes the aimbot invisible client-side"),
 			players = new Toggleable("Players", "Attack players"), 
@@ -44,8 +44,12 @@ public class Bowaimbot extends BasicMod {
 		huzuni.lookManager.registerTaskHolder(this);
 
 		subscribe(PreMotionUpdateEvent.class, event -> {
-			if (!isUsingBow()) return;
-			target = MinecraftUtils.getClosestEntity(reach.getValue(), 2.5F, invisible.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled(), checkAge.isEnabled());
+			if (!isUsingBow()) {
+				huzuni.lookManager.withdrawTask(lookTask);
+				return;
+			}
+			target = MinecraftUtilsNew.getClosestEntity(reach.getValue(), 2.5F, invisible.isEnabled(),
+					mobs.isEnabled(), animals.isEnabled(), players.isEnabled(), checkAge.isEnabled());
 			if (target == null)
 				return;
 			int use = getPlayer().getHeldItem(Hand.MAIN).getMaxUseTicks() - getPlayer().getItemUseTicks();
@@ -70,12 +74,14 @@ public class Bowaimbot extends BasicMod {
      * */
 	private boolean isUsingBow() {
 		if (getPlayer().getHeldItem(Hand.MAIN) != null) {
-            Item item = getPlayer().getHeldItem(Hand.MAIN).getItemType();
-            if (!(item instanceof Throwable))
-                return false;
-            if (item instanceof Bow) {
-                return true;
-            }
+			if (getPlayer().isUsingItem()) {
+				Item item = getPlayer().getHeldItem(Hand.MAIN).getItemType();
+				if (!(item instanceof Throwable))
+					return false;
+				if (item instanceof Bow) {
+					return true;
+				}
+			}
         }
 		return false;
 	}
@@ -84,7 +90,7 @@ public class Bowaimbot extends BasicMod {
         double pitch = -Math.toDegrees(getLaunchAngle(this.target, v, g));
         if(Double.isNaN(pitch))
             return;
-        double difX = this.target.posX - mc.player.posX, difZ = this.target.posZ - mc.player.posZ;
+        double difX = this.target.getX() - getPlayer().getX(), difZ = this.target.getZ() - getPlayer().getZ();
         float yaw = (float) (Math.atan2(difZ, difX) * 180 / Math.PI) - 90;
         lookTask.setRotations(yaw, (float) pitch);
         lookTask.setReset(silent.isEnabled());
@@ -99,10 +105,10 @@ public class Bowaimbot extends BasicMod {
      * @param g            World gravity
      * @return
      */
-    private float getLaunchAngle(EntityLivingBase targetEntity, double v, double g) {
-        double yDif = ((targetEntity.posY + (targetEntity.getEyeHeight() / 2)) - (mc.player.posY + mc.player.getEyeHeight()));
-        double xDif = (targetEntity.posX - mc.player.posX);
-        double zDif = (targetEntity.posZ - mc.player.posZ);
+    private float getLaunchAngle(Living targetEntity, double v, double g) {
+        double yDif = ((targetEntity.getY() + (targetEntity.getEyeHeight() / 2)) - (getPlayer().getY() + getPlayer().getEyeHeight()));
+        double xDif = (targetEntity.getX() - getPlayer().getX());
+        double zDif = (targetEntity.getZ() - getPlayer().getZ());
 
         /**
          * Pythagorean theorem to merge x/z
