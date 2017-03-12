@@ -1,11 +1,10 @@
 package net.halalaboos.huzuni.mod.movement;
 
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.PlayerMoveEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
+import net.halalaboos.mcwrapper.api.event.player.MoveEvent;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.network.packet.client.PlayerPacket;
 import org.lwjgl.input.Keyboard;
@@ -18,11 +17,15 @@ public class Flight extends BasicMod {
 
 	private final Value speed = new Value("Speed", "", 0.1F, 1F, 10F, "movement speed");
 
+	private boolean oldFlying;
+
 	private Flight() {
 		super("Flight", "Allows an individual to fly", Keyboard.KEY_F);
 		this.setAuthor("Halalaboos");
 		this.setCategory(Category.MOVEMENT);
 		addChildren(speed);
+
+		//Disables fall damage
 		subscribe(PacketSendEvent.class, event -> {
 			//Check if it's the Player update packet
 			if (event.getPacket() instanceof PlayerPacket) {
@@ -31,28 +34,29 @@ public class Flight extends BasicMod {
 				packet.setOnGround(true);
 			}
 		});
+
 		//Enables creative flying
 		subscribe(PreMotionUpdateEvent.class, event -> getPlayer().setFlying(true));
+
+		//Adjusts the movement speed
+		subscribe(MoveEvent.class, event -> {
+			event.setMotionX(event.getMotionX() * speed.getValue());
+			event.setMotionY(event.getMotionY() * speed.getValue());
+			event.setMotionZ(event.getMotionZ() * speed.getValue());
+		});
 	}
 
 	@Override
 	public void onEnable() {
-		huzuni.eventManager.addListener(this);
+		if (getPlayer() != null) {
+			oldFlying = getPlayer().isFlying();
+		}
 	}
 
 	@Override
 	public void onDisable() {
-		huzuni.eventManager.removeListener(this);
 		if (getPlayer() != null) {
-			getPlayer().setFlying(false);
+			getPlayer().setFlying(oldFlying);
 		}
 	}
-
-	@EventMethod
-	public void onPlayerMove(PlayerMoveEvent event) {
-		event.setMotionX(event.getMotionX() * speed.getValue());
-		event.setMotionY(event.getMotionY() * speed.getValue());
-		event.setMotionZ(event.getMotionZ() * speed.getValue());
-	}
-
 }

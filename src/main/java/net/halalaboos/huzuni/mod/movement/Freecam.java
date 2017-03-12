@@ -1,11 +1,10 @@
 package net.halalaboos.huzuni.mod.movement;
 
 import com.mojang.authlib.GameProfile;
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.PlayerMoveEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Value;
+import net.halalaboos.mcwrapper.api.event.player.MoveEvent;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import org.lwjgl.input.Keyboard;
 
@@ -26,6 +25,17 @@ public class Freecam extends BasicMod {
 		this.setCategory(Category.MOVEMENT);
 		setAuthor("Halalaboos");
 		addChildren(speed);
+		subscribe(MoveEvent.class, event -> {
+			mc.player.setSprinting(false);
+			Flight.INSTANCE.setEnabled(true);
+			if (fakePlayer != null)
+				fakePlayer.setHealth(mc.player.getHealth());
+			event.setMotionX(event.getMotionX() * speed.getValue());
+			event.setMotionY(event.getMotionY() * speed.getValue());
+			event.setMotionZ(event.getMotionZ() * speed.getValue());
+			mc.player.renderArmPitch = 1000;
+			mc.player.renderArmYaw = 1000;
+		});
 	}
 	
 	@Override
@@ -53,27 +63,4 @@ public class Freecam extends BasicMod {
 			mc.renderGlobal.loadRenderers(); //Fixes culling updates
 		}
     }
-	
-	@Override
-	public void onEnable() {
-		huzuni.eventManager.addListener(this);
-	}
-	
-	@Override
-	public void onDisable() {
-		huzuni.eventManager.removeListener(this);
-	}
-
-	@EventMethod
-	public void onPlayerMove(PlayerMoveEvent event) {
-		mc.player.setSprinting(false);
-		Flight.INSTANCE.setEnabled(true);
-		if (fakePlayer != null)
-			fakePlayer.setHealth(mc.player.getHealth());
-		event.setMotionX(event.getMotionX() * speed.getValue());
-		event.setMotionY(event.getMotionY() * speed.getValue());
-		event.setMotionZ(event.getMotionZ() * speed.getValue());
-		mc.player.renderArmPitch = 1000;
-		mc.player.renderArmYaw = 1000;
-	}
 }

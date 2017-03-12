@@ -9,6 +9,7 @@ import net.halalaboos.mcwrapper.api.world.World;
 import net.halalaboos.mcwrapper.impl.Convert;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.MoverType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
 import org.spongepowered.asm.mixin.*;
@@ -63,6 +64,9 @@ import java.util.UUID;
 	@Shadow public boolean isCollidedVertically;
 	@Shadow protected abstract void setRotation(float yaw, float pitch);
 	@Shadow public abstract boolean shadow$isRiding();
+
+	@Shadow
+	public void move(MoverType type, double x, double y, double z){}
 
 	private AABB aabb;
 

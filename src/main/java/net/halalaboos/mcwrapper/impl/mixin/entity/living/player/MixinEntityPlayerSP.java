@@ -6,15 +6,18 @@ import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
+import net.halalaboos.mcwrapper.api.event.player.MoveEvent;
 import net.halalaboos.mcwrapper.api.event.player.PostMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;
 import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.entity.MoverType;
 import net.minecraft.network.play.client.CPacketChatMessage;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.MovementInput;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -32,6 +35,9 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 
 	@Shadow
 	public abstract void onUpdateWalkingPlayer();
+
+	@Shadow
+	protected abstract void updateAutoJump(float p_189810_1_, float p_189810_2_);
 
 	private PreMotionUpdateEvent preMotion = new PreMotionUpdateEvent();
 	private PostMotionUpdateEvent postMotion = new PostMotionUpdateEvent();
@@ -58,6 +64,20 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 		huzuni.clickManager.onPostUpdate();
 		MCWrapper.getEventManager().publish(postMotion);
 		ci.cancel();
+	}
+
+	private final MoveEvent event = new MoveEvent(0, 0, 0);
+
+	@Overwrite
+	public void move(MoverType type, double x, double y, double z) {
+		double d0 = this.posX;
+		double d1 = this.posZ;
+		event.setMotionX(x);
+		event.setMotionY(y);
+		event.setMotionZ(z);
+		MCWrapper.getEventManager().publish(event);
+		super.move(type, event.getMotionX(), event.getMotionY(), event.getMotionZ());
+		this.updateAutoJump((float)(this.posX - d0), (float)(this.posZ - d1));
 	}
 
 	@Override

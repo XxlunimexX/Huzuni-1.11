@@ -36,7 +36,6 @@ public class Patcher {
 	public Patcher() {}
 
 	public void init() {
-		Huzuni.INSTANCE.eventManager.addListener(this);
 		getEventManager().subscribe(MouseEvent.class, event -> {
 			if (event.getButton() == MouseButton.MIDDLE) {
 				if (Minecraft.getMinecraft().objectMouseOver != null) {

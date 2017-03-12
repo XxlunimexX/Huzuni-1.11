@@ -1,6 +1,5 @@
 package net.halalaboos.huzuni;
 
-import net.halalaboos.huzuni.api.event.EventManager;
 import net.halalaboos.huzuni.api.gui.font.FontManager;
 import net.halalaboos.huzuni.api.mod.CommandManager;
 import net.halalaboos.huzuni.api.mod.KeybindManager;
@@ -70,8 +69,6 @@ public enum Huzuni {
 	public final CapeManager capeManager = new CapeManager(this);
 	
 	public final MemeManager memeManager = new MemeManager(this);
-	
-	public final EventManager<Object> eventManager = new EventManager<>();
 
 	public final TaskManager<LookTask> lookManager = new TaskManager<>("Look Manager", "Manage which mods will prioritize when modifying the player rotation.");
 	

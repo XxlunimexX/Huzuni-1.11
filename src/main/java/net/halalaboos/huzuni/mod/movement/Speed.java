@@ -1,7 +1,5 @@
 package net.halalaboos.huzuni.mod.movement;
 
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.PlayerMoveEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Mode;
@@ -10,6 +8,7 @@ import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
+import net.halalaboos.mcwrapper.api.event.player.MoveEvent;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
@@ -27,13 +26,11 @@ public class Speed extends BasicMod {
 		
 	public final Mode<SpeedMode> mode = new Mode<>("Mode", "Speed mode", new NoneMode(), new SprintMode());
 
-    public final Toggleable bunnyHop = new Toggleable("Bunny hop", "Hops like a bunny");
+    private final Toggleable bunnyHop = new Toggleable("Bunny hop", "Hops like a bunny");
+    private final Toggleable stairs = new Toggleable("Stairs", "Automagically jumps up stairs");
 
-    public final Toggleable stairs = new Toggleable("Stairs", "Automagically jumps up stairs");
-
-    public final Value groundSpeed = new Value("Ground speed", 1F, 1F, 10F, "Movement speed on the ground");
-
-    public final Value airSpeed = new Value("Air speed", 1F, 1F, 10F, "Movement speed in air");
+    private final Value groundSpeed = new Value("Ground speed", 1F, 1F, 10F, "Movement speed on the ground");
+    private final Value airSpeed = new Value("Air speed", 1F, 1F, 10F, "Movement speed in air");
 	
 	public Speed() {
 		super("Speed", "Adjust player movement speed", Keyboard.KEY_M);
@@ -50,33 +47,23 @@ public class Speed extends BasicMod {
 				}
 			}
 		});
-	}
-
-	@Override
-	public void onEnable() {
-		huzuni.eventManager.addListener(this);
+		subscribe(MoveEvent.class, event -> {
+			boolean onGround = getPlayer().isOnGround();
+			event.setMotionX(event.getMotionX() * (onGround ? groundSpeed.getValue() : airSpeed.getValue()));
+			event.setMotionZ(event.getMotionZ() * (onGround ? groundSpeed.getValue() : airSpeed.getValue()));
+			mode.getSelectedItem().onPlayerMove(this, mc, event);
+		});
 	}
 	
 	@Override
 	public void onDisable() {
-		huzuni.eventManager.removeListener(this);
-		if (mc.player != null)
-			mc.player.setSprinting(false);
+		if (getPlayer() != null) getPlayer().setSprinting(false);
 	}
 	
 	@Override
 	public String getDisplayNameForRender() {
 		return settings.getDisplayName() + String.format(" (%s)", mode.getSelectedItem());
 	}
-	
-	@EventMethod
-	public void onPlayerMove(PlayerMoveEvent event) {
-		boolean onGround = getPlayer().isOnGround();
-		event.setMotionX(event.getMotionX() * (onGround ? groundSpeed.getValue() : airSpeed.getValue()));
-		event.setMotionZ(event.getMotionZ() * (onGround ? groundSpeed.getValue() : airSpeed.getValue()));
-        mode.getSelectedItem().onPlayerMove(this, mc, event);
-	}
-
 	/**
      * @return True if the player is underneath stairs.
      * */
@@ -96,7 +83,7 @@ public class Speed extends BasicMod {
 	/**
      * @return True if the player's given circumstances are ideal for modifying movement.
      * */
-	public boolean shouldModifyMovement() {
+	boolean shouldModifyMovement() {
 		ClientPlayer player = getPlayer();
         return player.getForwardMovement() > 0 && !player.isSneaking()  &&
 				!player.isCollided(Entity.CollisionType.HORIZONTAL) && player.getFood() > 6;
@@ -107,7 +94,7 @@ public class Speed extends BasicMod {
      * */
     public static class SprintMode extends SpeedMode {
 
-        public SprintMode() {
+        SprintMode() {
             super("Sprint", "Forces the player to sprint.");
         }
 
@@ -117,7 +104,7 @@ public class Speed extends BasicMod {
         }
 
         @Override
-        public void onPlayerMove(Speed speed, Minecraft mc, PlayerMoveEvent event) {
+        public void onPlayerMove(Speed speed, Minecraft mc, MoveEvent event) {
 
         }
     }
@@ -127,7 +114,7 @@ public class Speed extends BasicMod {
      * */
     public static class NoneMode extends SpeedMode {
 
-        public NoneMode() {
+        NoneMode() {
             super("None", "An empty speed mode, using only the movement speed modifiers.");
         }
 
@@ -137,7 +124,7 @@ public class Speed extends BasicMod {
         }
 
         @Override
-        public void onPlayerMove(Speed speed, Minecraft mc, PlayerMoveEvent event) {
+        public void onPlayerMove(Speed speed, Minecraft mc, MoveEvent event) {
 
         }
     }
@@ -149,7 +136,7 @@ public class Speed extends BasicMod {
 
         private final String name, description;
 
-        public SpeedMode(String name, String description) {
+        SpeedMode(String name, String description) {
             this.name = name;
             this.description = description;
         }
@@ -162,7 +149,7 @@ public class Speed extends BasicMod {
         /**
          * Invoked when the player moves.
          * */
-        public abstract void onPlayerMove(Speed speed, Minecraft mc, PlayerMoveEvent event);
+        public abstract void onPlayerMove(Speed speed, Minecraft mc, MoveEvent event);
 
         @Override
         public String getName() {

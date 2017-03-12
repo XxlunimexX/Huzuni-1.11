@@ -1,13 +1,12 @@
-package net.halalaboos.huzuni.api.event;
+package net.halalaboos.mcwrapper.api.event.player;
 
-/**
- * This event is fired when the player moves.
- * */
-public class PlayerMoveEvent {
+import net.halalaboos.tukio.Event;
+
+public class MoveEvent extends Event {
 
 	private double motionX, motionY, motionZ;
 
-	public PlayerMoveEvent(double motionX, double motionY, double motionZ) {
+	public MoveEvent(double motionX, double motionY, double motionZ) {
 		this.motionX = motionX;
 		this.motionY = motionY;
 		this.motionZ = motionZ;
@@ -36,5 +35,4 @@ public class PlayerMoveEvent {
 	public void setMotionZ(double motionZ) {
 		this.motionZ = motionZ;
 	}
-	
 }

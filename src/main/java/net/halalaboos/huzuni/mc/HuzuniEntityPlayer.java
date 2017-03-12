@@ -1,13 +1,11 @@
 package net.halalaboos.huzuni.mc;
 
 import net.halalaboos.huzuni.Huzuni;
-import net.halalaboos.huzuni.api.event.PlayerMoveEvent;
 import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.MoverType;
 import net.minecraft.stats.StatisticsManager;
 import net.minecraft.world.World;
 
@@ -17,20 +15,9 @@ import net.minecraft.world.World;
 public class HuzuniEntityPlayer extends EntityPlayerSP {
 	
 	private static final Huzuni huzuni = Huzuni.INSTANCE;
-	
-	private static final PlayerMoveEvent playerMoveEvent = new PlayerMoveEvent(0D, 0D, 0D);
 
 	public HuzuniEntityPlayer(Minecraft mcIn, World worldIn, NetHandlerPlayClient netHandler, StatisticsManager statFile) {
 		super(mcIn, worldIn, netHandler, statFile);
-	}
-
-	@Override
-	public void move(MoverType type, double x, double y, double z) {
-		playerMoveEvent.setMotionX(x);
-		playerMoveEvent.setMotionY(y);
-		playerMoveEvent.setMotionZ(z);
-		huzuni.eventManager.invoke(playerMoveEvent);
-		super.move(type, playerMoveEvent.getMotionX(), playerMoveEvent.getMotionY(), playerMoveEvent.getMotionZ());
 	}
 
 	@Override

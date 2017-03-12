@@ -1,9 +1,8 @@
 package net.halalaboos.huzuni.mod.movement;
 
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.PlayerMoveEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
+import net.halalaboos.mcwrapper.api.event.player.MoveEvent;
 
 /**
  * Prevents the player from falling from the edges of blocks.
@@ -14,20 +13,10 @@ public class Safewalk extends BasicMod {
 		super("Safewalk", "It's like sneaking, but without the sneaking");
 		setAuthor("Halalaboos");
 		setCategory(Category.MOVEMENT);
+		subscribe(MoveEvent.class, this::onPlayerMove);
 	}
-	
-	@Override
-	protected void onEnable() {
-		huzuni.eventManager.addListener(this);
-	}
-	
-	@Override
-	protected void onDisable() {
-		huzuni.eventManager.removeListener(this);
-	}
-	
-	@EventMethod
-	public void onPlayerMove(PlayerMoveEvent event) {
+
+	private void onPlayerMove(MoveEvent event) {
 		double x = event.getMotionX();
 		double y = event.getMotionY();
 		double z = event.getMotionZ();
