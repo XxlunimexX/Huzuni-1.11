@@ -8,7 +8,10 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.network.play.client.CPacketClientStatus;
+import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
+import net.minecraft.util.EnumHand;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -50,5 +53,13 @@ public abstract class MixinNetHandlerPlayClient implements NetworkHandler {
 	@Override
 	public void sendRespawn() {
 		sendPacket(new CPacketClientStatus(CPacketClientStatus.State.PERFORM_RESPAWN));
+	}
+
+	@Override
+	public void sendUseSwing() {
+		CPacketAnimation packetAnimation = new CPacketAnimation(EnumHand.MAIN_HAND);
+		CPacketPlayerTryUseItem packetTryUse = new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND);
+		sendPacket(packetAnimation);
+		sendPacket(packetTryUse);
 	}
 }

@@ -6,6 +6,7 @@ import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.mcwrapper.api.event.PacketSendEvent;
+import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.network.packet.client.PlayerPacket;
 import org.lwjgl.input.Keyboard;
 
@@ -28,10 +29,10 @@ public class Flight extends BasicMod {
 				PlayerPacket packet = (PlayerPacket)event.getPacket();
 				//Tell the server we're on the ground
 				packet.setOnGround(true);
-				//Enables creative flying
-				getPlayer().setFlying(true);
 			}
 		});
+		//Enables creative flying
+		subscribe(PreMotionUpdateEvent.class, event -> getPlayer().setFlying(true));
 	}
 
 	@Override

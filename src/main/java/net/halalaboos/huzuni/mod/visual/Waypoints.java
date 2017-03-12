@@ -127,13 +127,11 @@ public class Waypoints extends Mod implements Renderer {
 	
 	@Override
 	public void onEnable() {
-		huzuni.eventManager.addListener(this);
 		huzuni.renderManager.addWorldRenderer(this);
 	}
 	
 	@Override
 	public void onDisable() {
-		huzuni.eventManager.removeListener(this);
 		huzuni.renderManager.removeWorldRenderer(this);
 	}
 

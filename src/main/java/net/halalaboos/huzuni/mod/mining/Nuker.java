@@ -1,8 +1,5 @@
 package net.halalaboos.huzuni.mod.mining;
 
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.UpdateEvent;
-import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Toggleable;
@@ -12,6 +9,7 @@ import net.halalaboos.huzuni.api.util.BlockLocator;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.mcwrapper.api.event.MouseEvent;
+import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.event.WorldLoadEvent;
 import net.halalaboos.mcwrapper.api.util.MouseButton;
 import net.minecraft.block.Block;
@@ -62,25 +60,23 @@ public final class Nuker extends BasicMod {
 			if (mineTask.hasBlock()) huzuni.lookManager.withdrawTask(mineTask);
 		});
 		subscribe(MouseEvent.class, this::onMouseClicked);
+		subscribe(PreMotionUpdateEvent.class, this::onUpdate);
 	}
 	
 	@Override
 	public void onEnable() {
-		huzuni.eventManager.addListener(this);
 		huzuni.addNotification(NotificationType.INFO, this, 5000, "Select a block type by right-clicking!");
 	}
 	
 	@Override
 	public void onDisable() {
-		huzuni.eventManager.removeListener(this);
 		huzuni.lookManager.withdrawTask(mineTask);
 		blockLocator.reset();
 		this.type = null;
 	}
 
-	@EventMethod
-	public void onUpdate(UpdateEvent event) {
-		if (huzuni.lookManager.hasPriority(this) && event.type == Type.PRE) {
+	public void onUpdate(PreMotionUpdateEvent event) {
+		if (huzuni.lookManager.hasPriority(this)) {
 			mineTask.setReset(silent.isEnabled());
 			mineTask.setMineDelay((int) mineDelay.getValue());
 			if (mineTask.hasBlock())

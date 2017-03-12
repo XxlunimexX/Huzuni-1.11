@@ -2,7 +2,6 @@ package net.halalaboos.huzuni.mc;
 
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.event.PlayerMoveEvent;
-import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -19,18 +18,10 @@ public class HuzuniEntityPlayer extends EntityPlayerSP {
 	
 	private static final Huzuni huzuni = Huzuni.INSTANCE;
 	
-	private static final UpdateEvent preMotionUpdateEvent = new UpdateEvent(UpdateEvent.Type.PRE),
-			postMotionUpdateEvent = new UpdateEvent(UpdateEvent.Type.POST);
-	
 	private static final PlayerMoveEvent playerMoveEvent = new PlayerMoveEvent(0D, 0D, 0D);
 
 	public HuzuniEntityPlayer(Minecraft mcIn, World worldIn, NetHandlerPlayClient netHandler, StatisticsManager statFile) {
 		super(mcIn, worldIn, netHandler, statFile);
-	}
-
-	@Override
-	public void onUpdate() {
-		super.onUpdate();
 	}
 
 	@Override
@@ -40,31 +31,6 @@ public class HuzuniEntityPlayer extends EntityPlayerSP {
 		playerMoveEvent.setMotionZ(z);
 		huzuni.eventManager.invoke(playerMoveEvent);
 		super.move(type, playerMoveEvent.getMotionX(), playerMoveEvent.getMotionY(), playerMoveEvent.getMotionZ());
-	}
-
-	@Override
-	public void onUpdateWalkingPlayer() {
-		// reset the event data
-		preMotionUpdateEvent.setCancelled(false);
-		postMotionUpdateEvent.setCancelled(false);
-
-		huzuni.eventManager.invoke(preMotionUpdateEvent);
-		if (preMotionUpdateEvent.isCancelled()) {
-			huzuni.lookManager.cancelTask();
-			return;
-		}
-
-		huzuni.clickManager.onUpdate(preMotionUpdateEvent);
-		huzuni.hotbarManager.onUpdate(preMotionUpdateEvent);
-		huzuni.lookManager.onUpdate(preMotionUpdateEvent);
-		if (!Freecam.INSTANCE.isEnabled()) {
-			super.onUpdateWalkingPlayer();
-		}
-		huzuni.lookManager.onUpdate(postMotionUpdateEvent);
-		huzuni.hotbarManager.onUpdate(postMotionUpdateEvent);
-		huzuni.clickManager.onUpdate(postMotionUpdateEvent);
-
-		huzuni.eventManager.invoke(postMotionUpdateEvent);
 	}
 
 	@Override

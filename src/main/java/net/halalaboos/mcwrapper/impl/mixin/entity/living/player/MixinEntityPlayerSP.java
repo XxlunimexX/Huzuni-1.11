@@ -1,8 +1,12 @@
 package net.halalaboos.mcwrapper.impl.mixin.entity.living.player;
 
+import net.halalaboos.huzuni.Huzuni;
+import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
+import net.halalaboos.mcwrapper.api.event.PostMotionUpdateEvent;
+import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.play.client.CPacketChatMessage;
@@ -25,12 +29,37 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 	@Shadow @Final public NetHandlerPlayClient connection;
 	@Shadow public abstract boolean isHandActive();
 
+	private PreMotionUpdateEvent preMotion = new PreMotionUpdateEvent();
+	private PostMotionUpdateEvent postMotion = new PostMotionUpdateEvent();
+	private Huzuni huzuni = Huzuni.INSTANCE;
+
 	@Inject(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/MovementInput;updatePlayerMoveState()V", shift = At.Shift.AFTER))
 	public void noSlow(CallbackInfo ci) {
 		if (this.isUsingItem() && !this.isRiding() && !getItemUseSlowdown()) {
 			this.movementInput.moveStrafe *= 5F;
 			this.movementInput.moveForward *= 5F;
 		}
+	}
+
+	@Inject(method = "onUpdateWalkingPlayer", at = @At(value = "HEAD"), cancellable = true)
+	public void dispatchPreMotionUpdateEvent(CallbackInfo ci) {
+		preMotion.setCancelled(false);
+		MCWrapper.getEventManager().publish(preMotion);
+		if (preMotion.isCancelled()) {
+			huzuni.lookManager.cancelTask();
+			ci.cancel();
+		}
+		huzuni.clickManager.onPreUpdate(preMotion);
+		huzuni.hotbarManager.onPreUpdate(preMotion);
+		huzuni.lookManager.onPreUpdate(preMotion);
+	}
+
+	@Inject(method = "onUpdateWalkingPlayer", at = @At(value = "RETURN"))
+	public void dispatchPostMotionUpdateEvent(CallbackInfo ci) {
+		huzuni.lookManager.onPostUpdate();
+		huzuni.hotbarManager.onPostUpdate();
+		huzuni.clickManager.onPostUpdate();
+		MCWrapper.getEventManager().publish(postMotion);
 	}
 
 	@Override

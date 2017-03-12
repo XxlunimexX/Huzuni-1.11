@@ -1,8 +1,5 @@
 package net.halalaboos.huzuni.mod.mining;
 
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.UpdateEvent;
-import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Mode;
@@ -11,6 +8,7 @@ import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.MineTask;
 import net.halalaboos.huzuni.api.task.PlaceTask;
 import net.halalaboos.huzuni.api.util.BlockLocator;
+import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.event.WorldLoadEvent;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockDirt;
@@ -118,24 +116,18 @@ public final class Autofarm extends BasicMod {
 			if (placeTask.hasBlock())
 				huzuni.lookManager.withdrawTask(placeTask);
 		});
-	}
-	
-	@Override
-	public void onEnable() {
-		huzuni.eventManager.addListener(this);
+		subscribe(PreMotionUpdateEvent.class, this::onUpdate);
 	}
 	
 	@Override
 	public void onDisable() {
-		huzuni.eventManager.removeListener(this);
 		huzuni.lookManager.withdrawTask(mineTask);
 		huzuni.lookManager.withdrawTask(placeTask);
 		blockLocator.reset();
 	}
 
-	@EventMethod
-	public void onUpdate(UpdateEvent event) {
-		if (huzuni.lookManager.hasPriority(this) && event.type == Type.PRE) {
+	private void onUpdate(PreMotionUpdateEvent event) {
+		if (huzuni.lookManager.hasPriority(this)) {
 			mineTask.setReset(silent.isEnabled());
 			placeTask.setReset(silent.isEnabled());
 			mineTask.setMineDelay((int) mineDelay.getValue());

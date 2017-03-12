@@ -1,7 +1,5 @@
 package net.halalaboos.huzuni.mod.combat;
 
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.ItemSelector;
@@ -39,20 +37,5 @@ public class Autoeat extends BasicMod {
         // for (Food food : get the food){
         //     foodSelector.addItem(ItemStack.from(food, 1), food);
         // }
-    }
-
-    @Override
-    protected void onEnable() {
-        huzuni.eventManager.addListener(this);
-    }
-
-    @Override
-    protected void onDisable() {
-        huzuni.eventManager.addListener(this);
-    }
-
-    @EventMethod
-    public void onUpdate(UpdateEvent event) {
-
     }
 }

@@ -50,11 +50,13 @@ public class EventManager {
 		Collection<Subscriber> subscribers = eventMap.get(event.getClass());
 
 		//If the list of subscribers isn't empty...
-		if (!subscribers.isEmpty()) {
-			//Loop through each subscriber
-			for (Subscriber subscriber : subscribers) {
-				//And dispatch them!
-				subscriber.read(event);
+		if (subscribers != null) {
+			if (!subscribers.isEmpty()) {
+				//Loop through each subscriber
+				for (Subscriber subscriber : subscribers) {
+					//And dispatch them!
+					subscriber.read(event);
+				}
 			}
 		}
 		return event;

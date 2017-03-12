@@ -2,8 +2,6 @@ package net.halalaboos.huzuni.mod.misc.chat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Toggleable;
@@ -15,6 +13,7 @@ import net.halalaboos.mcwrapper.api.entity.ExperienceOrb;
 import net.halalaboos.mcwrapper.api.entity.ItemPickup;
 import net.halalaboos.mcwrapper.api.event.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.event.PacketSendEvent;
+import net.halalaboos.mcwrapper.api.event.PostMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.network.NetworkHandler;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;
@@ -84,31 +83,21 @@ public class ChatAnnoy extends BasicMod {
 				}
 			}
 		});
+		subscribe(PostMotionUpdateEvent.class, event -> {
+			if (timer.hasReach(1500) && time.isEnabled()) {
+				alertTime();
+			}
+		});
 	}
 
 	@Override
 	protected void onEnable() {
 		lastSentMessages.put("time", getCurrentTime());
-		huzuni.eventManager.addListener(this);
 		if (messageMap.isEmpty()) {
 			try {
 				loadMessages(getMinecraft().getInputStream(new ResourcePath("huzuni/chatannoy.json")));
 			} catch (Exception e) {
 				e.printStackTrace();
-			}
-		}
-	}
-
-	@Override
-	protected void onDisable() {
-		huzuni.eventManager.removeListener(this);
-	}
-
-	@EventMethod
-	public void onTick(UpdateEvent event) {
-		if (event.type == UpdateEvent.Type.PRE) {
-			if (timer.hasReach(1500) && time.isEnabled()) {
-				alertTime();
 			}
 		}
 	}

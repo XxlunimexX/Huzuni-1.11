@@ -1,13 +1,12 @@
 package net.halalaboos.huzuni.mod.mining;
 
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
 import net.halalaboos.mcwrapper.api.event.PacketSendEvent;
+import net.halalaboos.mcwrapper.api.event.PostMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
@@ -29,7 +28,7 @@ public class Speedmine extends BasicMod {
 	private final Toggleable noSlow = new Toggleable("No Slowdown", "Allows you to dig under yourself quicker.");
 
 	private boolean digging = false;
-	
+
 	private float curBlockDamage = 0;
 
 	private EnumFacing facing;
@@ -42,16 +41,7 @@ public class Speedmine extends BasicMod {
 		setAuthor("Halalaboos");
 		this.addChildren(speed, breakPercent, hitDelay, noSlow);
 		subscribe(PacketSendEvent.class, this::onPacket);
-	}
-
-	@Override
-	protected void onEnable() {
-		huzuni.eventManager.addListener(this);
-	}
-
-	@Override
-	protected void onDisable() {
-		huzuni.eventManager.removeListener(this);
+		subscribe(PostMotionUpdateEvent.class, this::updateDigging);
 	}
 
 	private void onPacket(PacketSendEvent event) {
@@ -72,23 +62,20 @@ public class Speedmine extends BasicMod {
 		}
 	}
 
-	@EventMethod
-	public void onUpdate(UpdateEvent event) {
-		if (event.type == UpdateEvent.Type.PRE) {
-			if (getController().getHitDelay() > hitDelay.getValue()) {
-				getController().setHitDelay(((int) hitDelay.getValue()));
-			}
-			if (digging) {
-				IBlockState blockState = this.mc.world.getBlockState(position);
-				float multiplier = noSlow.isEnabled() && getPlayer().getFallDistance() <= 1F
-						&& getPlayer().getFallDistance() > 0 ? 5F : 1F;
-				curBlockDamage += blockState.getPlayerRelativeBlockHardness(this.mc.player, this.mc.world, this.position) * (speed.getValue()) * multiplier;
-				if (curBlockDamage >= breakPercent.getValue() / 100F) {
-					getController().onBlockDestroy(new Vector3i(position.getX(), position.getY(), position.getZ()));
-					mc.getConnection().sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK, this.position, this.facing));
-					curBlockDamage = 0F;
-					digging = false;
-				}
+	private void updateDigging(PostMotionUpdateEvent event) {
+		if (getController().getHitDelay() > hitDelay.getValue()) {
+			getController().setHitDelay(((int) hitDelay.getValue()));
+		}
+		if (digging) {
+			IBlockState blockState = this.mc.world.getBlockState(position);
+			float multiplier = noSlow.isEnabled() && getPlayer().getFallDistance() <= 1F
+					&& getPlayer().getFallDistance() > 0 ? 5F : 1F;
+			curBlockDamage += blockState.getPlayerRelativeBlockHardness(this.mc.player, this.mc.world, this.position) * (speed.getValue()) * multiplier;
+			if (curBlockDamage >= breakPercent.getValue() / 100F) {
+				getController().onBlockDestroy(new Vector3i(position.getX(), position.getY(), position.getZ()));
+				mc.getConnection().sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK, this.position, this.facing));
+				curBlockDamage = 0F;
+				digging = false;
 			}
 		}
 	}

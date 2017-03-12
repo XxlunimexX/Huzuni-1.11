@@ -1,8 +1,5 @@
 package net.halalaboos.huzuni.mod.mining;
 
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.UpdateEvent;
-import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Toggleable;
@@ -10,6 +7,7 @@ import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.MineTask;
 import net.halalaboos.huzuni.api.util.BlockLocator;
 import net.halalaboos.huzuni.api.util.MathUtils;
+import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
@@ -50,32 +48,24 @@ public class Smasher extends BasicMod {
 		setAuthor("Halalaboos");
 		silent.setEnabled(true);
 		huzuni.lookManager.registerTaskHolder(this);
-	}
-	
-	@Override
-	public void onEnable() {
-		huzuni.eventManager.addListener(this);
-	}
-	
-	@Override
-	public void onDisable() {
-		huzuni.eventManager.removeListener(this);
-		huzuni.lookManager.withdrawTask(mineTask);
-		blockLocator.reset();
+		subscribe(PreMotionUpdateEvent.class, event -> {
+			if (huzuni.lookManager.hasPriority(this)) {
+				mineTask.setReset(silent.isEnabled());
+				mineTask.setMineDelay((int) mineDelay.getValue());
+				if (mineTask.hasBlock())
+					huzuni.lookManager.requestTask(this, mineTask);
+				else {
+					huzuni.lookManager.withdrawTask(mineTask);
+					findBlock();
+				}
+			}
+		});
 	}
 
-	@EventMethod
-	public void onUpdate(UpdateEvent event) {
-		if (huzuni.lookManager.hasPriority(this) && event.type == Type.PRE) {
-			mineTask.setReset(silent.isEnabled());
-			mineTask.setMineDelay((int) mineDelay.getValue());
-			if (mineTask.hasBlock())
-				huzuni.lookManager.requestTask(this, mineTask);
-			else {
-				huzuni.lookManager.withdrawTask(mineTask);
-				findBlock();
-			}
-		}
+	@Override
+	public void onDisable() {
+		huzuni.lookManager.withdrawTask(mineTask);
+		blockLocator.reset();
 	}
 
 	/**

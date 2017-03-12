@@ -1,8 +1,5 @@
 package net.halalaboos.huzuni.mod.combat;
 
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.UpdateEvent;
-import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Toggleable;
@@ -10,6 +7,7 @@ import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.LookTask;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
+import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.item.Item;
 import net.halalaboos.mcwrapper.api.item.types.*;
 import net.halalaboos.mcwrapper.api.item.types.Throwable;
@@ -44,36 +42,27 @@ public class Bowaimbot extends BasicMod {
 		silent.setEnabled(true);
 		addChildren(reach, silent, players, mobs, animals, invisible, checkAge);
 		huzuni.lookManager.registerTaskHolder(this);
-	}
-	
-	@Override
-	protected void onEnable() {
-		huzuni.eventManager.addListener(this);
+
+		subscribe(PreMotionUpdateEvent.class, event -> {
+			if (!isUsingBow()) return;
+			target = MinecraftUtils.getClosestEntity(reach.getValue(), 2.5F, invisible.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled(), checkAge.isEnabled());
+			if (target == null)
+				return;
+			int use = getPlayer().getHeldItem(Hand.MAIN).getMaxUseTicks() - getPlayer().getItemUseTicks();
+			float progress = use / 20.0F;
+			progress = (progress * progress + progress * 2.0F) / 3.0F;
+			if (progress >= 1.0F)
+				progress = 1.0F;
+			double v = progress * 3.0F;
+			// Static MC gravity
+			double g = 0.05F;
+			setAngles(v, g);
+		});
 	}
 
 	@Override
 	protected void onDisable() {
-		huzuni.eventManager.removeListener(this);
 		huzuni.lookManager.withdrawTask(lookTask);
-	}
-	
-
-	@EventMethod
-	public void onUpdate(UpdateEvent event) {
-		if (!isUsingBow() || event.type == Type.POST)
-			return;
-		target = MinecraftUtils.getClosestEntity(reach.getValue(), 2.5F, invisible.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled(), checkAge.isEnabled());
-		if (target == null)
-			return;
-		int use = getPlayer().getHeldItem(Hand.MAIN).getMaxUseTicks() - getPlayer().getItemUseTicks();
-		float progress = use / 20.0F;
-		progress = (progress * progress + progress * 2.0F) / 3.0F;
-		if (progress >= 1.0F)
-			progress = 1.0F;
-		double v = progress * 3.0F;
-		// Static MC gravity
-		double g = 0.05F;
-		setAngles(v, g);
 	}
 	
 	/**

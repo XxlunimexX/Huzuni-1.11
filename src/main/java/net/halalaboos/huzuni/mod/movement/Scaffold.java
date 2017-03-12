@@ -1,13 +1,11 @@
 package net.halalaboos.huzuni.mod.movement;
 
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.UpdateEvent;
-import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Mode;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.PlaceTask;
+import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
@@ -18,15 +16,15 @@ import net.minecraft.util.math.Vec3i;
  * Places blocks underneath the player to allow them to walk across large areas which have no blocks.
  * */
 public class Scaffold extends BasicMod {
-		
+
 	public final Value placeDistance = new Value("Distance ", " blocks", 1F, 3F, 4F, 1F, "Max distance you place blocks");
 
 	public final Mode<String> mode = new Mode<String>("Mode", "Movement mode", "Horizontal", "Vertical");
-	
+
 	private final PlaceTask placeTask = new PlaceTask(this);
-	
+
 	private int count = 0;
-	
+
 	public Scaffold() {
 		super("Scaffold", "Automatically places blocks when you move forward or jump.");
 		setAuthor("Halalaboos");
@@ -35,16 +33,11 @@ public class Scaffold extends BasicMod {
 		huzuni.lookManager.registerTaskHolder(this);
 		placeTask.setPlaceDelay(0);
 		placeTask.setNaturalPlacement(false);
+		subscribe(PreMotionUpdateEvent.class, this::onPreUpdate);
 	}
-	
-	@Override
-	public void onEnable() {
-		huzuni.eventManager.addListener(this);
-	}
-	
+
 	@Override
 	public void onDisable() {
-		huzuni.eventManager.removeListener(this);
 		huzuni.lookManager.withdrawTask(placeTask);
 	}
 
@@ -52,12 +45,10 @@ public class Scaffold extends BasicMod {
 	public String getDisplayNameForRender() {
 		return settings.getDisplayName() + String.format(" (%s)", mode.getSelectedItem());
 	}
-	
-	@EventMethod
-	public void onUpdate(UpdateEvent event) {
+
+	private void onPreUpdate(PreMotionUpdateEvent event) {
 		if (huzuni.lookManager.hasPriority(this) && count <= 0) {
-			if (event.type == Type.PRE) {
-				switch (mode.getSelected()) {
+			switch (mode.getSelected()) {
 				case 0:
 					if (!mc.player.movementInput.sneak && (mc.player.movementInput.moveForward != 0 || mc.player.movementInput.moveStrafe != 0)) {
 						EnumFacing face = mc.player.getHorizontalFacing();
@@ -79,19 +70,18 @@ public class Scaffold extends BasicMod {
 							huzuni.lookManager.requestTask(this, placeTask);
 						} else
 							huzuni.lookManager.withdrawTask(placeTask);
-					} else 
+					} else
 						huzuni.lookManager.withdrawTask(placeTask);
 					break;
 				default:
 					break;
-				}
 			}
 		} else {
 			if (count > 0)
 				count--;
 		}
 	}
-	
+
 	private BlockPos getFirstBlock(Vec3i direction) {
 		for (int i = 0; i <= (int) placeDistance.getValue(); i++) {
 			BlockPos position = new BlockPos(mc.player.posX + direction.getX() * i, mc.player.posY - 1, mc.player.posZ + direction.getZ() * i);

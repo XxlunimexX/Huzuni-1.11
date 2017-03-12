@@ -2,9 +2,9 @@ package net.halalaboos.huzuni.api.task;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.api.node.Node;
+import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,17 +24,16 @@ public class TaskManager <T extends Task> extends Node {
 	public TaskManager(String name, String description) {
 		super(name, description);
 	}
-	
-	public void onUpdate(UpdateEvent event) {
+
+	public void onPreUpdate(PreMotionUpdateEvent event) {
 		if (!event.isCancelled() && currentTask != null) {
-			switch (event.type) {
-			case PRE:
-				currentTask.onPreUpdate();
-				break;
-			case POST:
-				currentTask.onPostUpdate();
-				break;
-			}
+			currentTask.onPreUpdate();
+		}
+	}
+
+	public void onPostUpdate() {
+		if (currentTask != null) {
+			currentTask.onPostUpdate();
 		}
 	}
 

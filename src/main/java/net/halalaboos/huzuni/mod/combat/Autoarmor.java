@@ -1,9 +1,6 @@
 package net.halalaboos.huzuni.mod.combat;
 
 import com.google.gson.JsonObject;
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.UpdateEvent;
-import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.ItemList;
@@ -12,6 +9,7 @@ import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.ClickTask;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
+import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Enchantments;
@@ -69,22 +67,16 @@ public class Autoarmor extends BasicMod {
 		enchantmentOrder.add(new EnchantmentItem(Enchantments.BLAST_PROTECTION));
 		enchantmentOrder.add(new EnchantmentItem(Enchantments.THORNS));
 		huzuni.clickManager.registerTaskHolder(this);
+		subscribe(PreMotionUpdateEvent.class, this::onUpdate);
 	}
-	
-	@Override
-	public void onEnable() {
-		huzuni.eventManager.addListener(this);
-	}
-	
+
 	@Override
 	public void onDisable() {
-		huzuni.eventManager.removeListener(this);
 		huzuni.clickManager.withdrawTask(clickTask);
 	}
 
-	@EventMethod
-	public void onUpdate(UpdateEvent event) {
-		if (mc.currentScreen != null || event.type == Type.POST)
+	private void onUpdate(PreMotionUpdateEvent event) {
+		if (mc.currentScreen != null)
     		return;
         List<Integer> armors = getArmor();
         for (int i : armors) {

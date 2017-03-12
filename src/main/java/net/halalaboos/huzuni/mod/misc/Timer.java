@@ -1,10 +1,9 @@
 package net.halalaboos.huzuni.mod.misc;
 
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Value;
+import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 
@@ -20,26 +19,24 @@ public class Timer extends BasicMod {
 		this.setCategory(Category.MISC);
 		setAuthor("brudin");
 		addChildren(speed);
+		subscribe(PreMotionUpdateEvent.class, event -> {
+			if (mc.currentScreen == null) {
+				//If we don't have a screen open, change the speed
+				getMinecraft().setTimerSpeed(speed.getValue());
+			} else {
+				//If we do have a screen open, temporarily revert it to the normal speed.
+				getMinecraft().setTimerSpeed(1);
+			}
+		});
 	}
 	
 	@Override
 	public void onEnable() {
-		huzuni.eventManager.addListener(this);
 		getMinecraft().setTimerSpeed(speed.getValue());
 	}
 	
 	@Override
 	public void onDisable() {
-		huzuni.eventManager.removeListener(this);
 		getMinecraft().setTimerSpeed(1);
-	}
-
-	@EventMethod
-	public void onUpdate(UpdateEvent event) {
-		if (mc.currentScreen == null) {
-			getMinecraft().setTimerSpeed(speed.getValue());
-		} else {
-			getMinecraft().setTimerSpeed(1);
-		}
 	}
 }

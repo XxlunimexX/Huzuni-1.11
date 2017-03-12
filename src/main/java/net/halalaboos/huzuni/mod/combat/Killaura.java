@@ -1,8 +1,6 @@
 package net.halalaboos.huzuni.mod.combat;
 
 import net.halalaboos.huzuni.RenderManager.Renderer;
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Mode;
@@ -19,6 +17,8 @@ import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.mcwrapper.api.event.MouseEvent;
+import net.halalaboos.mcwrapper.api.event.PostMotionUpdateEvent;
+import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.util.MouseButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
@@ -93,11 +93,12 @@ public class Killaura extends BasicMod implements Renderer {
 		calculateRandomization();
 
 		subscribe(MouseEvent.class, this::onMouseClick);
+		subscribe(PreMotionUpdateEvent.class, this::onPreUpdate);
+		subscribe(PostMotionUpdateEvent.class, this::onPostUpdate);
 	}
 
 	@Override
 	public void onEnable() {
-		huzuni.eventManager.addListener(this);
 		huzuni.renderManager.addWorldRenderer(this);
 		calculateRandomization();
 		if (selection.isEnabled()) {
@@ -107,7 +108,6 @@ public class Killaura extends BasicMod implements Renderer {
 	
 	@Override
 	public void onDisable() {
-		huzuni.eventManager.removeListener(this);
 		huzuni.renderManager.removeWorldRenderer(this);
 		huzuni.lookManager.withdrawTask(lookTask);
 		tracker.reset();
@@ -117,52 +117,48 @@ public class Killaura extends BasicMod implements Renderer {
 		selectedEntity = null;
 		entity = null;
 	}
-	
-	@EventMethod
-	public void onUpdate(UpdateEvent event) {
-		switch (event.type) {
-		case PRE:
-			if (!huzuni.lookManager.hasPriority(this))
-				return;
-			if (mc.player.isSpectator() || mc.player.isDead) {
-				tracker.reset();
-				tracker.setEntity(null);
-				huzuni.lookManager.withdrawTask(lookTask);
-				return;
-			}
-			if (priority.getSelected() == 0) {
-				entity = MinecraftUtils.getClosestEntity(reach.getValue(), 2.5F, invisibles.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled(), checkAge.isEnabled());
-			} else if (priority.getSelected() == 1) {
-				entity = MinecraftUtils.getClosestEntityToPlayer(mc.player, reach.getValue(), 2.5F, invisibles.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled(), checkAge.isEnabled());
-			} else if (priority.getSelected() == 2) {
-				this.pickAndVerifyEntity();
-				this.triggerBot();
-				huzuni.lookManager.withdrawTask(lookTask);
-				return;
-			}
+
+	private void onPreUpdate(PreMotionUpdateEvent event) {
+		if (!huzuni.lookManager.hasPriority(this))
+			return;
+		if (mc.player.isSpectator() || mc.player.isDead) {
+			tracker.reset();
+			tracker.setEntity(null);
+			huzuni.lookManager.withdrawTask(lookTask);
+			return;
+		}
+		if (priority.getSelected() == 0) {
+			entity = MinecraftUtils.getClosestEntity(reach.getValue(), 2.5F, invisibles.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled(), checkAge.isEnabled());
+		} else if (priority.getSelected() == 1) {
+			entity = MinecraftUtils.getClosestEntityToPlayer(mc.player, reach.getValue(), 2.5F, invisibles.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled(), checkAge.isEnabled());
+		} else if (priority.getSelected() == 2) {
 			this.pickAndVerifyEntity();
-			if (entity != null && MinecraftUtils.isWithinFOV(entity, fov.getValue())) {
-				tracker.setRotationRate(rotationRate.getValue());
-				tracker.setEntity(entity);
-				tracker.updateRotations();
-				lookTask.setRotations(tracker.getYaw(), tracker.getPitch());
-	        	lookTask.setReset(silent.isEnabled());
-	        	huzuni.lookManager.requestTask(this, lookTask);
-			} else {
-				tracker.reset();
-				tracker.setEntity(null);
-				huzuni.lookManager.withdrawTask(lookTask);
-			}
-			break;
-		case POST:
-			if (lookTask.isRunning()) {
-				if (tracker.hasReached()) {
-					if (entity != null && MinecraftUtils.isWithinDistance(entity, reach.getValue())) {
-						attackEntity();
-					}
+			this.triggerBot();
+			huzuni.lookManager.withdrawTask(lookTask);
+			return;
+		}
+		this.pickAndVerifyEntity();
+		if (entity != null && MinecraftUtils.isWithinFOV(entity, fov.getValue())) {
+			tracker.setRotationRate(rotationRate.getValue());
+			tracker.setEntity(entity);
+			tracker.updateRotations();
+			lookTask.setRotations(tracker.getYaw(), tracker.getPitch());
+			lookTask.setReset(silent.isEnabled());
+			huzuni.lookManager.requestTask(this, lookTask);
+		} else {
+			tracker.reset();
+			tracker.setEntity(null);
+			huzuni.lookManager.withdrawTask(lookTask);
+		}
+	}
+
+	private void onPostUpdate(PostMotionUpdateEvent event) {
+		if (lookTask.isRunning()) {
+			if (tracker.hasReached()) {
+				if (entity != null && MinecraftUtils.isWithinDistance(entity, reach.getValue())) {
+					attackEntity();
 				}
 			}
-			break;
 		}
 	}
 

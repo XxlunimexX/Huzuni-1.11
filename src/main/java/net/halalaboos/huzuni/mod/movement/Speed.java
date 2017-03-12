@@ -2,18 +2,15 @@ package net.halalaboos.huzuni.mod.movement;
 
 import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
 import net.halalaboos.huzuni.api.event.PlayerMoveEvent;
-import net.halalaboos.huzuni.api.event.UpdateEvent;
-import net.halalaboos.huzuni.api.event.UpdateEvent.Type;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Mode;
 import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
-import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
-import net.halalaboos.mcwrapper.api.world.Fluid;
+import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -44,8 +41,17 @@ public class Speed extends BasicMod {
 		setCategory(Category.MOVEMENT);
 		addChildren(bunnyHop, stairs, mode, groundSpeed, airSpeed);
 		mode.setSelectedItem(1);
+		subscribe(PreMotionUpdateEvent.class, event -> {
+			boolean modifyMovement = shouldModifyMovement();
+			mode.getSelectedItem().onUpdate(this, mc, event);
+			if (modifyMovement && getPlayer().isOnGround()) {
+				if ((stairs.isEnabled() && isUnderStairs()) || bunnyHop.isEnabled()) {
+					getPlayer().jump();
+				}
+			}
+		});
 	}
-	
+
 	@Override
 	public void onEnable() {
 		huzuni.eventManager.addListener(this);
@@ -61,19 +67,6 @@ public class Speed extends BasicMod {
 	@Override
 	public String getDisplayNameForRender() {
 		return settings.getDisplayName() + String.format(" (%s)", mode.getSelectedItem());
-	}
-	
-	@EventMethod
-	public void onUpdate(UpdateEvent event) {
-		if (event.type == Type.PRE) {
-			boolean modifyMovement = shouldModifyMovement();
-			mode.getSelectedItem().onUpdate(this, mc, event);
-			if (modifyMovement && getPlayer().isOnGround()) {
-				if ((stairs.isEnabled() && isUnderStairs()) || bunnyHop.isEnabled()) {
-					getPlayer().jump();
-				}
-			}
-		}
 	}
 	
 	@EventMethod
@@ -119,7 +112,7 @@ public class Speed extends BasicMod {
         }
 
         @Override
-        public void onUpdate(Speed speed, Minecraft mc, UpdateEvent event) {
+        public void onUpdate(Speed speed, Minecraft mc, PreMotionUpdateEvent event) {
 			getPlayer().setSprinting(speed.shouldModifyMovement());
         }
 
@@ -139,7 +132,7 @@ public class Speed extends BasicMod {
         }
 
         @Override
-        public void onUpdate(Speed speed, Minecraft mc, UpdateEvent event) {
+        public void onUpdate(Speed speed, Minecraft mc, PreMotionUpdateEvent event) {
 
         }
 
@@ -164,7 +157,7 @@ public class Speed extends BasicMod {
         /**
          * Invoked before and after sending motion updates.
          * */
-        public abstract void onUpdate(Speed speed, Minecraft mc, UpdateEvent event);
+        public abstract void onUpdate(Speed speed, Minecraft mc, PreMotionUpdateEvent event);
 
         /**
          * Invoked when the player moves.

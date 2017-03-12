@@ -1,7 +1,5 @@
 package net.halalaboos.huzuni.mod.combat;
 
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Toggleable;
@@ -12,6 +10,8 @@ import net.halalaboos.huzuni.api.task.LookTask;
 import net.halalaboos.huzuni.api.util.MinecraftUtilsNew;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
+import net.halalaboos.mcwrapper.api.event.PostMotionUpdateEvent;
+import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.item.types.GlassBottle;
 import net.halalaboos.mcwrapper.api.item.types.PotionItem;
@@ -62,60 +62,51 @@ public class Autopotion extends BasicMod {
 		huzuni.lookManager.registerTaskHolder(this);
 		huzuni.hotbarManager.registerTaskHolder(this);
 		huzuni.clickManager.registerTaskHolder(this);
-	}
-
-	@Override
-	public void onEnable() {
-		huzuni.eventManager.addListener(this);
+		subscribe(PreMotionUpdateEvent.class, this::onPreUpdate);
+		subscribe(PostMotionUpdateEvent.class, this::onPostUpdate);
 	}
 
 	@Override
 	public void onDisable() {
-		huzuni.eventManager.removeListener(this);
 		huzuni.lookManager.withdrawTask(lookTask);
 		huzuni.hotbarManager.withdrawTask(hotbarTask);
 		huzuni.clickManager.withdrawTask(clickTask);
 	}
 
-	@EventMethod
-	public void onUpdate(UpdateEvent event) {
-		if (mc.currentScreen != null)
-			return;
-		switch (event.type) {
-			case PRE:
-				if (health == null) {
-					health = getAdapter().getPotionRegistry().getPotion("instant_health");
-				}
-				if (huzuni.hotbarManager.hasPriority(this) && huzuni.lookManager.hasPriority(this) && huzuni.clickManager.hasPriority(this) && usePotions.isEnabled() && needUsePotion()) {
-					int hotbarPotion = findHotbarPotion();
-					if (hotbarPotion != -1 && useTimer.hasReach((int) useDelay.getValue())) {
-						lookTask.setRotations(mc.player.rotationYaw, 90);
-						huzuni.lookManager.requestTask(this, lookTask);
-						huzuni.hotbarManager.requestTask(this, hotbarTask);
-						useTimer.reset();
-					} else {
-						huzuni.lookManager.withdrawTask(lookTask);
-						huzuni.hotbarManager.withdrawTask(hotbarTask);
-						movePotions();
-					}
-				} else {
-					huzuni.lookManager.withdrawTask(lookTask);
-					huzuni.hotbarManager.withdrawTask(hotbarTask);
-					movePotions();
-				}
-				if (clickTask.hasClicks())
-					huzuni.clickManager.requestTask(this, clickTask);
-				else
-					huzuni.clickManager.withdrawTask(clickTask);
-				break;
-			case POST:
-				if (lookTask.isRunning() && hotbarTask.isRunning()) {
-					usePotion();
-				}
-				break;
+	private void onPreUpdate(PreMotionUpdateEvent event) {
+		if (mc.currentScreen != null) return;
+		if (health == null) {
+			health = getAdapter().getPotionRegistry().getPotion("instant_health");
 		}
+		if (huzuni.hotbarManager.hasPriority(this) && huzuni.lookManager.hasPriority(this) && huzuni.clickManager.hasPriority(this) && usePotions.isEnabled() && needUsePotion()) {
+			int hotbarPotion = findHotbarPotion();
+			if (hotbarPotion != -1 && useTimer.hasReach((int) useDelay.getValue())) {
+				lookTask.setRotations(mc.player.rotationYaw, 90);
+				huzuni.lookManager.requestTask(this, lookTask);
+				huzuni.hotbarManager.requestTask(this, hotbarTask);
+				useTimer.reset();
+			} else {
+				huzuni.lookManager.withdrawTask(lookTask);
+				huzuni.hotbarManager.withdrawTask(hotbarTask);
+				movePotions();
+			}
+		} else {
+			huzuni.lookManager.withdrawTask(lookTask);
+			huzuni.hotbarManager.withdrawTask(hotbarTask);
+			movePotions();
+		}
+		if (clickTask.hasClicks())
+			huzuni.clickManager.requestTask(this, clickTask);
+		else
+			huzuni.clickManager.withdrawTask(clickTask);
 	}
 
+	private void onPostUpdate(PostMotionUpdateEvent event) {
+		if (mc.currentScreen != null) return;
+		if (lookTask.isRunning() && hotbarTask.isRunning()) {
+			usePotion();
+		}
+	}
 	/**
 	 * Moves items from the inventory to the hot bar.
 	 * */

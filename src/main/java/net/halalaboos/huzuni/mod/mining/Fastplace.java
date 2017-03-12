@@ -1,10 +1,9 @@
 package net.halalaboos.huzuni.mod.mining;
 
-import net.halalaboos.huzuni.api.event.EventManager.EventMethod;
-import net.halalaboos.huzuni.api.event.UpdateEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Value;
+import net.halalaboos.mcwrapper.api.event.PostMotionUpdateEvent;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 
@@ -20,23 +19,11 @@ public class Fastplace extends BasicMod {
 		this.setCategory(Category.MINING);
 		this.addChildren(speed);
 		setAuthor("Halalaboos");
+		subscribe(PostMotionUpdateEvent.class, event -> {
+			float speed = this.speed.getValue();
+			if (getMinecraft().getRightClickDelayTimer() > (4 - (byte) speed))
+				getMinecraft().setRightClickDelayTimer((4 - (byte) speed));
+		});
 	}
-	
-	@Override
-	public void onEnable() {
-		huzuni.eventManager.addListener(this);
-	}
-	
-	@Override
-	public void onDisable() {
-		huzuni.eventManager.removeListener(this);
-	}
-
-	@EventMethod
-	public void onUpdate(UpdateEvent event) {
-    	float speed = this.speed.getValue();
-        if (getMinecraft().getRightClickDelayTimer() > (4 - (byte) speed))
-			getMinecraft().setRightClickDelayTimer((4 - (byte) speed));
-    }
 
 }
