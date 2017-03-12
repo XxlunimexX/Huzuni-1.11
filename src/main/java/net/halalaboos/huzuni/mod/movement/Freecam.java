@@ -27,7 +27,6 @@ public class Freecam extends BasicMod {
 		this.setCategory(Category.MOVEMENT);
 		setAuthor("Halalaboos");
 		addChildren(speed);
-		subscribe(PreMotionUpdateEvent.class, event -> event.setCancelled(isEnabled()));
 	}
 	
 	@Override
