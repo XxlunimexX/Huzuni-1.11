@@ -10,7 +10,7 @@ import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
-import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
+import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;

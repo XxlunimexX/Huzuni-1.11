@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.mod.combat;
 
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.mcwrapper.api.event.PacketSendEvent;
+import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.network.packet.client.UseEntityPacket;
 import net.halalaboos.mcwrapper.api.world.Fluid;
 

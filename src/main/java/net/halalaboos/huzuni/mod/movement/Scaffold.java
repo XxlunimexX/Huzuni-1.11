@@ -5,7 +5,7 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Mode;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.PlaceTask;
-import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
+import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;

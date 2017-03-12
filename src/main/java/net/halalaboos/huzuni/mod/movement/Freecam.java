@@ -6,7 +6,6 @@ import net.halalaboos.huzuni.api.event.PlayerMoveEvent;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Value;
-import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import org.lwjgl.input.Keyboard;
 

@@ -7,7 +7,7 @@ import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.LookTask;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
-import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
+import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.item.Item;
 import net.halalaboos.mcwrapper.api.item.types.*;
 import net.halalaboos.mcwrapper.api.item.types.Throwable;

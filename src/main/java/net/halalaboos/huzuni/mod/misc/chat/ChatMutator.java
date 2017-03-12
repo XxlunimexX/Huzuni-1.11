@@ -4,7 +4,7 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.mod.Mod;
 import net.halalaboos.huzuni.api.node.Node;
 import net.halalaboos.huzuni.mod.misc.chat.mutators.*;
-import net.halalaboos.mcwrapper.api.event.PacketSendEvent;
+import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.network.packet.client.ChatMessagePacket;
 
 /**

@@ -8,7 +8,7 @@ import net.halalaboos.huzuni.api.gui.widget.WidgetGlue;
 import net.halalaboos.huzuni.api.node.JsonFileHandler;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
-import net.halalaboos.mcwrapper.api.event.KeyboardEvent;
+import net.halalaboos.mcwrapper.api.event.input.KeyboardEvent;
 
 import java.io.IOException;
 import java.util.ArrayList;

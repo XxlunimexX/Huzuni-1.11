@@ -1,4 +1,4 @@
-package net.halalaboos.mcwrapper.api.event;
+package net.halalaboos.mcwrapper.api.event.player;
 
 import net.halalaboos.tukio.Cancellable;
 import net.halalaboos.tukio.Event;

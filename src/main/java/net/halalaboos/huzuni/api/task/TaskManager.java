@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.api.node.Node;
-import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
+import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 
 import java.io.IOException;
 import java.util.ArrayList;

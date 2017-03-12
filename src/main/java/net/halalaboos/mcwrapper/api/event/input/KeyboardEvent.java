@@ -1,4 +1,4 @@
-package net.halalaboos.mcwrapper.api.event;
+package net.halalaboos.mcwrapper.api.event.input;
 
 import net.halalaboos.tukio.Event;
 

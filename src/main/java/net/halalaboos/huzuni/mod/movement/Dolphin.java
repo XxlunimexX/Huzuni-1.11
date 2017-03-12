@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.mod.movement;
 
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.mcwrapper.api.event.PreMotionUpdateEvent;
+import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import org.lwjgl.input.Keyboard;
 
 /***

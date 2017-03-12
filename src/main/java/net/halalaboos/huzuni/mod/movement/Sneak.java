@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.mod.movement;
 
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.mcwrapper.api.event.PostMotionUpdateEvent;
+import net.halalaboos.mcwrapper.api.event.player.PostMotionUpdateEvent;
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
 

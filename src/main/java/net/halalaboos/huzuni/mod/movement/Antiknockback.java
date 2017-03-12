@@ -5,7 +5,7 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.util.Timer;
-import net.halalaboos.mcwrapper.api.event.PacketReadEvent;
+import net.halalaboos.mcwrapper.api.event.network.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.network.packet.client.UseEntityPacket;
 import net.halalaboos.mcwrapper.api.network.packet.server.EntityVelocityPacket;
 import net.halalaboos.mcwrapper.api.network.packet.server.ExplosionPacket;

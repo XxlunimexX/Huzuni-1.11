@@ -4,7 +4,7 @@ import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.projectile.FishHook;
-import net.halalaboos.mcwrapper.api.event.PacketReadEvent;
+import net.halalaboos.mcwrapper.api.event.network.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.network.packet.server.EntityVelocityPacket;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;

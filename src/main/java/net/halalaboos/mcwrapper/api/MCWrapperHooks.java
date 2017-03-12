@@ -1,8 +1,8 @@
 package net.halalaboos.mcwrapper.api;
 
-import net.halalaboos.mcwrapper.api.event.KeyboardEvent;
-import net.halalaboos.mcwrapper.api.event.MouseEvent;
-import net.halalaboos.mcwrapper.api.event.WorldLoadEvent;
+import net.halalaboos.mcwrapper.api.event.input.KeyboardEvent;
+import net.halalaboos.mcwrapper.api.event.input.MouseEvent;
+import net.halalaboos.mcwrapper.api.event.world.WorldLoadEvent;
 import net.halalaboos.mcwrapper.api.util.MouseButton;
 import net.halalaboos.mcwrapper.api.world.World;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;

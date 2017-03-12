@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.mod.misc;
 
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.mcwrapper.api.event.PacketReadEvent;
+import net.halalaboos.mcwrapper.api.event.network.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.network.packet.server.HealthUpdatePacket;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;

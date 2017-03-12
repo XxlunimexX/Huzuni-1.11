@@ -7,7 +7,7 @@ import net.halalaboos.huzuni.api.node.JsonFileHandler;
 import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
-import net.halalaboos.mcwrapper.api.event.WorldLoadEvent;
+import net.halalaboos.mcwrapper.api.event.world.WorldLoadEvent;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
 import java.awt.*;

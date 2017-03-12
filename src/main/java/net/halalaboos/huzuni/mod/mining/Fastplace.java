@@ -3,7 +3,7 @@ package net.halalaboos.huzuni.mod.mining;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Value;
-import net.halalaboos.mcwrapper.api.event.PostMotionUpdateEvent;
+import net.halalaboos.mcwrapper.api.event.player.PostMotionUpdateEvent;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 

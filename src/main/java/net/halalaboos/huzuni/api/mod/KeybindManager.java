@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.api.mod;
 
-import net.halalaboos.mcwrapper.api.event.KeyboardEvent;
+import net.halalaboos.mcwrapper.api.event.input.KeyboardEvent;
 
 import java.util.ArrayList;
 import java.util.List;
