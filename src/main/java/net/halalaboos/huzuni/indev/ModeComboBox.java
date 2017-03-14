@@ -1,18 +1,18 @@
 package net.halalaboos.huzuni.indev;
 
-import net.halalaboos.huzuni.api.gui.font.FontData;
+import net.halalaboos.huzuni.indev.gui.FontData;
 import net.halalaboos.huzuni.api.node.Mode;
 import net.halalaboos.huzuni.api.node.Nameable;
-import net.halalaboos.huzuni.indev.gui.components.Dropdown;
+import net.halalaboos.huzuni.indev.gui.components.ComboBox;
 
 /**
  * Created by Brandon Williams on 3/5/2017.
  */
-public class ModeDropdown <I extends Nameable> extends Dropdown<I> {
+public class ModeComboBox<I extends Nameable> extends ComboBox<I> {
 
     private final Mode<I> mode;
 
-    public ModeDropdown(Mode<I> mode, FontData font) {
+    public ModeComboBox(Mode<I> mode, FontData font) {
         super("mode", mode.getItems());
         this.mode = mode;
         this.setFont(font);

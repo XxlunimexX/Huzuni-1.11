@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.indev.gui.impl;
 
-import net.halalaboos.huzuni.api.gui.font.FontData;
+import net.halalaboos.huzuni.indev.gui.FontData;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.indev.gui.render.PopupRenderer;
@@ -12,12 +12,18 @@ public class BasicPopupRenderer implements PopupRenderer {
 
     private BasicRenderer renderer;
 
+    private final FontData tooltipFont;
+
+    public BasicPopupRenderer(FontData tooltipFont) {
+        this.tooltipFont = tooltipFont;
+    }
+
     @Override
-    public void drawTooltip(FontData fontData, String tooltip, int x, int y) {
+    public void drawTooltip(String tooltip, int x, int y) {
         if (tooltip != null) {
-            GLManager.glColor(renderer.getPalette().getDefaultComponent());
-            RenderUtils.drawRect(x - 2, y - 2, x + fontData.getStringWidth(tooltip) + 2, y + fontData.getFontHeight());
-            renderer.getFontRenderer().drawString(fontData, tooltip, x, y, 0xFFFFFFFF);
+            GLManager.glColor(renderer.getPack().getDefaultComponent());
+            RenderUtils.drawRect(x - 2, y - tooltipFont.getFontHeight() - 2, x + tooltipFont.getStringWidth(tooltip) + 2, y);
+            renderer.getFontRenderer().drawString(tooltipFont, tooltip, x, y, 0xFFFFFFFF);
         }
     }
 

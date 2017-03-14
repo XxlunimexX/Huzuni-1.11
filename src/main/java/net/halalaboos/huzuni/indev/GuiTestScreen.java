@@ -11,8 +11,9 @@ import net.halalaboos.huzuni.indev.gui.components.Button;
 import net.halalaboos.huzuni.indev.gui.components.Label;
 import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
 import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
+import net.halalaboos.huzuni.indev.gui.impl.BasicToolbox;
 import net.halalaboos.huzuni.indev.gui.layouts.*;
-import net.halalaboos.huzuni.api.gui.font.FontData;
+import net.halalaboos.huzuni.indev.gui.FontData;
 import net.halalaboos.huzuni.indev.gui.layouts.GridLayout;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -43,13 +44,14 @@ public class GuiTestScreen  extends HuzuniScreen {
 
     public GuiTestScreen() {
         super();
-        BasicRenderer renderer = new BasicRenderer();
         title = huzuni.fontManager.getFont("Roboto Condensed", 48, Font.BOLD, true);
         description = huzuni.fontManager.getFont("Roboto Condensed", 16, Font.ITALIC, true);
         mods = huzuni.fontManager.getFont("Roboto Condensed", 18, Font.PLAIN, true);
         defaultFont = huzuni.fontManager.getFont("Roboto Condensed", 20, Font.PLAIN, true);
         textField = huzuni.fontManager.getFont("Roboto Condensed", 20, Font.ITALIC, true);
-        manager = new ContainerManager(renderer, renderer, defaultFont);
+        BasicToolbox toolbox = new BasicToolbox();
+        BasicRenderer renderer = new BasicRenderer(defaultFont, toolbox);
+        manager = new ContainerManager(renderer, toolbox);
         //blurShader = new ResourceLocation("shaders/post/blur.json");
     }
 
@@ -212,7 +214,7 @@ public class GuiTestScreen  extends HuzuniScreen {
 
                 // Create the mode dropdown for modes.
             }  else if (child instanceof Mode) {
-                component = new ModeDropdown<>((Mode) child, defaultFont);
+                component = new ModeComboBox<>((Mode) child, defaultFont);
             }
 
             // If the node had a component made for it, we position it and either decrement or increment the y position.

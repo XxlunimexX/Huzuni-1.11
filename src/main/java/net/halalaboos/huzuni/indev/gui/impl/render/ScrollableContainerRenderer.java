@@ -1,8 +1,10 @@
-package net.halalaboos.huzuni.indev.gui.impl;
+package net.halalaboos.huzuni.indev.gui.impl.render;
 
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.indev.gui.Toolbox;
 import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
+import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
 import net.halalaboos.huzuni.indev.gui.render.ComponentRenderer;
 import org.lwjgl.input.Mouse;
 import static org.lwjgl.opengl.GL11.*;
@@ -16,8 +18,11 @@ public class ScrollableContainerRenderer implements ComponentRenderer<Scrollable
 
     private final BasicRenderer basicRenderer;
 
-    public ScrollableContainerRenderer(BasicRenderer basicRenderer) {
+    private final Toolbox toolbox;
+
+    public ScrollableContainerRenderer(BasicRenderer basicRenderer, Toolbox toolbox) {
         this.basicRenderer = basicRenderer;
+        this.toolbox = toolbox;
     }
 
     @Override
@@ -42,19 +47,19 @@ public class ScrollableContainerRenderer implements ComponentRenderer<Scrollable
     @Override
     public void render(ScrollableContainer container) {
         if (!container.getTag().equals("invisible-background")) {
-            GLManager.glColor(basicRenderer.getPalette().getBackground());
+            GLManager.glColor(basicRenderer.getPack().getBackground());
             RenderUtils.drawRect(container.getRenderArea());
         }
         if (container.getVerticalScrollbar().has()) {
-            GLManager.glColor(basicRenderer.getPalette().getDefaultComponent());
+            GLManager.glColor(basicRenderer.getPack().getDefaultComponent());
             RenderUtils.drawRect(container.getVerticalScrollbar().getArea());
-            GLManager.glColor(RenderUtils.getColorWithAffects(basicRenderer.getPalette().getDefaultComponent().brighter(), container.getVerticalScrollbar().isScrolling() || (container.isHovered() && container.getVerticalScrollbar().isPointInsideBar(basicRenderer.getMouseX(), basicRenderer.getMouseY())), Mouse.isButtonDown(0)));
+            GLManager.glColor(RenderUtils.getColorWithAffects(basicRenderer.getPack().getDefaultComponent().brighter(), container.getVerticalScrollbar().isScrolling() || (container.isHovered() && container.getVerticalScrollbar().isPointInsideBar(toolbox.getMouseX(), toolbox.getMouseY())), Mouse.isButtonDown(0)));
             RenderUtils.drawRect(container.getVerticalScrollbar().getScrollbar());
         }
         if (container.getHorizontalScrollbar().has()) {
-            GLManager.glColor(basicRenderer.getPalette().getDefaultComponent());
+            GLManager.glColor(basicRenderer.getPack().getDefaultComponent());
             RenderUtils.drawRect(container.getHorizontalScrollbar().getArea());
-            GLManager.glColor(RenderUtils.getColorWithAffects(basicRenderer.getPalette().getDefaultComponent().brighter(), container.getHorizontalScrollbar().isScrolling() || (container.isHovered() && container.getHorizontalScrollbar().isPointInsideBar(basicRenderer.getMouseX(), basicRenderer.getMouseY())), Mouse.isButtonDown(0)));
+            GLManager.glColor(RenderUtils.getColorWithAffects(basicRenderer.getPack().getDefaultComponent().brighter(), container.getHorizontalScrollbar().isScrolling() || (container.isHovered() && container.getHorizontalScrollbar().isPointInsideBar(toolbox.getMouseX(), toolbox.getMouseY())), Mouse.isButtonDown(0)));
             RenderUtils.drawRect(container.getHorizontalScrollbar().getScrollbar());
         }
     }

@@ -1,4 +1,6 @@
-package net.halalaboos.huzuni.api.gui.font;
+package net.halalaboos.huzuni.indev.gui.render;
+
+import net.halalaboos.huzuni.indev.gui.FontData;
 
 /**
  * Renders strings at given x,y positions with the given hexadecimal color.

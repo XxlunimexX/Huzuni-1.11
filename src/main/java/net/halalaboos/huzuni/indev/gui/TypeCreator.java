@@ -1,26 +1,23 @@
-package net.halalaboos.huzuni.indev.gui.impl;
-
-import net.halalaboos.huzuni.indev.gui.Workstation;
+package net.halalaboos.huzuni.indev.gui;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 /**
- * Basic implementation of the work station. Create your own method to create each tool that this work station produces. <br/>
+ * Basic factory, used to create objects and store their values based on their name. <br/>
  * Created by Brandon Williams on 3/6/2017.
  */
-public abstract class BasicWorkstation <O> implements Workstation {
+public abstract class TypeCreator<O> {
 
     private final Map<String, O> objects = new HashMap<>();
 
-    @Override
     public Optional<O> create(String name, Object... params) {
         O result = objects.computeIfAbsent(name, (o) -> {
-           O object = createObject(name, params);
-           if (object != null)
-               objects.put(name, object);
-           return object;
+            O object = createObject(name, params);
+            if (object != null)
+                objects.put(name, object);
+            return object;
         });
         return result == null ? Optional.empty() : Optional.of(result);
     }

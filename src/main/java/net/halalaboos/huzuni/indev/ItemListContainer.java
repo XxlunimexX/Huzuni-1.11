@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.indev;
 
-import net.halalaboos.huzuni.api.gui.font.FontData;
+import net.halalaboos.huzuni.indev.gui.FontData;
 import net.halalaboos.huzuni.api.node.ItemList;
 import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.indev.gui.components.Label;

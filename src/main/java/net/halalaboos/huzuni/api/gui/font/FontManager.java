@@ -1,5 +1,7 @@
 package net.halalaboos.huzuni.api.gui.font;
 
+import net.halalaboos.huzuni.indev.gui.FontData;
+
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;

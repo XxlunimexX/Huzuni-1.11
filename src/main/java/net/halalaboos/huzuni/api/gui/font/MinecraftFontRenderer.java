@@ -1,9 +1,8 @@
-/**
- * 
- */
 package net.halalaboos.huzuni.api.gui.font;
 
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.indev.gui.FontData;
+import net.halalaboos.huzuni.indev.gui.impl.BasicFontRenderer;
 
 import java.awt.*;
 
@@ -12,8 +11,7 @@ import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 
 /**
- * Implementation of the basic font renderer for minecraft.
- * @author Halalaboos
+ * Implementation of the basic font renderer for minecraft. <br/>
  *
  * @since Nov 23, 2013
  */
@@ -30,6 +28,8 @@ public final class MinecraftFontRenderer extends BasicFontRenderer {
 	private final String colorcodeIdentifiers = "0123456789abcdefklmnor";
 
 	public MinecraftFontRenderer() {
+		super();
+		// Use Minecraft's color code generation.
 		for (int index = 0; index < 32; ++index) {
 			int noClue = (index >> 3 & 1) * 85;
 			int red = (index >> 2 & 1) * 170 + noClue;
@@ -50,83 +50,80 @@ public final class MinecraftFontRenderer extends BasicFontRenderer {
 		}
 	}
 
-	@Deprecated
-	@Override
-	public int drawString(FontData fontData, String text, int x, int y, int color) {
-        return 0;
-    }
-
     @Override
     public int drawString(String text, int x, int y, int color) {
-        return drawString(text, x, y, color, false);
+        return drawString(fontData, text, x, y, color, false);
     }
 
 	public int drawStringWithShadow(String text, int x, int y, int color) {
-		return Math.max(drawString(text, x + 1, y + 1, color, true), drawString(text, x, y, color, false));
+		return Math.max(drawString(fontData, text, x + 1, y + 1, color, true), drawString(fontData, text, x, y, color, false));
 	}
-
-    /**
-     * Renders text starting with the middle of the string at the given x, y positions. Includes a shadow effect as well.
-     * */
-	public void drawCenteredStringWithShadow(String text, int x, int y, int color) {
-		drawStringWithShadow(text, x - getStringWidth(text) / 2, y - getStringHeight(text) / 2, color);
-	}
-
-	/**
-     * Renders text starting with the middle of the string at the given x, y positions.
-     * */
-    public void drawCenteredString(String text, int x, int y, int color) {
-		drawString(text, x - getStringWidth(text) / 2, y - getStringHeight(text) / 2, color);
-    }
 
     /**
      * Renders text using the color code rules within the default Minecraft font renderer.
      * */
-	public int drawString(String text, int x, int y, int color, boolean shadow) {
+    public int drawString(FontData fontData, String text, int x, int y, int color, boolean shadow) {
 		if (text == null)
 			return 0;
-		if (color == 553648127)
-            color = 0xFFFFFF;
-		
+
+		// Trickery used by Minecraft's font renderer.
 		if ((color & -67108864) == 0) {
 			color |= -16777216;
 		}
-		
-		// Shadow effect
+
+		// Apply some shadow trickery.
 		if (shadow) {
-			color = (color & 16579836) >> 2 | color & -16777216;
+			color = (color & 0xFCFCFC) >> 2 | color & -16777216;
 		}
-	
-		// Current rendering information.
-		FontData currentFont = fontData;
+
+		// Calculate the alpha value first.
         float alpha = (color >> 24 & 0xff) / 255F;
-        boolean randomCase = false, bold = false,
+
+        // If the alpha value is less than 32, default to 255.
+        if (alpha <= 32F / 255F)
+        	alpha = 1F;
+
+        // Store the original font data given.
+        FontData original = fontData;
+
+        // Used to determine which font data to use.
+        boolean randomChar = false, bold = false,
         italic = false, strikethrough = false,
         underline = false;
 		
         // Multiplied positions since we'll be rendering this at half scale (to look nice!)
         x *= 2F;
         y *= 2F;
+
+        // Prepare GL states.
 		getGLStateManager().pushMatrix();
 		getGLStateManager().scale(0.5F, 0.5F, 0.5F);
 		getGLStateManager().enableAlpha();
 		getGLStateManager().enableBlend();
 		getGLStateManager().blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		getGLStateManager().color((float) (color >> 16 & 255) / 255.0F, (float) (color >> 8 & 255) / 255.0F, (float) (color & 255) / 255.0F, alpha);
+
 		int size = text.length();
-		currentFont.bind();
+		fontData.bind();
 		for (int i = 0; i < size; i++) {
 			char character = text.charAt(i);
+
+			// If this character is the special style identifier and the next index is less than the length of the string
+			// evaluate which style to switch to.
 			if (character == '\247' && i < size && i + 1 < size) {
+
+				// Find the index the next character has within
 				int colorIndex = colorcodeIdentifiers.indexOf(text.charAt(i + 1));
-				if (colorIndex < 16) { // coloring
+
+				// Switch all styles off, revert to the original font data, and recolor based on the color index.
+				if (colorIndex < 16) {
                     bold = false;
                     italic = false;
-                    randomCase = false;
+                    randomChar = false;
                     underline = false;
                     strikethrough = false;
-            		currentFont = fontData;
-					currentFont.bind();
+            		fontData = original;
+					fontData.bind();
 
    					if (colorIndex < 0 || colorIndex > 15) {
 						colorIndex = 15;
@@ -135,60 +132,77 @@ public final class MinecraftFontRenderer extends BasicFontRenderer {
 					if (shadow) {
 						colorIndex += 16;
 					}
-					
-					int colorcode = colorCode[colorIndex];
-					getGLStateManager().color((float) (colorcode >> 16 & 255) / 255.0F, (float) (colorcode >> 8 & 255) / 255.0F, (float) (colorcode & 255) / 255.0F, alpha);
-                } else if (colorIndex == 16) { // random case
-                    randomCase = true;
-				} else if (colorIndex == 17) { // bold
+
+					// Reset the color.
+					getGLStateManager().color((float) (colorCode[colorIndex] >> 16 & 255) / 255.0F, (float) (colorCode[colorIndex] >> 8 & 255) / 255.0F, (float) (colorCode[colorIndex] & 255) / 255.0F, alpha);
+
+   				// Enable random characters.
+				} else if (colorIndex == 16) {
+                    randomChar = true;
+
+                // Enable bold.
+				} else if (colorIndex == 17) {
 					bold = true;
 					if (italic) {
-						currentFont = boldItalicFont;
-						currentFont.bind();
+						fontData = boldItalicFont;
 					} else {
-						currentFont = boldFont;
-						currentFont.bind();
+						fontData = boldFont;
 					}
-				} else if (colorIndex == 18) { // strikethrough
+					fontData.bind();
+
+				// Enable strikethrough.
+				} else if (colorIndex == 18) {
 					strikethrough = true;
-				} else if (colorIndex == 19) { // underline
+
+				// Enable underlining.
+				} else if (colorIndex == 19) {
 					underline = true;
+
+				// Enable italics.
 				} else if (colorIndex == 20) { // italic
 					italic = true;
 					if (bold) {
-						currentFont = boldItalicFont;
-						currentFont.bind();
+						fontData = boldItalicFont;
 					} else {
-						currentFont = italicFont;
-						currentFont.bind();
+						fontData = italicFont;
 					}
+					fontData.bind();
+
+				// Reset the
 				} else if (colorIndex == 21) { // reset
                     bold = false;
                     italic = false;
-                    randomCase = false;
+                    randomChar = false;
                     underline = false;
                     strikethrough = false;
 					getGLStateManager().color((float) (color >> 16 & 255) / 255.0F, (float) (color >> 8 & 255) / 255.0F, (float) (color & 255) / 255.0F, alpha);
-                    currentFont = fontData;
-					currentFont.bind();
+                    fontData = original;
+					fontData.bind();
                 }
+
+                // Increase the index, since it is necessary to not render the style identifier as well as the style type.
 				i ++;
 			} else {
-				if (currentFont.hasBounds(character)) {
-					if (randomCase) {
+				if (fontData.hasBounds(character)) {
+					if (randomChar) {
 						char newChar = 0;
-						while (currentFont.getCharacterBounds(newChar).width != currentFont.getCharacterBounds(character).width)
+						// Randomly find a character with the same width as the actual character which is supposed to render.
+						// This is a terrible thing to do. Don't do it.
+						while (fontData.getCharacterBounds(newChar).width != fontData.getCharacterBounds(character).width)
 							newChar = (char) (Math.random() * 256);
 						character = newChar;
 					}
-					FontData.CharacterData area = currentFont.getCharacterBounds(character);
+					FontData.CharacterData area = fontData.getCharacterBounds(character);
+
 					RenderUtils.drawTextureRect(x, y, area.width, area.height,
-							(float) area.x / currentFont.getTextureWidth(),
-							(float) area.y / currentFont.getTextureHeight(),
-							(float) (area.x + area.width) / currentFont.getTextureWidth(),
-							(float) (area.y + area.height) / currentFont.getTextureHeight());
+							(float) area.x / fontData.getTextureWidth(),
+							(float) area.y / fontData.getTextureHeight(),
+							(float) (area.x + area.width) / fontData.getTextureWidth(),
+							(float) (area.y + area.height) / fontData.getTextureHeight());
+
 					if (strikethrough)
                         RenderUtils.drawLine(1F, x, y + area.height / 4 + 2, x + area.width / 2, y + area.height / 4 + 2);
+
 					if (underline)
                         RenderUtils.drawLine(1F, x, y + area.height / 2, x + area.width / 2, y + area.height / 2);
 					x += area.width + kerning;

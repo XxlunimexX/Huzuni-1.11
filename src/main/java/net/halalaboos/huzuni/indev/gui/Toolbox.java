@@ -36,4 +36,9 @@ public interface Toolbox {
      * */
     boolean isPointInside(int x, int y, int[] rect);
 
+    /**
+     * @return A workstation to create objects.
+     * */
+    Workstation getWorkstation();
+
 }

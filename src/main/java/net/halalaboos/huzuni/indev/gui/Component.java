@@ -1,6 +1,5 @@
 package net.halalaboos.huzuni.indev.gui;
 
-import net.halalaboos.huzuni.api.gui.font.FontData;
 import net.halalaboos.huzuni.indev.gui.actions.ActionListener;
 import net.halalaboos.huzuni.indev.gui.actions.Actions;
 

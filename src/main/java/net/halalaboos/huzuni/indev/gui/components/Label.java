@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.indev.gui.components;
 
-import net.halalaboos.huzuni.api.gui.font.FontData;
+import net.halalaboos.huzuni.indev.gui.FontData;
 import net.halalaboos.huzuni.indev.gui.Component;
 
 import java.awt.*;

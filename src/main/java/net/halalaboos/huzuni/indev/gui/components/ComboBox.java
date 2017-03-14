@@ -5,9 +5,10 @@ import net.halalaboos.huzuni.indev.gui.actions.Actions;
 import net.halalaboos.huzuni.indev.gui.actions.ClickAction;
 
 /**
+ * Simple combo box implementation. <br/>
  * Created by Brandon Williams on 3/5/2017.
  */
-public class Dropdown <I> extends Component {
+public class ComboBox<I> extends Component {
 
     private I[] items;
 
@@ -17,7 +18,7 @@ public class Dropdown <I> extends Component {
 
     private int itemHeight = 15;
 
-    public Dropdown(String tag, I... items) {
+    public ComboBox(String tag, I... items) {
         super(tag);
         this.items = items;
         addListener(Actions.MOUSEPRESS, (ClickAction.ClickActionListener) action -> isHovered() && isPointInside(action.x, action.y) && action.buttonId == 0);

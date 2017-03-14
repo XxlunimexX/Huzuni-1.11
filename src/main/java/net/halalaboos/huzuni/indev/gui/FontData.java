@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.api.gui.font;
+package net.halalaboos.huzuni.indev.gui;
 
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 
@@ -15,6 +15,8 @@ import static org.lwjgl.opengl.GL11.*;
 public final class FontData {
 
     private final CharacterData[] characterBounds = new CharacterData[256];
+
+    private final CharacterData empty = new CharacterData(0, 0, 0, 0);
 
     private int texId = -1;
 
@@ -110,8 +112,8 @@ public final class FontData {
      * @return The bounds of the character within the font image.
      * */
     public CharacterData getCharacterBounds(char character) {
-        if (!hasFont())
-            return null;
+        if (!hasFont() || !hasBounds(character))
+            return empty;
         return characterBounds[character];
     }
 

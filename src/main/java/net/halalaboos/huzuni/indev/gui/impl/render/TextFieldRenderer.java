@@ -1,9 +1,11 @@
-package net.halalaboos.huzuni.indev.gui.impl;
+package net.halalaboos.huzuni.indev.gui.impl.render;
 
-import net.halalaboos.huzuni.api.gui.font.FontData;
+import net.halalaboos.huzuni.indev.gui.FontData;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.indev.gui.components.TextField;
+import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
+import net.halalaboos.huzuni.indev.gui.impl.ColorPack;
 import net.halalaboos.huzuni.indev.gui.render.ComponentRenderer;
 import org.lwjgl.input.Mouse;
 
@@ -26,19 +28,19 @@ public class TextFieldRenderer implements ComponentRenderer<TextField> {
 
     @Override
     public void render(TextField textField) {
-        ColorPack palette = renderer.getPalette();
+        ColorPack pack = renderer.getPack();
         if (textField.getTag().equals("lined")) {
-            GLManager.glColor(RenderUtils.getColorWithAffects(textField.isTyping() ? palette.getHighlightComponent() : palette.getDefaultComponent().brighter(), textField.isHovered(), Mouse.isButtonDown(0)));
+            GLManager.glColor(RenderUtils.getColorWithAffects(textField.isTyping() ? pack.getHighlightComponent() : pack.getDefaultComponent().brighter(), textField.isHovered(), Mouse.isButtonDown(0)));
             RenderUtils.drawLine(1F, textField.getX(), textField.getY() + textField.getHeight() - 1F, textField.getX() + textField.getWidth(), textField.getY() + textField.getHeight() - 1F);
         } else {
-            GLManager.glColor(RenderUtils.getColorWithAffects(textField.isTyping() ? palette.getDefaultComponent().brighter() : palette.getDefaultComponent(), textField.isHovered(), Mouse.isButtonDown(0)));
+            GLManager.glColor(RenderUtils.getColorWithAffects(textField.isTyping() ? pack.getDefaultComponent().brighter() : pack.getDefaultComponent(), textField.isHovered(), Mouse.isButtonDown(0)));
             RenderUtils.drawRect(textField.getArea());
         }
         if (textField.hasText()) {
             int color = textField.isTyping() ? textField.getColor().getRGB() : textField.getColor().darker().getRGB();
             drawString(textField.getFont(), textField.getRenderText(textField.isTyping()), textField.getX(), textField.getY() + textField.getHeight() / 2, color);
         } else {
-            drawString(textField.getFont(), textField.getDefaultText(), textField.getX(), textField.getY() + textField.getHeight() / 2, palette.getDisabledText().getRGB());
+            drawString(textField.getFont(), textField.getDefaultText(), textField.getX(), textField.getY() + textField.getHeight() / 2, pack.getDisabledText().getRGB());
         }
     }
 

@@ -1,8 +1,9 @@
-package net.halalaboos.huzuni.indev.gui.impl;
+package net.halalaboos.huzuni.indev.gui.impl.render;
 
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.indev.gui.Container;
+import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
 import net.halalaboos.huzuni.indev.gui.render.ComponentRenderer;
 
 
@@ -26,7 +27,7 @@ public class ContainerRenderer implements ComponentRenderer<Container> {
     @Override
     public void render(Container container) {
         if (!container.getTag().equals("invisible")) {
-            GLManager.glColor(renderer.getPalette().getSecondaryBackground());
+            GLManager.glColor(renderer.getPack().getSecondaryBackground());
             RenderUtils.drawRect(container.getArea());
         }
     }

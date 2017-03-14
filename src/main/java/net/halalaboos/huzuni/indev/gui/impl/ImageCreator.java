@@ -1,17 +1,17 @@
-package net.halalaboos.huzuni.indev.gui.impl.work;
+package net.halalaboos.huzuni.indev.gui.impl;
 
 import net.halalaboos.huzuni.indev.gui.Image;
-import net.halalaboos.huzuni.indev.gui.impl.BasicImage;
-import net.halalaboos.huzuni.indev.gui.impl.BasicWorkstation;
+import net.halalaboos.huzuni.indev.gui.TypeCreator;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
+ * Used to instantiate images. <br/>
  * Created by Brandon Williams on 3/7/2017.
  */
-public class ImageCreator extends BasicWorkstation<Image> {
+public class ImageCreator extends TypeCreator<Image> {
 
     @Override
     protected Image createObject(String name, Object... params) {

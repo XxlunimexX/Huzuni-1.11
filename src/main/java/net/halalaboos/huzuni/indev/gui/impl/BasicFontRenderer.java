@@ -1,7 +1,9 @@
-package net.halalaboos.huzuni.api.gui.font;
+package net.halalaboos.huzuni.indev.gui.impl;
 
+import net.halalaboos.huzuni.indev.gui.render.FontRenderer;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.indev.gui.FontData;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 

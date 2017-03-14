@@ -1,8 +1,10 @@
-package net.halalaboos.huzuni.indev.gui.impl;
+package net.halalaboos.huzuni.indev.gui.impl.render;
 
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.indev.gui.components.Checkbox;
+import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
+import net.halalaboos.huzuni.indev.gui.impl.ColorPack;
 import net.halalaboos.huzuni.indev.gui.render.ComponentRenderer;
 import org.lwjgl.input.Mouse;
 
@@ -25,11 +27,11 @@ public class CheckboxRenderer implements ComponentRenderer<Checkbox> {
 
     @Override
     public void render(Checkbox checkbox) {
-        ColorPack palette = renderer.getPalette();
-        GLManager.glColor(RenderUtils.getColorWithAffects(palette.getDefaultComponent(), checkbox.isHovered(), Mouse.isButtonDown(0)));
+        ColorPack pack = renderer.getPack();
+        GLManager.glColor(RenderUtils.getColorWithAffects(pack.getDefaultComponent(), checkbox.isHovered(), Mouse.isButtonDown(0)));
         RenderUtils.drawRect(checkbox.getCheckbox());
         if (checkbox.isEnabled()) {
-            GLManager.glColor(RenderUtils.getColorWithAffects(checkbox.isEnabled() ? palette.getHighlightComponent() : palette.getDefaultComponent(), checkbox.isHovered(), Mouse.isButtonDown(0)));
+            GLManager.glColor(RenderUtils.getColorWithAffects(checkbox.isEnabled() ? pack.getHighlightComponent() : pack.getDefaultComponent(), checkbox.isHovered(), Mouse.isButtonDown(0)));
             RenderUtils.drawRect(new int[] { checkbox.getX() + 2, checkbox.getY() + 2, 8, 8 });
         }
         renderer.getFontRenderer().drawString(checkbox.getFont(), checkbox.getText(), checkbox.getX() + 2 + net.halalaboos.huzuni.indev.gui.components.Checkbox.CHECKBOX_SIZE, checkbox.getY(), 0xFFFFFFFF);

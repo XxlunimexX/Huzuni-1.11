@@ -1,9 +1,11 @@
-package net.halalaboos.huzuni.indev.gui.impl;
+package net.halalaboos.huzuni.indev.gui.impl.render;
 
-import net.halalaboos.huzuni.api.gui.font.FontData;
+import net.halalaboos.huzuni.indev.gui.FontData;
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.indev.gui.components.Button;
+import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
+import net.halalaboos.huzuni.indev.gui.impl.ColorPack;
 import net.halalaboos.huzuni.indev.gui.render.ComponentRenderer;
 import org.lwjgl.input.Mouse;
 
@@ -26,10 +28,10 @@ public class ButtonRenderer implements ComponentRenderer<Button> {
 
     @Override
     public void render(Button button) {
-        ColorPack palette = renderer.getPalette();
-        GLManager.glColor(RenderUtils.getColorWithAffects(button.isHighlight() ? palette.getHighlightComponent() : palette.getDefaultComponent(), button.isHovered(), Mouse.isButtonDown(0)));
+        ColorPack pack = renderer.getPack();
+        GLManager.glColor(RenderUtils.getColorWithAffects(button.isHighlight() ? pack.getHighlightComponent() : pack.getDefaultComponent(), button.isHovered(), Mouse.isButtonDown(0)));
         RenderUtils.drawRect(button.getArea());
-        int color = button.isHighlight() ? palette.getEnabledText().getRGB() : palette.getDisabledText().getRGB();
+        int color = button.isHighlight() ? pack.getEnabledText().getRGB() : pack.getDisabledText().getRGB();
         drawString(button.getFont(), button.getText(), button.getX(), button.getY() + button.getHeight() / 2, color);
     }
 

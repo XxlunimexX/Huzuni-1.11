@@ -1,6 +1,6 @@
-package net.halalaboos.huzuni.indev.gui.impl;
+package net.halalaboos.huzuni.indev.gui.impl.render;
 
-import net.halalaboos.huzuni.api.gui.font.FontRenderer;
+import net.halalaboos.huzuni.indev.gui.render.FontRenderer;
 import net.halalaboos.huzuni.indev.gui.components.Label;
 import net.halalaboos.huzuni.indev.gui.render.ComponentRenderer;
 

@@ -1,8 +1,9 @@
-package net.halalaboos.huzuni.indev.gui.impl;
+package net.halalaboos.huzuni.indev.gui.impl.render;
 
 import net.halalaboos.huzuni.api.util.gl.GLManager;
 import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.indev.gui.components.Slider;
+import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
 import net.halalaboos.huzuni.indev.gui.render.ComponentRenderer;
 import org.lwjgl.input.Mouse;
 
@@ -26,9 +27,9 @@ public class SliderRenderer implements ComponentRenderer<Slider> {
 
     @Override
     public void render(Slider slider) {
-        GLManager.glColor(renderer.getPalette().getDefaultComponent());
+        GLManager.glColor(renderer.getPack().getDefaultComponent());
         RenderUtils.drawRect(slider.getArea());
-        GLManager.glColor(RenderUtils.getColorWithAffects(renderer.getPalette().getHighlightComponent(), slider.isSliding() || slider.isHovered(), Mouse.isButtonDown(0)));
+        GLManager.glColor(RenderUtils.getColorWithAffects(renderer.getPack().getHighlightComponent(), slider.isSliding() || slider.isHovered(), Mouse.isButtonDown(0)));
         RenderUtils.drawRect(slider.getSliderBar());
     }
 

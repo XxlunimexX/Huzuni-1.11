@@ -1,12 +1,12 @@
 package net.halalaboos.huzuni.indev.gui.render;
 
-import net.halalaboos.huzuni.api.gui.font.FontData;
+import net.halalaboos.huzuni.indev.gui.FontData;
 
 /**
  * Created by Brandon Williams on 2/24/2017.
  */
 public interface PopupRenderer {
 
-    void drawTooltip(FontData fontData, String tooltip, int x, int y);
+    void drawTooltip(String tooltip, int x, int y);
 
 }

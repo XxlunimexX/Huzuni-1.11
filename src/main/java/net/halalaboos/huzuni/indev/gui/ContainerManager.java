@@ -1,7 +1,6 @@
 package net.halalaboos.huzuni.indev.gui;
 
 import com.sun.javafx.scene.traversal.Direction;
-import net.halalaboos.huzuni.api.gui.font.FontData;
 import net.halalaboos.huzuni.indev.gui.actions.Actions;
 import net.halalaboos.huzuni.indev.gui.actions.ClickAction;
 import net.halalaboos.huzuni.indev.gui.actions.KeystrokeAction;
@@ -22,14 +21,11 @@ public class ContainerManager {
 
     private Toolbox toolbox;
 
-    private final FontData popupFont;
-
     private String tooltip = null;
 
-    public ContainerManager(RenderManager renderManager, Toolbox toolbox, FontData popupFont) {
+    public ContainerManager(RenderManager renderManager, Toolbox toolbox) {
         this.renderManager = renderManager;
         this.toolbox = toolbox;
-        this.popupFont = popupFont;
     }
 
     /**
@@ -39,7 +35,7 @@ public class ContainerManager {
         for (Container container : containers) {
             renderManager.render(container);
         }
-        renderManager.getPopupRenderer().drawTooltip(popupFont, tooltip, toolbox.getMouseX(), toolbox.getMouseY() - popupFont.getFontHeight());
+        renderManager.getPopupRenderer().drawTooltip(tooltip, toolbox.getMouseX(), toolbox.getMouseY());
     }
 
     /**
