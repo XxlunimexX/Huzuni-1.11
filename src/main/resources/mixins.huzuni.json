@@ -10,7 +10,6 @@
     "MixinRenderPlayer",
     "MixinBlockModelRenderer",
     "MixinBlock",
-    "MixinVisGraph",
-    "MixinMinecraft"
+    "MixinVisGraph"
   ]
 }

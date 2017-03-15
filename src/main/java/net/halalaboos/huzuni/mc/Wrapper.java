@@ -12,18 +12,6 @@ public final class Wrapper {
 	private Wrapper() {
 
 	}
-	
-	public static void loadWorld(WorldClient world) {
-		if (world != null) {
-			if (huzuni.settings.firstUse.isEnabled()) {
-				huzuni.addChatMessage("Welcome to huzuni!");
-				huzuni.addChatMessage("Press right shift to open up the settings menu!");
-				huzuni.addChatMessage("Type \".help\" for a list of commands!");
-				huzuni.settings.firstUse.setEnabled(false);
-			}
-		}
-		huzuni.lookManager.cancelTask();
-	}
 
 	public static boolean shouldIgnoreCulling() {
 		return Xray.INSTANCE.isEnabled() || Freecam.INSTANCE.isEnabled();

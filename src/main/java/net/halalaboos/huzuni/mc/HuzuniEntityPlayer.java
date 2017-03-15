@@ -20,15 +20,6 @@ public class HuzuniEntityPlayer extends EntityPlayerSP {
 	}
 
 	@Override
-	public void sendChatMessage(String message) {
-		if (message.startsWith(huzuni.commandManager.getCommandPrefix())) {
-			huzuni.commandManager.processCommand(message.substring(huzuni.commandManager.getCommandPrefix().length()));
-		} else {
-			super.sendChatMessage(message);
-		}
-	}
-
-	@Override
 	public boolean isEntityInsideOpaqueBlock() {
 		return !Freecam.INSTANCE.isEnabled() && super.isEntityInsideOpaqueBlock();
 	}

@@ -6,7 +6,7 @@ import net.halalaboos.huzuni.gui.screen.account.HuzuniAccounts;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.resources.I18n;
-import net.halalaboos.huzuni.render.PanoramaRenderer;
+import net.halalaboos.huzuni.render.ParticleRenderer;
 import net.minecraft.realms.RealmsBridge;
 import net.minecraftforge.common.ForgeVersion;
 
@@ -21,7 +21,7 @@ public class HuzuniMainMenu extends HuzuniScreen {
 	
     private final Texture TITLE = new Texture("title.png");
     
-    private final PanoramaRenderer panoramaRenderer = new PanoramaRenderer(width, height);
+    private final ParticleRenderer panoramaRenderer = new ParticleRenderer(width, height);
     private GuiButton realmsButton;
     
 	public HuzuniMainMenu() {
@@ -30,7 +30,6 @@ public class HuzuniMainMenu extends HuzuniScreen {
 
 	@Override
 	public void initGui() {
-        panoramaRenderer.init();
         panoramaRenderer.updateSize(width, height);
 		int y = this.height / 4 + 48;
 		this.buttonList.clear();
@@ -92,7 +91,7 @@ public class HuzuniMainMenu extends HuzuniScreen {
 	@Override
 	public void updateScreen() {
 		super.updateScreen();
-        panoramaRenderer.panoramaTick();
+        panoramaRenderer.updateParticles();
         if (huzuni.settings.hasUpdate()) {
         	for (GuiButton button : buttonList) {
         		if (button.id == 6) {
@@ -106,7 +105,7 @@ public class HuzuniMainMenu extends HuzuniScreen {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		getGLStateManager().disableAlpha();
-		panoramaRenderer.renderSkybox(mouseX, mouseY, partialTicks);
+		panoramaRenderer.renderParticles();
 		getGLStateManager().enableAlpha();
 		
 		super.drawScreen(mouseX, mouseY, partialTicks);

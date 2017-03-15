@@ -39,6 +39,14 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 	@Shadow
 	protected abstract void updateAutoJump(float p_189810_1_, float p_189810_2_);
 
+	@Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
+	public void sendChatMessage(String message, CallbackInfo ci) {
+		if (message.startsWith(huzuni.commandManager.getCommandPrefix())) {
+			huzuni.commandManager.processCommand(message.substring(huzuni.commandManager.getCommandPrefix().length()));
+			ci.cancel();
+		}
+	}
+
 	private PreMotionUpdateEvent preMotion = new PreMotionUpdateEvent();
 	private PostMotionUpdateEvent postMotion = new PostMotionUpdateEvent();
 	private Huzuni huzuni = Huzuni.INSTANCE;

@@ -10,6 +10,7 @@ import net.halalaboos.mcwrapper.api.event.input.MouseEvent;
 import net.halalaboos.mcwrapper.api.event.network.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.event.render.HUDRenderEvent;
+import net.halalaboos.mcwrapper.api.event.world.WorldLoadEvent;
 import net.halalaboos.mcwrapper.api.network.packet.client.PlayerAbilitiesPacket;
 import net.halalaboos.mcwrapper.api.network.packet.client.TabCompletePacket;
 import net.halalaboos.mcwrapper.api.util.MouseButton;
@@ -76,6 +77,17 @@ public class Patcher {
 					packet.setFlying(false);
 				}
 			}
+		});
+		getEventManager().subscribe(WorldLoadEvent.class, event -> {
+			if (event.getWorld() != null) {
+				if (huzuni.settings.firstUse.isEnabled()) {
+					huzuni.addChatMessage("Welcome to huzuni!");
+					huzuni.addChatMessage("Press right shift to open up the settings menu!");
+					huzuni.addChatMessage("Type \".help\" for a list of commands!");
+					huzuni.settings.firstUse.setEnabled(false);
+				}
+			}
+			huzuni.lookManager.cancelTask();
 		});
 	}
 
