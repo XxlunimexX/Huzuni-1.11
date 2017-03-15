@@ -5,7 +5,6 @@ import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.entity.Entity;
 import net.minecraft.stats.StatisticsManager;
 import net.minecraft.world.World;
 
@@ -35,27 +34,7 @@ public class HuzuniEntityPlayer extends EntityPlayerSP {
 	}
 
 	@Override
-	public boolean isSpectator() {
-		return super.isSpectator();
-	}
-	
-	@Override
-	public void onLivingUpdate() {
-		super.onLivingUpdate();
-	}
-
-	@Override
 	protected boolean pushOutOfBlocks(double par1, double par3, double par5) {
 		return !Freecam.INSTANCE.isEnabled() && super.pushOutOfBlocks(par1, par3, par5);
 	}
-
-	@Override
-	public boolean isPushedByWater() {
-		return super.isPushedByWater();
-	}
-	
-	@Override
-	public void applyEntityCollision(Entity entity) {
-		super.applyEntityCollision(entity);
-    }
 }

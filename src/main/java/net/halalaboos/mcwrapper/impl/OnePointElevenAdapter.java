@@ -35,7 +35,6 @@ public class OnePointElevenAdapter implements MinecraftAdapter {
 		this.mc = ((MinecraftClient) mc);
 		registerBuilder(ItemStack.Builder.class, ItemStackBuilder::new);
 		registerBuilder(PotionEffect.Builder.class, PotionEffectBuilder::new);
-		Huzuni.INSTANCE.start();
 	}
 
 	@Override

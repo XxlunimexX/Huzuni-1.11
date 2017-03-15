@@ -12,6 +12,9 @@ import net.minecraft.entity.player.PlayerCapabilities;
 import net.minecraft.util.FoodStats;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(net.minecraft.entity.player.EntityPlayer.class)
 public abstract class MixinEntityPlayer extends MixinEntityLiving implements Player {
@@ -72,4 +75,18 @@ public abstract class MixinEntityPlayer extends MixinEntityLiving implements Pla
 	}
 
 	private boolean npc = false;
+
+	private boolean pushedByWater = true;
+
+	@Override
+	public void setPushedByWater(boolean pushedByWater) {
+		this.pushedByWater = pushedByWater;
+	}
+
+	@Inject(method = "isPushedByWater", at = @At("HEAD"), cancellable = true)
+	public void isPushedByWater(CallbackInfoReturnable<Boolean> ci) {
+		if (!pushedByWater) {
+			ci.setReturnValue(false);
+		}
+	}
 }

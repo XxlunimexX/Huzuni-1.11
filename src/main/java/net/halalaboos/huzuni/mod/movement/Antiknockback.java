@@ -6,6 +6,7 @@ import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.mcwrapper.api.event.network.PacketReadEvent;
+import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.network.packet.client.UseEntityPacket;
 import net.halalaboos.mcwrapper.api.network.packet.server.EntityVelocityPacket;
 import net.halalaboos.mcwrapper.api.network.packet.server.ExplosionPacket;
@@ -21,6 +22,9 @@ public class Antiknockback extends BasicMod {
 	/** A timer that is reset every time we attack an Entity if Combat Mode is enabled. */
 	private final Timer timer = new Timer();
 
+	/** Toggle that prevents being pushed by water */
+	private final Toggleable water = new Toggleable("Water", "Prevents water from pushing you");
+
 	/** Toggle that prevents knockback only in combat */
 	private final Toggleable combat = new Toggleable("Combat mode", "Prevents knockback when only in combat");
 
@@ -32,9 +36,10 @@ public class Antiknockback extends BasicMod {
 
 	public Antiknockback() {
 		super("Anti knockback", "Removes a percentage from the knockback velocity");
-		this.addChildren(combat, combatTime, percentage);
+		this.addChildren(water, combat, combatTime, percentage);
 		this.setCategory(Category.MOVEMENT);
 		setAuthor("brudin");
+		water.setEnabled(true);
 		subscribe(PacketReadEvent.class, event -> {
 			if (event.getPacket() instanceof UseEntityPacket) {
 				UseEntityPacket packet = (UseEntityPacket) event.getPacket();
@@ -61,6 +66,16 @@ public class Antiknockback extends BasicMod {
 				event.setCancelled(true);
 			}
 		});
+		subscribe(PreMotionUpdateEvent.class, event -> {
+			//Doing this way because sometimes it'll reset (e.g. if the player is reset)
+			getPlayer().setPushedByWater(!water.isEnabled());
+		});
+	}
+
+	@Override
+	protected void onDisable() {
+		//Resets the player being pushed by water
+		getPlayer().setPushedByWater(true);
 	}
 
 	/**

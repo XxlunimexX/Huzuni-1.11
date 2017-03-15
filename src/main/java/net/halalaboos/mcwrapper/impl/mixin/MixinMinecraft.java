@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.impl.mixin;
 
+import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.MCWrapperHooks;
 import net.halalaboos.mcwrapper.api.MinecraftClient;
@@ -39,6 +40,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import javax.annotation.Nullable;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
@@ -75,11 +77,16 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Shadow
 	public abstract void displayGuiScreen(@Nullable GuiScreen guiScreenIn);
 
+	@Shadow
+	@Final
+	public File mcDataDir;
+
 	@Inject(method = "run()V", at = @At(value = "INVOKE",
 			target = "Lnet/minecraft/client/Minecraft;init()V",
 			shift = At.Shift.AFTER))
 	public void initWrapper(CallbackInfo ci) {
 		MCWrapper.setAdapter(new OnePointElevenAdapter((Minecraft)(Object)this));
+		Huzuni.INSTANCE.start();
 	}
 
 	@Inject(method = "runTickKeyboard()V", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Keyboard;getEventKeyState()Z"))
@@ -201,5 +208,10 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Override
 	public void showScreen(Screen screen) {
 		displayGuiScreen(new GuiScreenWrapper(screen));
+	}
+
+	@Override
+	public File getSaveDirectory() {
+		return mcDataDir;
 	}
 }

@@ -50,4 +50,6 @@ public interface Player extends Living {
 	Container getInventoryContainer();
 
 	PlayerInventory getPlayerInventory();
+
+	void setPushedByWater(boolean pushedByWater);
 }

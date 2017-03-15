@@ -194,7 +194,8 @@ public class Autopotion extends BasicMod {
 	/**
 	 * @return True if the player's health reaches below the threshold.
 	 * */
-	private boolean needUsePotion() {
+	private boolean needUsePotion()
+	{
 		return getPlayer().getHealthData().getCurrentHealth() <= healthAmount.getValue();
 	}
 

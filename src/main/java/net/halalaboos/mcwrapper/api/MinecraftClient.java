@@ -11,6 +11,7 @@ import net.halalaboos.mcwrapper.api.util.Resolution;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.world.World;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
@@ -89,4 +90,6 @@ public interface MinecraftClient {
 	InputStream getInputStream(ResourcePath asset) throws IOException;
 
 	void showScreen(Screen screen);
+
+	File getSaveDirectory();
 }

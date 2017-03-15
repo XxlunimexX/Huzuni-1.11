@@ -1,7 +1,10 @@
 package net.halalaboos.huzuni;
 
+import net.halalaboos.huzuni.gui.screen.HuzuniSettingsMenu;
+import net.halalaboos.mcwrapper.api.event.render.HUDRenderEvent;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -11,6 +14,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getEventManager;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 import static org.lwjgl.opengl.GL11.*;
@@ -30,6 +34,16 @@ public final class RenderManager {
 	
 	public RenderManager(Huzuni huzuni) {
 		this.huzuni = huzuni;
+
+		getEventManager().subscribe(HUDRenderEvent.class, event -> {
+			if (!event.isDebugEnabled()) {
+				if (!(Minecraft.getMinecraft().currentScreen instanceof HuzuniSettingsMenu)) {
+					huzuni.guiManager.widgetManager.render();
+					GlStateManager.disableBlend();
+				}
+				huzuni.renderManager.renderOverlay(event.getDelta());
+			}
+		});
 	}
 
 	/**

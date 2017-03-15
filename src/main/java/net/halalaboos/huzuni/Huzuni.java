@@ -14,7 +14,6 @@ import net.halalaboos.huzuni.gui.GuiManager;
 import net.halalaboos.huzuni.gui.Notification;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.huzuni.indev.script.ScriptManager;
-import net.halalaboos.huzuni.mc.HuzuniIngameGui;
 import net.halalaboos.huzuni.meme.MemeManager;
 import net.halalaboos.huzuni.mod.Patcher;
 import net.halalaboos.huzuni.mod.combat.*;
@@ -37,6 +36,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.io.File;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 
 /**
  *
@@ -96,9 +97,7 @@ public enum Huzuni {
      * Invoked when the game starts. Loads basic information.
      * */
 	public void start() {
-		Minecraft mc = Minecraft.getMinecraft();
-		File folder = mc.mcDataDir;
-		mc.ingameGUI = new HuzuniIngameGui(mc);
+		File folder = getMinecraft().getSaveDirectory();
 
 		guiFontRenderer.setFont(new Font("Verdana", Font.PLAIN, 18), true);
 		chatFontRenderer.setFont(new Font("Verdana", Font.PLAIN, 18), true);

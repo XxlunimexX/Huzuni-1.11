@@ -65,8 +65,8 @@ import java.util.UUID;
 	@Shadow protected abstract void setRotation(float yaw, float pitch);
 	@Shadow public abstract boolean shadow$isRiding();
 
-	@Shadow
-	public void move(MoverType type, double x, double y, double z){}
+	@Shadow public boolean isPushedByWater() { return true; }
+	@Shadow public void move(MoverType type, double x, double y, double z){}
 
 	private AABB aabb;
 

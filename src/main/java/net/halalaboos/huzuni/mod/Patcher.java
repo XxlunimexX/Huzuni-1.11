@@ -2,16 +2,19 @@ package net.halalaboos.huzuni.mod;
 
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
+import net.halalaboos.huzuni.gui.screen.HuzuniSettingsMenu;
 import net.halalaboos.huzuni.mod.movement.Flight;
 import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.event.input.MouseEvent;
 import net.halalaboos.mcwrapper.api.event.network.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
+import net.halalaboos.mcwrapper.api.event.render.HUDRenderEvent;
 import net.halalaboos.mcwrapper.api.network.packet.client.PlayerAbilitiesPacket;
 import net.halalaboos.mcwrapper.api.network.packet.client.TabCompletePacket;
 import net.halalaboos.mcwrapper.api.util.MouseButton;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.network.play.server.SPacketPlayerAbilities;
 import net.minecraft.util.math.RayTraceResult;
 
@@ -24,6 +27,8 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getEventManager;
 public class Patcher {
 
 	private boolean shouldHideFlying = true;
+
+	private final Huzuni huzuni = Huzuni.INSTANCE;
 
 	/**
 	 * PATCHER isn't really a mod, but moreso a way to prevent the client from sending things that
@@ -41,14 +46,14 @@ public class Patcher {
 				if (Minecraft.getMinecraft().objectMouseOver != null) {
 					RayTraceResult result = Minecraft.getMinecraft().objectMouseOver;
 					if (result.typeOfHit == RayTraceResult.Type.ENTITY && result.entityHit instanceof Player) {
-						if (Huzuni.INSTANCE.friendManager.isFriend(result.entityHit.getName())) {
-							Huzuni.INSTANCE.addChatMessage(String.format("Removed %s as a friend.", result.entityHit.getName()));
-							Huzuni.INSTANCE.friendManager.removeFriend(result.entityHit.getName());
-							Huzuni.INSTANCE.friendManager.save();
+						if (huzuni.friendManager.isFriend(result.entityHit.getName())) {
+							huzuni.addChatMessage(String.format("Removed %s as a friend.", result.entityHit.getName()));
+							huzuni.friendManager.removeFriend(result.entityHit.getName());
+							huzuni.friendManager.save();
 						} else {
-							Huzuni.INSTANCE.friendManager.addFriend(result.entityHit.getName());
-							Huzuni.INSTANCE.addChatMessage(String.format("Added %s as a friend.", result.entityHit.getName()));
-							Huzuni.INSTANCE.friendManager.save();
+							huzuni.friendManager.addFriend(result.entityHit.getName());
+							huzuni.addChatMessage(String.format("Added %s as a friend.", result.entityHit.getName()));
+							huzuni.friendManager.save();
 						}
 					}
 				}
@@ -62,11 +67,11 @@ public class Patcher {
 		});
 		getEventManager().subscribe(PacketSendEvent.class, event -> {
 			if (event.getPacket() instanceof TabCompletePacket) {
-				TabCompletePacket packet = (TabCompletePacket)event.getPacket();
+				TabCompletePacket packet = (TabCompletePacket) event.getPacket();
 				packet.setText(hideCommands(packet.getText()));
 			}
 			if (event.getPacket() instanceof PlayerAbilitiesPacket) {
-				PlayerAbilitiesPacket packet = (PlayerAbilitiesPacket)event.getPacket();
+				PlayerAbilitiesPacket packet = (PlayerAbilitiesPacket) event.getPacket();
 				if ((Freecam.INSTANCE.isEnabled() || Flight.INSTANCE.isEnabled()) && shouldHideFlying) {
 					packet.setFlying(false);
 				}

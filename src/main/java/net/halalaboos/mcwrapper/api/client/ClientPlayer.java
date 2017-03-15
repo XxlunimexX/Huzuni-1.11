@@ -80,4 +80,5 @@ public interface ClientPlayer extends Player {
 	 * TODO: Better name
 	 */
 	boolean getItemUseSlowdown();
+
 }

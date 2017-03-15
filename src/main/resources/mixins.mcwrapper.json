@@ -18,6 +18,8 @@
     "block.types.MixinBlockStairs",
     "client.MixinPlayerControllerMP",
     "client.gui.MixinFontRenderer",
+    "client.gui.MixinGuiIngame",
+    "client.gui.MixinGuiNewChat",
     "entity.MixinEntity",
     "entity.MixinEntityArrow",
     "entity.MixinEntityItem",
