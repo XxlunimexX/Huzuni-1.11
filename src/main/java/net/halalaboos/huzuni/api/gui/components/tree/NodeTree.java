@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.api.gui.components.tree;
 
 import net.halalaboos.huzuni.api.gui.components.ScrollableComponent;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +25,8 @@ public class NodeTree extends ScrollableComponent {
 	}
 	
 	public void renderTree() {
-		int mouseX = GLManager.getMouseX(),
-				mouseY = GLManager.getMouseY(),
+		int mouseX = GLUtils.getMouseX(),
+				mouseY = GLUtils.getMouseY(),
 				width = this.getWidth() - (this.hasScrollbar() ? this.getScrollbarSize() + NodeTreeComponent.PADDING : 0),
 				y = this.getY() - getScrollOffset();
 		this.setTooltip(null);
@@ -54,8 +54,6 @@ public class NodeTree extends ScrollableComponent {
 	 * @param x The x position to be rendered within.
 	 * @param y The y position to be rendered within. This has been incremented by the previous {@link NodeTreeComponent}s heights.
 	 * @param width The greater x position to be rendered within.
-	 * @param y1 The greater y position to be rendered within.
-	 * @param originalY The original Y position the components are rendered within. This is because the render function increments the y field by the heights of other {@link NodeTreeComponent}s.
 	 * @param mouseX The X position of the mouse.
 	 * @param mouseY The Y position of the mouse.
 	 * @param height The height of the previous {@link NodeTreeComponent}s.
@@ -116,8 +114,6 @@ public class NodeTree extends ScrollableComponent {
 	 * @param x The x position to be rendered within.
 	 * @param y The y position to be rendered within. This has been incremented by the previous {@link NodeTreeComponent}s heights.
 	 * @param width The width of the area.
-	 * @param y1 The greater y position to be rendered within.
-	 * @param originalY The original Y position the components are rendered within. This is because the mouse click function increments the y field by the heights of other {@link NodeTreeComponent}s.
 	 * @param mouseX The X position of the mouse.
 	 * @param mouseY The Y position of the mouse.
 	 * @param height The height of the previous {@link NodeTreeComponent}s.

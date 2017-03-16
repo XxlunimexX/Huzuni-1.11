@@ -5,8 +5,7 @@ import net.halalaboos.huzuni.api.gui.Theme;
 import net.halalaboos.huzuni.api.gui.widget.Glue;
 import net.halalaboos.huzuni.api.mod.BasicKeybind;
 import net.halalaboos.huzuni.api.mod.Mod;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
-import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 
 /**
  * The pig plus style.
@@ -32,12 +31,12 @@ public class PigPlusStyle implements ModRenderStyle {
      * Renders pig plus enabled / disabled icon.
      */
     private void renderIcon(int xPos, int yPos, Mod mod) {
-    	GLManager.glColor(0xFF000000);
-    	RenderUtils.drawRect(xPos + 1, yPos + 1, xPos + ICON_SIZE + 1, yPos + ICON_SIZE + 1);
-    	GLManager.glColor(0xFF4D4D4D);
-    	RenderUtils.drawBorder(1F, xPos, yPos, xPos + ICON_SIZE, yPos + ICON_SIZE);
-    	GLManager.glColor(mod.isEnabled() ? 0xFF83F52C : 0xFFE3170D);
-    	RenderUtils.drawRect(xPos, yPos, xPos + ICON_SIZE, yPos + ICON_SIZE);
+		GLUtils.glColor(0xFF000000);
+    	GLUtils.drawRect(xPos + 1, yPos + 1, xPos + ICON_SIZE + 1, yPos + ICON_SIZE + 1);
+		GLUtils.glColor(0xFF4D4D4D);
+    	GLUtils.drawBorder(1F, xPos, yPos, xPos + ICON_SIZE, yPos + ICON_SIZE);
+		GLUtils.glColor(mod.isEnabled() ? 0xFF83F52C : 0xFFE3170D);
+    	GLUtils.drawRect(xPos, yPos, xPos + ICON_SIZE, yPos + ICON_SIZE);
     }
 
 	@Override

@@ -6,7 +6,7 @@ import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.gui.Theme;
 import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.api.node.Node;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Mouse;
 
@@ -52,10 +52,9 @@ public abstract class Widget extends Node {
 	 * */
 	public void update() {
 		if (Mouse.isButtonDown(0)) {
-			int dx = GLManager.getMouseDX(), dy = GLManager.getMouseDY();
 			if (dragging) {
-				this.x += dx;
-				this.y += dy;
+				this.x = GLUtils.getMouseX() - offsetX;
+				this.y += GLUtils.getMouseY() - offsetY;
 				ScreenGlue.keepWithinScreen(this);
 				widgetManager.formatWidgets(this);
 				Glue newGlue = ScreenGlue.getScreenGlue(this);

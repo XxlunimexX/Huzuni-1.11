@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.indev.gui.components;
 
 
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.indev.gui.Component;
 import net.halalaboos.huzuni.indev.gui.actions.Actions;
 import net.halalaboos.huzuni.indev.gui.actions.ClickAction;
@@ -78,14 +78,19 @@ public class TextField extends Component {
      * Appends this string to this textfield's text.
      * */
     public void append(String string) {
+        // If the current text + the given string are less than or equal to the max length.
         if (text.concat(string).length() <= maxLength) {
+            // If the pointer is at the end of the text, throw the new string onto the end.
             if (pointer >= this.text.length()) {
                 this.text = this.text.concat(string);
+            // If the pointer is not at the beginning of the text, throw the new string into the middle of our text.
             } else if (pointer > 0) {
                 this.text = this.text.substring(0, pointer) + string + this.text.substring(pointer, this.text.length());
+            // Otherwise put the new string at the beginning of our text.
             } else if (pointer == 0) {
                 this.text = string + this.text;
             }
+            // Increase our pointer.
             pointer += string.length();
         }
     }
@@ -161,7 +166,7 @@ public class TextField extends Component {
      * */
     public String getRenderText(boolean showPlacement) {
         String text = showPlacement ? this.text.substring(0, pointer) + "|" + this.text.substring(pointer, this.text.length()) : this.text;
-        return font.trim(text, this.getWidth() * GLManager.getScaleFactor(), true);
+        return font.trim(text, this.getWidth() * GLUtils.getScaleFactor(), true);
     }
 
     public String getText() {

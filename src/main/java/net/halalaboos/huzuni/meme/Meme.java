@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.meme;
 
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 
@@ -38,7 +38,7 @@ public class Meme {
      * Generates a texture id and applies the loaded buffered image to the texture.
      * */
 	private void generateTexture() {
-        texId = GLManager.applyTexture(GLManager.genTexture(), image, GL_NEAREST, GL_REPEAT);
+        texId = GLUtils.applyTexture(GLUtils.genTexture(), image, GL_NEAREST, GL_REPEAT);
     }
 
     /**

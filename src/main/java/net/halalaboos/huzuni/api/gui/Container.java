@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.api.gui;
 
 import net.halalaboos.huzuni.api.util.Timer;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +29,13 @@ public class Container extends Component {
 			component.updatePositionsWithOffset(getX(), getY());
 			component.update();
 			component.render();
-			if (component.isPointInside(GLManager.getMouseX(), GLManager.getMouseY()) && component.hasTooltip()) {
+			if (component.isPointInside(GLUtils.getMouseX(), GLUtils.getMouseY()) && component.hasTooltip()) {
 				this.setTooltip(component.getTooltip());
 			}
 		}
 		if (getTooltip() != null) {
 			if (tooltipTimer.hasReach(1000))
-				getTheme().drawTooltip(getTooltip(), GLManager.getMouseX(), GLManager.getMouseY());
+				getTheme().drawTooltip(getTooltip(), GLUtils.getMouseX(), GLUtils.getMouseY());
 		} else
 			tooltipTimer.reset();
 	}
@@ -69,7 +69,7 @@ public class Container extends Component {
 	public void mouseWheel(int amount) {
 		for (int i = components.size() - 1; i >= 0; i--) {
 			Component component = components.get(i);
-			if (component.isPointInside(GLManager.getMouseX(), GLManager.getMouseY())) {
+			if (component.isPointInside(GLUtils.getMouseX(), GLUtils.getMouseY())) {
 				component.mouseWheel(amount);
 			}
 		}

@@ -5,8 +5,7 @@ import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
-import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.mcwrapper.api.entity.projectile.Arrow;
 import net.halalaboos.mcwrapper.api.item.types.Bow;
 import net.halalaboos.mcwrapper.api.item.types.SplashPotion;
@@ -128,13 +127,13 @@ public class Projectiles extends BasicMod implements Renderer {
         
         if (text != null) {
 			GlStateManager.pushMatrix();
-			RenderUtils.prepareBillboarding((float) (x - cam.getX()), (float) (y - cam.getY()), (float) (z - cam.getZ()), true);
+			GLUtils.prepareBillboarding((float) (x - cam.getX()), (float) (y - cam.getY()), (float) (z - cam.getZ()), true);
 			GlStateManager.enableTexture2D();
 			getTextRenderer().render(text, -getTextRenderer().getWidth(text) / 2, 1, 0xFFFFFFF, true);
 			GlStateManager.disableTexture2D();
 			GlStateManager.popMatrix();
         }
-        GLManager.glColor(0F, 1F, 0F, 1F);
+		GLUtils.glColor(0F, 1F, 0F, 1F);
     	VertexBuffer renderer = tessellator.getBuffer();
         if (lines.isEnabled())
     		renderer.begin(GL_LINE_STRIP, DefaultVertexFormats.POSITION);
@@ -198,7 +197,7 @@ public class Projectiles extends BasicMod implements Renderer {
 	                    break;
 	            }
 	             if (isEntity)
-	             	GLManager.glColor(1, 0, 0, 1F);
+					 GLUtils.glColor(1, 0, 0, 1F);
 	        }
 	        renderPoint();
 	        GlStateManager.popMatrix();

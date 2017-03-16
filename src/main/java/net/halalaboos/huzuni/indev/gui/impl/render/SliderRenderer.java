@@ -1,40 +1,31 @@
 package net.halalaboos.huzuni.indev.gui.impl.render;
 
-import net.halalaboos.huzuni.api.util.gl.GLManager;
-import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
+import net.halalaboos.huzuni.indev.gui.Toolbox;
 import net.halalaboos.huzuni.indev.gui.components.Slider;
-import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
-import net.halalaboos.huzuni.indev.gui.render.ComponentRenderer;
+import net.halalaboos.huzuni.indev.gui.impl.BasicComponentRenderer;
+import net.halalaboos.huzuni.indev.gui.render.FontRenderer;
+import net.halalaboos.huzuni.indev.gui.render.ImageRenderer;
 import org.lwjgl.input.Mouse;
+
+import static net.halalaboos.huzuni.indev.gui.impl.Pointers.*;
 
 
 /**
  * Basic button renderer. <br/>
  * Created by Brandon Williams on 2/19/2017.
  */
-public class SliderRenderer implements ComponentRenderer<Slider> {
+public class SliderRenderer extends BasicComponentRenderer<Slider> {
 
-    private final BasicRenderer renderer;
-
-    public SliderRenderer(BasicRenderer renderer) {
-        this.renderer = renderer;
-    }
-
-    @Override
-    public void pre(Slider slider) {
-
+    public SliderRenderer(Toolbox toolbox, FontRenderer fontRenderer, ImageRenderer imageRenderer) {
+        super(toolbox, fontRenderer, imageRenderer);
     }
 
     @Override
     public void render(Slider slider) {
-        GLManager.glColor(renderer.getPack().getDefaultComponent());
-        RenderUtils.drawRect(slider.getArea());
-        GLManager.glColor(RenderUtils.getColorWithAffects(renderer.getPack().getHighlightComponent(), slider.isSliding() || slider.isHovered(), Mouse.isButtonDown(0)));
-        RenderUtils.drawRect(slider.getSliderBar());
-    }
-
-    @Override
-    public void post(Slider slider) {
-
+        GLUtils.glColor(toolbox.get(COLOR_DEFAULT));
+        GLUtils.drawRect(slider.getArea());
+        GLUtils.glColor(GLUtils.getColorWithAffects(toolbox.get(COLOR_HIGHLIGHT), slider.isSliding() || slider.isHovered(), Mouse.isButtonDown(0)));
+        GLUtils.drawRect(slider.getSliderBar());
     }
 }

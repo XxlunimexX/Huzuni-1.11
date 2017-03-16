@@ -3,14 +3,12 @@
  */
 package net.halalaboos.huzuni.render;
 
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import org.lwjgl.opengl.GL11;
 
-import java.util.Random;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.*;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 import static org.lwjgl.opengl.GL11.*;
@@ -25,7 +23,7 @@ public class ParticleEngine {
    
     private final Random random = new Random();
     
-    private final Set<Particle> particles = new CopyOnWriteArraySet<Particle>();
+    private final List<Particle> particles = new ArrayList<>();
     
     private final boolean randomDespawn;
 
@@ -47,7 +45,7 @@ public class ParticleEngine {
             texture.bindTexture();
             float scale = ((particle.life) / (getMaxLife())) / 5;
             glScalef(scale, scale, scale);
-            GLManager.glColor(1F, 1F, 1F, ((particle.life) / (getMaxLife())) / 5);
+            GLUtils.glColor(1F, 1F, 1F, ((particle.life) / (getMaxLife())) / 5);
             renderTexture(320, 32, particle.x * (1F / scale), particle.y * (1F / scale), 32, 32, 320 - (MathUtils.ceil(particle.life / (getMaxLife() / 10F)) * 32), 0, 32, 32);
 			getGLStateManager().popMatrix();
         }
@@ -75,7 +73,8 @@ public class ParticleEngine {
     }
 
     public void updateParticles() {
-        for (Particle particle : particles) {
+        for (int i = 0; i < particles.size(); i++) {
+            Particle particle = particles.get(i);
             particle.update();
             if (particle.life <= 0)
                 particles.remove(particle);

@@ -83,6 +83,7 @@ public enum Huzuni {
 
 	public final MinecraftFontRenderer guiFontRenderer = new MinecraftFontRenderer(), chatFontRenderer = new MinecraftFontRenderer();
 
+	// TODO: replace with resource creator
 	public final FontManager fontManager = new FontManager();
 
 	public final ScriptManager scriptManager = new ScriptManager(this);

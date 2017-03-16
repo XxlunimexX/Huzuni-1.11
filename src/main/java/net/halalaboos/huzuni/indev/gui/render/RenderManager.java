@@ -19,11 +19,7 @@ public class RenderManager {
      * */
     private final Map<ComponentRendererMatcher, ComponentRenderer> renderers = new HashMap<>();
 
-    private final PopupRenderer popupRenderer;
-
-    public RenderManager(PopupRenderer popupRenderer) {
-        this.popupRenderer = popupRenderer;
-    }
+    private PopupRenderer popupRenderer = new EmptyPopupRenderer();
 
     /**
      * Assigns this renderer to the class specified. Can render subclasses of this class.
@@ -34,7 +30,7 @@ public class RenderManager {
 
     /**
      * Assigns this renderer to the class specified.
-     * @param loose When false exactly matches the class, which may prove problematic with internal classes.
+     * @param loose 'Loose-Comparison' - When false exactly matches the class, which may prove problematic with internal classes.
      * */
     public void setRenderer(Class<? extends Component> clazz, boolean loose, ComponentRenderer renderer) {
         renderers.put(new ClassMatcher<>(clazz, loose), renderer);
@@ -59,6 +55,7 @@ public class RenderManager {
      * */
     public void render(Component component) {
         // Filter the
+        // ^ I'm keeping it this way.
         Optional<Map.Entry<ComponentRendererMatcher, ComponentRenderer>> renderer = renderers.entrySet().stream().max(Comparator.comparingInt(o -> o.getKey().matches(component)));
         if (renderer.isPresent()) {
             renderer.get().getValue().pre(component);
@@ -72,6 +69,11 @@ public class RenderManager {
             }
             renderer.get().getValue().post(component);
         }
+    }
+
+    public void setPopupRenderer(PopupRenderer popupRenderer) {
+        if (popupRenderer != null)
+            this.popupRenderer = popupRenderer;
     }
 
     public PopupRenderer getPopupRenderer() {

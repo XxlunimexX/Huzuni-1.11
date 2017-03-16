@@ -8,7 +8,7 @@ import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.gl.Box;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
@@ -107,7 +107,7 @@ public class ESP extends BasicMod implements Renderer {
 					tessellator.draw();
 					getGLStateManager().popMatrix();
 				} else if (mode.getSelected() == 3) {
-					GLManager.glColor(1F, distance / 64F, 0F, 1F);
+					GLUtils.glColor(1F, distance / 64F, 0F, 1F);
 					VertexBuffer renderer = tessellator.getBuffer();
 					renderer.begin(GL_LINES, DefaultVertexFormats.POSITION);
 					renderer.pos(renderPos.getX(), renderPos.getY(), renderPos.getZ()).endVertex();
@@ -155,27 +155,27 @@ public class ESP extends BasicMod implements Renderer {
 
 	private void setColor(Living entity, float distance, boolean friend, boolean lines, float opacity) {
 		if (friend)
-			GLManager.glColor(huzuni.friendManager.getColor(), opacity);
+			GLUtils.glColor(huzuni.friendManager.getColor(), opacity);
 		else {
 			if (huzuni.settings.team.isEnabled()) {
 				if (huzuni.settings.team.isTeam(entity)) {
-					GLManager.glColor(huzuni.settings.team.getColor(), opacity);
+					GLUtils.glColor(huzuni.settings.team.getColor(), opacity);
 					return;
 				} else {
 					int teamColor = huzuni.settings.team.getTeamColor(entity);
 					if (teamColor != -1) {
-						GLManager.glColor(teamColor, opacity);
+						GLUtils.glColor(teamColor, opacity);
 						return;
 					}
 				}
 			}
 			if (lines)
-				GLManager.glColor(1F, distance / 64F, 0F, opacity);
+				GLUtils.glColor(1F, distance / 64F, 0F, opacity);
 			else {
 				if (entity.getHurtResistantTime() > 0)
-					GLManager.glColor(1F, 1F - ((float) entity.getHurtResistantTime() / ((float) entity.getMaxHurtResistantTime() / 2F)), 0F, opacity);
+					GLUtils.glColor(1F, 1F - ((float) entity.getHurtResistantTime() / ((float) entity.getMaxHurtResistantTime() / 2F)), 0F, opacity);
 				else
-					GLManager.glColor(0F, 1F, 0F, opacity);
+					GLUtils.glColor(0F, 1F, 0F, opacity);
 			}
 		}
 	}

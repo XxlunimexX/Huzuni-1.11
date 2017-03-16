@@ -3,8 +3,7 @@ package net.halalaboos.huzuni.gui.widgets;
 import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.api.gui.widget.Widget;
 import net.halalaboos.huzuni.api.util.Timer;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
-import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.gui.Notification;
 
 import java.util.List;
@@ -45,18 +44,18 @@ public class NotificationWidget extends Widget {
 				
 				float percent = (float) (Timer.getSystemTime() - notification.getTime()) / (float) notification.getDuration();
 				theme.drawBackgroundRect(renderX, renderY, notificationWidth, notificationHeight, false);
-				
-				GLManager.glColor(notification.getType().color, 0.7F);
-				RenderUtils.drawRect(renderX, renderY, renderX + Notification.ICON_SIZE, renderY + Notification.ICON_SIZE);
+
+				GLUtils.glColor(notification.getType().color, 0.7F);
+				GLUtils.drawRect(renderX, renderY, renderX + Notification.ICON_SIZE, renderY + Notification.ICON_SIZE);
 				theme.drawStringWithShadow(notification.getType().text, renderX + notification.getType().offsetX, renderY + notification.getType().offsetY, 0xFFFFFF);
 				
 				for (int j = 0; j < notification.getMessage().length; j++) {
 					theme.drawStringWithShadow(notification.getMessage()[j], renderX + (j == 0 ? Notification.ICON_SIZE + 4 : 3), renderY, 0xFFFFFF);
 					renderY += 12;
 				}
-				
-				GLManager.glColor(0F, 1F, 0F, 0.7F);
-				RenderUtils.drawRect(renderX, renderY, renderX + notificationWidth * (1F - percent), renderY + 1);
+
+				GLUtils.glColor(0F, 1F, 0F, 0.7F);
+				GLUtils.drawRect(renderX, renderY, renderX + notificationWidth * (1F - percent), renderY + 1);
 			
 				y += incrementOffset * (notificationHeight + notificationPadding);
 			}

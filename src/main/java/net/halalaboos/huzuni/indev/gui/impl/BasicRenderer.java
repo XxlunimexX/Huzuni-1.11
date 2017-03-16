@@ -1,5 +1,6 @@
 package net.halalaboos.huzuni.indev.gui.impl;
 
+import net.halalaboos.huzuni.indev.ColorPack;
 import net.halalaboos.huzuni.indev.gui.*;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.components.*;
@@ -10,6 +11,7 @@ import net.halalaboos.huzuni.indev.gui.components.TextField;
 import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
 import net.halalaboos.huzuni.indev.gui.impl.render.*;
 import net.halalaboos.huzuni.indev.gui.render.FontRenderer;
+import net.halalaboos.huzuni.indev.gui.render.ImageRenderer;
 import net.halalaboos.huzuni.indev.gui.render.RenderManager;
 
 /**
@@ -20,31 +22,34 @@ import net.halalaboos.huzuni.indev.gui.render.RenderManager;
 public class BasicRenderer extends RenderManager {
 
     private final FontRenderer fontRenderer = new BasicFontRenderer();
+    
+    private final ImageRenderer imageRenderer = new BasicImageRenderer();
 
-    private ColorPack pack = ColorPack.values()[(int) (Math.random() * ColorPack.values().length)];
+    private final Toolbox toolbox;
 
-    public BasicRenderer(FontData popupFont, Toolbox toolbox) {
-        super(new BasicPopupRenderer(popupFont));
-        ((BasicPopupRenderer) getPopupRenderer()).setRenderer(this);
-        this.setRenderer(Button.class, new ButtonRenderer(this));
-        this.setRenderer(Checkbox.class, new CheckboxRenderer(this));
-        this.setRenderer(Container.class, new ContainerRenderer(this));
-        this.setRenderer(ScrollableContainer.class, false, new ScrollableContainerRenderer(this, toolbox));
-        this.setRenderer(Slider.class, new SliderRenderer(this));
-        this.setRenderer(Label.class, new LabelRenderer(fontRenderer));
-        this.setRenderer(TextField.class, new TextFieldRenderer(this));
-        this.setRenderer(ComboBox.class, new ComboBoxRenderer(this, toolbox));
+    public BasicRenderer(Toolbox toolbox) {
+        super();
+        this.toolbox = toolbox;
+        this.setPopupRenderer(new BasicPopupRenderer(toolbox, fontRenderer, imageRenderer));
+        this.setRenderer(Button.class, new ButtonRenderer(toolbox, fontRenderer, imageRenderer));
+        this.setRenderer(Checkbox.class, new CheckboxRenderer(toolbox, fontRenderer, imageRenderer));
+        this.setRenderer(Container.class, new ContainerRenderer(toolbox, fontRenderer, imageRenderer));
+        this.setRenderer(ScrollableContainer.class, false, new ScrollableContainerRenderer(toolbox, fontRenderer, imageRenderer));
+        this.setRenderer(Slider.class, new SliderRenderer(toolbox, fontRenderer, imageRenderer));
+        this.setRenderer(Label.class, new LabelRenderer(toolbox, fontRenderer, imageRenderer));
+        this.setRenderer(TextField.class, new TextFieldRenderer(toolbox, fontRenderer, imageRenderer));
+        this.setRenderer(ComboBox.class, new ComboBoxRenderer(toolbox, fontRenderer, imageRenderer));
     }
 
     public FontRenderer getFontRenderer() {
         return fontRenderer;
     }
 
-    public ColorPack getPack() {
-        return pack;
+    public ImageRenderer getImageRenderer() {
+        return imageRenderer;
     }
 
-    public void setPack(ColorPack pack) {
-        this.pack = pack;
+    public Toolbox getToolbox() {
+        return toolbox;
     }
 }

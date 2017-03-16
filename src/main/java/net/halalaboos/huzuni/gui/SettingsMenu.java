@@ -15,7 +15,7 @@ import net.halalaboos.huzuni.api.mod.ModSettings;
 import net.halalaboos.huzuni.api.node.*;
 import net.halalaboos.huzuni.api.task.TaskManager;
 import net.halalaboos.huzuni.api.util.IncrementalPosition;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.gui.containers.SettingsContainer;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
@@ -75,7 +75,7 @@ public class SettingsMenu {
      * Renders the menu.
      * */
 	public void renderMenu(int screenWidth, int screenHeight, int tabHeight, int padding) {
-		int tabY = GLManager.getScreenHeight() / 2;
+		int tabY = GLUtils.getScreenHeight() / 2;
 
 		height = screenHeight / 2;
 		int x = 0, y = height - height / 2;
@@ -113,7 +113,7 @@ public class SettingsMenu {
      * Renders the settings tab (the point which allows the user to expand or close the settings menu)
      * */
 	private void renderSettingsTab(int x, int y, int width, int height, String tooltip) {
-		int mouseX = GLManager.getMouseX(), mouseY = GLManager.getMouseY();
+		int mouseX = GLUtils.getMouseX(), mouseY = GLUtils.getMouseY();
 		container.getTheme().drawBackgroundRect(x, y, width, height, false);
 		boolean mouseOver = mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + height;
 		
@@ -146,7 +146,7 @@ public class SettingsMenu {
      * */
 	public void mouseClicked(int x, int y, int buttonId) {
 		if (expanded && expandedPosition.hasFinished()) {
-			float tabY = GLManager.getScreenHeight() / 2;
+			float tabY = GLUtils.getScreenHeight() / 2;
 			if (x > WIDTH && x < WIDTH + TAB_WIDTH && y > tabY - TAB_HEIGHT && y < tabY + TAB_HEIGHT) {
 				this.expanded = !expanded;
 				return;
@@ -157,7 +157,7 @@ public class SettingsMenu {
 			}
 			container.mouseClicked(x, y, buttonId);
 		} else {
-			int tabY = GLManager.getScreenHeight() / 2;
+			int tabY = GLUtils.getScreenHeight() / 2;
 			if (x > 0 && x < TAB_WIDTH && y > tabY - TAB_HEIGHT && y < tabY + TAB_HEIGHT)
 				this.expanded = !expanded;
 		}

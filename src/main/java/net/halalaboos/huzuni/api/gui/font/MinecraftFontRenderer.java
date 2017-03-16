@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.api.gui.font;
 
-import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.indev.gui.FontData;
 import net.halalaboos.huzuni.indev.gui.impl.BasicFontRenderer;
 
@@ -194,17 +194,17 @@ public final class MinecraftFontRenderer extends BasicFontRenderer {
 					}
 					FontData.CharacterData area = fontData.getCharacterBounds(character);
 
-					RenderUtils.drawTextureRect(x, y, area.width, area.height,
-							(float) area.x / fontData.getTextureWidth(),
-							(float) area.y / fontData.getTextureHeight(),
-							(float) (area.x + area.width) / fontData.getTextureWidth(),
-							(float) (area.y + area.height) / fontData.getTextureHeight());
+					GLUtils.drawTextureRect(x, y, area.width, area.height,
+							(float) area.x / fontData.getImage().getWidth(),
+							(float) area.y / fontData.getImage().getHeight(),
+							(float) (area.x + area.width) / fontData.getImage().getWidth(),
+							(float) (area.y + area.height) / fontData.getImage().getHeight());
 
 					if (strikethrough)
-                        RenderUtils.drawLine(1F, x, y + area.height / 4 + 2, x + area.width / 2, y + area.height / 4 + 2);
+						GLUtils.drawLine(1F, x, y + area.height / 4 + 2, x + area.width / 2, y + area.height / 4 + 2);
 
 					if (underline)
-                        RenderUtils.drawLine(1F, x, y + area.height / 2, x + area.width / 2, y + area.height / 2);
+						GLUtils.drawLine(1F, x, y + area.height / 2, x + area.width / 2, y + area.height / 2);
 					x += area.width + kerning;
 				}
 			}

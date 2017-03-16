@@ -6,8 +6,7 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.mod.CommandPointer;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
-import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.huzuni.mod.movement.Freecam;
@@ -83,9 +82,9 @@ public class Breadcrumb extends BasicMod implements Renderer {
 		if (bread.isEnabled()) {
 			for (Vector3i position : points) {
 				Vector3d renderPos = position.toDouble().sub(getMinecraft().getCamera());
-				GLManager.glColor(1F, 1F, 1F, opacity.getValue() / 100F);
+				GLUtils.glColor(1F, 1F, 1F, opacity.getValue() / 100F);
 				getGLStateManager().pushMatrix();
-				RenderUtils.prepareBillboarding(((float) renderPos.getX()), ((float) renderPos.getY()), ((float) renderPos.getZ()), true);
+				GLUtils.prepareBillboarding(((float) renderPos.getX()), ((float) renderPos.getY()), ((float) renderPos.getZ()), true);
 				getGLStateManager().scale(0.25F, 0.25F, 0.25F);
 				breadIcon.bindTexture();
 				breadIcon.render(-32F, -32F + (bounce.getValue() == 0F ? 0F : (float) (bounce.getValue() * Math.cos(Math.toRadians(System.currentTimeMillis() % 360)))), 64, 64);
@@ -94,7 +93,7 @@ public class Breadcrumb extends BasicMod implements Renderer {
 		}
 		getGLStateManager().disableTexture2D();
 		if (lines.isEnabled()) {
-			GLManager.glColor(1F, 1F, 1F, opacity.getValue() / 100F);
+			GLUtils.glColor(1F, 1F, 1F, opacity.getValue() / 100F);
 			Tessellator tessellator = Tessellator.getInstance();
 	    	VertexBuffer renderer = tessellator.getBuffer();
 	    	renderer.begin(GL_LINE_STRIP, DefaultVertexFormats.POSITION);

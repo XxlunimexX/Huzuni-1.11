@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.api.gui.components;
 
 import net.halalaboos.huzuni.api.gui.Component;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import org.lwjgl.input.Mouse;
 
 /**
@@ -144,7 +144,7 @@ public abstract class ScrollableComponent extends Component {
 	 * */
 	protected void updateScrolling() {
 		if (this.scrolling && Mouse.isButtonDown(0)) {
-			this.scrolledPercentage = (float) ((verticalScrollbar ? GLManager.getMouseY() : GLManager.getMouseX()) - scrollbarClickOffset) / (float) ((verticalScrollbar ? getHeight() : getWidth()) - getScrollbarLength());
+			this.scrolledPercentage = (float) ((verticalScrollbar ? GLUtils.getMouseY() : GLUtils.getMouseX()) - scrollbarClickOffset) / (float) ((verticalScrollbar ? getHeight() : getWidth()) - getScrollbarLength());
 		} else
 			this.scrolling = false;
 		if (scrolledPercentage > 1)

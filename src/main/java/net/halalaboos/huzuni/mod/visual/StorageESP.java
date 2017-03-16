@@ -7,7 +7,7 @@ import net.halalaboos.huzuni.api.node.ItemSelector;
 import net.halalaboos.huzuni.api.node.ItemSelector.ItemData;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.util.gl.Box;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.mcwrapper.api.block.tileentity.*;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
@@ -151,9 +151,9 @@ public class StorageESP extends BasicMod implements Renderer {
 
 	private void colorChest(Chest tileEntity, float alpha) {
 		if (tileEntity.getType() == Chest.ChestType.TRAP)
-			GLManager.glColor(1F, 0F, 0F, fade.isEnabled() ? alpha : 0.25F);
+			GLUtils.glColor(1F, 0F, 0F, fade.isEnabled() ? alpha : 0.25F);
 		else
-			GLManager.glColor(1F, 1F, 0F, fade.isEnabled() ? alpha : 0.25F);
+			GLUtils.glColor(1F, 1F, 0F, fade.isEnabled() ? alpha : 0.25F);
 	}
 
 	/**
@@ -171,12 +171,12 @@ public class StorageESP extends BasicMod implements Renderer {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(renderX, renderY, renderZ);
 		if (boxes.isEnabled()) {
-			GLManager.glColor(r, g, b, fade.isEnabled() ? alpha : 0.25F);
+			GLUtils.glColor(r, g, b, fade.isEnabled() ? alpha : 0.25F);
 			normal.setOpaque(true);
 			normal.render();
 		}
 		if (border.isEnabled()) {
-			GLManager.glColor(r, g, b, fade.isEnabled() ? alpha : 0.25F);
+			GLUtils.glColor(r, g, b, fade.isEnabled() ? alpha : 0.25F);
 			normal.setOpaque(false);
 			normal.render();
 		}

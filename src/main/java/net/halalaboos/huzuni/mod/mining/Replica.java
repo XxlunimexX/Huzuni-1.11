@@ -11,7 +11,7 @@ import net.halalaboos.huzuni.api.task.PlaceTask;
 import net.halalaboos.huzuni.api.util.MathUtils;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.gl.Box;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.huzuni.mod.mining.templates.*;
 import net.halalaboos.mcwrapper.api.event.input.MouseEvent;
@@ -201,7 +201,7 @@ public final class Replica extends BasicMod implements Renderer {
 		float renderZ = (float) (z - mc.getRenderManager().viewerPosZ);
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(renderX, renderY, renderZ);
-		GLManager.glColor(1F, 1F, 1F, 0.2F);
+		GLUtils.glColor(1F, 1F, 1F, 0.2F);
 		box.render();
 		GlStateManager.popMatrix();
 	}

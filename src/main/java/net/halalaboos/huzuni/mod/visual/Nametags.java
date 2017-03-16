@@ -6,8 +6,7 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Mode;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
-import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.halalaboos.mcwrapper.api.util.TextColor;
@@ -95,13 +94,13 @@ public class Nametags extends BasicMod implements Renderer {
 		String text = (huzuni.friendManager.isFriend(entity.getName()) ? huzuni.friendManager.getAlias(entity.getName()) : entity.getDisplayName().getFormattedText()) + getHealth(entity) + (entity.isInvisibleToPlayer(mc.player) ? TextColor.BLUE + " [Invisible]" : "") + getPing(entity);
 		int width = getTextRenderer().getWidth(text);
 		GlStateManager.pushMatrix();
-		RenderUtils.prepareBillboarding((float) x, (float) y + entity.height + 0.5F, (float) z, true);
+		GLUtils.prepareBillboarding((float) x, (float) y + entity.height + 0.5F, (float) z, true);
 		GlStateManager.scale(scale, scale, scale);
 		if (this.scale.isEnabled())
 			GlStateManager.translate(0F, -(scale), 0F);
-		GLManager.glColor(0F, 0F, 0F, (opacity.getValue()) / 100F);
-		RenderUtils.drawBorderRect(-width / 2 - 2, -2, width / 2 + 2, 10, 2F);
-		GLManager.glColor(1F, 1F, 1F, 1F);
+		GLUtils.glColor(0F, 0F, 0F, (opacity.getValue()) / 100F);
+		GLUtils.drawBorderRect(-width / 2 - 2, -2, width / 2 + 2, 10, 2F);
+		GLUtils.glColor(1F, 1F, 1F, 1F);
 
 		if (healthMode.getSelected() == 1)
 			renderHealth(entity);

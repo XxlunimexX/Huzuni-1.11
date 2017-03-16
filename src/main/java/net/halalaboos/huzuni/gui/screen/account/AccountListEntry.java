@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.gui.screen.account;
 
-import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.GuiListExtended;
@@ -38,7 +38,7 @@ public class AccountListEntry implements GuiListExtended.IGuiListEntry {
 			
 			Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
 			GlStateManager.enableTexture2D();
-			RenderUtils.drawTextureRect(x, y, 32, 32, 8F / 64F, 8F / 64F, 16F / 64F, 16F / 64F);
+			GLUtils.drawTextureRect(x, y, 32, 32, 8F / 64F, 8F / 64F, 16F / 64F, 16F / 64F);
 		} catch (Exception e) {
 			Minecraft.getMinecraft().fontRenderer.drawString("Parsing Error", x + 2, y + 2, 0xFFFF0000);
 		}

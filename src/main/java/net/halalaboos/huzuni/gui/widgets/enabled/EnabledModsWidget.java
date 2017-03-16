@@ -8,7 +8,7 @@ import net.halalaboos.huzuni.api.node.Mode;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.node.organize.*;
 import net.halalaboos.huzuni.api.util.Timer;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.gui.widgets.BackgroundWidget;
 
 import java.io.IOException;
@@ -128,7 +128,7 @@ public class EnabledModsWidget extends BackgroundWidget {
 	 * @return A HSB color using a base value plus the ratio of an index and a max index.
 	 * */
 	private int getRainbowColor(float base, int index, int maxIndex) {
-		return GLManager.getHSBColor(base + ((float) index / (float) maxIndex), 1F, 1F).getRGB();
+		return GLUtils.getHSBColor(base + ((float) index / (float) maxIndex), 1F, 1F).getRGB();
 	}
 
 	/**

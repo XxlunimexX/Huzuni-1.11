@@ -26,7 +26,7 @@ public class Vbo {
      * Generates the vbo id.
      * */
 	public void genId() {
-		id = GLManager.genVbo();
+		id = GLUtils.genVbo();
 	}
 
 	/**

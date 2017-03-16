@@ -6,7 +6,7 @@ import net.halalaboos.huzuni.api.node.ItemList;
 import net.halalaboos.huzuni.api.node.JsonFileHandler;
 import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.mcwrapper.api.event.world.WorldLoadEvent;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
@@ -178,7 +178,7 @@ public final class WaypointManager extends JsonFileHandler {
         }
 
         public Waypoint(String name, Vector3i position) {
-            this(name, MinecraftUtils.getCurrentServer(), position, GLManager.getRandomColor());
+            this(name, MinecraftUtils.getCurrentServer(), position, GLUtils.getRandomColor());
         }
 
         public Waypoint(Vector3i position) {

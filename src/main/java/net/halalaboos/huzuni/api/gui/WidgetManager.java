@@ -6,8 +6,7 @@ import net.halalaboos.huzuni.api.gui.widget.ScreenGlue;
 import net.halalaboos.huzuni.api.gui.widget.Widget;
 import net.halalaboos.huzuni.api.gui.widget.WidgetGlue;
 import net.halalaboos.huzuni.api.node.JsonFileHandler;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
-import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.mcwrapper.api.event.input.KeyboardEvent;
 
 import java.io.IOException;
@@ -69,8 +68,8 @@ public class WidgetManager extends JsonFileHandler {
 		for (int i = 0; i < widgets.size(); i++) {
 			Widget widget = widgets.get(i);
 			if (widget.isEnabled()) {
-				GLManager.glColor(1F, 1F, 1F, 1F);
-				RenderUtils.drawBorder(1F, widget.getX(), widget.getY(), widget.getX() + widget.getWidth(), widget.getY() + widget.getHeight());
+				GLUtils.glColor(1F, 1F, 1F, 1F);
+				GLUtils.drawBorder(1F, widget.getX(), widget.getY(), widget.getX() + widget.getWidth(), widget.getY() + widget.getHeight());
 				if (widget.isDragging()) {
 					renderGlue(widget);
 				}
@@ -106,12 +105,12 @@ public class WidgetManager extends JsonFileHandler {
 			x = style == WidgetGlue.LEFT_BOTTOM || style == WidgetGlue.LEFT_TOP || style == WidgetGlue.LEFT_CENTER || style == WidgetGlue.TOP_RIGHT || style == WidgetGlue.BOTTOM_RIGHT ? widget.getX() + widget.getWidth() : style == WidgetGlue.RIGHT_BOTTOM || style == WidgetGlue.RIGHT_TOP || style == WidgetGlue.RIGHT_CENTER || style == WidgetGlue.TOP_LEFT || style == WidgetGlue.BOTTOM_LEFT ? widget.getX() : style == WidgetGlue.TOP_CENTER || style == WidgetGlue.BOTTOM_CENTER ? widget.getX() + widget.getWidth() / 2 : -1;
 			y = style == WidgetGlue.TOP_LEFT || style == WidgetGlue.TOP_RIGHT || style == WidgetGlue.TOP_CENTER || style == WidgetGlue.LEFT_BOTTOM || style == WidgetGlue.RIGHT_BOTTOM ? widget.getY() + widget.getHeight() : style == WidgetGlue.BOTTOM_LEFT || style == WidgetGlue.BOTTOM_RIGHT || style == WidgetGlue.BOTTOM_CENTER || style == WidgetGlue.LEFT_TOP || style == WidgetGlue.RIGHT_TOP ? widget.getY() : style == WidgetGlue.LEFT_CENTER || style == WidgetGlue.RIGHT_CENTER ? widget.getY() + widget.getHeight() / 2 : -1;
 		}
-		GLManager.glColor(1F, 0F, 0F, 1F);
+		GLUtils.glColor(1F, 0F, 0F, 1F);
 		if (x != -1)
-			RenderUtils.drawLine(1F, x, widget.getY(), x, widget.getY() + widget.getHeight());
+			GLUtils.drawLine(1F, x, widget.getY(), x, widget.getY() + widget.getHeight());
 		
 		if (y != -1) 
-			RenderUtils.drawLine(1F, widget.getX(), y, widget.getX() + widget.getWidth(), y);
+			GLUtils.drawLine(1F, widget.getX(), y, widget.getX() + widget.getWidth(), y);
 	}
 
 	/**

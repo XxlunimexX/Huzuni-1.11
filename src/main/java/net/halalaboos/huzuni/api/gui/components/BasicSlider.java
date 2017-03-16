@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.api.gui.components;
 
 import net.halalaboos.huzuni.api.gui.Theme;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import org.lwjgl.input.Mouse;
 
 /**
@@ -44,7 +44,7 @@ public class BasicSlider {
 	 * */
 	public void updateSliding() {
 		if (this.sliding && Mouse.isButtonDown(0)) {
-			this.sliderPercentage = (GLManager.getMouseX() - x - (getBarSize() / 2F)) / getWidthForSlider();
+			this.sliderPercentage = (GLUtils.getMouseX() - x - (getBarSize() / 2F)) / getWidthForSlider();
 			this.keepSafe();
 		} else
 			this.sliding = false;

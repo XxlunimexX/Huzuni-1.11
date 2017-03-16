@@ -1,12 +1,17 @@
 package net.halalaboos.huzuni.indev.gui.impl;
 
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.indev.gui.Toolbox;
-import net.halalaboos.huzuni.indev.gui.Workstation;
+import net.minecraft.client.Minecraft;
+import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.util.HashMap;
+import java.util.Map;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 
 /**
  * Basic implementation of the tool box. <br/>
@@ -14,26 +19,26 @@ import java.awt.datatransfer.Transferable;
  */
 public class BasicToolbox implements Toolbox {
 
-    private final Workstation workstation = new Workstation();
+    private final Map<String, Object> objects = new HashMap<>();
 
     @Override
     public int getMouseX() {
-        return GLManager.getMouseX();
+        return (Mouse.getX() * getWidth() / Minecraft.getMinecraft().displayWidth);
     }
 
     @Override
     public int getMouseY() {
-        return GLManager.getMouseY();
+        return (getHeight() - Mouse.getY() * getHeight() / Minecraft.getMinecraft().displayHeight - 1);
     }
 
     @Override
     public int getWidth() {
-        return GLManager.getScreenWidth();
+        return getMinecraft().getScreenResolution().scaledWidth;
     }
 
     @Override
     public int getHeight() {
-        return GLManager.getScreenHeight();
+        return getMinecraft().getScreenResolution().scaledHeight;
     }
 
     @Override
@@ -57,7 +62,24 @@ public class BasicToolbox implements Toolbox {
     }
 
     @Override
-    public Workstation getWorkstation() {
-        return workstation;
+    public <O> O get(String location) {
+        //noinspection unchecked
+        return (O) objects.get(location);
+    }
+
+    @Override
+    public <O> O get(Nameable location) {
+        //noinspection unchecked
+        return (O) objects.get(location.getName());
+    }
+
+    @Override
+    public void put(String location, Object object) {
+        objects.put(location, object);
+    }
+
+    @Override
+    public void put(Nameable location, Object object) {
+        objects.put(location.getName(), object);
     }
 }

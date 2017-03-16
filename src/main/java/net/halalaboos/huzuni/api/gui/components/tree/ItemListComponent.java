@@ -3,7 +3,7 @@ package net.halalaboos.huzuni.api.gui.components.tree;
 import net.halalaboos.huzuni.api.gui.Theme;
 import net.halalaboos.huzuni.api.node.ItemList;
 import net.halalaboos.huzuni.api.node.Nameable;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import org.lwjgl.input.Mouse;
 
 public class ItemListComponent extends NodeTreeComponent<ItemList> {
@@ -23,7 +23,7 @@ public class ItemListComponent extends NodeTreeComponent<ItemList> {
 
 	@Override
 	public void render(Theme theme, boolean mouseOver, int x, int y, int width, int height) {
-		int mouseX = GLManager.getMouseX(), mouseY = GLManager.getMouseY();
+		int mouseX = GLUtils.getMouseX(), mouseY = GLUtils.getMouseY();
 		if (internalExpanded) {
 			this.tooltip = null;
 			if (movingIndex == -1) {
@@ -92,7 +92,7 @@ public class ItemListComponent extends NodeTreeComponent<ItemList> {
 	}
 	
 	private int getMovingY(int y, int y1) {
-		int mouseY = GLManager.getMouseY() - clickOffset;
+		int mouseY = GLUtils.getMouseY() - clickOffset;
 		if (mouseY - TEXT_HEIGHT < y)
 			mouseY = y + TEXT_HEIGHT;
 		if (mouseY + TEXT_HEIGHT > y1)

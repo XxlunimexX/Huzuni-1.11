@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.api.gui.widget;
 
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.minecraft.client.Minecraft;
 
 import static net.halalaboos.huzuni.api.util.MinecraftUtils.getPotionY;
@@ -76,7 +76,7 @@ public enum ScreenGlue implements Glue {
 	
 	@Override
 	public void formatX(Widget widget) {
-		int width = GLManager.getScreenWidth();
+		int width = GLUtils.getScreenWidth();
 		switch (x) {
 		case 0:
 			widget.setX(width - widget.getWidth() - SNAP_PADDING);
@@ -94,7 +94,7 @@ public enum ScreenGlue implements Glue {
 
 	@Override
 	public void formatY(Widget widget) {
-		int height = GLManager.getScreenHeight();
+		int height = GLUtils.getScreenHeight();
 		switch (y) {
 		case 0:
 			if (!Minecraft.getMinecraft().player.getActivePotionEffects().isEmpty() && x == 0) {
@@ -117,7 +117,7 @@ public enum ScreenGlue implements Glue {
 	 * @return the integer associated with the format required for the widget
 	 * */
 	private static int getRequiredX(Widget widget) {
-		int width = GLManager.getScreenWidth(), center = width / 2;
+		int width = GLUtils.getScreenWidth(), center = width / 2;
 		int minX = PADDING, maxX = width - PADDING;
 		if (widget.getX() + widget.getWidth() > maxX) {
 			return 0;
@@ -133,7 +133,7 @@ public enum ScreenGlue implements Glue {
 	 * @return the integer associated with the format required for the widget
 	 * */
 	private static int getRequiredY(Widget widget) {
-		int height = GLManager.getScreenHeight(), center = height / 2;
+		int height = GLUtils.getScreenHeight(), center = height / 2;
 		int minY = PADDING, maxY = height - PADDING;
 		if (widget.getY() < minY) {
 			return 0;
@@ -172,7 +172,7 @@ public enum ScreenGlue implements Glue {
 	 * Forces the widget to stay within the screen.
 	 * */
 	public static void keepWithinScreen(Widget widget) {
-		int width = GLManager.getScreenWidth(), height = GLManager.getScreenHeight();
+		int width = GLUtils.getScreenWidth(), height = GLUtils.getScreenHeight();
 		if (widget.getX() < SNAP_PADDING)
 			widget.setX(SNAP_PADDING);
 		if (widget.getY() < SNAP_PADDING)

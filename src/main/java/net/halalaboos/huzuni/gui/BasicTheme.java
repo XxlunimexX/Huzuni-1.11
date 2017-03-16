@@ -9,8 +9,7 @@ import net.halalaboos.huzuni.api.gui.components.TextField;
 import net.halalaboos.huzuni.api.gui.components.tree.*;
 import net.halalaboos.huzuni.api.node.ItemSelector.ItemData;
 import net.halalaboos.huzuni.api.node.Nameable;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
-import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.gui.containers.SettingsContainer;
 import net.halalaboos.huzuni.gui.tree.components.TeamComponent;
 import net.halalaboos.mcwrapper.api.util.TextColor;
@@ -55,26 +54,26 @@ public class BasicTheme extends Theme {
 
 	@Override
 	public void drawRect(int x, int y, int width, int height, boolean mouseOver, boolean highlight) {
-		GLManager.glColor(RenderUtils.getColorWithAffects(highlight ? huzuni.settings.menuColor.getColor() : defaultColor, mouseOver, false));
+		GLUtils.glColor(GLUtils.getColorWithAffects(highlight ? huzuni.settings.menuColor.getColor() : defaultColor, mouseOver, false));
 		renderRectangle(x, y, width, height);
 	}
 
 	@Override
 	public void drawBackgroundRect(int x, int y, int width, int height, boolean highlight) {
-		GLManager.glColor(highlight ? huzuni.settings.menuColor.getColor() : background);
+		GLUtils.glColor(highlight ? huzuni.settings.menuColor.getColor() : background);
 		renderRectangle(x, y, width, height);
 	}
 
 	@Override
 	public void drawLine(int x, int y, int x1, int y1, boolean highlight) {
-		GLManager.glColor(highlight ? huzuni.settings.menuColor.getColor() : background);
-		RenderUtils.drawLine(2F, x, y, x1, y1);
+		GLUtils.glColor(highlight ? huzuni.settings.menuColor.getColor() : background);
+		GLUtils.drawLine(2F, x, y, x1, y1);
 	}
 	
 	@Override
 	public void drawBorder(int x, int y, int width, int height, boolean highlight) {
-		GLManager.glColor(highlight ? huzuni.settings.menuColor.getColor() : background);
-		RenderUtils.drawBorder(2F, x, y, x + width, y + height);
+		GLUtils.glColor(highlight ? huzuni.settings.menuColor.getColor() : background);
+		GLUtils.drawBorder(2F, x, y, x + width, y + height);
 	}
 	
 	
@@ -89,7 +88,7 @@ public class BasicTheme extends Theme {
 	}
 	
 	private void renderRectangle(float x, float y, float width, float height) {
-		RenderUtils.drawRect(x, y, x + width, y + height);
+		GLUtils.drawRect(x, y, x + width, y + height);
 	}
 	
 	private void renderItemStack(ItemStack itemStack, int x, int y, float delta) {
@@ -115,8 +114,8 @@ public class BasicTheme extends Theme {
 
 		@Override
 		public void render(SettingsContainer component) {
-			GLManager.glColor(background);
-			RenderUtils.drawRect(component.getX(), component.getY(), component.getX() + component.getWidth(), component.getY() + component.getHeight());
+			GLUtils.glColor(background);
+			GLUtils.drawRect(component.getX(), component.getY(), component.getX() + component.getWidth(), component.getY() + component.getHeight());
 		}
 		
 	}
@@ -125,8 +124,8 @@ public class BasicTheme extends Theme {
 
 		@Override
 		public void render(Button button) {
-			GLManager.glColor(RenderUtils.getColorWithAffects(button.isHighlight() ? huzuni.settings.menuColor.getColor() : defaultColor, button.isPointInside(GLManager.getMouseX(), GLManager.getMouseY()), false));
-			RenderUtils.drawRect(button.getX(), button.getY(), button.getX() + button.getWidth(), button.getY() + button.getHeight());
+			GLUtils.glColor(GLUtils.getColorWithAffects(button.isHighlight() ? huzuni.settings.menuColor.getColor() : defaultColor, button.isPointInside(GLUtils.getMouseX(), GLUtils.getMouseY()), false));
+			GLUtils.drawRect(button.getX(), button.getY(), button.getX() + button.getWidth(), button.getY() + button.getHeight());
 			drawString(button.getTitle(), button.getX() + button.getWidth() / 2 - getStringWidth(button.getTitle()) / 2, button.getY() + button.getHeight() / 2 - 2 - getStringHeight(button.getTitle()) / 2, 0xFFFFFF);
 		}
 		
@@ -149,20 +148,20 @@ public class BasicTheme extends Theme {
 		@Override
 		public void render(TabComponent component) {
 			if (component.hasScrollbar()) {
-				GLManager.glColor(defaultColor);
+				GLUtils.glColor(defaultColor);
 				renderRectangle(component.getScrollbarArea());
-				GLManager.glColor(huzuni.settings.menuColor.getColor());
+				GLUtils.glColor(huzuni.settings.menuColor.getColor());
 				renderRectangle(component.getScrollbar());
 			}
-			
-			GLManager.glScissor(component.getRenderArea());
+
+			GLUtils.glScissor(component.getRenderArea());
 			glEnable(GL_SCISSOR_TEST);
 			int xIncrement = -component.getScrollOffset();
 			for (int i = 0; i < component.getTabs().size(); i++) {
 				Tab tab = component.getTabs().get(i);
 				int tabWidth = component.getTabWidth(tab);
 				int[] tabArea = component.getTabArea(xIncrement, tabWidth);
-				GLManager.glColor(RenderUtils.getColorWithAffects(component.getSelected() == i ? huzuni.settings.menuColor.getColor() : defaultColor, component.isPointInsideTab(GLManager.getMouseX(), GLManager.getMouseY(), xIncrement, tabWidth), false));
+				GLUtils.glColor(GLUtils.getColorWithAffects(component.getSelected() == i ? huzuni.settings.menuColor.getColor() : defaultColor, component.isPointInsideTab(GLUtils.getMouseX(), GLUtils.getMouseY(), xIncrement, tabWidth), false));
 				renderRectangle(tabArea);
 				drawString(tab.getName(), component.getX() + tabWidth / 2 + xIncrement - getStringWidth(tab.getName()) / 2, component.getY() + tabArea[3] / 2 - getStringHeight(tab.getName()) / 2, 0xFFFFFF);
 				xIncrement += tabWidth + component.getPadding();
@@ -177,12 +176,12 @@ public class BasicTheme extends Theme {
 		@Override
 		public void render(NodeTree nodeTree) {
 			if (nodeTree.hasScrollbar()) {
-				GLManager.glColor(defaultColor);
+				GLUtils.glColor(defaultColor);
 				renderRectangle(nodeTree.getScrollbarArea());
-				GLManager.glColor(huzuni.settings.menuColor.getColor());
+				GLUtils.glColor(huzuni.settings.menuColor.getColor());
 				renderRectangle(nodeTree.getScrollbar());
 			}
-			GLManager.glScissor(nodeTree.getRenderArea());
+			GLUtils.glScissor(nodeTree.getRenderArea());
 			glEnable(GL_SCISSOR_TEST);
 			nodeTree.renderTree();
 			glDisable(GL_SCISSOR_TEST);
@@ -194,7 +193,7 @@ public class BasicTheme extends Theme {
 
 		@Override
 		public void render(ColorNodeComponent nodeTreeComponent, boolean mouseOver, int x, int y, int width, int height) {
-			int mouseX = GLManager.getMouseX(), mouseY = GLManager.getMouseY();
+			int mouseX = GLUtils.getMouseX(), mouseY = GLUtils.getMouseY();
 			
 			drawString(nodeTreeComponent.getNode().getName(), x + 2, y, 0xFFFFFF);
 			drawRect(x, y + ColorNodeComponent.LABEL_SIZE, width, ColorNodeComponent.PICKER_HEIGHT, false, false);
@@ -204,8 +203,8 @@ public class BasicTheme extends Theme {
 			
 			for (int i = 0; i < nodeTreeComponent.getOptions().size(); i++) {
 				int[] area = nodeTreeComponent.getOptionArea(x, y, i);
-				GLManager.glColor(nodeTreeComponent.getOptions().get(i));
-				RenderUtils.drawRect(area[0], area[1], area[0] + area[2], area[1] + area[3]);
+				GLUtils.glColor(nodeTreeComponent.getOptions().get(i));
+				GLUtils.drawRect(area[0], area[1], area[0] + area[2], area[1] + area[3]);
 			}
 		}
 		
@@ -215,7 +214,7 @@ public class BasicTheme extends Theme {
 
 		@Override
 		public void render(ItemListComponent nodeTreeComponent, boolean mouseOver, int x, int y, int width, int height) {
-			int mouseX = GLManager.getMouseX(), mouseY = GLManager.getMouseY();
+			int mouseX = GLUtils.getMouseX(), mouseY = GLUtils.getMouseY();
 			drawRect(x, y, width, ItemListComponent.TEXT_HEIGHT, mouseOver && mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + ItemListComponent.TEXT_HEIGHT, nodeTreeComponent.isInternalExpanded());
 			drawString(TextColor.BOLD + nodeTreeComponent.getNode().getName(), x + 2, y, 0xFFFFFF);
 			
@@ -252,7 +251,7 @@ public class BasicTheme extends Theme {
 
 		@Override
 		public void render(TaskManagerComponent nodeTreeComponent, boolean mouseOver, int x, int y, int width, int height) {
-			int mouseX = GLManager.getMouseX(), mouseY = GLManager.getMouseY();
+			int mouseX = GLUtils.getMouseX(), mouseY = GLUtils.getMouseY();
 			drawRect(x, y, width, TaskManagerComponent.TEXT_HEIGHT, mouseOver && mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + TaskManagerComponent.TEXT_HEIGHT, nodeTreeComponent.isInternalExpanded());
 			drawString(TextColor.BOLD + nodeTreeComponent.getNode().getName(), x + 2, y, 0xFFFFFF);
 			
@@ -285,7 +284,7 @@ public class BasicTheme extends Theme {
 
 		@Override
 		public void render(KeybindComponent nodeTreeComponent, boolean mouseOver, int x, int y, int width, int height) {
-			int mouseX = GLManager.getMouseX(), mouseY = GLManager.getMouseY();
+			int mouseX = GLUtils.getMouseX(), mouseY = GLUtils.getMouseY();
 
 			drawString(nodeTreeComponent.getNode().getName(), x + 2, y, 0xFFFFFF);
 			int nameWidth = getStringWidth(nodeTreeComponent.getNode().getName()) + 6;
@@ -302,7 +301,7 @@ public class BasicTheme extends Theme {
 
 		@Override
 		public void render(ModeComponent nodeTreeComponent, boolean mouseOver, int x, int y, int width, int height) {
-			int mouseX = GLManager.getMouseX(), mouseY = GLManager.getMouseY();
+			int mouseX = GLUtils.getMouseX(), mouseY = GLUtils.getMouseY();
 			drawString(TextColor.BOLD + nodeTreeComponent.getNode().getName(), x + 2, y, 0xFFFFFF);
 			y += ModeComponent.TEXT_HEIGHT;
 			drawRect(x, y, ModeComponent.CYCLER_HEIGHT, ModeComponent.CYCLER_HEIGHT, mouseOver && mouseX > x && mouseX < x + ModeComponent.CYCLER_HEIGHT && mouseY > y && mouseY < y + ModeComponent.CYCLER_HEIGHT, false);
@@ -322,7 +321,7 @@ public class BasicTheme extends Theme {
 
 		@Override
 		public void render(ModComponent nodeTreeComponent, boolean mouseOver, int x, int y, int width, int height) {
-			int mouseX = GLManager.getMouseX(), mouseY = GLManager.getMouseY();
+			int mouseX = GLUtils.getMouseX(), mouseY = GLUtils.getMouseY();
 			drawRect(x, y, width - height, height, mouseOver && mouseX > x && mouseX < x + width - height && mouseY > y && mouseY < y + height, nodeTreeComponent.getNode().isEnabled());
 			drawRect(x + width - height, y, height, height, mouseOver && mouseX > x + width - height && mouseX < x + width && mouseY > y && mouseY < y + height, nodeTreeComponent.getNode().isEnabled() || nodeTreeComponent.isExpanded());
 			if (mouseOver || nodeTreeComponent.isExpanded())
@@ -348,7 +347,7 @@ public class BasicTheme extends Theme {
 
 		@Override
 		public void render(WidgetComponent nodeTreeComponent, boolean mouseOver, int x, int y, int width, int height) {
-			int mouseX = GLManager.getMouseX(), mouseY = GLManager.getMouseY();
+			int mouseX = GLUtils.getMouseX(), mouseY = GLUtils.getMouseY();
 			if (nodeTreeComponent.getNode().hasChildren() && (mouseOver || nodeTreeComponent.isExpanded())) {
 				drawRect(x, y, width - height, height, mouseOver && mouseX > x && mouseX < x + width - height && mouseY > y && mouseY < y + height, nodeTreeComponent.getNode().isEnabled());
 				drawRect(x + width - height, y, height, height, mouseOver && mouseX > x + width - height && mouseX < x + width && mouseY > y && mouseY < y + height, nodeTreeComponent.getNode().isEnabled() || nodeTreeComponent.isExpanded());
@@ -391,12 +390,12 @@ public class BasicTheme extends Theme {
 
 		@Override
 		public void render(TeamComponent nodeTreeComponent, boolean mouseOver, int x, int y, int width, int height) {
-			int mouseX = GLManager.getMouseX(), mouseY = GLManager.getMouseY();
+			int mouseX = GLUtils.getMouseX(), mouseY = GLUtils.getMouseY();
 			boolean withinColor = mouseX > x && mouseX < x + TeamComponent.COLOR_SIZE && mouseY > y && mouseY < y + height;
 			drawRect(x + TeamComponent.COLOR_SIZE, y, width - TeamComponent.COLOR_SIZE, height, mouseOver && !withinColor, false);
 			drawRect(x, y, TeamComponent.COLOR_SIZE, height, mouseOver && withinColor, false);
-			GLManager.glColor(nodeTreeComponent.getNode().getColor(), 1F);
-			RenderUtils.drawRect(x + 1, y + 1, x + TeamComponent.COLOR_SIZE - 1, y + height - 1);
+			GLUtils.glColor(nodeTreeComponent.getNode().getColor(), 1F);
+			GLUtils.drawRect(x + 1, y + 1, x + TeamComponent.COLOR_SIZE - 1, y + height - 1);
 			drawString(nodeTreeComponent.getNode().getName() + (nodeTreeComponent.getNode().isEnabled() ? ": On" : ": Off"), x + height + 2, y, 0xFFFFFF);
 		}
 		
@@ -410,7 +409,7 @@ public class BasicTheme extends Theme {
 			y += ItemSelectorComponent.TEXT_HEIGHT;
 			drawRect(x, y, width, height - ItemSelectorComponent.TEXT_HEIGHT, false, false);
 			x += 1; y += 1;
-			int originalX = x, mouseX = GLManager.getMouseX(), mouseY = GLManager.getMouseY();
+			int originalX = x, mouseX = GLUtils.getMouseX(), mouseY = GLUtils.getMouseY();
 			for (ItemData<?> itemData : nodeTreeComponent.getNode().getItemDatas()) {
 				if (x + 21 >= originalX + width) {
 					x = originalX;

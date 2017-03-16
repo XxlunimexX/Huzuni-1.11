@@ -3,7 +3,7 @@ package net.halalaboos.huzuni.indev.script.meta;
 import net.halalaboos.huzuni.indev.gui.impl.BasicFontRenderer;
 import net.halalaboos.huzuni.api.gui.font.FontManager;
 import net.halalaboos.huzuni.indev.gui.render.FontRenderer;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -83,7 +83,7 @@ public final class ScriptGl {
      * Sets the color to the r, g, b, a values specified.
      * */
     public void color(int r, int g, int b, int a) {
-        GLManager.glColor(r / 255F, g / 255F, b / 255F, a / 255F);
+        GLUtils.glColor(r / 255F, g / 255F, b / 255F, a / 255F);
     }
 
     /**

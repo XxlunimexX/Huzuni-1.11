@@ -7,8 +7,7 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.mod.Mod;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
-import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.halalaboos.mcwrapper.api.event.network.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.network.packet.server.HealthUpdatePacket;
@@ -148,10 +147,10 @@ public class Waypoints extends Mod implements Renderer {
 				if (lines.isEnabled())
 					huzuni.renderManager.addLine((float)renderPos.getX(), (float)renderPos.getY(), (float)renderPos.getZ(), (float) color.getRed() / 255F, (float) color.getGreen() / 255F, (float) color.getBlue() / 255F, opacity.getValue() / 100F);
 				GlStateManager.pushMatrix();
-				RenderUtils.prepareBillboarding((float)renderPos.getX(), (float)renderPos.getY(), (float)renderPos.getZ(), true);
+				GLUtils.prepareBillboarding((float)renderPos.getX(), (float)renderPos.getY(), (float)renderPos.getZ(), true);
 				GlStateManager.scale(scale, scale, scale);
 				location.bindTexture();
-				GLManager.glColor(color, opacity.getValue() / 100F);
+				GLUtils.glColor(color, opacity.getValue() / 100F);
 				String renderName = waypoint.getName() + (distance.isEnabled() ? " (" + ((int) waypoint.getDistance()) + ")" : "");
 				if (customFont.isEnabled()) {
 					int width = huzuni.guiFontRenderer.getStringWidth(renderName);
@@ -159,9 +158,9 @@ public class Waypoints extends Mod implements Renderer {
 						location.render(-16F, -16F - (huzuni.guiFontRenderer.getStringHeight(renderName)) * 2F, 32, 32);
 					if (background.isEnabled()) {
 						GlStateManager.disableTexture2D();
-						GLManager.glColor(0F, 0F, 0F, opacity.getValue() / 100F);
-						RenderUtils.drawBorderRect(-width / 2 - 2, -2, width / 2 + 2, 10, 2F);
-						GLManager.glColor(1F, 1F, 1F, opacity.getValue() / 100F);
+						GLUtils.glColor(0F, 0F, 0F, opacity.getValue() / 100F);
+						GLUtils.drawBorderRect(-width / 2 - 2, -2, width / 2 + 2, 10, 2F);
+						GLUtils.glColor(1F, 1F, 1F, opacity.getValue() / 100F);
 						GlStateManager.enableTexture2D();
 					}
 					huzuni.guiFontRenderer.drawStringWithShadow(renderName, -width / 2, -2, 0xFFFFFF);
@@ -172,9 +171,9 @@ public class Waypoints extends Mod implements Renderer {
 					
 					if (background.isEnabled()) {
 						GlStateManager.disableTexture2D();
-						GLManager.glColor(0F, 0F, 0F, opacity.getValue() / 100F);
-						RenderUtils.drawBorderRect(-width / 2 - 2, -2, width / 2 + 2, 10, 2F);
-						GLManager.glColor(1F, 1F, 1F, opacity.getValue() / 100F);
+						GLUtils.glColor(0F, 0F, 0F, opacity.getValue() / 100F);
+						GLUtils.drawBorderRect(-width / 2 - 2, -2, width / 2 + 2, 10, 2F);
+						GLUtils.glColor(1F, 1F, 1F, opacity.getValue() / 100F);
 						GlStateManager.enableTexture2D();
 					}
 					getTextRenderer().render(renderName, -width / 2, 0, 0xFFFFFF, true);

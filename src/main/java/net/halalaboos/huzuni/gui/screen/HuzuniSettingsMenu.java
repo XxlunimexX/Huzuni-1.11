@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.gui.screen;
 
 import net.halalaboos.huzuni.api.gui.WidgetManager;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.gui.SettingsMenu;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -31,7 +31,6 @@ public class HuzuniSettingsMenu extends HuzuniScreen {
 			menuManager.renderTooltip(mouseX, mouseY);
 		}
 		settingsMenu.renderMenu(width, height, 30, 1);
-		GLManager.update();
 		getGLStateManager().disableBlend();
 	}
 	

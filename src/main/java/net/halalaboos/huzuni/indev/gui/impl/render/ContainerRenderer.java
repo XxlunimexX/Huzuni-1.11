@@ -1,39 +1,30 @@
 package net.halalaboos.huzuni.indev.gui.impl.render;
 
-import net.halalaboos.huzuni.api.util.gl.GLManager;
-import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.indev.gui.Container;
-import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
-import net.halalaboos.huzuni.indev.gui.render.ComponentRenderer;
+import net.halalaboos.huzuni.indev.gui.Toolbox;
+import net.halalaboos.huzuni.indev.gui.impl.BasicComponentRenderer;
+import net.halalaboos.huzuni.indev.gui.render.FontRenderer;
+import net.halalaboos.huzuni.indev.gui.render.ImageRenderer;
+
+import static net.halalaboos.huzuni.indev.gui.impl.Pointers.*;
 
 
 /**
  * Basic container renderer. <br/>
  * Created by Brandon Williams on 2/19/2017.
  */
-public class ContainerRenderer implements ComponentRenderer<Container> {
+public class ContainerRenderer extends BasicComponentRenderer<Container> {
 
-    private final BasicRenderer renderer;
-
-    public ContainerRenderer(BasicRenderer renderer) {
-        this.renderer = renderer;
-    }
-
-    @Override
-    public void pre(Container container) {
-
+    public ContainerRenderer(Toolbox toolbox, FontRenderer fontRenderer, ImageRenderer imageRenderer) {
+        super(toolbox, fontRenderer, imageRenderer);
     }
 
     @Override
     public void render(Container container) {
         if (!container.getTag().equals("invisible")) {
-            GLManager.glColor(renderer.getPack().getSecondaryBackground());
-            RenderUtils.drawRect(container.getArea());
+            GLUtils.glColor(toolbox.get(COLOR_SECONDARY_BACKGROUND));
+            GLUtils.drawRect(container.getArea());
         }
-    }
-
-    @Override
-    public void post(Container container) {
-
     }
 }

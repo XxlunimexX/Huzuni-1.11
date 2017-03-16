@@ -5,7 +5,7 @@ import net.halalaboos.huzuni.api.node.ColorNode;
 import net.halalaboos.huzuni.api.node.Node;
 import net.halalaboos.huzuni.api.node.StringNode;
 import net.halalaboos.huzuni.api.node.Toggleable;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 
 import java.awt.*;
 
@@ -28,7 +28,7 @@ public class ModSettings extends Node {
 		super("settings", "Modify the settings of " + mod.getName());
 		displayName = new StringNode("Display Name", mod.getName(), "Adjust the name this mod is displayed with in-game.");
 		this.addChildren(displayable, displayColor, displayName);
-		displayColor.setColor(GLManager.getRandomColor());
+		displayColor.setColor(GLUtils.getRandomColor());
 		displayable.setEnabled(true);
 		this.mod = mod;
 	}

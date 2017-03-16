@@ -1,6 +1,7 @@
 package net.halalaboos.huzuni.mod.commands;
 
 import net.halalaboos.huzuni.api.mod.BasicCommand;
+import net.halalaboos.huzuni.indev.gui.impl.ImageCreator;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
@@ -9,6 +10,7 @@ import net.halalaboos.mcwrapper.api.potion.Potion;
 import net.halalaboos.mcwrapper.api.potion.PotionEffect;
 import net.minecraft.util.text.translation.I18n;
 
+import static net.halalaboos.huzuni.indev.gui.impl.Pointers.IMAGE_ARROW;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getAdapter;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
@@ -20,7 +22,7 @@ public class Debug extends BasicCommand {
 
 	@Override
 	protected void runCommand(String input, String[] args) throws Exception {
-		ClientPlayer player = getPlayer();
+		/*ClientPlayer player = getPlayer();
 		ItemStack itemStack = player.getHeldItem(Hand.MAIN);
 		String name = itemStack.name();
 		int id = itemStack.getItemType().getId();
@@ -44,6 +46,10 @@ public class Debug extends BasicCommand {
 
 		Potion potion = getAdapter().getPotionRegistry().getPotion("instant_health");
 		huzuni.addChatMessage(potion.name());
-		System.out.println(output);
+		System.out.println(output);*/
+
+		ImageCreator imageCreator = new ImageCreator();
+		huzuni.addChatMessage(Boolean.toString(imageCreator.create(args[0]).isPresent()));
+
 	}
 }

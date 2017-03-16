@@ -5,8 +5,7 @@ import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.api.gui.widget.Widget;
 import net.halalaboos.huzuni.api.node.Mode;
 import net.halalaboos.huzuni.api.node.Toggleable;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
-import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -44,11 +43,11 @@ public class MinimapWidget extends Widget {
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		GlStateManager.translate(x + diameter / 2, y + diameter / 2, 0F);
-		GLManager.glColor(1F, 1F, 1F, 1F);
+		GLUtils.glColor(1F, 1F, 1F, 1F);
 		minimap.render(-diameter / 2, -diameter / 2, diameter, diameter);
 		entity.render(-entitySize, -entitySize, entityDiameter, entityDiameter);
-		
-		GLManager.glScissor(x, y, x + width, y + height);
+
+		GLUtils.glScissor(x, y, x + width, y + height);
 		glEnable(GL_SCISSOR_TEST);
 		
 		for (int i = 0; i < mc.world.playerEntities.size(); i++) {
@@ -83,7 +82,7 @@ public class MinimapWidget extends Widget {
 				double wY = -MathUtils.sin(Math.toRadians(angle)) * distance;
 				GlStateManager.pushMatrix();
 				translate(wX, wY, entitySize, entitySize);
-				GLManager.glColor(waypoint.getColor());
+				GLUtils.glColor(waypoint.getColor());
 				this.location.render(-waypointDiameter / 2, -waypointDiameter / 2, waypointDiameter, waypointDiameter);
 				if (names.isEnabled())
 					renderNameplate(waypoint.getName(), true, false, waypoint.getColor().getRGB());
@@ -98,7 +97,7 @@ public class MinimapWidget extends Widget {
      * Renders the player with the given entity size.
      * */
 	private void renderPlayer(EntityPlayer player, float entitySize) {
-		GLManager.glColor(1F, 1F, 1F, 1F);
+		GLUtils.glColor(1F, 1F, 1F, 1F);
 		if (entityMode.getSelected() == 0) {
 			GlStateManager.rotate(player.rotationYaw - mc.player.rotationYaw, 0F, 0F, 1F);
 			entity.render(-entitySize, -entitySize, entityDiameter, entityDiameter);
@@ -108,7 +107,7 @@ public class MinimapWidget extends Widget {
 				AbstractClientPlayer entityPlayer = (AbstractClientPlayer) player;
 				GlStateManager.scale(0.5F, 0.5F, 0.5F);
 				mc.getTextureManager().bindTexture(entityPlayer.getLocationSkin());
-				RenderUtils.drawTextureRect(-entitySize, -entitySize, entityDiameter * 2, entityDiameter * 2, 8F / 64F, 8F / 64F, 16F / 64F, 16F / 64F);
+				GLUtils.drawTextureRect(-entitySize, -entitySize, entityDiameter * 2, entityDiameter * 2, 8F / 64F, 8F / 64F, 16F / 64F, 16F / 64F);
 				GlStateManager.scale(2F, 2F, 2F);
 			}
 		}

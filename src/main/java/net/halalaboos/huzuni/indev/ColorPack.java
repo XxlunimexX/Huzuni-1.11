@@ -1,6 +1,9 @@
-package net.halalaboos.huzuni.indev.gui.impl;
+package net.halalaboos.huzuni.indev;
+
+import net.halalaboos.huzuni.indev.gui.Toolbox;
 
 import java.awt.*;
+import static net.halalaboos.huzuni.indev.gui.impl.Pointers.*;
 
 /**
  * Color palettes used within the renderer. <br/>
@@ -44,6 +47,18 @@ public enum ColorPack {
         this.highlightComponent = new Color(highlightComponent);
         this.enabledText = new Color(enabledText);
         this.disabledText = new Color(disabledText);
+    }
+
+    /**
+     * Applies this color pack to the toolbox provided.
+     * */
+    public void apply(Toolbox toolbox) {
+        toolbox.put(COLOR_BACKGROUND, background);
+        toolbox.put(COLOR_SECONDARY_BACKGROUND, secondaryBackground);
+        toolbox.put(COLOR_DEFAULT, defaultComponent);
+        toolbox.put(COLOR_HIGHLIGHT, highlightComponent);
+        toolbox.put(COLOR_ENABLED_TEXT, enabledText);
+        toolbox.put(COLOR_DISABLED_TEXT, disabledText);
     }
 
     public Color getBackground() {

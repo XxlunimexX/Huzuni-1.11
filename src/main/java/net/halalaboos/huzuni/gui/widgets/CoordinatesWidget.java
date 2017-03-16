@@ -5,7 +5,7 @@ import net.halalaboos.huzuni.api.node.Toggleable;
 
 import java.text.DecimalFormat;
 
-import static net.halalaboos.huzuni.api.util.gl.GLManager.getScreenWidth;
+import static net.halalaboos.huzuni.api.util.gl.GLUtils.getScreenWidth;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**

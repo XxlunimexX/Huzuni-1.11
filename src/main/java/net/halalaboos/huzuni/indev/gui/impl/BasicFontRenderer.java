@@ -1,8 +1,7 @@
 package net.halalaboos.huzuni.indev.gui.impl;
 
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.indev.gui.render.FontRenderer;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
-import net.halalaboos.huzuni.api.util.gl.RenderUtils;
 import net.halalaboos.huzuni.indev.gui.FontData;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
@@ -28,17 +27,17 @@ public class BasicFontRenderer implements FontRenderer {
         y *= 2;
 		getGLStateManager().enableBlend();
 		fontData.bind();
-		GLManager.glColor(color);
+        GLUtils.glColor(color);
 		int size = text.length();
 		for (int i = 0; i < size; i++) {
 			char character = text.charAt(i);
 			if (fontData.hasBounds(character)) {
                 FontData.CharacterData area = fontData.getCharacterBounds(character);
-                RenderUtils.drawTextureRect(x, y, area.width, area.height,
-                        (float) area.x / fontData.getTextureWidth(),
-                        (float) area.y / fontData.getTextureHeight(),
-                        (float) (area.x + area.width) / fontData.getTextureWidth(),
-                        (float) (area.y + area.height) / fontData.getTextureHeight());
+                GLUtils.drawTextureRect(x, y, area.width, area.height,
+                        (float) area.x / fontData.getImage().getWidth(),
+                        (float) area.y / fontData.getImage().getHeight(),
+                        (float) (area.x + area.width) / fontData.getImage().getWidth(),
+                        (float) (area.y + area.height) / fontData.getImage().getHeight());
 				x += (area.width + kerning);
 			}
 		}

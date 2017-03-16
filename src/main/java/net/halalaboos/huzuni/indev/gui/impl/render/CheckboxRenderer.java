@@ -1,44 +1,33 @@
 package net.halalaboos.huzuni.indev.gui.impl.render;
 
-import net.halalaboos.huzuni.api.util.gl.GLManager;
-import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
+import net.halalaboos.huzuni.indev.gui.Toolbox;
 import net.halalaboos.huzuni.indev.gui.components.Checkbox;
-import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
-import net.halalaboos.huzuni.indev.gui.impl.ColorPack;
-import net.halalaboos.huzuni.indev.gui.render.ComponentRenderer;
+import net.halalaboos.huzuni.indev.gui.impl.BasicComponentRenderer;
+import net.halalaboos.huzuni.indev.gui.render.FontRenderer;
+import net.halalaboos.huzuni.indev.gui.render.ImageRenderer;
 import org.lwjgl.input.Mouse;
+
+import static net.halalaboos.huzuni.indev.gui.impl.Pointers.*;
 
 /**
  * Basic checkbox renderer. <br/>
  * Created by Brandon Williams on 2/19/2017.
  */
-public class CheckboxRenderer implements ComponentRenderer<Checkbox> {
+public class CheckboxRenderer extends BasicComponentRenderer<Checkbox> {
 
-    private final BasicRenderer renderer;
-
-    public CheckboxRenderer(BasicRenderer renderer) {
-        this.renderer = renderer;
-    }
-
-    @Override
-    public void pre(Checkbox checkbox) {
-
+    public CheckboxRenderer(Toolbox toolbox, FontRenderer fontRenderer, ImageRenderer imageRenderer) {
+        super(toolbox, fontRenderer, imageRenderer);
     }
 
     @Override
     public void render(Checkbox checkbox) {
-        ColorPack pack = renderer.getPack();
-        GLManager.glColor(RenderUtils.getColorWithAffects(pack.getDefaultComponent(), checkbox.isHovered(), Mouse.isButtonDown(0)));
-        RenderUtils.drawRect(checkbox.getCheckbox());
+        GLUtils.glColor(GLUtils.getColorWithAffects(toolbox.get(COLOR_DEFAULT), checkbox.isHovered(), Mouse.isButtonDown(0)));
+        GLUtils.drawRect(checkbox.getCheckbox());
         if (checkbox.isEnabled()) {
-            GLManager.glColor(RenderUtils.getColorWithAffects(checkbox.isEnabled() ? pack.getHighlightComponent() : pack.getDefaultComponent(), checkbox.isHovered(), Mouse.isButtonDown(0)));
-            RenderUtils.drawRect(new int[] { checkbox.getX() + 2, checkbox.getY() + 2, 8, 8 });
+            GLUtils.glColor(GLUtils.getColorWithAffects(checkbox.isEnabled() ? toolbox.get(COLOR_HIGHLIGHT) : toolbox.get(COLOR_DEFAULT), checkbox.isHovered(), Mouse.isButtonDown(0)));
+            GLUtils.drawRect(new int[] { checkbox.getX() + 2, checkbox.getY() + 2, 8, 8 });
         }
-        renderer.getFontRenderer().drawString(checkbox.getFont(), checkbox.getText(), checkbox.getX() + 2 + net.halalaboos.huzuni.indev.gui.components.Checkbox.CHECKBOX_SIZE, checkbox.getY(), 0xFFFFFFFF);
-    }
-
-    @Override
-    public void post(Checkbox checkbox) {
-
+        fontRenderer.drawString(checkbox.getFont(), checkbox.getText(), checkbox.getX() + 2 + net.halalaboos.huzuni.indev.gui.components.Checkbox.CHECKBOX_SIZE, checkbox.getY(), 0xFFFFFFFF);
     }
 }

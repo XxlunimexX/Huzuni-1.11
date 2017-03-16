@@ -1,12 +1,16 @@
 package net.halalaboos.huzuni.indev.gui.impl.render;
 
-import net.halalaboos.huzuni.api.util.gl.GLManager;
-import net.halalaboos.huzuni.api.util.gl.RenderUtils;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.indev.gui.Toolbox;
 import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
-import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
-import net.halalaboos.huzuni.indev.gui.render.ComponentRenderer;
+import net.halalaboos.huzuni.indev.gui.impl.BasicComponentRenderer;
+import net.halalaboos.huzuni.indev.gui.render.FontRenderer;
+import net.halalaboos.huzuni.indev.gui.render.ImageRenderer;
 import org.lwjgl.input.Mouse;
+
+import java.awt.*;
+
+import static net.halalaboos.huzuni.indev.gui.impl.Pointers.*;
 import static org.lwjgl.opengl.GL11.*;
 
 
@@ -14,15 +18,10 @@ import static org.lwjgl.opengl.GL11.*;
  * Basic scrollable container renderer. <br/>
  * Created by Brandon Williams on 2/19/2017.
  */
-public class ScrollableContainerRenderer implements ComponentRenderer<ScrollableContainer> {
+public class ScrollableContainerRenderer extends BasicComponentRenderer<ScrollableContainer> {
 
-    private final BasicRenderer basicRenderer;
-
-    private final Toolbox toolbox;
-
-    public ScrollableContainerRenderer(BasicRenderer basicRenderer, Toolbox toolbox) {
-        this.basicRenderer = basicRenderer;
-        this.toolbox = toolbox;
+    public ScrollableContainerRenderer(Toolbox toolbox, FontRenderer fontRenderer, ImageRenderer imageRenderer) {
+        super(toolbox, fontRenderer, imageRenderer);
     }
 
     @Override
@@ -41,26 +40,26 @@ public class ScrollableContainerRenderer implements ComponentRenderer<Scrollable
         //glColorMask(false, false, false, false);
         //glDepthMask(false);*/
         glEnable(GL_SCISSOR_TEST);
-        GLManager.glScissor(container.getArea());
+        GLUtils.glScissor(container.getArea());
     }
 
     @Override
     public void render(ScrollableContainer container) {
         if (!container.getTag().equals("invisible-background")) {
-            GLManager.glColor(basicRenderer.getPack().getBackground());
-            RenderUtils.drawRect(container.getRenderArea());
+            GLUtils.glColor(toolbox.get(COLOR_BACKGROUND));
+            GLUtils.drawRect(container.getRenderArea());
         }
         if (container.getVerticalScrollbar().has()) {
-            GLManager.glColor(basicRenderer.getPack().getDefaultComponent());
-            RenderUtils.drawRect(container.getVerticalScrollbar().getArea());
-            GLManager.glColor(RenderUtils.getColorWithAffects(basicRenderer.getPack().getDefaultComponent().brighter(), container.getVerticalScrollbar().isScrolling() || (container.isHovered() && container.getVerticalScrollbar().isPointInsideBar(toolbox.getMouseX(), toolbox.getMouseY())), Mouse.isButtonDown(0)));
-            RenderUtils.drawRect(container.getVerticalScrollbar().getScrollbar());
+            GLUtils.glColor(toolbox.get(COLOR_DEFAULT));
+            GLUtils.drawRect(container.getVerticalScrollbar().getArea());
+            GLUtils.glColor(GLUtils.getColorWithAffects(toolbox.<Color>get(COLOR_DEFAULT).brighter(), container.getVerticalScrollbar().isScrolling() || (container.isHovered() && container.getVerticalScrollbar().isPointInsideBar(toolbox.getMouseX(), toolbox.getMouseY())), Mouse.isButtonDown(0)));
+            GLUtils.drawRect(container.getVerticalScrollbar().getScrollbar());
         }
         if (container.getHorizontalScrollbar().has()) {
-            GLManager.glColor(basicRenderer.getPack().getDefaultComponent());
-            RenderUtils.drawRect(container.getHorizontalScrollbar().getArea());
-            GLManager.glColor(RenderUtils.getColorWithAffects(basicRenderer.getPack().getDefaultComponent().brighter(), container.getHorizontalScrollbar().isScrolling() || (container.isHovered() && container.getHorizontalScrollbar().isPointInsideBar(toolbox.getMouseX(), toolbox.getMouseY())), Mouse.isButtonDown(0)));
-            RenderUtils.drawRect(container.getHorizontalScrollbar().getScrollbar());
+            GLUtils.glColor(toolbox.get(COLOR_DEFAULT));
+            GLUtils.drawRect(container.getHorizontalScrollbar().getArea());
+            GLUtils.glColor(GLUtils.getColorWithAffects(toolbox.<Color>get(COLOR_DEFAULT).brighter(), container.getHorizontalScrollbar().isScrolling() || (container.isHovered() && container.getHorizontalScrollbar().isPointInsideBar(toolbox.getMouseX(), toolbox.getMouseY())), Mouse.isButtonDown(0)));
+            GLUtils.drawRect(container.getHorizontalScrollbar().getScrollbar());
         }
     }
 

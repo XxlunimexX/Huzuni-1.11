@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.api.gui.components.tree;
 
 import net.halalaboos.huzuni.api.gui.Theme;
 import net.halalaboos.huzuni.api.task.TaskManager;
-import net.halalaboos.huzuni.api.util.gl.GLManager;
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import org.lwjgl.input.Mouse;
 
 public class TaskManagerComponent extends NodeTreeComponent<TaskManager<?>> {
@@ -69,7 +69,7 @@ public class TaskManagerComponent extends NodeTreeComponent<TaskManager<?>> {
 	}
 	
 	private int getMovingY(int y, int y1) {
-		int mouseY = GLManager.getMouseY() - clickOffset;
+		int mouseY = GLUtils.getMouseY() - clickOffset;
 		if (mouseY - TEXT_HEIGHT < y)
 			mouseY = y + TEXT_HEIGHT;
 		if (mouseY + TEXT_HEIGHT > y1)

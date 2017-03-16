@@ -1,15 +1,10 @@
 package net.halalaboos.huzuni.indev.gui;
 
-import net.halalaboos.huzuni.api.util.gl.GLManager;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
-import static org.lwjgl.opengl.GL11.*;
-
 /**
- * Stores font information which is used within a font renderer.
+ * Stores font information can be rendered using a font renderer. <br/>
  * Created by Brandon on 9/26/2016.
  */
 public final class FontData {
@@ -18,11 +13,9 @@ public final class FontData {
 
     private final CharacterData empty = new CharacterData(0, 0, 0, 0);
 
-    private int texId = -1;
+    private ImageData image;
 
     private int fontHeight = 0;
-
-    private int textureWidth, textureHeight;
 
     /**
      * Creates a font image and the character locations within the font image.
@@ -35,13 +28,10 @@ public final class FontData {
      * Creates a font image and the character locations within the font image.
      * */
     private FontData setFont(Font font, boolean antialias, boolean fractionalmetrics, int characterCount, int padding) {
-        if (texId == -1)
-            texId = GLManager.genTexture();
-
         // Font metrics can be created from the font without having to create a graphics object.
         FontMetrics fontMetrics = new Canvas().getFontMetrics(font);
 
-        int charHeight = 0, positionX = 0, positionY = 0; //, textureWidth = 0, textureHeight = 0
+        int charHeight = 0, positionX = 0, positionY = 0, imageWidth = 0, imageHeight = 0; //, textureWidth = 0, textureHeight = 0
 
         // We'll be generating the character bounds as well as an appropriate texture width and height for the font to be rendered onto.
         for (int i = 0; i < characterBounds.length; i++) {
@@ -67,22 +57,22 @@ public final class FontData {
             positionX += width + padding;
 
             // Ensure that our texture can fit the characters.
-            if (positionX + width + padding > textureWidth)
-                textureWidth = positionX + width + padding;
+            if (positionX + width + padding > imageWidth)
+                imageWidth = positionX + width + padding;
 
-            if (positionY + height + padding > textureHeight)
-                textureHeight = positionY + height + padding;
+            if (positionY + height + padding > imageHeight)
+                imageHeight = positionY + height + padding;
         }
 
         // Image we'll use to store our font onto for rendering.
-        BufferedImage bufferedImage = new BufferedImage(textureWidth, textureHeight, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage bufferedImage = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = (Graphics2D) bufferedImage.getGraphics();
         graphics2D.setFont(font);
         fontMetrics = graphics2D.getFontMetrics(font);
 
         // Give blank background
         graphics2D.setColor(new Color(255, 255, 255, 0));
-        graphics2D.fillRect(0, 0, textureWidth, textureHeight);
+        graphics2D.fillRect(0, 0, imageWidth, imageHeight);
 
         // Set color to white for rendering the font onto the texture.
         graphics2D.setColor(Color.WHITE);
@@ -97,7 +87,11 @@ public final class FontData {
             graphics2D.drawString(String.valueOf((char) i), characterBounds[i].x, characterBounds[i].y + fontMetrics.getAscent());
         }
 
-        GLManager.applyTexture(texId, bufferedImage, antialias ? GL_LINEAR : GL_NEAREST, GL_REPEAT);
+        // Create an array to hold the pixels of the loaded image.
+        int[] pixels = new int[bufferedImage.getWidth() * bufferedImage.getHeight()];
+        // Create a basic image and put the buffered images pixels into the pixel array.
+        image = new ImageData(bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), pixels, 0, bufferedImage.getWidth()), bufferedImage.getWidth(), bufferedImage.getHeight());
+
         return this;
     }
 
@@ -105,7 +99,7 @@ public final class FontData {
      * Binds the font texture.
      * */
     public void bind() {
-		getGLStateManager().bindTexture(texId);
+		image.bind();
     }
 
     /**
@@ -142,7 +136,7 @@ public final class FontData {
      * @return True if the font has not been set.
      * */
     public boolean hasFont() {
-        return texId != -1;
+        return image != null;
     }
 
     public int getFontHeight() {
@@ -172,12 +166,11 @@ public final class FontData {
         return input;
     }
 
-    public int getTextureWidth() {
-        return textureWidth;
-    }
-
-    public int getTextureHeight() {
-        return textureHeight;
+    /**
+     * @return The image used by this font data.
+     * */
+    public ImageData getImage() {
+        return image;
     }
 
     /**

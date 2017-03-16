@@ -2,20 +2,16 @@ package net.halalaboos.huzuni.mod;
 
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
-import net.halalaboos.huzuni.gui.screen.HuzuniSettingsMenu;
 import net.halalaboos.huzuni.mod.movement.Flight;
 import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.event.input.MouseEvent;
 import net.halalaboos.mcwrapper.api.event.network.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
-import net.halalaboos.mcwrapper.api.event.render.HUDRenderEvent;
-import net.halalaboos.mcwrapper.api.event.world.WorldLoadEvent;
 import net.halalaboos.mcwrapper.api.network.packet.client.PlayerAbilitiesPacket;
 import net.halalaboos.mcwrapper.api.network.packet.client.TabCompletePacket;
 import net.halalaboos.mcwrapper.api.util.MouseButton;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.network.play.server.SPacketPlayerAbilities;
 import net.minecraft.util.math.RayTraceResult;
 
@@ -73,12 +69,14 @@ public class Patcher {
 			}
 			if (event.getPacket() instanceof PlayerAbilitiesPacket) {
 				PlayerAbilitiesPacket packet = (PlayerAbilitiesPacket) event.getPacket();
+				// TODO: Stop referencing to these mods statically.
 				if ((Freecam.INSTANCE.isEnabled() || Flight.INSTANCE.isEnabled()) && shouldHideFlying) {
 					packet.setFlying(false);
 				}
 			}
 		});
-		getEventManager().subscribe(WorldLoadEvent.class, event -> {
+		// TODO: Figure out why this causes singleplayer to freeze before loading the world.
+		/*getEventManager().subscribe(WorldLoadEvent.class, event -> {
 			if (event.getWorld() != null) {
 				if (huzuni.settings.firstUse.isEnabled()) {
 					huzuni.addChatMessage("Welcome to huzuni!");
@@ -88,7 +86,7 @@ public class Patcher {
 				}
 			}
 			huzuni.lookManager.cancelTask();
-		});
+		});*/
 	}
 
 	/**
