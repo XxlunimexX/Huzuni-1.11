@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.api.gui.font;
+package net.halalaboos.huzuni.api.gui;
 
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.indev.gui.FontData;

@@ -12,7 +12,6 @@ import net.halalaboos.huzuni.indev.gui.components.Label;
 import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
 import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
 import net.halalaboos.huzuni.indev.gui.impl.BasicToolbox;
-import net.halalaboos.huzuni.indev.gui.impl.ImageCreator;
 import net.halalaboos.huzuni.indev.gui.layouts.*;
 import net.halalaboos.huzuni.indev.gui.FontData;
 import net.halalaboos.huzuni.indev.gui.layouts.GridLayout;
@@ -50,15 +49,13 @@ public class GuiTestScreen  extends HuzuniScreen {
     public GuiTestScreen() {
         super();
         // Apply the fonts to the tool box.
-        FontData globalFont = huzuni.fontManager.getFont("Roboto Condensed", 20, Font.PLAIN, true);
+        FontData globalFont = huzuni.resourceCreator.create("font", FONT_GLOBAL.getName(), "Roboto Condensed", 20, Font.PLAIN);
         toolbox.put(FONT_TOOLTIP, globalFont);
         toolbox.put(FONT_GLOBAL, globalFont);
-        toolbox.put(FONT_TITLE, huzuni.fontManager.getFont("Roboto Condensed", 48, Font.BOLD, true));
-        toolbox.put(FONT_DESCRIPTION, huzuni.fontManager.getFont("Roboto Condensed", 16, Font.ITALIC, true));
-        toolbox.put(FONT_TEXTFIELD, huzuni.fontManager.getFont("Roboto Condensed", 20, Font.ITALIC, true));
-
-        ImageCreator imageCreator = new ImageCreator();
-        toolbox.put(IMAGE_ARROW, imageCreator.create("/assets/minecraft/huzuni/textures/arrow.png").orElse(null));
+        toolbox.put(FONT_TITLE, huzuni.resourceCreator.create("font", FONT_TITLE.getName(), "Roboto Condensed", 48, Font.BOLD, true));
+        toolbox.put(FONT_DESCRIPTION, huzuni.resourceCreator.create("font", FONT_DESCRIPTION.getName(), "Roboto Condensed", 16, Font.ITALIC, true));
+        toolbox.put(FONT_TEXTFIELD, huzuni.resourceCreator.create("font", FONT_TEXTFIELD.getName(),"Roboto Condensed", 20, Font.ITALIC, true));
+        toolbox.put(IMAGE_ARROW, huzuni.resourceCreator.create("image", IMAGE_ARROW.getName(), "/assets/minecraft/huzuni/textures/arrow.png"));
 
         // Apply a random color pack to the tool box.
         ColorPack colorPack = ColorPack.values()[(int) (Math.random() * ColorPack.values().length)];

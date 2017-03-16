@@ -1,6 +1,5 @@
 package net.halalaboos.huzuni;
 
-import net.halalaboos.huzuni.api.gui.font.FontManager;
 import net.halalaboos.huzuni.api.mod.CommandManager;
 import net.halalaboos.huzuni.api.mod.KeybindManager;
 import net.halalaboos.huzuni.api.mod.Mod;
@@ -24,7 +23,7 @@ import net.halalaboos.huzuni.mod.misc.chat.ChatAnnoy;
 import net.halalaboos.huzuni.mod.misc.chat.ChatMutator;
 import net.halalaboos.huzuni.mod.movement.*;
 import net.halalaboos.huzuni.mod.visual.*;
-import net.halalaboos.huzuni.api.gui.font.MinecraftFontRenderer;
+import net.halalaboos.huzuni.api.gui.MinecraftFontRenderer;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.MinecraftAdapter;
 import net.halalaboos.mcwrapper.api.util.TextColor;
@@ -83,8 +82,7 @@ public enum Huzuni {
 
 	public final MinecraftFontRenderer guiFontRenderer = new MinecraftFontRenderer(), chatFontRenderer = new MinecraftFontRenderer();
 
-	// TODO: replace with resource creator
-	public final FontManager fontManager = new FontManager();
+	public final ResourceCreator resourceCreator = new ResourceCreator();
 
 	public final ScriptManager scriptManager = new ScriptManager(this);
 
