@@ -97,4 +97,8 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 	public void removeEffect(net.halalaboos.mcwrapper.api.potion.Potion potion) {
 		removePotionEffect(Convert.to(potion));
 	}
+
+	@Shadow
+	public boolean canBePushed() {return true;}
+
 }

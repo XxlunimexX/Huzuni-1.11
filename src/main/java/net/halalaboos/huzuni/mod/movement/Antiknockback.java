@@ -25,6 +25,9 @@ public class Antiknockback extends BasicMod {
 	/** Toggle that prevents being pushed by water */
 	private final Toggleable water = new Toggleable("Water", "Prevents water from pushing you");
 
+	/** Toggle that prevents being pushed by entities */
+	private final Toggleable entities = new Toggleable("Entities", "Prevents entities from pushing you");
+
 	/** Toggle that prevents knockback only in combat */
 	private final Toggleable combat = new Toggleable("Combat mode", "Prevents knockback when only in combat");
 
@@ -36,10 +39,11 @@ public class Antiknockback extends BasicMod {
 
 	public Antiknockback() {
 		super("Anti knockback", "Removes a percentage from the knockback velocity");
-		this.addChildren(water, combat, combatTime, percentage);
+		this.addChildren(water, entities, combat, combatTime, percentage);
 		this.setCategory(Category.MOVEMENT);
 		setAuthor("brudin");
 		water.setEnabled(true);
+		entities.setEnabled(true);
 		subscribe(PacketReadEvent.class, event -> {
 			if (event.getPacket() instanceof UseEntityPacket) {
 				UseEntityPacket packet = (UseEntityPacket) event.getPacket();
@@ -69,6 +73,7 @@ public class Antiknockback extends BasicMod {
 		subscribe(PreMotionUpdateEvent.class, event -> {
 			//Doing this way because sometimes it'll reset (e.g. if the player is reset)
 			getPlayer().setPushedByWater(!water.isEnabled());
+			getPlayer().setPushable(!entities.isEnabled());
 		});
 	}
 
@@ -76,6 +81,7 @@ public class Antiknockback extends BasicMod {
 	protected void onDisable() {
 		//Resets the player being pushed by water
 		getPlayer().setPushedByWater(true);
+		getPlayer().setPushable(true);
 	}
 
 	/**
@@ -87,7 +93,8 @@ public class Antiknockback extends BasicMod {
 	 * @return The new Vector with adjusted velocity
 	 */
 	private Vector3d adjustVelocity(Vector3d velocity, float percent) {
-		return new Vector3d(percent * (velocity.getX() / 8000), percent * (velocity.getY() / 8000),
-				percent * (velocity.getZ() / 8000));
+//		return new Vector3d(percent * (velocity.getX() / 8000), percent * (velocity.getY() / 8000),
+//				percent * (velocity.getZ() / 8000));
+		return velocity.div(8000).scale(percent);
 	}
 }

@@ -41,10 +41,16 @@ public interface Player extends Living {
 	boolean isHungry();
 
 	/**
+	 * Saturation is increased whenever the Player eats food.  Once the saturation level is at zero, they will begin
+	 * to start losing hunger.
+	 *
 	 * @return The saturation level
 	 */
 	float getSaturation();
 
+	/**
+	 * @return The Player's {@link GameProfile}
+	 */
 	GameProfile getProfile();
 
 	Container getInventoryContainer();

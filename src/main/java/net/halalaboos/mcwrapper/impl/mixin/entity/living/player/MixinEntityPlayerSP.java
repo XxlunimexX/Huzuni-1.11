@@ -154,4 +154,16 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 	}
 
 	private boolean itemSlowdown = true;
+
+	@Override
+	public boolean canBePushed() {
+		return pushable && super.canBePushed();
+	}
+
+	@Override
+	public void setPushable(boolean pushed) {
+		this.pushable = pushed;
+	}
+
+	private boolean pushable = true;
 }

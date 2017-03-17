@@ -1,7 +1,6 @@
 package net.halalaboos.huzuni.indev.script.meta;
 
 import net.halalaboos.huzuni.indev.gui.impl.BasicFontRenderer;
-import net.halalaboos.huzuni.api.gui.font.FontManager;
 import net.halalaboos.huzuni.indev.gui.render.FontRenderer;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.minecraft.client.renderer.GlStateManager;
@@ -23,11 +22,11 @@ public final class ScriptGl {
 
     private final FontRenderer fontRenderer = new BasicFontRenderer();
 
-    private final FontManager fontManager;
+//    private final ResourceManager fontManager;
 
-    public ScriptGl(FontManager fontManager) {
-        this.fontManager = fontManager;
-    }
+//    public ScriptGl(FontManager fontManager) {
+//        this.fontManager = fontManager;
+//    }
 
     /**
      * @return The width in pixels of the text rendered.
@@ -47,16 +46,16 @@ public final class ScriptGl {
     /**
      * Sets the font used by this font renderer to a plain font with the size and name specified.
      * */
-    public void setFont(String fontName, int fontSize) {
-        this.fontRenderer.setFontData(fontManager.getFont(fontName, fontSize, Font.PLAIN, true));
-    }
-
-    /**
-     * Set the font used by this font renderer to a font which matches the criteria specified.
-     * */
-    public void setFont(String fontName, int fontSize, int style) {
-        this.fontRenderer.setFontData(fontManager.getFont(fontName, fontSize, style, true));
-    }
+//    public void setFont(String fontName, int fontSize) {
+//        this.fontRenderer.setFontData(fontManager.getFont(fontName, fontSize, Font.PLAIN, true));
+//    }
+//
+//    /**
+//     * Set the font used by this font renderer to a font which matches the criteria specified.
+//     * */
+//    public void setFont(String fontName, int fontSize, int style) {
+//        this.fontRenderer.setFontData(fontManager.getFont(fontName, fontSize, style, true));
+//    }
 
     /**
      * Sets the color to the rgb value specified. Alpha is set to 255.

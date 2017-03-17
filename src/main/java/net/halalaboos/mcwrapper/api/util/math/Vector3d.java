@@ -91,6 +91,13 @@ public class Vector3d {
 		return this;
 	}
 
+	public Vector3d div(double amount) {
+		this.x /= amount;
+		this.y /= amount;
+		this.z /= amount;
+		return this;
+	}
+
 	public double distanceTo(Vector3d target) {
 		double dX = this.x - target.x;
 		double dY = this.y - target.y;

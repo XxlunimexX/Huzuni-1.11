@@ -20,7 +20,7 @@ public class Dolphin extends BasicMod {
 		subscribe(PreMotionUpdateEvent.class, event -> {
 			if (!mc.gameSettings.keyBindSneak.isPressed() && !mc.gameSettings.keyBindJump.isPressed() &&
 					(getPlayer().isInFluid(Fluid.LAVA) || getPlayer().isInFluid(Fluid.WATER))) {
-				getPlayer().getVelocity().addY(0.03999999910593033);
+				getPlayer().getVelocity().addY(0.03);
 			}
 		});
 	}

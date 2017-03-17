@@ -31,12 +31,24 @@ public interface MinecraftAdapter {
 	 */
 	MinecraftClient getMinecraft();
 
+	/**
+	 * The version-specific {@link ItemRegistry} implementation.
+	 */
 	ItemRegistry getItemRegistry();
 
+	/**
+	 * The version-specific {@link BlockRegistry} implementation.
+	 */
 	BlockRegistry getBlockRegistry();
 
+	/**
+	 * The version-specific {@link PotionRegistry} implementation.
+	 */
 	PotionRegistry getPotionRegistry();
 
+	/**
+	 * The version-specific {@link GLState} implementation.
+	 */
 	GLState getGLStateManager();
 
 	/**

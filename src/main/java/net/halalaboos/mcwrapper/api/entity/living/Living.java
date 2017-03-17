@@ -52,13 +52,34 @@ public interface Living extends Entity {
 	 */
 	float getJumpMovementFactor();
 
+	/**
+	 * When an Entity is using an item, this value goes up each tick.
+	 *
+	 * @return The item use ticks
+	 */
 	int getItemUseTicks();
 
+	/**
+	 * When an Entity gets a potion effect (e.g. night vision, swiftness), it will be added to this list until the
+	 * effect timer runs out.
+	 *
+	 * @return The active potion effects.
+	 */
 	Collection<PotionEffect> getEffects();
 
 	int getTotalArmor();
 
+	/**
+	 * Adds the specified {@link PotionEffect} to the Entity.
+	 *
+	 * @param effect The effect to add
+	 */
 	void addEffect(PotionEffect effect);
 
+	/**
+	 * Removes the specified {@link Potion} from the Entity.
+	 *
+	 * @param potion The potion to remove.
+	 */
 	void removeEffect(Potion potion);
 }

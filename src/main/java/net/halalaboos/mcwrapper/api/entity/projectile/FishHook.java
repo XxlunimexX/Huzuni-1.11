@@ -5,6 +5,9 @@ import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 
 public interface FishHook extends Entity {
 
+	/**
+	 * @return The Player that the fish hook belongs to.
+	 */
 	Player getOwner();
 
 
