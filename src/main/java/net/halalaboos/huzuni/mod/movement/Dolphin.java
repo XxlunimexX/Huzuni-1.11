@@ -18,9 +18,9 @@ public class Dolphin extends BasicMod {
 		this.setCategory(Category.MOVEMENT);
 		setAuthor("brudin");
 		subscribe(PreMotionUpdateEvent.class, event -> {
-			if (!mc.gameSettings.keyBindSneak.isPressed() && !mc.gameSettings.keyBindJump.isPressed() &&
+			if (!mc.gameSettings.keyBindSneak.isKeyDown() && !mc.gameSettings.keyBindJump.isKeyDown() &&
 					(getPlayer().isInFluid(Fluid.LAVA) || getPlayer().isInFluid(Fluid.WATER))) {
-				getPlayer().getVelocity().addY(0.03);
+				getPlayer().setVelocity(getPlayer().getVelocity().addY(0.025));
 			}
 		});
 	}
