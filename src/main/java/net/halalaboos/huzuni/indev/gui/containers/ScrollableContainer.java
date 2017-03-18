@@ -46,7 +46,12 @@ public class ScrollableContainer extends Container {
     @Override
     public boolean isPointInside(int x, int y) {
         // Include this to ensure that the offset does not affect the interactions between components outside the viewable area.
-        return super.isPointInside(x, y) && toolbox.isPointInside(x, y, getRenderArea());
+        return super.isPointInside(x, y) && toolbox.isPointInside(x, y, new int[] {
+                getX(),
+                getY(),
+                getWidth(),
+                getHeight()
+        });
     }
 
     /**
