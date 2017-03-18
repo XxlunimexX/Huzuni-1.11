@@ -30,6 +30,7 @@ import net.halalaboos.mcwrapper.api.util.TextColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,8 +46,12 @@ public enum Huzuni {
 	INSTANCE;
 
 	public static final int BUILD_NUMBER = 21;
+
 	public static String NAME = "Huzuni";
+
 	public static final String VERSION = NAME + " 5.0.3";
+
+	public static final String ASSETS_LOCATION = "/assets/minecraft/huzuni/";
 
 	public static final Logger LOGGER = LogManager.getLogger("Huzuni");
 	

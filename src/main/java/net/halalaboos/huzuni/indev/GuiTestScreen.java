@@ -49,13 +49,13 @@ public class GuiTestScreen  extends HuzuniScreen {
     public GuiTestScreen() {
         super();
         // Apply the fonts to the tool box.
-        FontData globalFont = huzuni.resourceCreator.create("font", FONT_GLOBAL.getName(), "Roboto Condensed", Font.PLAIN, 20);
+        FontData globalFont = huzuni.resourceCreator.create("font", FONT_GLOBAL.getName(), "RobotoCondensed-Regular.ttf", Font.PLAIN, 20);
         toolbox.put(FONT_TOOLTIP, globalFont);
         toolbox.put(FONT_GLOBAL, globalFont);
-        toolbox.put(FONT_TITLE, huzuni.resourceCreator.create("font", FONT_TITLE.getName(), "Roboto Condensed", Font.BOLD, 48));
-        toolbox.put(FONT_DESCRIPTION, huzuni.resourceCreator.create("font", FONT_DESCRIPTION.getName(), "Roboto Condensed", Font.ITALIC, 16));
-        toolbox.put(FONT_TEXTFIELD, huzuni.resourceCreator.create("font", FONT_TEXTFIELD.getName(),"Roboto Condensed", Font.ITALIC, 20));
-        toolbox.put(IMAGE_ARROW, huzuni.resourceCreator.create("image", IMAGE_ARROW.getName(), "/assets/minecraft/huzuni/textures/arrow.png"));
+        toolbox.put(FONT_TITLE, huzuni.resourceCreator.create("font", FONT_TITLE.getName(), "RobotoCondensed-Bold.ttf", Font.BOLD, 48));
+        toolbox.put(FONT_DESCRIPTION, huzuni.resourceCreator.create("font", FONT_DESCRIPTION.getName(), "RobotoCondensed-Italic.ttf", Font.ITALIC, 16));
+        toolbox.put(FONT_TEXTFIELD, huzuni.resourceCreator.create("font", FONT_TEXTFIELD.getName(),"RobotoCondensed-Italic.ttf", Font.ITALIC, 20));
+        toolbox.put(IMAGE_ARROW, huzuni.resourceCreator.create("image", IMAGE_ARROW.getName(), "arrow.png"));
 
         // Apply a random color pack to the tool box.
         ColorPack colorPack = ColorPack.values()[(int) (Math.random() * ColorPack.values().length)];
