@@ -54,7 +54,7 @@ public abstract class Widget extends Node {
 		if (Mouse.isButtonDown(0)) {
 			if (dragging) {
 				this.x = GLUtils.getMouseX() - offsetX;
-				this.y += GLUtils.getMouseY() - offsetY;
+				this.y = GLUtils.getMouseY() - offsetY;
 				ScreenGlue.keepWithinScreen(this);
 				widgetManager.formatWidgets(this);
 				Glue newGlue = ScreenGlue.getScreenGlue(this);
