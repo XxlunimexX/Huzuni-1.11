@@ -16,7 +16,7 @@ public class ImageCreator extends TypeCreator<ImageData> {
     protected ImageData createObject(String name, Object... params) {
         try {
             // Reads a buffered image.
-            BufferedImage bufferedImage = ImageIO.read(ImageCreator.class.getResourceAsStream(name));
+            BufferedImage bufferedImage = ImageIO.read(ImageCreator.class.getResourceAsStream((String) params[0]));
             // Create an array to hold the pixels of the loaded image.
             int[] pixels = new int[bufferedImage.getWidth() * bufferedImage.getHeight()];
             // Create an image data and put the buffered images pixels into the pixel array.

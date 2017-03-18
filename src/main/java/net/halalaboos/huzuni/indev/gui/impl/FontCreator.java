@@ -14,6 +14,7 @@ public class FontCreator extends TypeCreator {
     protected Object createObject(String name, Object... params) {
         FontData font = new FontData();
         if (params.length >= 3) {
+            // FONT, STYLE, SIZE
             font = font.setFont(new Font((String) params[0], (int) params[1], (int) params[2]), true);
         }
         return font;

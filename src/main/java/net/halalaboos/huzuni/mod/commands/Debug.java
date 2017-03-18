@@ -22,7 +22,7 @@ public class Debug extends BasicCommand {
 
 	@Override
 	protected void runCommand(String input, String[] args) throws Exception {
-		ClientPlayer player = getPlayer();
+		/*ClientPlayer player = getPlayer();
 		ItemStack itemStack = player.getHeldItem(Hand.MAIN);
 		String name = itemStack.name();
 		int id = itemStack.getItemType().getId();
@@ -46,6 +46,7 @@ public class Debug extends BasicCommand {
 
 		Potion potion = getAdapter().getPotionRegistry().getPotion("instant_health");
 		huzuni.addChatMessage(potion.name());
-		System.out.println(output);
+		System.out.println(output);*/
+		huzuni.addChatMessage(Boolean.toString(huzuni.resourceCreator.create(args[0], args[1])));
 	}
 }

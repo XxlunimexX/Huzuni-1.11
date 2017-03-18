@@ -22,12 +22,6 @@ public final class ScriptGl {
 
     private final FontRenderer fontRenderer = new BasicFontRenderer();
 
-//    private final ResourceManager fontManager;
-
-//    public ScriptGl(FontManager fontManager) {
-//        this.fontManager = fontManager;
-//    }
-
     /**
      * @return The width in pixels of the text rendered.
      * */
