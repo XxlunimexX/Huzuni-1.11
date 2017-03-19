@@ -139,4 +139,45 @@ public class NewTaskManager extends Node {
 		 * */
 		String[] getDependencies();
 	}
+
+	/**
+	 * Basic implementation of the task interface.
+	 * */
+	public abstract class BasicTask implements Task {
+
+		private final String handler;
+
+		private String[] dependencies = new String[] {};
+
+		public BasicTask(Nameable handler) {
+			this(handler.getName());
+		}
+
+		public BasicTask(String handler) {
+			this.handler = handler;
+		}
+
+		/**
+		 * Adds the given strings to this tasks dependencies.
+		 * */
+		protected void addDependencies(String... dependencies) {
+			List<String> list = Arrays.asList(this.dependencies);
+			list.addAll(Arrays.asList(dependencies));
+			this.dependencies = list.toArray(new String[list.size()]);
+		}
+
+		@Override
+		public String getHandler() {
+			return handler;
+		}
+
+		@Override
+		public String[] getDependencies() {
+			return dependencies;
+		}
+	}
+
+	public class TaskDispatcher <T extends Task> {
+
+	}
 }
