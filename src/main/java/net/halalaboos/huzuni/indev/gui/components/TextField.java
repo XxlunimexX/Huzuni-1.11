@@ -130,7 +130,7 @@ public class TextField extends Component {
             // In order to compare the pointer to the length of the trimmed text,
             // the render index must be added.
             if (renderIndex + trimmed.length < text.length() && (renderIndex + trimmed.length) - pointer < renderOffset) {
-                renderIndex = (pointer + renderOffset) - trimmed.length;
+                renderIndex = Math.max(0, (pointer + renderOffset) - trimmed.length);
             }
         }
     }
@@ -188,7 +188,7 @@ public class TextField extends Component {
         } else if (pointer < 0) {
             pointer = 0;
         }
-        calculateRenderIndex();
+        this.calculateRenderIndex();
     }
 
     /**
@@ -206,8 +206,7 @@ public class TextField extends Component {
     public void setText(String text) {
         this.text = text;
         this.pointer = text.length();
-        // Invoked to calculate the render index.
-        this.keepSafe();
+        this.calculateRenderIndex();
     }
 
     /**

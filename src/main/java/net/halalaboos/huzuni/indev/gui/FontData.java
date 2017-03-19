@@ -154,6 +154,29 @@ public final class FontData {
     }
 
     /**
+     * @return The index
+     * */
+    /*public int trimIndex(String input, int length, boolean backwards) {
+        if (!hasFont())
+            return 0;
+        char[] characters = input.toCharArray();
+        // Our start index will be 0 if we are trimming from the beginning and length - 1 if we are trimming from the end.
+        int index = backwards ? characters.length - 1 : 0, current = 0;
+
+        while (backwards ? index >= 0 : index < characters.length) {
+            // If the current string length + the next character is too long, then go backward an index and return the trimmed string.
+            // Length is multiplied by the game's scale factor to ensure this calculation is correct.
+            if (current + characterBounds[characters[index]].width > length * GLUtils.getScaleFactor() && index > 0) {
+                // Return the substring of the index - 1, since the current index is too long.
+                return backwards ? index + 1 : index - 1;
+            }
+            current += characterBounds[characters[index]].width;
+            index += backwards ? -1 : 1;
+        }
+        return 0;
+    }*/
+
+    /**
      * @return The input trimmed to fit the length expected.
      * */
     public String trim(String input, int length, boolean backwards) {
