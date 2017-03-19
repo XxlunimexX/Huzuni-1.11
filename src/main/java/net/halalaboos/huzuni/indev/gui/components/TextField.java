@@ -1,7 +1,5 @@
 package net.halalaboos.huzuni.indev.gui.components;
 
-
-import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.indev.gui.Component;
 import net.halalaboos.huzuni.indev.gui.actions.Actions;
 import net.halalaboos.huzuni.indev.gui.actions.ClickAction;
@@ -26,6 +24,13 @@ public class TextField extends Component {
     private String text, defaultText;
 
     private int pointer = 0, maxLength = 50;
+
+    // This index is stored separately from the pointer to ensure
+    private int renderIndex = 0;
+
+    // This is the minimum amount of characters needed to be present before the pointer.
+    // Used when calculating the render index.
+    private int renderOffset = 1;
 
     private boolean typing = false;
 
@@ -104,6 +109,30 @@ public class TextField extends Component {
 
     @Override
     public void update() {
+        calculateRenderIndex();
+    }
+
+    /**
+     * Calculates the render index for this text field.
+     * */
+    private void calculateRenderIndex() {
+        // LEFT CHECK
+        // If the pointer is greater than or equal to the render offset and if the distance between
+        // the pointer and the render index is less than the offset, we must move the render index left.
+        if (pointer >= renderOffset && pointer - renderIndex < renderOffset) {
+            // Set the render index to the pointer minus the offset.
+            renderIndex = Math.max(0, pointer - renderOffset);
+        } else {
+            // Calculate the trimmed string starting at the render index.
+            char[] trimmed = font.trim(text.substring(renderIndex), this.getWidth()).toCharArray();
+
+            // RIGHT CHECK
+            // In order to compare the pointer to the length of the trimmed text,
+            // the render index must be added.
+            if (renderIndex + trimmed.length < text.length() && (renderIndex + trimmed.length) - pointer < renderOffset) {
+                renderIndex = (pointer + renderOffset) - trimmed.length;
+            }
+        }
     }
 
 
@@ -159,14 +188,15 @@ public class TextField extends Component {
         } else if (pointer < 0) {
             pointer = 0;
         }
+        calculateRenderIndex();
     }
 
     /**
      * @return A string that can be rendered.
      * */
     public String getRenderText(boolean showPlacement) {
-        String text = showPlacement ? this.text.substring(0, pointer) + "|" + this.text.substring(pointer, this.text.length()) : this.text;
-        return font.trim(text, this.getWidth() * GLUtils.getScaleFactor(), true);
+        String text = showPlacement ? this.text.substring(renderIndex, pointer) + "|" + this.text.substring(pointer, this.text.length()) : this.text.substring(renderIndex);
+        return font.trim(text, this.getWidth());
     }
 
     public String getText() {
@@ -176,6 +206,8 @@ public class TextField extends Component {
     public void setText(String text) {
         this.text = text;
         this.pointer = text.length();
+        // Invoked to calculate the render index.
+        this.keepSafe();
     }
 
     /**

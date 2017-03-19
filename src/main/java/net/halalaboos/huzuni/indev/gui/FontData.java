@@ -1,5 +1,7 @@
 package net.halalaboos.huzuni.indev.gui;
 
+import net.halalaboos.huzuni.api.util.gl.GLUtils;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -147,6 +149,13 @@ public final class FontData {
     /**
      * @return The input trimmed to fit the length expected.
      * */
+    public String trim(String input, int length) {
+        return this.trim(input, length, false);
+    }
+
+    /**
+     * @return The input trimmed to fit the length expected.
+     * */
     public String trim(String input, int length, boolean backwards) {
         if (!hasFont())
             return input;
@@ -156,7 +165,8 @@ public final class FontData {
 
         while (backwards ? index >= 0 : index < characters.length) {
             // If the current string length + the next character is too long, then go backward an index and return the trimmed string.
-            if (current + characterBounds[characters[index]].width > length && index > 0) {
+            // Length is multiplied by the game's scale factor to ensure this calculation is correct.
+            if (current + characterBounds[characters[index]].width > length * GLUtils.getScaleFactor() && index > 0) {
                 // Return the substring of the index - 1, since the current index is too long.
                 return backwards ? input.substring(index + 1, input.length()) : input.substring(0, index - 1);
             }
