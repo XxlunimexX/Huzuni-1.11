@@ -304,7 +304,7 @@ import java.util.UUID;
 	@Override
 	public AABB getBoundingBox() {
 		if (this.aabb == null) {
-			return new AABB(0, 0, 0, 0, 0, 0);
+			aabb = Convert.from(getEntityBoundingBox());
 		}
 		return aabb;
 	}

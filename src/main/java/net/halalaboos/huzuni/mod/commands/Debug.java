@@ -8,6 +8,7 @@ import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.item.ItemTypes;
 import net.halalaboos.mcwrapper.api.potion.Potion;
 import net.halalaboos.mcwrapper.api.potion.PotionEffect;
+import net.halalaboos.mcwrapper.impl.Convert;
 import net.minecraft.util.text.translation.I18n;
 
 import static net.halalaboos.huzuni.indev.gui.impl.Pointers.IMAGE_ARROW;
@@ -47,6 +48,14 @@ public class Debug extends BasicCommand {
 		Potion potion = getAdapter().getPotionRegistry().getPotion("instant_health");
 		huzuni.addChatMessage(potion.name());
 		System.out.println(output);*/
-		huzuni.addChatMessage(Boolean.toString(huzuni.resourceCreator.create(args[0], args[1])));
+//		huzuni.addChatMessage(Boolean.toString(huzuni.resourceCreator.create(args[0], args[1])));
+
+		String mcwrapperBB = getPlayer().getBoundingBox().offset(1, 0, 0).toString();
+		String mcBB = mc.player.getEntityBoundingBox().offset(1, 0, 0).toString();
+
+		System.out.println("WRAPPER-----");
+		System.out.println(mcwrapperBB);
+		System.out.println("VANILLA-----");
+		System.out.println(mcBB);
 	}
 }

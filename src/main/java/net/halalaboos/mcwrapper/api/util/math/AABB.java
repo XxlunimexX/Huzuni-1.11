@@ -25,4 +25,8 @@ public class AABB {
 	public AABB offset(double x, double y, double z) {
 		return offset(new Vector3d(x, y, z));
 	}
+
+	public String toString() {
+		return "box[" + this.min.getX() + ", " + this.min.getY() + ", " + this.min.getZ() + " -> " + this.max.getX() + ", " + this.max.getY() + ", " + this.max.getZ() + "]";
+	}
 }

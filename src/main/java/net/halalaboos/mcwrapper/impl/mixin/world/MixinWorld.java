@@ -5,11 +5,13 @@ import net.halalaboos.mcwrapper.api.block.tileentity.TileEntity;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.halalaboos.mcwrapper.api.world.World;
 import net.halalaboos.mcwrapper.impl.Convert;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -32,6 +34,9 @@ import java.util.List;
 
 	@Shadow
 	public abstract IBlockState getBlockState(BlockPos pos);
+
+	@Shadow
+	public abstract List<AxisAlignedBB> getCollisionBoxes(@Nullable net.minecraft.entity.Entity entityIn, AxisAlignedBB aabb);
 
 	@Override
 	public void setToAir(Vector3i pos) {
@@ -72,5 +77,11 @@ import java.util.List;
 	@Override
 	public Collection<Entity> getEntitiesInBox(AABB aabb) {
 		return ((Collection<Entity>)(Object)getEntitiesWithinAABBExcludingEntity(Minecraft.getMinecraft().player, Convert.to(aabb)));
+	}
+
+	@Override
+	public boolean isOffsetBBEmpty(Vector3d offset) {
+		EntityPlayerSP playerSP = Minecraft.getMinecraft().player;
+		return getCollisionBoxes(playerSP, playerSP.getEntityBoundingBox().offset(offset.getX(), offset.getY(), offset.getZ())).isEmpty();
 	}
 }

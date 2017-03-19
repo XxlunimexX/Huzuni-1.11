@@ -5,6 +5,7 @@ import net.halalaboos.mcwrapper.api.block.tileentity.TileEntity;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
 import java.util.Collection;
@@ -37,4 +38,12 @@ public interface World {
 
 	Block getBlock(Vector3i pos);
 	Block getBlock(int x, int y, int z);
+
+	/**
+	 * Checks if the list of colliding bounding boxes from an offset of the Player's bounding box is empty.
+	 *
+	 * @param offset The offset of the bounding box
+	 * @return Whether or not there is a bounding box
+	 */
+	boolean isOffsetBBEmpty(Vector3d offset);
 }
