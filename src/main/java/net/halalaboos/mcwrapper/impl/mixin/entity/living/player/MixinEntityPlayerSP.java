@@ -47,6 +47,14 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 		}
 	}
 
+	@Inject(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/MovementInput;updatePlayerMoveState()V", shift = At.Shift.AFTER))
+	public void noSlow(CallbackInfo ci) {
+		if (this.isUsingItem() && !this.isRiding() && !getItemUseSlowdown()) {
+			this.movementInput.moveStrafe *= 5F;
+			this.movementInput.moveForward *= 5F;
+		}
+	}
+
 	private PreMotionUpdateEvent preMotion = new PreMotionUpdateEvent();
 	private PostMotionUpdateEvent postMotion = new PostMotionUpdateEvent();
 	private Huzuni huzuni = Huzuni.INSTANCE;

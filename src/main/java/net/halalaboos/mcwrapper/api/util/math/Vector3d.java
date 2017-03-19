@@ -150,6 +150,13 @@ public class Vector3d {
 		return this;
 	}
 
+	public Vector3d set(double x, double y, double z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		return this;
+	}
+
 	public Vector3i toInt() {
 		return new Vector3i(this);
 	}
