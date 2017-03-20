@@ -2,9 +2,11 @@ package net.halalaboos.mcwrapper.impl.mixin.item;
 
 import net.halalaboos.mcwrapper.api.item.Item;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
@@ -24,11 +26,19 @@ public abstract class MixinItemStack implements ItemStack {
 	@Shadow
 	public abstract int getMaxStackSize();
 
+	@Shadow
+	public abstract float getStrVsBlock(IBlockState blockIn);
+
 	private Minecraft mc = Minecraft.getMinecraft();
 
 	@Override
 	public int getSize() {
 		return getCount();
+	}
+
+	@Override
+	public float getStrength(int x, int y, int z) {
+		return getStrVsBlock(mc.world.getBlockState(new BlockPos(x, y, z)));
 	}
 
 	@Override

@@ -27,6 +27,8 @@ public interface ItemStack extends Nameable {
 	//TEMP
 	void render3D(int x, int y);
 
+	float getStrength(int x, int y, int z);
+
 	static Builder getBuilder() {
 		return MCWrapper.getAdapter().getBuilder(Builder.class);
 	}
