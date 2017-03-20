@@ -80,7 +80,7 @@ public final class FriendManager extends JsonFileHandler {
      * */
 	public String getAlias(String username) {
 		String alias = friends.get(username.toLowerCase());
-		return alias.isEmpty() ? username : alias;
+		return alias == null ? username : alias;
 	}
 	
 	public Color getColor() {

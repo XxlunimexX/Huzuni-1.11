@@ -21,7 +21,7 @@ public class Respawn extends BasicMod {
 				HealthUpdatePacket packet = (HealthUpdatePacket)event.getPacket();
 				if (packet.getHearts() > 0.0F)
 					return;
-				getMinecraft().getNetworkHandler().get().sendRespawn();
+				getMinecraft().getNetworkHandler().sendRespawn();
 			}
 		});
 	}

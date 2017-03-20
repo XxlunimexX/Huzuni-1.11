@@ -1,6 +1,7 @@
 package net.halalaboos.mcwrapper.impl.mixin.network;
 
 import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.network.NetworkHandler;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;
@@ -17,7 +18,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.UUID;
 
 @Mixin(NetHandlerPlayClient.class)
 public abstract class MixinNetHandlerPlayClient implements NetworkHandler {
@@ -41,6 +45,9 @@ public abstract class MixinNetHandlerPlayClient implements NetworkHandler {
 
 	@Shadow public abstract Collection<NetworkPlayerInfo> getPlayerInfoMap();
 
+	@Shadow
+	public abstract NetworkPlayerInfo getPlayerInfo(UUID uniqueId);
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<PlayerInfo> getPlayers() {
@@ -58,5 +65,11 @@ public abstract class MixinNetHandlerPlayClient implements NetworkHandler {
 		CPacketPlayerTryUseItem packetTryUse = new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND);
 		sendPacket(packetAnimation);
 		sendPacket(packetTryUse);
+	}
+
+	@Override
+	public Optional<PlayerInfo> getInfo(UUID uuid) {
+		if (getPlayerInfo(uuid) == null) return Optional.empty();
+		return Optional.of((PlayerInfo) getPlayerInfo(uuid));
 	}
 }

@@ -46,8 +46,12 @@ public interface GLState {
 
 	void enableBlend();
 
-	default void scale(float x, float y, float z) {
-		GL11.glScalef(x, y, z);
+	void enablePolygonOffset();
+
+	void disablePolygonOffset();
+
+	default void scale(double x, double y, double z) {
+		GL11.glScaled(x, y, z);
 	}
 
 	void bindTexture(int texId);

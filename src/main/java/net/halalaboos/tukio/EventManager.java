@@ -6,11 +6,10 @@ import java.util.*;
  * The EventManager handles the publishing and subscribing of {@link Event Events} and {@link Subscriber Subscribers}.
  */
 public class EventManager {
-
 	/**
 	 * Contains all of the registered {@link Event Events} and a list of their {@link Subscriber Subscribers}.
 	 */
-	private Map<Class<? extends Event>, List<Subscriber>> eventMap = new HashMap<>();
+	private Map<Class<? extends Event>, ArrayList<Subscriber>> eventMap = new HashMap<>();
 
 	/**
 	 * Subscribes the specified {@link Subscriber} to the target {@link Event} class.
@@ -47,7 +46,7 @@ public class EventManager {
 	@SuppressWarnings("unchecked")
 	public <T extends Event> T publish(T event) {
 		//Get all of the subscribers that are subscribed to the event
-		Collection<Subscriber> subscribers = eventMap.get(event.getClass());
+		ArrayList<Subscriber> subscribers = eventMap.get(event.getClass());
 
 		//If the list of subscribers isn't empty...
 		if (subscribers != null) {

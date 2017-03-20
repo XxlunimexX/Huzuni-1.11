@@ -1,6 +1,8 @@
 package net.halalaboos.mcwrapper.api.network;
 
 import java.util.Collection;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface NetworkHandler {
 
@@ -24,5 +26,7 @@ public interface NetworkHandler {
 	 * <p>Essentially, it just fakes the right click item swinging effect, for items such as a fishing rod.</p>
 	 */
 	void sendUseSwing();
+
+	Optional<PlayerInfo> getInfo(UUID uuid);
 
 }

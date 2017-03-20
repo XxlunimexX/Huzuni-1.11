@@ -38,9 +38,9 @@ public class Autofish extends BasicMod {
 						//Check if the velocity is the 'bobbing' amount
 						if (velX == 0 && velY < -0.02 && velZ == 0) {
 							//Reel in...
-							getMinecraft().getNetworkHandler().get().sendUseSwing();
+							getMinecraft().getNetworkHandler().sendUseSwing();
 							//Recast the rod!
-							getMinecraft().getNetworkHandler().get().sendUseSwing();
+							getMinecraft().getNetworkHandler().sendUseSwing();
 						}
 					}
 				}

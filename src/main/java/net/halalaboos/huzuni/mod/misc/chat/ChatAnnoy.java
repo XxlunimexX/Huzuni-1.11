@@ -218,14 +218,14 @@ public class ChatAnnoy extends BasicMod {
 	 * Returns a random player's name.  Used for the $PLAYER string(s) in the various messages.
 	 */
 	private String getRandomPlayer() {
-		Optional<NetworkHandler> networkHandler = getMinecraft().getNetworkHandler();
+		NetworkHandler networkHandler = getMinecraft().getNetworkHandler();
 
 		//Checks if you're in singleplayer, then will just return "you"
-		if (!networkHandler.isPresent() || !getMinecraft().isRemote())
+		if (!getMinecraft().isRemote())
 			return "you";
 
 		//The connected players
-		List<PlayerInfo> list = new ArrayList<>(networkHandler.get().getPlayers());
+		List<PlayerInfo> list = new ArrayList<>(networkHandler.getPlayers());
 
 		//A random player from the list
 		PlayerInfo randomPlayer = list.get(random.nextInt(list.size()));

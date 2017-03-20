@@ -60,6 +60,16 @@ public class GLStateImpl implements GLState {
 	}
 
 	@Override
+	public void enablePolygonOffset() {
+		GlStateManager.enablePolygonOffset();
+	}
+
+	@Override
+	public void disablePolygonOffset() {
+		GlStateManager.disablePolygonOffset();
+	}
+
+	@Override
 	public void bindTexture(int texId) {
 		GlStateManager.bindTexture(texId);
 	}

@@ -28,9 +28,7 @@ public abstract class MixinEntityPlayer extends MixinEntityLiving implements Pla
 
 	@Override
 	public boolean isNPC() {
-		if (MCWrapper.getPlayer().getInfo(this) == null) {
-			npc = true;
-		}
+		if (npc) npc = MCWrapper.getPlayer().getInfo(this) == null;
 		return npc;
 	}
 
@@ -74,7 +72,7 @@ public abstract class MixinEntityPlayer extends MixinEntityLiving implements Pla
 		return ((PlayerInventory) inventory);
 	}
 
-	private boolean npc = false;
+	private boolean npc = true; //This corrects itself, no worries here!
 
 	private boolean pushedByWater = true;
 

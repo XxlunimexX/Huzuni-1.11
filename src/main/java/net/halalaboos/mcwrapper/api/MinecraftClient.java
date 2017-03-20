@@ -4,6 +4,7 @@ import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.client.Controller;
 import net.halalaboos.mcwrapper.api.client.gui.TextRenderer;
 import net.halalaboos.mcwrapper.api.client.gui.screen.Screen;
+import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.network.NetworkHandler;
 import net.halalaboos.mcwrapper.api.network.ServerInfo;
 import net.halalaboos.mcwrapper.api.util.ResourcePath;
@@ -85,11 +86,15 @@ public interface MinecraftClient {
 
 	TextRenderer getTextRenderer();
 
-	Optional<NetworkHandler> getNetworkHandler();
+	NetworkHandler getNetworkHandler();
 
 	InputStream getInputStream(ResourcePath asset) throws IOException;
 
 	void showScreen(Screen screen);
 
 	File getSaveDirectory();
+
+	boolean shouldShowGui();
+
+	Entity getViewEntity();
 }

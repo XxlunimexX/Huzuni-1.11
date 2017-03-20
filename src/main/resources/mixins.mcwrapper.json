@@ -20,6 +20,7 @@
     "client.gui.MixinFontRenderer",
     "client.gui.MixinGuiNewChat",
     "client.gui.MixinGuiMainMenu",
+    "client.gui.MixinGuiMultiplayer",
     "client.MixinEntityRenderer",
     "entity.MixinEntity",
     "entity.MixinEntityArrow",

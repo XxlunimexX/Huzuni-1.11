@@ -8,6 +8,7 @@ import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.client.Controller;
 import net.halalaboos.mcwrapper.api.client.gui.TextRenderer;
 import net.halalaboos.mcwrapper.api.client.gui.screen.Screen;
+import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.network.NetworkHandler;
 import net.halalaboos.mcwrapper.api.network.ServerInfo;
 import net.halalaboos.mcwrapper.api.util.ResourcePath;
@@ -80,6 +81,10 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Shadow
 	@Final
 	public File mcDataDir;
+
+	@Shadow
+	@Nullable
+	private net.minecraft.entity.Entity renderViewEntity;
 
 	@Inject(method = "run()V", at = @At(value = "INVOKE",
 			target = "Lnet/minecraft/client/Minecraft;init()V",
@@ -195,9 +200,8 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	}
 
 	@Override
-	public Optional<NetworkHandler> getNetworkHandler() {
-		if (getConnection() == null) return Optional.empty();
-		return Optional.of((NetworkHandler) getConnection());
+	public NetworkHandler getNetworkHandler() {
+		return (NetworkHandler) getConnection();
 	}
 
 	@Override
@@ -213,5 +217,14 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Override
 	public File getSaveDirectory() {
 		return mcDataDir;
+	}
+
+	@Override
+	public boolean shouldShowGui() {
+		return Minecraft.isGuiEnabled();
+	}
+
+	public Entity getViewEntity() {
+		return (Entity)renderViewEntity;
 	}
 }
