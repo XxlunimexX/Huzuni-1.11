@@ -37,6 +37,7 @@ public class Autotool extends BasicMod {
 					return itemStack.getStrength(position.getX(), position.getY(), position.getZ()) > 0.055555556F;
 				} else if (weapon.isEnabled() && !digging && hasEntity()) {
 					//TODO
+					return false;
 				} else
 					return false;
 			} else
