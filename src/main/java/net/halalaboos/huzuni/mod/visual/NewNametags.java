@@ -137,16 +137,22 @@ public class NewNametags extends BasicMod implements RenderManager.Renderer {
 
 	private void renderItems(Player player, float rY) {
 		int totalItems = 0;
-
 		glPolygonOffset(1.0F, -2000000.0F);
 		getGLStateManager().enablePolygonOffset();
 		getGLStateManager().enableDepth();
 		getGLStateManager().depthMask(true);
 		getGLStateManager().pushMatrix();
-		for (int i = 0; i < 4; i++) totalItems++;
+		for (int i = 0; i < 4; i++)
+			totalItems++;
 		totalItems++;
 		int itemSize = 18, center = (-itemSize / 2), halfTotalSize = ((totalItems * itemSize) / 2 - itemSize) + (itemSize / 2), count = 0;
 		draw3dItem(player.getHeldItem(Hand.MAIN), (center - halfTotalSize) + itemSize * count + 2, (int) rY - 16);
+		count++;
+		for (int i = 4; i > 0; i--) {
+			ItemStack armor = player.getPlayerInventory().getArmorStack(i - 1);
+			draw3dItem(armor, (center - halfTotalSize) + itemSize * count, (int) rY - 16);
+			count++;
+		}
 		getGLStateManager().popMatrix();
 		getGLStateManager().disablePolygonOffset();
 		getGLStateManager().disableDepth();

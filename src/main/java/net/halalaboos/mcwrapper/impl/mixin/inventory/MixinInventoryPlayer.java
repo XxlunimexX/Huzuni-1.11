@@ -12,8 +12,16 @@ public abstract class MixinInventoryPlayer implements PlayerInventory {
 	@Shadow
 	public abstract net.minecraft.item.ItemStack getStackInSlot(int index);
 
+	@Shadow
+	public abstract net.minecraft.item.ItemStack armorItemInSlot(int slotIn);
+
 	@Override
 	public ItemStack getStack(int slot) {
 		return ((ItemStack)(Object) getStackInSlot(slot));
+	}
+
+	@Override
+	public ItemStack getArmorStack(int slot) {
+		return ((ItemStack)(Object) armorItemInSlot(slot));
 	}
 }

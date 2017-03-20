@@ -6,4 +6,6 @@ public interface PlayerInventory {
 
 	ItemStack getStack(int slot);
 
+	ItemStack getArmorStack(int slot);
+
 }
