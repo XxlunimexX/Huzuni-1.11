@@ -49,7 +49,7 @@ public class GuiTestScreen  extends HuzuniScreen {
     public GuiTestScreen() {
         super();
         // Apply the fonts to the tool box.
-        FontData globalFont = huzuni.resourceCreator.create("font", FONT_GLOBAL.getName(), "RobotoCondensed-Regular.ttf", Font.PLAIN, 20);
+        FontData globalFont = huzuni.resourceCreator.create("font", FONT_GLOBAL.getName(), "RobotoCondensed-Regular.ttf", Font.PLAIN, 18);
         toolbox.put(FONT_TOOLTIP, globalFont);
         toolbox.put(FONT_GLOBAL, globalFont);
         toolbox.put(FONT_TITLE, huzuni.resourceCreator.create("font", FONT_TITLE.getName(), "RobotoCondensed-Bold.ttf", Font.BOLD, 48));

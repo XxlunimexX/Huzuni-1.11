@@ -37,7 +37,7 @@ public class NewNametags extends BasicMod implements RenderManager.Renderer {
 	public NewNametags() {
 		super("Tags", "ignore me pls");
 		setEnabled(true);
-		addChildren(armor, enchants, ping, invisibles, scale, scaleValue, opacity);
+		addChildren(armor, enchants, ping, invisibles, scale, healthMode, scaleValue, opacity);
 		this.settings.setDisplayable(false);
 		armor.setEnabled(true);
 		enchants.setEnabled(true);
