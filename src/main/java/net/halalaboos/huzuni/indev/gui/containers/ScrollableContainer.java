@@ -1,10 +1,10 @@
 package net.halalaboos.huzuni.indev.gui.containers;
 
-import com.sun.javafx.scene.traversal.Direction;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.Toolbox;
 import net.halalaboos.huzuni.indev.gui.actions.Actions;
 import net.halalaboos.huzuni.indev.gui.actions.ClickAction;
+import net.halalaboos.huzuni.indev.gui.actions.Direction;
 import net.halalaboos.huzuni.indev.gui.actions.WheelActionListener;
 import net.halalaboos.huzuni.indev.gui.layouts.ScrollLayout;
 
