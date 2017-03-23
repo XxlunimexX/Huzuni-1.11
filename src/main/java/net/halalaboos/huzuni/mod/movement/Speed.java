@@ -10,11 +10,6 @@ import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.event.player.MoveEvent;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
-import net.minecraft.block.BlockStairs;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import org.lwjgl.input.Keyboard;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
@@ -40,9 +35,9 @@ public class Speed extends BasicMod {
 		mode.setSelectedItem(1);
 		subscribe(PreMotionUpdateEvent.class, event -> {
 			boolean modifyMovement = shouldModifyMovement();
-			mode.getSelectedItem().onUpdate(this, mc, event);
+			mode.getSelectedItem().onUpdate(this, event);
 			if (modifyMovement && getPlayer().isOnGround()) {
-				if ((stairs.isEnabled() && isUnderStairs()) || bunnyHop.isEnabled()) {
+				if ((stairs.isEnabled() && getPlayer().isUnderStairs()) || bunnyHop.isEnabled()) {
 					getPlayer().jump();
 				}
 			}
@@ -51,7 +46,7 @@ public class Speed extends BasicMod {
 			boolean onGround = getPlayer().isOnGround();
 			event.setMotionX(event.getMotionX() * (onGround ? groundSpeed.getValue() : airSpeed.getValue()));
 			event.setMotionZ(event.getMotionZ() * (onGround ? groundSpeed.getValue() : airSpeed.getValue()));
-			mode.getSelectedItem().onPlayerMove(this, mc, event);
+			mode.getSelectedItem().onPlayerMove(this, event);
 		});
 	}
 	
@@ -63,21 +58,6 @@ public class Speed extends BasicMod {
 	@Override
 	public String getDisplayNameForRender() {
 		return settings.getDisplayName() + String.format(" (%s)", mode.getSelectedItem());
-	}
-	/**
-     * @return True if the player is underneath stairs.
-     * */
-	private boolean isUnderStairs() {
-		EnumFacing face = mc.player.getHorizontalFacing();
-		IBlockState blockState = mc.world.getBlockState(new BlockPos(mc.player.posX, mc.player.posY - 1, mc.player.posZ));
-		IBlockState nextBlockState = mc.world.getBlockState(new BlockPos(mc.player.posX + face.getDirectionVec().getX(), mc.player.posY, mc.player.posZ + face.getDirectionVec().getZ()));
-
-		if (BlockStairs.isBlockStairs(blockState) && BlockStairs.isBlockStairs(nextBlockState)) {
-			EnumFacing blockFace = blockState.getValue(BlockStairs.FACING);
-			EnumFacing nextBlockFace = blockState.getValue(BlockStairs.FACING);
-			return face.equals(blockFace) && face.equals(nextBlockFace);
-		} else
-			return false;
 	}
 
 	/**
@@ -99,12 +79,12 @@ public class Speed extends BasicMod {
         }
 
         @Override
-        public void onUpdate(Speed speed, Minecraft mc, PreMotionUpdateEvent event) {
+        public void onUpdate(Speed speed, PreMotionUpdateEvent event) {
 			getPlayer().setSprinting(speed.shouldModifyMovement());
         }
 
         @Override
-        public void onPlayerMove(Speed speed, Minecraft mc, MoveEvent event) {
+        public void onPlayerMove(Speed speed, MoveEvent event) {
 
         }
     }
@@ -119,12 +99,12 @@ public class Speed extends BasicMod {
         }
 
         @Override
-        public void onUpdate(Speed speed, Minecraft mc, PreMotionUpdateEvent event) {
+        public void onUpdate(Speed speed, PreMotionUpdateEvent event) {
 
         }
 
         @Override
-        public void onPlayerMove(Speed speed, Minecraft mc, MoveEvent event) {
+        public void onPlayerMove(Speed speed, MoveEvent event) {
 
         }
     }
@@ -144,12 +124,12 @@ public class Speed extends BasicMod {
         /**
          * Invoked before and after sending motion updates.
          * */
-        public abstract void onUpdate(Speed speed, Minecraft mc, PreMotionUpdateEvent event);
+        public abstract void onUpdate(Speed speed, PreMotionUpdateEvent event);
 
         /**
          * Invoked when the player moves.
          * */
-        public abstract void onPlayerMove(Speed speed, Minecraft mc, MoveEvent event);
+        public abstract void onPlayerMove(Speed speed, MoveEvent event);
 
         @Override
         public String getName() {

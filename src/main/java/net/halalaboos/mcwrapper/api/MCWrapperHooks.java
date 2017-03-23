@@ -5,7 +5,6 @@ import net.halalaboos.mcwrapper.api.event.input.MouseEvent;
 import net.halalaboos.mcwrapper.api.event.world.WorldLoadEvent;
 import net.halalaboos.mcwrapper.api.util.MouseButton;
 import net.halalaboos.mcwrapper.api.world.World;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getEventManager;
 
@@ -21,9 +20,5 @@ public class MCWrapperHooks {
 
 	public static void joinWorld(World world) {
 		getEventManager().publish(new WorldLoadEvent(world));
-	}
-
-	public static void debug(CallbackInfo ci) {
-
 	}
 }

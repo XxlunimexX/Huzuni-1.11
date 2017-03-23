@@ -10,6 +10,7 @@ import net.halalaboos.mcwrapper.impl.Convert;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.MoverType;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
 import org.spongepowered.asm.mixin.*;
@@ -67,6 +68,8 @@ import java.util.UUID;
 
 	@Shadow public boolean isPushedByWater() { return true; }
 	@Shadow public void move(MoverType type, double x, double y, double z){}
+
+	@Shadow public abstract EnumFacing getHorizontalFacing();
 
 	private AABB aabb;
 

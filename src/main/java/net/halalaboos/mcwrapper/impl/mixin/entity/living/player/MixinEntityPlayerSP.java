@@ -10,11 +10,15 @@ import net.halalaboos.mcwrapper.api.event.player.MoveEvent;
 import net.halalaboos.mcwrapper.api.event.player.PostMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;
+import net.minecraft.block.BlockStairs;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.MoverType;
 import net.minecraft.network.play.client.CPacketChatMessage;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.MovementInput;
+import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -94,6 +98,20 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 		MCWrapper.getEventManager().publish(event);
 		super.move(type, event.getMotionX(), event.getMotionY(), event.getMotionZ());
 		this.updateAutoJump((float)(this.posX - d0), (float)(this.posZ - d1));
+	}
+
+	@Override
+	public boolean isUnderStairs() {
+		EnumFacing face = getHorizontalFacing();
+		IBlockState blockState = world.getBlockState(new BlockPos(posX, posY - 1, posZ));
+		IBlockState nextBlockState = world.getBlockState(new BlockPos(posX + face.getDirectionVec().getX(), posY, posZ + face.getDirectionVec().getZ()));
+
+		if (BlockStairs.isBlockStairs(blockState) && BlockStairs.isBlockStairs(nextBlockState)) {
+			EnumFacing blockFace = blockState.getValue(BlockStairs.FACING);
+			EnumFacing nextBlockFace = blockState.getValue(BlockStairs.FACING);
+			return face.equals(blockFace) && face.equals(nextBlockFace);
+		} else
+			return false;
 	}
 
 	@Override

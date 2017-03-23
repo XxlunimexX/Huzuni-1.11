@@ -11,6 +11,8 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 public class NoSlowdown extends BasicMod {
 
+	//TODO - Webs and Soul Sand
+
 	private final Toggleable itemUse = new Toggleable("Item Use", "Move at normal speeds using items.");
 	private final Toggleable fastIce = new Toggleable("Fast Ice", "Move on ice at normal (or fast) speeds.");
 	private final Value iceSpeed = new Value("Ice Slipperiness", 0.3F, 0.45F, 0.98F, 0.1F, "The lower, the faster.");

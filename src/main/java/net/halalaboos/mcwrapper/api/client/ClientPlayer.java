@@ -82,4 +82,6 @@ public interface ClientPlayer extends Player {
 	boolean getItemUseSlowdown();
 
 	void setPushable(boolean pushed);
+
+	boolean isUnderStairs();
 }
