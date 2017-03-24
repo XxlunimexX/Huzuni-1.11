@@ -5,13 +5,18 @@ import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.network.NetworkHandler;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;
+import net.halalaboos.mcwrapper.api.util.DigAction;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
+import net.halalaboos.mcwrapper.impl.Convert;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.network.play.client.CPacketClientStatus;
+import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -71,5 +76,11 @@ public abstract class MixinNetHandlerPlayClient implements NetworkHandler {
 	public Optional<PlayerInfo> getInfo(UUID uuid) {
 		if (getPlayerInfo(uuid) == null) return Optional.empty();
 		return Optional.of((PlayerInfo) getPlayerInfo(uuid));
+	}
+
+	@Override
+	public void sendDigging(DigAction action, Vector3i pos, int face) {
+		sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.values()[action.ordinal()],
+				Convert.to(pos), EnumFacing.values()[face]));
 	}
 }

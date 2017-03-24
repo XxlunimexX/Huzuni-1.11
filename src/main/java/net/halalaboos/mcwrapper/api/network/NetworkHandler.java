@@ -1,5 +1,8 @@
 package net.halalaboos.mcwrapper.api.network;
 
+import net.halalaboos.mcwrapper.api.util.DigAction;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
+
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
@@ -29,4 +32,5 @@ public interface NetworkHandler {
 
 	Optional<PlayerInfo> getInfo(UUID uuid);
 
+	void sendDigging(DigAction action, Vector3i pos, int face);
 }

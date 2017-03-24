@@ -4,79 +4,53 @@ import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
-import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
-import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
-import net.halalaboos.mcwrapper.api.event.player.PostMotionUpdateEvent;
-import net.halalaboos.mcwrapper.api.util.math.Vector3i;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.network.play.client.CPacketPlayerDigging;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
+import net.halalaboos.mcwrapper.api.event.player.BlockDigEvent;
+import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
+import net.halalaboos.mcwrapper.api.util.DigAction;
 import org.lwjgl.input.Keyboard;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getController;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
- * Modifies player mine speed on all blocks.
- * */
+ * Adjusts the player's mining speed, as well as give the option to modify the wait time between breaking blocks,
+ * and disable the slowdown from mining while jumping/falling.
+ */
 public class Speedmine extends BasicMod {
 
-	public final Value speed = new Value("Mine speed", 1F, 1F, 2F, "Mine speed modifier");
-	public final Value breakPercent = new Value("Break Percent", 0F, 97F, 100F, 1F, "Block damage percent to break at");
-	public final Value hitDelay = new Value("Hit Delay", 0F, 0F, 5F, 1F, "The delay between breaking blocks.");
+	private final Value speed = new Value("Mine speed", 1F, 1F, 2F, "Mine speed modifier");
+	private final Value breakPercent = new Value("Break Percent", 0F, 97F, 100F, 1F, "Block damage percent to break at");
+	private final Value hitDelay = new Value("Hit Delay", 0F, 0F, 5F, 1F, "The delay between breaking blocks.");
 	private final Toggleable noSlow = new Toggleable("No Slowdown", "Allows you to dig under yourself quicker.");
-
-	private boolean digging = false;
-
-	private float curBlockDamage = 0;
-
-	private EnumFacing facing;
-
-	private BlockPos position;
 
 	public Speedmine() {
 		super("Speedmine", "Mines blocks at a faster rate", Keyboard.KEY_V);
 		this.setCategory(Category.MINING);
 		setAuthor("Halalaboos");
 		this.addChildren(speed, breakPercent, hitDelay, noSlow);
-		subscribe(PacketSendEvent.class, this::onPacket);
-		subscribe(PostMotionUpdateEvent.class, this::updateDigging);
-	}
-
-	private void onPacket(PacketSendEvent event) {
-		if (getController() != null && getController().getGameType() != GameType.CREATIVE) {
-			if (event.getPacket() instanceof CPacketPlayerDigging) {
-				CPacketPlayerDigging packet = (CPacketPlayerDigging) event.getPacket();
-				if (packet.getAction() == CPacketPlayerDigging.Action.START_DESTROY_BLOCK) {
-					digging = true;
-					this.position = packet.getPosition();
-					this.facing = packet.getFacing();
-					this.curBlockDamage = 0;
-				} else if (packet.getAction() == CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK || packet.getAction() == CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK) {
-					digging = false;
-					this.position = null;
-					this.facing = null;
-				}
-			}
-		}
-	}
-
-	private void updateDigging(PostMotionUpdateEvent event) {
-		if (getController().getHitDelay() > hitDelay.getValue()) {
-			getController().setHitDelay(((int) hitDelay.getValue()));
-		}
-		if (digging) {
-			IBlockState blockState = this.mc.world.getBlockState(position);
+		//For adjusting the mining speed
+		subscribe(BlockDigEvent.class, event -> {
+			//If no slowdown is enabled, then we will multiply the dig speed by 5 if we aren't on the ground
 			float multiplier = noSlow.isEnabled() && getPlayer().getFallDistance() <= 1F
 					&& getPlayer().getFallDistance() > 0 ? 5F : 1F;
-			curBlockDamage += blockState.getPlayerRelativeBlockHardness(this.mc.player, this.mc.world, this.position) * (speed.getValue()) * multiplier;
-			if (curBlockDamage >= breakPercent.getValue() / 100F) {
-				getController().onBlockDestroy(new Vector3i(position.getX(), position.getY(), position.getZ()));
-				mc.getConnection().sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK, this.position, this.facing));
-				curBlockDamage = 0F;
-				digging = false;
+			//Set the event dig multiplier to the no slowdown multiplier, and multiply that by our speed value
+			event.multiplier = multiplier * speed.getValue();
+			//If the current block break progress is greater than or equal to our break percent value...
+			if (event.progress >= breakPercent.getValue() / 100F) {
+				//Do the client-side block destroying
+				getController().onBlockDestroy(event.position);
+				//And tell the server we broke the block too
+				getMinecraft().getNetworkHandler().sendDigging(DigAction.COMPLETE, event.position, event.faceOrdinal);
 			}
-		}
+		});
+		//For applying the hit delay
+		subscribe(PreMotionUpdateEvent.class, event -> {
+			//If our current block hit delay is greater than the hitdelay value...
+			if (getController().getHitDelay() > hitDelay.getValue()) {
+				//Change it to the hit delay value.
+				getController().setHitDelay(((int) hitDelay.getValue()));
+			}
+		});
 	}
 }

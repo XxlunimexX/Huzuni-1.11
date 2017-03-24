@@ -46,7 +46,6 @@ public class Speed extends BasicMod {
 			boolean onGround = getPlayer().isOnGround();
 			event.setMotionX(event.getMotionX() * (onGround ? groundSpeed.getValue() : airSpeed.getValue()));
 			event.setMotionZ(event.getMotionZ() * (onGround ? groundSpeed.getValue() : airSpeed.getValue()));
-			mode.getSelectedItem().onPlayerMove(this, event);
 		});
 	}
 	
@@ -82,11 +81,6 @@ public class Speed extends BasicMod {
         public void onUpdate(Speed speed, PreMotionUpdateEvent event) {
 			getPlayer().setSprinting(speed.shouldModifyMovement());
         }
-
-        @Override
-        public void onPlayerMove(Speed speed, MoveEvent event) {
-
-        }
     }
 
     /**
@@ -100,11 +94,6 @@ public class Speed extends BasicMod {
 
         @Override
         public void onUpdate(Speed speed, PreMotionUpdateEvent event) {
-
-        }
-
-        @Override
-        public void onPlayerMove(Speed speed, MoveEvent event) {
 
         }
     }
@@ -125,11 +114,6 @@ public class Speed extends BasicMod {
          * Invoked before and after sending motion updates.
          * */
         public abstract void onUpdate(Speed speed, PreMotionUpdateEvent event);
-
-        /**
-         * Invoked when the player moves.
-         * */
-        public abstract void onPlayerMove(Speed speed, MoveEvent event);
 
         @Override
         public String getName() {

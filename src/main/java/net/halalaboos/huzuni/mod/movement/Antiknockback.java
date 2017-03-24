@@ -93,8 +93,6 @@ public class Antiknockback extends BasicMod {
 	 * @return The new Vector with adjusted velocity
 	 */
 	private Vector3d adjustVelocity(Vector3d velocity, float percent) {
-//		return new Vector3d(percent * (velocity.getX() / 8000), percent * (velocity.getY() / 8000),
-//				percent * (velocity.getZ() / 8000));
 		return velocity.div(8000).scale(percent);
 	}
 }
