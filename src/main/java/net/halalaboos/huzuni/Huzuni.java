@@ -26,11 +26,7 @@ import net.halalaboos.huzuni.mod.visual.*;
 import net.halalaboos.huzuni.api.gui.MinecraftFontRenderer;
 import net.halalaboos.huzuni.mod.visual.NewNametags;
 import net.halalaboos.mcwrapper.api.MCWrapper;
-import net.halalaboos.mcwrapper.api.MinecraftAdapter;
 import net.halalaboos.mcwrapper.api.util.TextColor;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -46,43 +42,40 @@ public enum Huzuni {
 	INSTANCE;
 
 	public static final int BUILD_NUMBER = 21;
-
 	public static String NAME = "Huzuni";
-
 	public static final String VERSION = NAME + " 5.0.3";
-
 	public static final String ASSETS_LOCATION = "/assets/minecraft/huzuni/";
 
 	public static final Logger LOGGER = LogManager.getLogger("Huzuni");
-	
+
 	private final Patcher patcher = new Patcher();
-		
+
 	public final PluginManager pluginManager = new PluginManager();
-		
+
 	public final ModManager modManager = new ModManager(this);
-	
+
 	public final CommandManager commandManager = new CommandManager(this);
-	
+
 	public final FriendManager friendManager = new FriendManager(this);
-	
+
 	public final KeybindManager keybindManager = new KeybindManager();
-	
+
 	public final RenderManager renderManager = new RenderManager(this);
-	
+
 	public final WaypointManager waypointManager = new WaypointManager(this);
-	
+
 	public final CapeManager capeManager = new CapeManager(this);
-	
+
 	public final MemeManager memeManager = new MemeManager(this);
 
 	public final TaskManager<LookTask> lookManager = new TaskManager<>("Look Manager", "Manage which mods will prioritize when modifying the player rotation.");
-	
+
 	public final HotbarManager hotbarManager = new HotbarManager();
 
 	public final TaskManager<ClickTask> clickManager = new TaskManager<>("Click Manager", "Manage which mods will prioritize when sending window clicks.");
 
 	public final GuiManager guiManager = new GuiManager();
-	
+
 	public final HuzuniSettings settings = new HuzuniSettings(this);
 
 	public final MinecraftFontRenderer guiFontRenderer = new MinecraftFontRenderer(), chatFontRenderer = new MinecraftFontRenderer();
@@ -93,8 +86,6 @@ public enum Huzuni {
 
 	private File saveFolder = null;
 
-	public static final MinecraftAdapter ADAPTER = MCWrapper.getAdapter();
-
     Huzuni() {}
 
     /**
@@ -102,7 +93,6 @@ public enum Huzuni {
      * */
 	public void start() {
 		File folder = getMinecraft().getSaveDirectory();
-
 		guiFontRenderer.setFont(new Font("Verdana", Font.PLAIN, 18), true);
 		chatFontRenderer.setFont(new Font("Verdana", Font.PLAIN, 18), true);
 		guiManager.init();
@@ -227,18 +217,11 @@ public enum Huzuni {
 	 * Prints the message to the in-game chat.
 	 * */
 	public void addChatMessage(String message) {
-        addChatMessage(new TextComponentString(TextColor.BLUE + "[H] " + TextColor.GRAY + message));
+		MCWrapper.getMinecraft().printMessage(TextColor.BLUE + "[H] " + TextColor.GRAY + message);
 	}
 
 	public void addFormattedMessage(String message, Object... args) {
 		addChatMessage(String.format(message, args));
-	}
-
-	/**
-     * Adds the text component to the in-game chat.
-     * */
-	public void addChatMessage(ITextComponent component) {
-		Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(component);
 	}
 
 	/**

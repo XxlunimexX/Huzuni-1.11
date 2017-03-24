@@ -97,4 +97,6 @@ public interface MinecraftClient {
 	boolean shouldShowGui();
 
 	Entity getViewEntity();
+
+	void printMessage(String message);
 }

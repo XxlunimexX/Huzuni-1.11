@@ -31,6 +31,7 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Timer;
+import net.minecraft.util.text.TextComponentString;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.spongepowered.asm.mixin.Final;
@@ -226,5 +227,10 @@ public abstract class MixinMinecraft implements MinecraftClient {
 
 	public Entity getViewEntity() {
 		return (Entity)renderViewEntity;
+	}
+
+	@Override
+	public void printMessage(String message) {
+		ingameGUI.getChatGUI().printChatMessage(new TextComponentString(message));
 	}
 }
