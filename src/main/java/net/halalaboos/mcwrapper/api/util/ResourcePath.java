@@ -1,5 +1,10 @@
 package net.halalaboos.mcwrapper.api.util;
 
+import net.halalaboos.mcwrapper.api.MCWrapper;
+
+import java.io.IOException;
+import java.io.InputStream;
+
 public class ResourcePath {
 
 	private final String DOMAIN;
@@ -46,5 +51,14 @@ public class ResourcePath {
 	@Override
 	public String toString() {
 		return DOMAIN + ":" + PATH;
+	}
+
+	public InputStream getInputStream() {
+		try {
+			return MCWrapper.getMinecraft().getInputStream(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

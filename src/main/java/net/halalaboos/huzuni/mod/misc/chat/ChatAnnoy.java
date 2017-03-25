@@ -12,7 +12,7 @@ import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.ExperienceOrb;
 import net.halalaboos.mcwrapper.api.entity.ItemPickup;
 import net.halalaboos.mcwrapper.api.event.network.PacketReadEvent;
-import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
+import net.halalaboos.mcwrapper.api.event.player.BlockDigEvent;
 import net.halalaboos.mcwrapper.api.event.player.PostMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.network.NetworkHandler;
@@ -20,8 +20,6 @@ import net.halalaboos.mcwrapper.api.network.PlayerInfo;
 import net.halalaboos.mcwrapper.api.network.packet.server.ItemPickupPacket;
 import net.halalaboos.mcwrapper.api.util.ResourcePath;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
-import net.minecraft.network.play.client.CPacketPlayerDigging;
-import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nullable;
 import java.io.*;
@@ -34,8 +32,6 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
 /**
  * Randomly sends messages in chat under certain circumstances to annoy other players.
- *
- * TODO: Remove minecraft code
  */
 public class ChatAnnoy extends BasicMod {
 
@@ -66,15 +62,7 @@ public class ChatAnnoy extends BasicMod {
 		pickup.setEnabled(true);
 		lastSentMessages.put("pickup", "");
 		lastSentMessages.put("dig", "");
-		subscribe(PacketSendEvent.class, event -> {
-			if (timer.hasReach(1500) && random.nextBoolean()) {
-				if (dig.isEnabled() && event.getPacket() instanceof CPacketPlayerDigging) {
-					//todo dig wrapper
-					CPacketPlayerDigging packet = (CPacketPlayerDigging) event.getPacket();
-					alertDigging(packet);
-				}
-			}
-		});
+		subscribe(BlockDigEvent.class, this::alertDigging);
 		subscribe(PacketReadEvent.class, event -> {
 			if (pickup.isEnabled() && timer.hasReach(250) && random.nextBoolean()) {
 				if (event.getPacket() instanceof ItemPickupPacket) {
@@ -95,7 +83,7 @@ public class ChatAnnoy extends BasicMod {
 		lastSentMessages.put("time", getCurrentTime());
 		if (messageMap.isEmpty()) {
 			try {
-				loadMessages(getMinecraft().getInputStream(new ResourcePath("huzuni/chatannoy.json")));
+				loadMessages(new ResourcePath("huzuni/chatannoy.json").getInputStream());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -120,12 +108,13 @@ public class ChatAnnoy extends BasicMod {
 	 * Randomly sends a chat message when the Player mines a Block.
 	 * @param digging The digging packet
 	 */
-	private void alertDigging(CPacketPlayerDigging digging) {
+	private void alertDigging(BlockDigEvent digging) {
+		if (!timer.hasReach(1500) && random.nextBoolean() && dig.isEnabled()) return;
 		//Check if the player has (pretty much) broken a block and also an additional random check
 		if (getController().getBlockDamage() >= 0.9F && random.nextBoolean()) {
-			BlockPos pos = digging.getPosition();
+			Vector3i pos = digging.position;
 			//The block the Player broke
-			Block block = getWorld().getBlock(new Vector3i(pos.getX(), pos.getY(), pos.getZ()));
+			Block block = getWorld().getBlock(pos);
 			//The name of the Block
 			String name = block.name();
 			//Check if the Block isn't air and the last block we sent to chat isn't the same as this one
@@ -220,9 +209,8 @@ public class ChatAnnoy extends BasicMod {
 	private String getRandomPlayer() {
 		NetworkHandler networkHandler = getMinecraft().getNetworkHandler();
 
-		//Checks if you're in singleplayer, then will just return "you"
-		if (!getMinecraft().isRemote())
-			return "you";
+		//Checks if you're in singleplayer, then will just return your name
+		if (!getMinecraft().isRemote()) return getPlayer().name();
 
 		//The connected players
 		List<PlayerInfo> list = new ArrayList<>(networkHandler.getPlayers());
@@ -234,8 +222,7 @@ public class ChatAnnoy extends BasicMod {
 		String out = randomPlayer.getName(false);
 
 		//Check if the output is the your name
-		if (out.equals(getPlayer().name()))
-			return getRandomPlayer(); //If so, try again!
+		if (out.equals(getPlayer().name())) return getRandomPlayer(); //If so, try again!
 
 		//Otherwise, return the output
 		return out;

@@ -24,6 +24,7 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 @Mixin(net.minecraft.world.World.class) public abstract class MixinWorld implements World {
 
 	@Shadow public abstract boolean setBlockToAir(BlockPos pos);
