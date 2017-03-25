@@ -1,7 +1,8 @@
 package net.halalaboos.huzuni.mod.commands;
 
 import net.halalaboos.huzuni.api.mod.BasicCommand;
-import net.halalaboos.mcwrapper.api.MCWrapper;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 public final class GetBrand extends BasicCommand {
 	
@@ -12,10 +13,10 @@ public final class GetBrand extends BasicCommand {
 
 	@Override
 	protected void runCommand(String input, String[] args) {
-		if (!MCWrapper.getMinecraft().isRemote()) {
+		if (!getMinecraft().isRemote()) {
 			huzuni.addChatMessage("You're not connected to a server!");
 		} else {
-			huzuni.addChatMessage("Brand: " + MCWrapper.getPlayer().getBrand());
+			huzuni.addChatMessage("Brand: " + getPlayer().getBrand());
 		}
 	}
 }

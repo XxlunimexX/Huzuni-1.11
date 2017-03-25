@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.mod.commands;
 
 import net.halalaboos.huzuni.api.mod.BasicCommand;
-import net.minecraft.client.gui.GuiScreen;
+import net.halalaboos.mcwrapper.api.util.SystemUtils;
 
 public final class Lenny extends BasicCommand {
 
@@ -11,7 +11,7 @@ public final class Lenny extends BasicCommand {
 	
 	@Override
 	protected void runCommand(String input, String[] args) {
-		GuiScreen.setClipboardString("( ͡° ͜ʖ ͡°)");
+		SystemUtils.copyToClipboard("( ͡° ͜ʖ ͡°)");
 		huzuni.addChatMessage("Copied to clipboard.");
 	}
 

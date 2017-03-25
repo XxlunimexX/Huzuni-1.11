@@ -71,6 +71,8 @@ import java.util.UUID;
 
 	@Shadow public abstract EnumFacing getHorizontalFacing();
 
+	@Shadow public abstract void setPositionAndUpdate(double x, double y, double z);
+
 	private AABB aabb;
 
 	@Inject(method = "setEntityBoundingBox", at = @At("HEAD"))
@@ -217,7 +219,7 @@ import java.util.UUID;
 
 	@Override
 	public void setLocation(Vector3d location) {
-		setPosition(location.getX(), location.getY(), location.getZ());
+		setPositionAndUpdate(location.getX(), location.getY(), location.getZ());
 	}
 
 	@Override

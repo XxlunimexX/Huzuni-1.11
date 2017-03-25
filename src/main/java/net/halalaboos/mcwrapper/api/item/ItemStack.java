@@ -29,6 +29,8 @@ public interface ItemStack extends Nameable {
 
 	float getStrength(int x, int y, int z);
 
+	void addEnchant(String enchantmentName, short level);
+
 	static Builder getBuilder() {
 		return MCWrapper.getAdapter().getBuilder(Builder.class);
 	}

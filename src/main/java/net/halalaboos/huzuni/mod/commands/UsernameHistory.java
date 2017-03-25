@@ -26,27 +26,24 @@ public final class UsernameHistory extends BasicCommand {
 	@Override
 	protected void runCommand(String input, String[] args) {
 		final String name = args[0];
-		new Thread() {
-			@Override
-			public void run() {
-				try {
-					String uuid = grabUUID(name);
-					String names = FileUtils.readURL(new URL("https://api.mojang.com/user/profiles/" + uuid + "/names"));
-					if (names.isEmpty()) {
-						huzuni.addChatMessage(name + " has had no username changes.");
-					} else {
-						Collection<GameProfile> profiles = new Gson().fromJson(names, new TypeToken<Collection<GameProfile>>(){}.getType());
-						String output = "";
-						for (GameProfile profile : profiles)
-							output += "\"" + profile.getName() + "\", ";
-						huzuni.addChatMessage(TextColor.GOLD + name + TextColor.RESET + " has had the usernames: " + output.substring(0, output.length() - 2) + ".");
-					}
-				} catch (Exception e) {
-					huzuni.addChatMessage("Failed to look up user.");
-					e.printStackTrace();
+		new Thread(() -> {
+			try {
+				String uuid = grabUUID(name);
+				String names = FileUtils.readURL(new URL("https://api.mojang.com/user/profiles/" + uuid + "/names"));
+				if (names.isEmpty()) {
+					huzuni.addChatMessage(name + " has had no username changes.");
+				} else {
+					Collection<GameProfile> profiles = new Gson().fromJson(names, new TypeToken<Collection<GameProfile>>(){}.getType());
+					String output = "";
+					for (GameProfile profile : profiles)
+						output += "\"" + profile.getName() + "\", ";
+					huzuni.addChatMessage(TextColor.GOLD + name + TextColor.RESET + " has had the usernames: " + output.substring(0, output.length() - 2) + ".");
 				}
+			} catch (Exception e) {
+				huzuni.addChatMessage("Failed to look up user.");
+				e.printStackTrace();
 			}
-		}.start();
+		}).start();
 	}
 
 	private String grabUUID(String name) {

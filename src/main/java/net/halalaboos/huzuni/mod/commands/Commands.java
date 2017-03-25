@@ -6,7 +6,6 @@ import net.halalaboos.mcwrapper.api.util.TextColor;
 
 /**
  * @author brudin
- * @version 1.0
  * @since 5/17/14
  */
 public final class Commands extends BasicCommand {

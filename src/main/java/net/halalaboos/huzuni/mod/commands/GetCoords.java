@@ -2,11 +2,10 @@ package net.halalaboos.huzuni.mod.commands;
 
 import net.halalaboos.huzuni.api.mod.BasicCommand;
 import net.halalaboos.mcwrapper.api.MCWrapper;
-import net.minecraft.client.gui.GuiScreen;
+import net.halalaboos.mcwrapper.api.util.SystemUtils;
 
 /**
  * @author brudin
- * @version 1.0
  * @since 4/14/14
  */
 public final class GetCoords extends BasicCommand {
@@ -20,6 +19,6 @@ public final class GetCoords extends BasicCommand {
 	protected void runCommand(String input, String[] args) {
 		String coords = MCWrapper.getPlayer().getCoordinates();
 		huzuni.addChatMessage(coords + " copied to your clipboard.");
-		GuiScreen.setClipboardString(coords);
+		SystemUtils.copyToClipboard(coords);
 	}
 }

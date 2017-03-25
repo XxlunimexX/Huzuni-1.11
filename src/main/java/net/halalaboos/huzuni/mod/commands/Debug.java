@@ -9,7 +9,6 @@ import net.halalaboos.mcwrapper.api.item.ItemTypes;
 import net.halalaboos.mcwrapper.api.potion.Potion;
 import net.halalaboos.mcwrapper.api.potion.PotionEffect;
 import net.halalaboos.mcwrapper.impl.Convert;
-import net.minecraft.util.text.translation.I18n;
 
 import static net.halalaboos.huzuni.indev.gui.impl.Pointers.IMAGE_ARROW;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getAdapter;
@@ -50,12 +49,5 @@ public class Debug extends BasicCommand {
 		System.out.println(output);*/
 //		huzuni.addChatMessage(Boolean.toString(huzuni.resourceCreator.create(args[0], args[1])));
 
-		String mcwrapperBB = getPlayer().getBoundingBox().offset(1, 0, 0).toString();
-		String mcBB = mc.player.getEntityBoundingBox().offset(1, 0, 0).toString();
-
-		System.out.println("WRAPPER-----");
-		System.out.println(mcwrapperBB);
-		System.out.println("VANILLA-----");
-		System.out.println(mcBB);
 	}
 }

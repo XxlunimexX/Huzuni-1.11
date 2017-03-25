@@ -1,14 +1,21 @@
 package net.halalaboos.mcwrapper.impl.mixin.item;
 
+import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.item.Item;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.translation.I18n;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+
+import javax.annotation.Nullable;
 
 @Mixin(net.minecraft.item.ItemStack.class)
 public abstract class MixinItemStack implements ItemStack {
@@ -28,6 +35,10 @@ public abstract class MixinItemStack implements ItemStack {
 
 	@Shadow
 	public abstract float getStrVsBlock(IBlockState blockIn);
+
+	@Shadow @Nullable public abstract NBTTagCompound getTagCompound();
+
+	@Shadow public abstract void setTagCompound(@Nullable NBTTagCompound nbt);
 
 	private Minecraft mc = Minecraft.getMinecraft();
 
@@ -89,6 +100,36 @@ public abstract class MixinItemStack implements ItemStack {
 	@Override
 	public boolean empty() {
 		return isEmpty();
+	}
+
+	@Override
+	public void addEnchant(String enchantmentName, short level) {
+		Enchantment enchantment = get(enchantmentName);
+		if (enchantment != null) {
+			if (getTagCompound() == null) {
+				setTagCompound(new NBTTagCompound());
+			}
+			if (!getTagCompound().hasKey("ench", 9)) {
+				getTagCompound().setTag("ench", new NBTTagList());
+			}
+			NBTTagList nbttaglist = getTagCompound().getTagList("ench", 10);
+			NBTTagCompound nbttagcompound = new NBTTagCompound();
+			nbttagcompound.setShort("id", (short)Enchantment.getEnchantmentID(enchantment));
+			nbttagcompound.setShort("lvl", level);
+			nbttaglist.appendTag(nbttagcompound);
+			MCWrapper.getController().update();
+		}
+	}
+
+	private Enchantment get(String name) {
+		for (Enchantment enchantment : Enchantment.REGISTRY) {
+			String translatedName = I18n.translateToLocal(enchantment.getName());
+			if (translatedName.equalsIgnoreCase(name)
+					|| translatedName.replaceAll(" ", "").equalsIgnoreCase(name)) {
+				return enchantment;
+			}
+		}
+		return null;
 	}
 
 	private net.minecraft.item.ItemStack getMCItemStack() {
