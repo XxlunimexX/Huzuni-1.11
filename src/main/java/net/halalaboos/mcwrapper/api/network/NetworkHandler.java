@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.api.network;
 
+import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.util.DigAction;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
@@ -33,4 +34,6 @@ public interface NetworkHandler {
 	Optional<PlayerInfo> getInfo(UUID uuid);
 
 	void sendDigging(DigAction action, Vector3i pos, int face);
+
+	void sendSwing(Hand hand);
 }

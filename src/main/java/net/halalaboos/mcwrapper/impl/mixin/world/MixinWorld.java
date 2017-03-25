@@ -9,6 +9,7 @@ import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.halalaboos.mcwrapper.api.world.World;
 import net.halalaboos.mcwrapper.impl.Convert;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -37,6 +38,8 @@ import java.util.List;
 
 	@Shadow
 	public abstract List<AxisAlignedBB> getCollisionBoxes(@Nullable net.minecraft.entity.Entity entityIn, AxisAlignedBB aabb);
+
+	@Shadow public abstract void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress);
 
 	@Override
 	public void setToAir(Vector3i pos) {
@@ -83,5 +86,21 @@ import java.util.List;
 	public boolean isOffsetBBEmpty(Vector3d offset) {
 		EntityPlayerSP playerSP = Minecraft.getMinecraft().player;
 		return getCollisionBoxes(playerSP, playerSP.getEntityBoundingBox().offset(offset.getX(), offset.getY(), offset.getZ())).isEmpty();
+	}
+
+	@Override
+	public boolean blockExists(Vector3i pos) {
+		return getBlockState(Convert.to(pos)).getMaterial() != Material.AIR;
+	}
+
+	@Override
+	public void sendBreakProgress(Vector3i pos, int progress) {
+		sendBlockBreakProgress(Minecraft.getMinecraft().player.getEntityId(), Convert.to(pos), progress);
+	}
+
+	@Override
+	public float getRelativeHardness(Vector3i pos) {
+		IBlockState state = getBlockState(Convert.to(pos));
+		return state.getPlayerRelativeBlockHardness(Minecraft.getMinecraft().player, (net.minecraft.world.World)(Object)this, Convert.to(pos));
 	}
 }

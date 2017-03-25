@@ -1,16 +1,16 @@
 package net.halalaboos.huzuni.api.task;
 
 import net.halalaboos.huzuni.api.node.Nameable;
-import net.halalaboos.huzuni.api.util.MathUtils;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.mod.movement.Freecam;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.network.play.client.CPacketAnimation;
-import net.minecraft.network.play.client.CPacketPlayerDigging;
+import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
+import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
+import net.halalaboos.mcwrapper.api.util.DigAction;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
 /**
  * Look task which can take block data and simulate server-sided mining.
@@ -21,7 +21,7 @@ public class MineTask extends LookTask {
 	
 	protected EnumFacing face;
 	
-	protected BlockPos position;
+	protected Vector3i position;
 		
 	protected float curBlockDamage = 0F;
 	
@@ -34,17 +34,10 @@ public class MineTask extends LookTask {
 		addDependency("main_interact");
 	}
 	
-	public MineTask(Nameable handler, BlockPos position, EnumFacing face) {
-		super(handler, position.getX(), position.getY(), position.getZ());
-		addDependency("main_interact");
-		this.position = position;
-		this.face = face;
-	}
-	
 	@Override
 	public void onPreUpdate() {
 		if (timer.hasReach(mineDelay) && hasBlock() && !Freecam.INSTANCE.isEnabled()) {
-			this.setRotations(position, face);
+			this.setRotations(new BlockPos(position.getX(), position.getY(), position.getZ()), face); //TODO - IMPORTANT!
 			super.onPreUpdate();
 		}
 	}
@@ -56,29 +49,28 @@ public class MineTask extends LookTask {
 			if (!blockExists() || !isWithinDistance()) {
 				if (digging) {
 					sendPacket(1);
-					onTaskFinishPremature(position, face);
+					onTaskFinishPremature();
 				}
 				reset();
 				return;
 			}
-			IBlockState blockState = getBlockState();
-			mc.getConnection().sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
+			getMinecraft().getNetworkHandler().sendSwing(Hand.MAIN);
 			if (curBlockDamage <= 0F) {
 				digging = true;
 				sendPacket(0);
-				if (mc.playerController.isInCreativeMode() || blockState.getPlayerRelativeBlockHardness(mc.player, mc.world, position) >= 1F) {
-					mc.world.setBlockToAir(position);
-					onTaskFinish(position, face);
+				if (getController().getGameType() == GameType.CREATIVE || getWorld().getRelativeHardness(position) >= 1F) {
+					getWorld().setToAir(position);
+					onTaskFinish();
 					reset();
 					return;
 				}
 			}
-			curBlockDamage += blockState.getPlayerRelativeBlockHardness(mc.player, mc.world, this.position);
-			mc.world.sendBlockBreakProgress(mc.player.getEntityId(), position, (int) (curBlockDamage * 10.0F) - 1);
+			curBlockDamage += getWorld().getRelativeHardness(position);
+			getWorld().sendBreakProgress(position, (int) (curBlockDamage * 10.0F) - 1);
 			if (curBlockDamage >= 1F) {
-				mc.world.setBlockToAir(position);
+				getWorld().setToAir(position);
 				sendPacket(2);
-				onTaskFinish(position, face);
+				onTaskFinish();
 				reset();
 			}
 		}
@@ -88,7 +80,7 @@ public class MineTask extends LookTask {
 	public void onTaskCancelled() {
 		if (isMining()) {
 			sendPacket(1);
-			onTaskFinishPremature(position, face);
+			onTaskFinishPremature();
 			reset();
 		}
 	}
@@ -98,7 +90,7 @@ public class MineTask extends LookTask {
 		super.setRunning(running);
 		if (!running && isMining()) {
 			sendPacket(1);
-			onTaskFinishPremature(position, face);
+			onTaskFinishPremature();
 			reset();
 		}
 	}
@@ -115,14 +107,14 @@ public class MineTask extends LookTask {
 	 * @return True if the block is within player reach distance.
 	 * */
 	public boolean isWithinDistance() {
-		return MathUtils.getDistance(position) < mc.playerController.getBlockReachDistance();
+		return getPlayer().getDistanceTo(position.toDouble()) < getController().getBlockReach();
 	}
 
 	/**
 	 * @return True if the block is not air.
 	 * */
 	public boolean blockExists() {
-		return mc.world.getBlockState(position).getMaterial() != Material.AIR;
+		return getWorld().blockExists(position);
 	}
 	
 	public boolean isMining() {
@@ -133,15 +125,15 @@ public class MineTask extends LookTask {
 	 * Sends a mining packet based on the mode given.
 	 * */
 	private void sendPacket(int mode) {
-		CPacketPlayerDigging.Action action = mode == 0 ? CPacketPlayerDigging.Action.START_DESTROY_BLOCK : (mode == 1 ? CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK : (mode == 2 ? CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK : null));
-		mc.getConnection().sendPacket(new CPacketPlayerDigging(action, position, face));
+		DigAction action = mode == 0 ? DigAction.START : (mode == 1 ? DigAction.ABORT : (mode == 2 ? DigAction.COMPLETE : null));
+		getMinecraft().getNetworkHandler().sendDigging(action, position, face.ordinal());
 	}
 	
-	private void onTaskFinishPremature(BlockPos position, EnumFacing face) {
+	private void onTaskFinishPremature() {
 		timer.reset();
 	}
 
-	private void onTaskFinish(BlockPos position, EnumFacing face) {
+	private void onTaskFinish() {
 		timer.reset();
 	}
 
@@ -152,7 +144,7 @@ public class MineTask extends LookTask {
 		if (hasBlock()) {
 			if (isMining()) {
 				sendPacket(1);
-				onTaskFinishPremature(position, face);
+				onTaskFinishPremature();
 			}
 			reset();
 		}
@@ -160,9 +152,11 @@ public class MineTask extends LookTask {
 
 	/**
 	 * Sets the block position and face value.
+	 *
+	 * TODO - Change param to Vector3i
 	 * */
 	public void setBlock(BlockPos position, EnumFacing face) {
-		this.position = position;
+		this.position = position == null ? Vector3i.ZERO : new Vector3i(position.getX(), position.getY(), position.getZ());
 		this.face = face;
 		if (position != null && face != null)
 			this.setRotations(position, face);
@@ -183,10 +177,6 @@ public class MineTask extends LookTask {
 		curBlockDamage = 0F;
 		digging = false;
 		timer.reset();
-	}
-	
-	protected IBlockState getBlockState() {
-		return mc.world.getBlockState(position);
 	}
 	
 	protected boolean shouldRotate() {

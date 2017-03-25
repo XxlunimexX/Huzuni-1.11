@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.api.world;
 
+import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.block.tileentity.TileEntity;
 import net.halalaboos.mcwrapper.api.entity.Entity;
@@ -10,6 +11,13 @@ import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
 import java.util.Collection;
 
+/**
+ * Represents a World in the game.
+ *
+ * All of the methods in this package that refer to vanilla code will have the {@link MCWrapper#getPlayer()} set as
+ * the target Entity parameter if applicable (e.g. getRelativeHardness, sendBlockBreakProgress, etc.).  Since this
+ * is a wrapper for client-side purposes, there isn't much reason to target other entities for such methods.
+ */
 public interface World {
 
 	/**
@@ -46,4 +54,10 @@ public interface World {
 	 * @return Whether or not there is a bounding box
 	 */
 	boolean isOffsetBBEmpty(Vector3d offset);
+
+	boolean blockExists(Vector3i pos);
+
+	void sendBreakProgress(Vector3i pos, int progress);
+
+	float getRelativeHardness(Vector3i pos);
 }

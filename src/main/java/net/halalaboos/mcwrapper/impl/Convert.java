@@ -1,10 +1,14 @@
 package net.halalaboos.mcwrapper.impl;
 
+import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
+import net.halalaboos.mcwrapper.api.util.DigAction;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
+import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionUtils;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
@@ -39,5 +43,13 @@ public class Convert {
 
 	public static Potion to(net.halalaboos.mcwrapper.api.potion.Potion potion) {
 		return Potion.getPotionById(potion.id());
+	}
+
+	public static EnumHand to(Hand hand) {
+		return EnumHand.values()[hand.ordinal()];
+	}
+
+	public static CPacketPlayerDigging.Action to(DigAction action) {
+		return CPacketPlayerDigging.Action.values()[action.ordinal()];
 	}
 }

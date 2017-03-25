@@ -1,6 +1,7 @@
 package net.halalaboos.mcwrapper.impl.mixin.network;
 
 import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.network.NetworkHandler;
@@ -80,7 +81,11 @@ public abstract class MixinNetHandlerPlayClient implements NetworkHandler {
 
 	@Override
 	public void sendDigging(DigAction action, Vector3i pos, int face) {
-		sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.values()[action.ordinal()],
-				Convert.to(pos), EnumFacing.values()[face]));
+		sendPacket(new CPacketPlayerDigging(Convert.to(action), Convert.to(pos), EnumFacing.values()[face]));
+	}
+
+	@Override
+	public void sendSwing(Hand hand) {
+		sendPacket(new CPacketAnimation(Convert.to(hand)));
 	}
 }
