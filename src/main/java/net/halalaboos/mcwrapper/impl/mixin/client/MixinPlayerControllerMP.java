@@ -6,13 +6,17 @@ import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
 import net.halalaboos.mcwrapper.api.event.player.BlockDigEvent;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.halalaboos.mcwrapper.impl.Convert;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -28,12 +32,18 @@ public abstract class MixinPlayerControllerMP implements Controller {
 	@Shadow public abstract net.minecraft.world.GameType getCurrentGameType();
 	@Shadow public abstract boolean onPlayerDestroyBlock(BlockPos pos);
 
-	@Inject(method = "onPlayerDamageBlock", at = @At(value = "FIELD", target = "Lnet/minecraft/client/multiplayer/PlayerControllerMP;curBlockDamageMP:F", ordinal = 0))
+	private BlockDigEvent blockDigEvent;
+
+	@Inject(method = "onPlayerDamageBlock", at = @At(value = "FIELD", target = "Lnet/minecraft/client/multiplayer/PlayerControllerMP;curBlockDamageMP:F", ordinal = 0, shift = At.Shift.BEFORE))
 	public void addBlockDigEvent(BlockPos pos, EnumFacing facing, CallbackInfoReturnable<Boolean> ci) {
-		BlockDigEvent digEvent = new BlockDigEvent(Convert.from(pos), this.curBlockDamageMP, facing.ordinal());
-		MCWrapper.getEventManager().publish(digEvent);
-		this.curBlockDamageMP = digEvent.progress;
-		this.curBlockDamageMP *= digEvent.multiplier;
+		this.blockDigEvent = new BlockDigEvent(Convert.from(pos), this.curBlockDamageMP, facing.ordinal());
+		MCWrapper.getEventManager().publish(this.blockDigEvent);
+		this.curBlockDamageMP = this.blockDigEvent.progress;
+	}
+
+	@Redirect(method = "onPlayerDamageBlock", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/state/IBlockState;getPlayerRelativeBlockHardness(Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)F"))
+	public float getModifiedHardness(IBlockState iBlockState, EntityPlayer player, World worldIn, BlockPos pos) {
+		return iBlockState.getPlayerRelativeBlockHardness(player, worldIn, pos) * blockDigEvent.multiplier;
 	}
 
 	@Override
