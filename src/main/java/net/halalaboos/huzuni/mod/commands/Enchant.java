@@ -2,9 +2,10 @@ package net.halalaboos.huzuni.mod.commands;
 
 import net.halalaboos.huzuni.api.mod.BasicCommand;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
+import net.halalaboos.mcwrapper.api.item.Enchantment;
 import net.halalaboos.mcwrapper.api.util.TextColor;
-import net.minecraft.enchantment.Enchantment;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getAdapter;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getController;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 import static net.halalaboos.mcwrapper.api.entity.living.player.GameType.CREATIVE;
@@ -41,9 +42,9 @@ public class Enchant extends BasicCommand {
 		}
 
 		int enchantmentCount = 0;
-		for (Enchantment enchantment : Enchantment.REGISTRY) { //TODO - Important!
+		for (Enchantment enchantment : getAdapter().getEnchantmentRegistry().getEnchants()) {
 			if (enchantment != null) {
-				getPlayer().getHeldItem(Hand.MAIN).addEnchant(enchantment.getName(), (short)1000);
+				getPlayer().getHeldItem(Hand.MAIN).addEnchant(enchantment.name(), (short)1000);
 				enchantmentCount++;
 			}
 		}

@@ -38,6 +38,7 @@
     "inventory.MixinSlot",
     "inventory.MixinContainer",
     "inventory.MixinInventoryPlayer",
+    "item.MixinEnchantment",
     "item.MixinItem",
     "item.MixinItemStack",
     "item.types.MixinItemBow",

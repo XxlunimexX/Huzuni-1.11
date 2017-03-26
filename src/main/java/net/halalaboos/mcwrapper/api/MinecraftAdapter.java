@@ -2,6 +2,7 @@ package net.halalaboos.mcwrapper.api;
 
 import net.halalaboos.mcwrapper.api.client.GLState;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.registry.EnchantmentRegistry;
 import net.halalaboos.mcwrapper.api.registry.PotionRegistry;
 import net.halalaboos.mcwrapper.api.util.Builder;
 import net.halalaboos.mcwrapper.api.registry.BlockRegistry;
@@ -45,6 +46,8 @@ public interface MinecraftAdapter {
 	 * The version-specific {@link PotionRegistry} implementation.
 	 */
 	PotionRegistry getPotionRegistry();
+
+	EnchantmentRegistry getEnchantmentRegistry();
 
 	/**
 	 * The version-specific {@link GLState} implementation.
