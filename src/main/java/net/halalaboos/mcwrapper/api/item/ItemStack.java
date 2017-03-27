@@ -2,6 +2,7 @@ package net.halalaboos.mcwrapper.api.item;
 
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.attribute.Nameable;
+import net.halalaboos.mcwrapper.api.block.Block;
 
 import java.util.List;
 
@@ -41,6 +42,18 @@ public interface ItemStack extends Nameable {
 
 	static ItemStack from(Item item, int size) {
 		return getBuilder().setItem(item).setSize(size).build();
+	}
+
+	static ItemStack from(Item item) {
+		return getBuilder().setItem(item).setSize(1).build();
+	}
+
+	static ItemStack from(Block block) {
+		return getBuilder().setItem(MCWrapper.getAdapter().getItemRegistry().getItem(block.getId())).setSize(1).build();
+	}
+
+	static ItemStack from(Block block, int size) {
+		return getBuilder().setItem(MCWrapper.getAdapter().getItemRegistry().getItem(block.getId())).setSize(size).build();
 	}
 
 	interface Builder extends net.halalaboos.mcwrapper.api.util.Builder<ItemStack> {

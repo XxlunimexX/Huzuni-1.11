@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 	public void renderBlock(IBlockState state, BlockPos pos, IBlockAccess blockAccess, VertexBuffer worldRendererIn, CallbackInfoReturnable<Boolean> ci) {
 		if (Xray.INSTANCE.isEnabled()) {
 			Block block = state.getBlock();
-			if (Xray.INSTANCE.shouldIgnore(block)) {
+			if (Xray.INSTANCE.shouldIgnore((net.halalaboos.mcwrapper.api.block.Block)block)) {
 				ci.setReturnValue(false);
 			}
 		}

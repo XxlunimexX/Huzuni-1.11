@@ -26,6 +26,7 @@ import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.settings.GameSettings;
@@ -86,6 +87,8 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Shadow
 	@Nullable
 	private net.minecraft.entity.Entity renderViewEntity;
+
+	@Shadow public RenderGlobal renderGlobal;
 
 	@Inject(method = "run()V", at = @At(value = "INVOKE",
 			target = "Lnet/minecraft/client/Minecraft;init()V",
@@ -232,5 +235,10 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Override
 	public void printMessage(String message) {
 		ingameGUI.getChatGUI().printChatMessage(new TextComponentString(message));
+	}
+
+	@Override
+	public void loadRenderers() {
+		renderGlobal.loadRenderers();
 	}
 }

@@ -15,6 +15,7 @@
     "block.tileentity.MixinTileEntityFurnace",
     "block.tileentity.MixinTileEntityHopper",
     "block.MixinBlock",
+    "block.types.MixinBlockBush",
     "block.types.MixinBlockStairs",
     "client.MixinPlayerControllerMP",
     "client.gui.MixinFontRenderer",

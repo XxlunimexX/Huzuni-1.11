@@ -8,6 +8,8 @@ import net.halalaboos.mcwrapper.api.event.player.MoveEvent;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import org.lwjgl.input.Keyboard;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
+
 /**
  * Allows the player to fly freely from their body and explore the world.
  * */
@@ -60,7 +62,7 @@ public class Freecam extends BasicMod {
 	        	 if (mc.player != null)
 					 Flight.INSTANCE.setEnabled(oldFlying);
 	        }
-			mc.renderGlobal.loadRenderers(); //Fixes culling updates
+			getMinecraft().loadRenderers(); //Fixes culling updates
 		}
     }
 }

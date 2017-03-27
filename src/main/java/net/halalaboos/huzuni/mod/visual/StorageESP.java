@@ -8,13 +8,12 @@ import net.halalaboos.huzuni.api.node.ItemSelector.ItemData;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.util.gl.Box;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
+import net.halalaboos.mcwrapper.api.block.BlockTypes;
 import net.halalaboos.mcwrapper.api.block.tileentity.*;
+import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Keyboard;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
@@ -28,12 +27,12 @@ public class StorageESP extends BasicMod implements Renderer {
 
 	private final Box normal, left, right;
 	
-	public final Toggleable boxes = new Toggleable("Boxes", "Render boxes around the blocks"),
+	private final Toggleable boxes = new Toggleable("Boxes", "Render boxes around the blocks"),
 			lines = new Toggleable("Lines", "Render lines towards blocks"), 
 			fade = new Toggleable("Fade", "Make nearby boxes fade out"), 
 			border = new Toggleable("Border", "Apply borders around each block");
 
-	public final ItemSelector<Class<?>> itemSelector = new ItemSelector<>("Enabled blocks", "OOGA BOOGA");
+	private final ItemSelector<Class<?>> itemSelector = new ItemSelector<>("Enabled blocks", "OOGA BOOGA");
 	
 	public StorageESP() {
 		super("Storage ESP", "Render boxes/lines to and around storage blocks within the world", Keyboard.KEY_Y);
@@ -46,13 +45,13 @@ public class StorageESP extends BasicMod implements Renderer {
 		boxes.setEnabled(true);
 		border.setEnabled(true);
 		lines.setEnabled(false);
-		itemSelector.addItem(new ItemStack(Blocks.CHEST), Chest.class).setEnabled(true);
-		itemSelector.addItem(new ItemStack(Blocks.ENDER_CHEST), EnderChest.class);
-		itemSelector.addItem(new ItemStack(Blocks.HOPPER), Hopper.class);
-		itemSelector.addItem(new ItemStack(Blocks.DISPENSER), Dropper.class, Dispenser.class);
-		itemSelector.addItem(new ItemStack(Blocks.FURNACE), Furnace.class);
-		itemSelector.addItem(new ItemStack(Blocks.ENCHANTING_TABLE), EnchantingTable.class);
-		itemSelector.addItem(new ItemStack(Items.BREWING_STAND), BrewingStand.class);
+		itemSelector.addItem(ItemStack.from(BlockTypes.CHEST), Chest.class).setEnabled(true);
+		itemSelector.addItem(ItemStack.from(BlockTypes.ENDER_CHEST), EnderChest.class);
+		itemSelector.addItem(ItemStack.from(BlockTypes.HOPPER), Hopper.class);
+		itemSelector.addItem(ItemStack.from(BlockTypes.DISPENSER), Dropper.class, Dispenser.class);
+		itemSelector.addItem(ItemStack.from(BlockTypes.FURNACE), Furnace.class);
+		itemSelector.addItem(ItemStack.from(BlockTypes.ENCHANTING_TABLE), EnchantingTable.class);
+		itemSelector.addItem(ItemStack.from(BlockTypes.BREWING_STAND), BrewingStand.class);
 	}
 
 	@Override

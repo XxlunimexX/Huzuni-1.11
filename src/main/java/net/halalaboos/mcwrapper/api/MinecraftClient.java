@@ -99,4 +99,6 @@ public interface MinecraftClient {
 	Entity getViewEntity();
 
 	void printMessage(String message);
+
+	void loadRenderers();
 }

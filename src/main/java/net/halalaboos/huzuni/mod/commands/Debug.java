@@ -2,6 +2,8 @@ package net.halalaboos.huzuni.mod.commands;
 
 import net.halalaboos.huzuni.api.mod.BasicCommand;
 import net.halalaboos.huzuni.indev.gui.impl.ImageCreator;
+import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.block.BlockTypes;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
@@ -49,5 +51,6 @@ public class Debug extends BasicCommand {
 		System.out.println(output);*/
 //		huzuni.addChatMessage(Boolean.toString(huzuni.resourceCreator.create(args[0], args[1])));
 
+//		huzuni.addChatMessage("TEST: " + ItemTypes.from(BlockTypes.DIRT).name());
 	}
 }

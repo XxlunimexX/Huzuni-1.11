@@ -416,7 +416,8 @@ public class BasicTheme extends Theme {
 					y += 21;
 				}
 				drawRect(x, y, 20, 20, mouseOver && mouseX > x && mouseX < x + 21 && mouseY > y && mouseY < y + 21, itemData.isEnabled());
-				renderItemStack(itemData.item, x + 2, y + 2, 0);
+//				renderItemStack(itemData.item, x + 2, y + 2, 0);
+				itemData.item.renderInGui(x + 2, y + 2);
 				x += 21;
 			}
 		}

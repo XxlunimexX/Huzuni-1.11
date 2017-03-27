@@ -1,6 +1,7 @@
 package net.halalaboos.mcwrapper.api.item;
 
 import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.item.types.Bow;
 import net.halalaboos.mcwrapper.api.item.types.PotionItem;
 
@@ -14,6 +15,7 @@ import net.halalaboos.mcwrapper.api.item.types.PotionItem;
  * <p>This class isn't as clean as an Enum would be, but uses of this class are much cleaner as a result
  * of taking this approach.</p>
  */
+@SuppressWarnings("WeakerAccess")
 public class ItemTypes {
 
 	public static final Item AIR;

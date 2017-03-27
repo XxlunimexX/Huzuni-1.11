@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.api.gui.components.tree.ItemSelectorComponent;
 import net.halalaboos.huzuni.api.gui.components.tree.TreeComponentFactory;
-import net.minecraft.item.ItemStack;
+import net.halalaboos.mcwrapper.api.item.ItemStack;
 
 import java.io.IOException;
 import java.util.ArrayList;

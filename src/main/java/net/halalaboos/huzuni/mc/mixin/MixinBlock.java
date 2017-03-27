@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 	public void shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side,
 									 CallbackInfoReturnable<Boolean> ci) {
 		if (Xray.INSTANCE.isEnabled()) {
-			ci.setReturnValue(Xray.INSTANCE.isEnabled(blockState.getBlock()));
+			ci.setReturnValue(Xray.INSTANCE.isEnabled((net.halalaboos.mcwrapper.api.block.Block)blockState.getBlock()));
 		}
 	}
 
