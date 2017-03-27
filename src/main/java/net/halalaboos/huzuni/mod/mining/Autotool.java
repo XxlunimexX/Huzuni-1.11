@@ -6,6 +6,7 @@ import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.HotbarTask;
 import net.halalaboos.huzuni.api.util.Timer;
+import net.halalaboos.mcwrapper.api.client.GameKeybind;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
@@ -16,6 +17,7 @@ import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.util.math.BlockPos;
 import org.lwjgl.input.Keyboard;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getSettings;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**
@@ -111,7 +113,7 @@ public class Autotool extends BasicMod {
 	}
 
 	private void onUpdate(PreMotionUpdateEvent event) {
-		if (!mc.gameSettings.keyBindAttack.isKeyDown() && digging) {
+		if (!getSettings().isKeyDown(GameKeybind.ATTACK) && digging) {
 			this.blockState = null;
 			this.position = null;
 			this.digging = false;

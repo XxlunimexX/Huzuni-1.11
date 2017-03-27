@@ -91,13 +91,13 @@ public class Xray extends BasicMod {
 	
 	@Override
 	protected void onEnable() {
-		brightness = mc.gameSettings.gammaSetting;
-		mc.gameSettings.gammaSetting = 1000F;
+		brightness = getMinecraft().getSettings().getGamma();
+		getMinecraft().getSettings().setGamma(1000F);
 	}
 
 	@Override
 	protected void onDisable() {
-		mc.gameSettings.gammaSetting = brightness;
+		getMinecraft().getSettings().setGamma(brightness);
 	}
 	
 	@Override

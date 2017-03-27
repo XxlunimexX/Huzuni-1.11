@@ -4,7 +4,9 @@ import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.api.util.MathUtils;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.mod.movement.Freecam;
+import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemBlock;
@@ -19,6 +21,7 @@ import net.minecraft.util.math.Vec3d;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getController;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**
  * Look task which simulates block placement server-sided.
@@ -108,6 +111,10 @@ public class PlaceTask extends LookTask {
 	protected void reset() {
 		setBlock(null, null);
 		timer.reset();
+	}
+
+	protected Block getBlock() {
+		return getWorld().getBlock(new Vector3i(position.getX(), position.getY(), position.getZ()));
 	}
 	
 	protected IBlockState getBlockState() {

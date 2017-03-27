@@ -241,4 +241,9 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	public void loadRenderers() {
 		renderGlobal.loadRenderers();
 	}
+
+	@Override
+	public net.halalaboos.mcwrapper.api.client.GameSettings getSettings() {
+		return (net.halalaboos.mcwrapper.api.client.GameSettings)gameSettings;
+	}
 }

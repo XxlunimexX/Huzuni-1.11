@@ -1,8 +1,11 @@
 package net.halalaboos.huzuni.api.util;
 
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
  * Math utilities
@@ -16,16 +19,9 @@ public final class MathUtils {
 	public static double getDistance(BlockPos position) {
         return getDistance(position.getX(), position.getY(), position.getZ());
 	}
-	
-	public static double getInterpolatedDistance(EntityPlayer entityPlayer, double delta) {
-        return getDistance(interpolate(entityPlayer.prevPosX, entityPlayer.posX, delta), interpolate(entityPlayer.prevPosY, entityPlayer.posY, delta), interpolate(entityPlayer.prevPosZ, entityPlayer.posZ, delta));
-	}
-	
+
 	public static double getDistance(double x, double y, double z) {
-		double distX = Minecraft.getMinecraft().getRenderManager().viewerPosX - x;
-		double distY = Minecraft.getMinecraft().getRenderManager().viewerPosY - y;
-		double distZ = Minecraft.getMinecraft().getRenderManager().viewerPosZ - z;
-        return net.halalaboos.mcwrapper.api.util.math.MathUtils.sqrt(distX * distX + distY * distY + distZ * distZ);
+		return getPlayer().getDistanceTo(new Vector3d(x, y, z));
 	}
 	
 	public static double interpolate(double prev, double cur, double delta) {

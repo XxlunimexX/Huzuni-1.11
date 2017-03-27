@@ -8,8 +8,13 @@ import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.MineTask;
 import net.halalaboos.huzuni.api.task.PlaceTask;
 import net.halalaboos.huzuni.api.util.BlockLocator;
+import net.halalaboos.mcwrapper.api.block.Block;
+import net.halalaboos.mcwrapper.api.block.BlockTypes;
+import net.halalaboos.mcwrapper.api.block.types.Crops;
+import net.halalaboos.mcwrapper.api.block.types.Farmland;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.event.world.WorldLoadEvent;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockFarmland;
@@ -19,6 +24,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.*;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**
  * Automatically performs farming tasks for the user.
@@ -56,7 +63,8 @@ public final class Autofarm extends BasicMod {
 		@Override
 		public boolean shouldResetBlock() {
 			IBlockState blockState = getBlockState();
-			return mode.getSelected() == 3 ? !isDirt(blockState) : (mode.getSelected() == 2 ? blockState.getBlock().getMetaFromState(blockState) >= ((BlockCrops) blockState.getBlock()).getMaxAge() : super.shouldResetBlock());
+			Block block = getBlock();
+			return mode.getSelected() == 3 ? !isDirt(block) : (mode.getSelected() == 2 ? blockState.getBlock().getMetaFromState(blockState) >= ((BlockCrops) blockState.getBlock()).getMaxAge() : super.shouldResetBlock());
 		}
 	};
 	
@@ -65,25 +73,26 @@ public final class Autofarm extends BasicMod {
 		@Override
 		protected boolean isValidBlock(BlockPos position) {
 			IBlockState blockState = mc.world.getBlockState(position);
+			Block block = getWorld().getBlock(new Vector3i(position.getX(), position.getY(), position.getZ()));
 			switch (mode.getSelected()) {
 				case 0:
-					if (isCrop(blockState)) {
-						BlockCrops crops = (BlockCrops) blockState.getBlock();
-						int age = crops.getMetaFromState(blockState);
+					if (isCrop(block)) {
+						Crops crops = (Crops) blockState.getBlock();
+						int age = crops.getAge(new Vector3i(position.getX(), position.getY(), position.getZ()));
 						return age >= crops.getMaxAge();
 					}
 					break;
 				case 1:
-					return isFarmland(blockState) && !(mc.world.getBlockState(position.up()).getBlock() instanceof BlockCrops);
+					return isFarmland(block) && !(mc.world.getBlockState(position.up()).getBlock() instanceof Crops);
 				case 2:
-					if (isCrop(blockState)) {
+					if (isCrop(block)) {
 						BlockCrops crops = (BlockCrops) blockState.getBlock();
 						int age = crops.getMetaFromState(blockState);
 						return age < crops.getMaxAge();
 					}
 					break;
 				case 3:
-					return isDirt(blockState);
+					return isDirt(block);
 			}
 			return false;
 		}
@@ -169,22 +178,22 @@ public final class Autofarm extends BasicMod {
 	/**
      * @return True if the block state is dirt.
      * */
-	private boolean isDirt(IBlockState blockState) {
-		return blockState.getBlock() != Blocks.AIR && (blockState.getBlock() instanceof BlockDirt || blockState.getBlock() instanceof BlockGrass);
+	private boolean isDirt(Block block) {
+		return block != BlockTypes.AIR && (block instanceof BlockDirt || block instanceof BlockGrass);
 	}
 
 	/**
      * @return True if the block state is farm land.
      * */
-	private boolean isFarmland(IBlockState blockState) {
-		return blockState.getBlock() != Blocks.AIR && blockState.getBlock() instanceof BlockFarmland;
+	private boolean isFarmland(Block block) {
+		return block != BlockTypes.AIR && block instanceof Farmland;
 	}
 
 	/**
      * @return True if the block state is a crop.
      * */
-	private boolean isCrop(IBlockState blockState) {
-		return blockState.getBlock() != Blocks.AIR && blockState.getBlock() instanceof BlockCrops;
+	private boolean isCrop(Block block) {
+		return block != BlockTypes.AIR && block instanceof Crops;
 	}
 	
 }

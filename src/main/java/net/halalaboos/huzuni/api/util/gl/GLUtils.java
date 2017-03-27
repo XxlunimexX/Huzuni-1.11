@@ -19,6 +19,7 @@ import java.util.Random;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getSettings;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -129,12 +130,12 @@ public final class GLUtils {
 		float scale = 0.016666668F * 1.6F;
 		glTranslatef(x, y, z);
 		glNormal3f(0.0F, 1.0F, 0.0F);
-		glRotatef(-Minecraft.getMinecraft().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
+		glRotated(-getMinecraft().getCamera().getY(), 0.0F, 1.0F, 0.0F);
 		if (modifyPitch) {
-			if (Minecraft.getMinecraft().gameSettings.thirdPersonView == 2) {
-				glRotatef(-Minecraft.getMinecraft().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
+			if (getSettings().getThirdPersonSetting() == 2) {
+				glRotated(-getMinecraft().getCamera().getX(), 1.0F, 0.0F, 0.0F);
 			} else {
-				glRotatef(Minecraft.getMinecraft().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
+				glRotated(getMinecraft().getCamera().getX(), 1.0F, 0.0F, 0.0F);
 			}
 		}
 		glScalef(-scale, -scale, scale);
@@ -193,14 +194,14 @@ public final class GLUtils {
 	 * @return the mouse x position.
 	 * */
 	public static int getMouseX() {
-		return (Mouse.getX() * getScreenWidth() / Minecraft.getMinecraft().displayWidth);
+		return (Mouse.getX() * getScreenWidth() / getMinecraft().getScreenResolution().width);
 	}
 
 	/**
 	 * @return The mouse y position.
 	 * */
 	public static int getMouseY() {
-		return (getScreenHeight() - Mouse.getY() * getScreenHeight() / Minecraft.getMinecraft().displayHeight - 1);
+		return (getScreenHeight() - Mouse.getY() * getScreenHeight() / getMinecraft().getScreenResolution().height - 1);
 	}
 
 	/**

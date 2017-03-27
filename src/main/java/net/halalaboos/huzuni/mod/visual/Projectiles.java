@@ -126,12 +126,12 @@ public class Projectiles extends BasicMod implements Renderer {
         float gravity = getGravity(mode);
         
         if (text != null) {
-			GlStateManager.pushMatrix();
+			getGLStateManager().pushMatrix();
 			GLUtils.prepareBillboarding((float) (x - cam.getX()), (float) (y - cam.getY()), (float) (z - cam.getZ()), true);
-			GlStateManager.enableTexture2D();
+			getGLStateManager().enableTexture2D();
 			getTextRenderer().render(text, -getTextRenderer().getWidth(text) / 2, 1, 0xFFFFFFF, true);
-			GlStateManager.disableTexture2D();
-			GlStateManager.popMatrix();
+			getGLStateManager().disableTexture2D();
+			getGLStateManager().popMatrix();
         }
 		GLUtils.glColor(0F, 1F, 0F, 1F);
     	VertexBuffer renderer = tessellator.getBuffer();
@@ -177,21 +177,21 @@ public class Projectiles extends BasicMod implements Renderer {
     	 if (lines.isEnabled())
     		 tessellator.draw();
     	if (landing.isEnabled()) {
-	        GlStateManager.pushMatrix();
-	        GlStateManager.translate(x - cam.getX(), y - cam.getY(), z - cam.getZ());
+	        getGLStateManager().pushMatrix();
+	        getGLStateManager().translate(x - cam.getX(), y - cam.getY(), z - cam.getZ());
 	        if (collision != null) {
 	            switch (collision.sideHit.getIndex()) {
 	                case 2:
-	                	GlStateManager.rotate(90, 1, 0, 0);
+	                	getGLStateManager().rotate(90, 1, 0, 0);
 	                    break;
 	                case 3:
-	                	GlStateManager.rotate(90, 1, 0, 0);
+	                	getGLStateManager().rotate(90, 1, 0, 0);
 	                    break;
 	                case 4:
-	                	GlStateManager.rotate(90, 0, 0, 1);
+	                	getGLStateManager().rotate(90, 0, 0, 1);
 	                    break;
 	                case 5:
-	                	GlStateManager.rotate(90, 0, 0, 1);
+	                	getGLStateManager().rotate(90, 0, 0, 1);
 	                    break;
 	                default:
 	                    break;
@@ -200,7 +200,7 @@ public class Projectiles extends BasicMod implements Renderer {
 					 GLUtils.glColor(1, 0, 0, 1F);
 	        }
 	        renderPoint();
-	        GlStateManager.popMatrix();
+	        getGLStateManager().popMatrix();
     	}
 	}
 	
@@ -245,7 +245,7 @@ public class Projectiles extends BasicMod implements Renderer {
     	renderer.pos(0, 0, 0).endVertex();
     	tessellator.draw();
 
-    	GlStateManager.rotate(-90, 1, 0, 0);
+    	getGLStateManager().rotate(-90, 1, 0, 0);
         cylinder.setDrawStyle(GLU.GLU_LINE);
         cylinder.draw(landingSize.getValue(), landingSize.getValue(), 0.1f, 24, 1);
     }

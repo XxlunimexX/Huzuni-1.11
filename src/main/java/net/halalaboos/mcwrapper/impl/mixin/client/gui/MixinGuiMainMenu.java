@@ -40,8 +40,6 @@ public class MixinGuiMainMenu extends GuiScreen {
 
 	/**
 	 * Adds the update button.
-	 *
-	 * TODO: Add accounts button (IMPORTANT!!)
 	 */
 	@Inject(method = "initGui", at = @At("RETURN"))
 	public void setup(CallbackInfo ci) {

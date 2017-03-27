@@ -3,6 +3,7 @@ package net.halalaboos.mcwrapper.api;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.client.Controller;
 import net.halalaboos.mcwrapper.api.client.GLState;
+import net.halalaboos.mcwrapper.api.client.GameSettings;
 import net.halalaboos.mcwrapper.api.client.gui.TextRenderer;
 import net.halalaboos.mcwrapper.api.world.World;
 import net.halalaboos.tukio.EventManager;
@@ -50,6 +51,10 @@ public class MCWrapper {
 
 	public static GLState getGLStateManager() {
 		return getAdapter().getGLStateManager();
+	}
+
+	public static GameSettings getSettings() {
+		return getMinecraft().getSettings();
 	}
 
 	public static EventManager getEventManager() {
