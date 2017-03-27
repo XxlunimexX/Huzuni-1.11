@@ -4,7 +4,6 @@ import net.halalaboos.huzuni.gui.screen.HuzuniSettingsMenu;
 import net.halalaboos.mcwrapper.api.event.render.HUDRenderEvent;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -39,7 +38,7 @@ public final class RenderManager {
 			if (!event.isDebugEnabled()) {
 				if (!(Minecraft.getMinecraft().currentScreen instanceof HuzuniSettingsMenu)) {
 					huzuni.guiManager.widgetManager.render();
-					GlStateManager.disableBlend();
+					getGLStateManager().disableBlend();
 				}
 				huzuni.renderManager.renderOverlay(event.getDelta());
 			}

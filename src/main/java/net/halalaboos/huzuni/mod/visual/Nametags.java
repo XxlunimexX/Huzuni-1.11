@@ -1,61 +1,50 @@
 package net.halalaboos.huzuni.mod.visual;
 
-import net.halalaboos.huzuni.RenderManager.Renderer;
+import net.halalaboos.huzuni.RenderManager;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Mode;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
+import net.halalaboos.mcwrapper.api.MCWrapperHooks;
+import net.halalaboos.mcwrapper.api.entity.Entity;
+import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
-import net.halalaboos.mcwrapper.api.util.math.MathUtils;
+import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.network.PlayerInfo;
 import net.halalaboos.mcwrapper.api.util.TextColor;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumHand;
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getTextRenderer;
+import java.util.Optional;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 import static org.lwjgl.opengl.GL11.glLineWidth;
+import static org.lwjgl.opengl.GL11.glPolygonOffset;
 
-/**
- * Renders custom nametags along with extra information with the nametags.
- * */
-public class Nametags extends BasicMod implements Renderer {
+public class Nametags extends BasicMod implements RenderManager.Renderer {
 
-	public static final Nametags INSTANCE = new Nametags();
+	private final Toggleable armor = new Toggleable("Armor", "Render player armor above their heads");
+	private final Toggleable enchants = new Toggleable("Enchants", "Render player enchantments over their items");
+	private final Toggleable ping = new Toggleable("Ping", "Render player ping above their heads");
+	private final Toggleable invisibles = new Toggleable("Invisible", "Render nameplates on invisible entities.");
+	private final Toggleable scale = new Toggleable("Scale", "Scale the nameplates as you are further from the player");
 
-	public final Toggleable armor = new Toggleable("Armor", "Render player armor above their heads");
-	public final Toggleable enchants = new Toggleable("Enchants", "Render player enchantments over their items");
-	public final Toggleable ping = new Toggleable("Ping", "Render player ping above their heads");
-	public final Toggleable invisibles = new Toggleable("Invisible", "Trace to invisible entities");
-	public final Toggleable scale = new Toggleable("Scale", "Scale the nameplates as you are further from the player");
+	private final Value opacity = new Value("Opacity", "%", 0F, 30F, 100F, 1F, "Opacity of the name plate");
+	private final Value scaleValue = new Value("Scale Amount", "%", 1F, 2F, 3F, "Amount the name plates will be scaled");
 
-	public final Value opacity = new Value("Opacity", "%", 0F, 30F, 100F, 1F, "Opacity of the name plate");
-	public final Value scaleValue = new Value("Scale Amount", "%", 1F, 2F, 3F, "Amount the name plates will be scaled");
+	private final Mode<String> healthMode = new Mode<>("Health", "Style the health will be rendered", "None", "Numerical", "Percentage");
 
-	public final Mode<String> healthMode = new Mode<>("Health", "Style the health will be rendered", "None", "Hearts", "Numerical", "Percentage");
-
-	private Nametags() {
+	public Nametags() {
 		super("Nametags", "Render custom nameplates over entities", Keyboard.KEY_P);
-		setAuthor("brudin");
 		this.setCategory(Category.VISUAL);
 		addChildren(armor, enchants, ping, invisibles, scale, healthMode, scaleValue, opacity);
 		this.settings.setDisplayable(false);
 		armor.setEnabled(true);
 		enchants.setEnabled(true);
 		scale.setEnabled(true);
-		healthMode.setSelectedItem(3);
+		healthMode.setSelectedItem(2);
 	}
 
 	@Override
@@ -66,199 +55,234 @@ public class Nametags extends BasicMod implements Renderer {
 	@Override
 	public void onDisable() {
 		huzuni.renderManager.removeWorldRenderer(this);
+		MCWrapperHooks.renderNames = true;
 	}
 
 	@Override
 	public void render(float partialTicks) {
-		for (EntityPlayer entityPlayer : mc.world.playerEntities) {
-			float renderX = (float) (MathUtils.interpolate(entityPlayer.prevPosX, entityPlayer.posX, partialTicks) - mc.getRenderManager().viewerPosX);
-			float renderY = (float) (MathUtils.interpolate(entityPlayer.prevPosY, entityPlayer.posY, partialTicks) - mc.getRenderManager().viewerPosY);
-			float renderZ = (float) (MathUtils.interpolate(entityPlayer.prevPosZ, entityPlayer.posZ, partialTicks) - mc.getRenderManager().viewerPosZ);
-			if (entityPlayer instanceof Player && !((Player) entityPlayer).isNPC()) {
-				renderNameplate(entityPlayer, renderX, renderY, renderZ, partialTicks);
+		//Loop through all players
+		for (Player player : getWorld().getPlayers()) {
+			//Check if a nameplate should be rendered for them
+			if (shouldRenderTag(player)) {
+				//Get the position to render the nameplate
+				Vector3d renderPosition = player.getRenderPosition();
+				//Setup the nameplate and then render it
+				setupAndRender(player, renderPosition);
 			}
 		}
 		glLineWidth(huzuni.settings.lineSize.getValue());
-		GlStateManager.disableTexture2D();
-		GlStateManager.disableAlpha();
+		getGLStateManager().disableTexture2D();
+		getGLStateManager().disableAlpha();
+		MCWrapperHooks.renderNames = false;
 	}
 
-	private void renderNameplate(EntityPlayer entity, double x, double y, double z, double delta) {
-		if (!Minecraft.isGuiEnabled() || entity == mc.getRenderManager().renderViewEntity || (!invisibles.isEnabled() && entity.isInvisible()))
-			return;
-		int color = getColor(entity, mc.player.getDistanceToEntity(entity), huzuni.friendManager.isFriend(entity.getName()), entity.isSneaking());
-		double scale = (net.halalaboos.huzuni.api.util.MathUtils.getInterpolatedDistance(entity, delta) / 8D) / (1.5F + (2F - scaleValue.getValue()));
-		if (scale < 1D || !this.scale.isEnabled())
-			scale = 1D;
+	/**
+	 * Determines whether or not a nameplate should be rendered for the specified Player.
+	 *
+	 * @param player The target Player
+	 * @return Whether or not the nameplate should render
+	 */
+	private boolean shouldRenderTag(Player player) {
+		return getMinecraft().shouldShowGui() && !player.isNPC() && !(invisibles.isEnabled() && player.isInvisible())
+				&& player != getMinecraft().getViewEntity() && !player.isDead();
+	}
 
-		String text = (huzuni.friendManager.isFriend(entity.getName()) ? huzuni.friendManager.getAlias(entity.getName()) : entity.getDisplayName().getFormattedText()) + getHealth(entity) + (entity.isInvisibleToPlayer(mc.player) ? TextColor.BLUE + " [Invisible]" : "") + getPing(entity);
+	/**
+	 * Sets up the nameplate and renders it.  The reason for splitting this into two methods is just to keep things a
+	 * little more tidy.
+	 *
+	 * @param player The target Player to render the nameplate on.
+	 * @param pos The render position of the Player.
+	 */
+	private void setupAndRender(Player player, Vector3d pos) {
+		//The color of the name
+		int color = getColor(player, huzuni.friendManager.isFriend(player.name()), player.isSneaking());
+		//The interpolated distance, smoother scaling
+		double dist = player.getInterpolatedPosition().distanceTo(getPlayer().getInterpolatedPosition());
+		//The scale of the nameplate
+		double scale = (dist / 8) / (1.5F + (2F - scaleValue.getValue()));
+		//Prevents the nameplate from getting too small, and also locks the scale if scaling is disabled
+		if (scale < 1D || !this.scale.isEnabled()) scale = 1;
+
+		//The text to render on the nameplate.  Includes the name, health (if enabled), and ping (if enabled)
+		String text = huzuni.friendManager.getAlias(player.name()) + getHealth(player) + getPing(player);
+		//The width of the name, for centering and sizing the background rectangle.
 		int width = getTextRenderer().getWidth(text);
-		GlStateManager.pushMatrix();
-		GLUtils.prepareBillboarding((float) x, (float) y + entity.height + 0.5F, (float) z, true);
-		GlStateManager.scale(scale, scale, scale);
-		if (this.scale.isEnabled())
-			GlStateManager.translate(0F, -(scale), 0F);
+		renderPlate(player, pos, scale, width, color, text);
+	}
+
+	/**
+	 * Renders the nameplate for the specified Player.
+	 *
+	 * @param player The target Player to render the nameplate on.
+	 * @param pos The render position of the Player.
+	 * @param scale The scale of the nameplate
+	 * @param width The width of the nameplate
+	 * @param color The color of the nameplate text
+	 * @param text The nameplate text
+	 */
+	private void renderPlate(Player player, Vector3d pos, double scale, int width, int color, String text) {
+		getGLStateManager().pushMatrix();
+		//Make it so the nameplate always faces us
+		GLUtils.prepareBillboarding((float)pos.getX(), (float)pos.getY() + player.getHeight() + 0.5F, (float)pos.getZ(), true);
+		getGLStateManager().scale(scale, scale, scale); //Scale the nameplate
+		if (this.scale.isEnabled()) getGLStateManager().translate(0, -scale, 0); //Move the nameplate based on the size
+
+		//Color the background of the nameplate
 		GLUtils.glColor(0F, 0F, 0F, (opacity.getValue()) / 100F);
+		//Render the nameplate background
 		GLUtils.drawBorderRect(-width / 2 - 2, -2, width / 2 + 2, 10, 2F);
+		//Reset the color back to white
 		GLUtils.glColor(1F, 1F, 1F, 1F);
-
-		if (healthMode.getSelected() == 1)
-			renderHealth(entity);
-
+		//Render the text, centered
 		getTextRenderer().render(text, -width / 2, 0, color, true);
-
-		GL11.glPolygonOffset(1.0F, -2000000.0F);
-		GlStateManager.enablePolygonOffset();
-		GlStateManager.enableDepth();
-		GlStateManager.depthMask(true);
-		if (armor.isEnabled())
-			renderItems(entity, healthMode.getSelected() == 1 ? -12 : -4);
-		GL11.glPolygonOffset(1.0F, 2000000.0F);
-		GlStateManager.disablePolygonOffset();
-		GlStateManager.disableDepth();
-		GlStateManager.depthMask(false);
-		GlStateManager.popMatrix();
+		//Render armor if it is enabled
+		if (armor.isEnabled()) renderItems(player, -4);
+		getGLStateManager().popMatrix();
 	}
 
-	private String getHealth(EntityPlayer entity) {
-		float healthPercentage = entity.getHealth() / entity.getMaxHealth();
-		TextColor healthFormat = getFormatted(healthPercentage > 0.5 && healthPercentage < 0.75, healthPercentage > 0.25 && healthPercentage <= 0.5, healthPercentage <= 0.25);
-		return healthMode.getSelected() == 2 ? " " + healthFormat + String.format("%.2f", entity.getHealth()) : healthMode.getSelected() == 3 ? " " + healthFormat + (int) (healthPercentage * 100) + "%" : "";
-	}
-
-	private String getPing(EntityPlayer entity) {
-		try {
-			NetworkPlayerInfo playerInfo = mc.getConnection().getPlayerInfo(entity.getUniqueID());
-			int ping = playerInfo.getResponseTime();
-			TextColor pingFormat = getFormatted(ping >= 100 && ping < 150, ping >= 150 && ping < 200, ping >= 200);
-			return (this.ping.isEnabled() ? " " + pingFormat + ping + "ms" : "");
-		} catch (NullPointerException e) {
-			return "";
-		}
-	}
-
-	private int getColor(EntityPlayer entity, float distance, boolean friend, boolean sneaking) {
-		if (friend)
-			return huzuni.friendManager.getColor().getRGB();
-		else {
-			if (huzuni.settings.team.isEnabled()) {
-				if (huzuni.settings.team.isTeam(entity))
-					return huzuni.settings.team.getColor();
-				else {
-					int teamColor = huzuni.settings.team.getTeamColor(entity);
-					if (teamColor != -1)
-						return teamColor;
-				}
-			}
-			return sneaking ? 0xFF0000 : 0xFFFFFF;
-		}
-	}
-
-	private TextColor getFormatted(boolean yellow, boolean gold, boolean red) {
-		if (yellow)
-			return TextColor.YELLOW;
-		else if (gold)
-			return TextColor.GOLD;
-		else if (red)
-			return TextColor.RED;
-		else
-			return TextColor.GREEN;
-	}
-
-	private void draw3dItem(ItemStack itemStack, int x, int y, float delta) {
-		if (itemStack == null)
-			return;
-		try {
-			mc.getRenderItem().zLevel = -150F;
-			mc.getRenderItem().renderItemAndEffectIntoGUI(itemStack, x, y);
-			mc.getRenderItem().zLevel = 0F;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void renderItems(EntityPlayer player, float rY) {
+	/**
+	 * Renders the specified Player's items, as well as enchants if the option for either are enabled.
+	 *
+	 * @param player The target Player
+	 * @param rY The y position to start rendering (renderY)
+	 */
+	private void renderItems(Player player, float rY) {
 		int totalItems = 0;
-		GlStateManager.pushMatrix();
+		glPolygonOffset(1.0F, -2000000.0F);
+		getGLStateManager().enablePolygonOffset();
+		getGLStateManager().enableDepth();
+		getGLStateManager().depthMask(true);
+		getGLStateManager().pushMatrix();
 		for (int i = 0; i < 4; i++)
 			totalItems++;
 		totalItems++;
 		int itemSize = 18, center = (-itemSize / 2), halfTotalSize = ((totalItems * itemSize) / 2 - itemSize) + (itemSize / 2), count = 0;
-		draw3dItem(player.getHeldItem(EnumHand.MAIN_HAND), (center - halfTotalSize) + itemSize * count + 2, (int) rY - 16, 0);
+		draw3dItem(player.getHeldItem(Hand.MAIN), (center - halfTotalSize) + itemSize * count + 2, (int) rY - 16);
 		if (enchants.isEnabled())
-			renderEnchantments(player.getHeldItem(EnumHand.MAIN_HAND), (center - halfTotalSize) + itemSize * count + 2, (int) rY - 16, 0.5F);
+			renderEnchantments(player.getHeldItem(Hand.MAIN), (center - halfTotalSize) + itemSize * count + 2, (int) rY - 16, 0.5F);
 		count++;
 		for (int i = 4; i > 0; i--) {
-			ItemStack armor = player.inventory.armorItemInSlot(i - 1);
-			draw3dItem(armor, (center - halfTotalSize) + itemSize * count, (int) rY - 16, 0);
+			ItemStack armor = player.getPlayerInventory().getArmorStack(i - 1);
+			draw3dItem(armor, (center - halfTotalSize) + itemSize * count, (int) rY - 16);
 			if (enchants.isEnabled())
 				renderEnchantments(armor, (center - halfTotalSize) + itemSize * count, (int) rY - 16, 0.5F);
 			count++;
 		}
-		GlStateManager.popMatrix();
+		getGLStateManager().popMatrix();
+		getGLStateManager().disablePolygonOffset();
+		getGLStateManager().disableDepth();
+		getGLStateManager().depthMask(false);
 	}
 
+	private void draw3dItem(ItemStack itemStack, int x, int y) {
+		if (itemStack == null) return;
+		itemStack.render3D(x, y);
+	}
+
+	/**
+	 * Renders the name/level of all of the enchantments on the specified {@link ItemStack}
+	 *
+	 * @param item The item to obtain the list of enchants from
+	 * @param x The x-position to render the text
+	 * @param y The y-position to render the text
+	 * @param scale The scale of the text
+	 */
 	private void renderEnchantments(ItemStack item, float x, float y, float scale) {
 		float scaleInverse = 1F / scale, increment = 10F / scaleInverse;
-		if (item.getEnchantmentTagList() != null) {
-			NBTTagList enchantments = item.getEnchantmentTagList();
-			for (int j = 0; j < enchantments.tagCount(); j++) {
-				NBTTagCompound compound = enchantments.getCompoundTagAt(j);
-				GlStateManager.pushMatrix();
-				GlStateManager.scale(scale, scale, scale);
-				if (Enchantment.getEnchantmentByID(compound.getByte("id")) != null)
-					getTextRenderer().render(Enchantment.getEnchantmentByID(compound.getByte("id")).getTranslatedName(compound.getByte("lvl")).substring(0, 4) + " " + compound.getByte("lvl"), x * scaleInverse, ((int) y + (increment * j)) * scaleInverse, 0xFFFFFF);
-				GlStateManager.popMatrix();
+		//Check if the item has any enchants
+		if (item.getEnchants() != null) {
+			//Loop through the enchants
+			for (int i = 0; i < item.getEnchants().size(); i++) {
+				//Get the name of the enchantment to render
+				String name = item.getEnchants().get(i);
+
+				//Setup rendering and draw the text
+				getGLStateManager().pushMatrix();
+				getGLStateManager().scale(scale, scale, scale);
+				getTextRenderer().render(name, x * scaleInverse, ((int) y + (increment * i)) * scaleInverse, 0xFFFFFF);
+				getGLStateManager().popMatrix();
 			}
 		}
 	}
 
-	private void renderHealth(EntityPlayer entity) {
-		int originX = -40;
-		int originY = -12;
-		float maxHealth = (float) entity.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getAttributeValue();
-		int health = MathUtils.ceil(entity.getHealth());
-		int absorptionAmount = MathUtils.ceil(entity.getAbsorptionAmount());
-		int i2 = MathUtils.ceil((maxHealth + (float) absorptionAmount) / 2.0F / 10.0F);
-		int j2 = Math.max(10 - (i2 - 2), 3);
-		int i3 = absorptionAmount;
-		int k3 = -1;
-		this.mc.getTextureManager().bindTexture(GuiIngame.ICONS);
-		for (int i = MathUtils.ceil((maxHealth + (float) absorptionAmount) / 2.0F) - 1; i >= 0; --i) {
-			int textureX = 16;
-			if (entity.isPotionActive(MobEffects.POISON))
-				textureX += 36;
-			else if (entity.isPotionActive(MobEffects.WITHER))
-				textureX += 72;
-
-			int j4 = 0;
-
-			int k4 = MathUtils.ceil((float) (i + 1) / 10.0F) - 1;
-			int x = originX + i % 10 * 8;
-			int y = originY - k4 * j2;
-			if (i3 <= 0 && i == k3) {
-				y -= 2;
-			}
-			int textureY = 0;
-			if (mc.world.getWorldInfo().isHardcoreModeEnabled())
-				textureY = 5;
-			mc.ingameGUI.drawTexturedModalRect(x, y, 16 + j4 * 9, 9 * textureY, 9, 9);
-			if (i3 > 0) {
-				if (i3 == absorptionAmount && absorptionAmount % 2 == 1) {
-					mc.ingameGUI.drawTexturedModalRect(x, y, textureX + 153, 9 * textureY, 9, 9);
-					--i3;
-				} else {
-					mc.ingameGUI.drawTexturedModalRect(x, y, textureX + 144, 9 * textureY, 9, 9);
-					i3 -= 2;
-				}
-			} else {
-				if (i * 2 + 1 < health)
-					mc.ingameGUI.drawTexturedModalRect(x, y, textureX + 36, 9 * textureY, 9, 9);
-
-				if (i * 2 + 1 == health)
-					mc.ingameGUI.drawTexturedModalRect(x, y, textureX + 45, 9 * textureY, 9, 9);
-			}
+	/**
+	 * Returns the specified Player's ping, used to see their connection to the server.  The ping is displayed in
+	 * the format of "{@code # ms}" and colored based on how good or bad their connection is.
+	 *
+	 * @return The ping
+	 */
+	private String getPing(Player player) {
+		//Return nothing if ping isn't enabled.
+		if (!this.ping.isEnabled()) return "";
+		Optional<PlayerInfo> playerInfo = getMinecraft().getNetworkHandler().getInfo(player.getUUID());
+		//Check if the playerinfo for this player exists.
+		if (playerInfo.isPresent()) {
+			//Get the raw ping value
+			int ping = playerInfo.get().getPing();
+			//Color the ping based on how good/bad it is
+			TextColor pingFormat = getFormatted(ping >= 100 && ping < 150, ping >= 150 && ping < 200, ping >= 200);
+			//Return the formatted ping
+			return " " + pingFormat + ping + "ms";
 		}
+		return "";
 	}
 
+	/**
+	 * Used to get the health of the specified Player to display on the nameplate, based on the current
+	 * {@link #healthMode health mode}.
+	 *
+	 * @return The Player's health.
+	 */
+	private String getHealth(Player player) {
+		//Obtain the health percentage by dividing the current health by the max health.
+		float healthPercentage = player.getHealthData().getCurrentHealth() / player.getHealthData().getMaxHealth();
+		//The color to render the health with
+		TextColor healthFormat = getFormatted(healthPercentage > 0.5 && healthPercentage < 0.75, healthPercentage > 0.25 && healthPercentage <= 0.5, healthPercentage <= 0.25);
+		return healthMode.getSelected() == 1 ? " " + healthFormat + String.format("%.2f", player.getHealthData().getCurrentHealth()) : healthMode.getSelected() == 2 ? " " + healthFormat + (int) (healthPercentage * 100) + "%" : "";
+	}
+
+	/**
+	 * When rendering information such as ping or health, the text will be colored using this method.  If none of the
+	 * conditions are met, then it will return {@link TextColor#GREEN}.
+	 *
+	 * @param yellow If the color should be yellow
+	 * @param orange If the color should be gold/orange
+	 * @param red If the color should be red
+	 *
+	 * @return The color
+	 */
+	private TextColor getFormatted(boolean yellow, boolean orange, boolean red) {
+		return yellow ? TextColor.YELLOW : orange ? TextColor.GOLD : red ? TextColor.RED : TextColor.GREEN;
+	}
+
+	/**
+	 * Provides the color for the text on the nameplate.  In the following scenarios,
+	 * <ul>
+	 *     <li>Sneaking - The color will be red.</li>
+	 *     <li>Friend - The color will be based on {@link net.halalaboos.huzuni.FriendManager#color}</li>
+	 *     <li>Teammate - The color will be based on the Player's team color. (see {@link net.halalaboos.huzuni.settings.Team#getTeamColor(Entity)}</li>
+	 * </ul>
+	 * If none of these conditions are met, the color will be white.
+	 *
+	 * @param player The target Player
+	 * @param friend Whether or not the Player is a friend.
+	 * @param sneaking Whether or not the Player is sneaking.
+	 * @return The nameplate text color.
+	 */
+	private int getColor(Player player, boolean friend, boolean sneaking) {
+		//Return the friend color if they're a friend
+		if (friend) return huzuni.friendManager.getColor().getRGB();
+
+		//Checks the player's team color
+		if (huzuni.settings.team.isEnabled()) {
+			if (huzuni.settings.team.isTeam(player)) return huzuni.settings.team.getColor();
+			int teamColor = huzuni.settings.team.getTeamColor(player);
+			if (teamColor != -1)
+				return teamColor;
+		}
+
+		//If they're sneaking, return red, otherwise return white
+		return sneaking ? 0xFF0000 : 0xFFFFFF;
+	}
 }

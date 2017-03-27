@@ -24,7 +24,6 @@ import net.halalaboos.huzuni.mod.misc.chat.ChatMutator;
 import net.halalaboos.huzuni.mod.movement.*;
 import net.halalaboos.huzuni.mod.visual.*;
 import net.halalaboos.huzuni.api.gui.MinecraftFontRenderer;
-import net.halalaboos.huzuni.mod.visual.NewNametags;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.util.TextColor;
 import org.apache.logging.log4j.LogManager;
@@ -43,7 +42,7 @@ public enum Huzuni {
 
 	public static final int BUILD_NUMBER = 21;
 	public static String NAME = "Huzuni";
-	public static final String VERSION = NAME + " 5.0.3";
+	public static final String VERSION = NAME + " 5.1";
 	public static final String ASSETS_LOCATION = "/assets/minecraft/huzuni/";
 
 	public static final Logger LOGGER = LogManager.getLogger("Huzuni");
@@ -156,7 +155,7 @@ public enum Huzuni {
 		modManager.addMod(new Smasher());
 		modManager.addMod(new Replica());
 		modManager.addMod(new ESP());
-		modManager.addMod(Nametags.INSTANCE);
+		modManager.addMod(new Nametags());
 		modManager.addMod(new StorageESP());
 		modManager.addMod(new Projectiles());
 		modManager.addMod(Xray.INSTANCE);
@@ -188,7 +187,6 @@ public enum Huzuni {
 		modManager.addMod(new Retard());
 		modManager.addMod(new NoSlowdown());
 		modManager.addMod(new ChatAnnoy());
-		modManager.addMod(new NewNametags());
 		commandManager.addCommand(new Help());
 		commandManager.addCommand(new Say());
 		commandManager.addCommand(new GetCoords());

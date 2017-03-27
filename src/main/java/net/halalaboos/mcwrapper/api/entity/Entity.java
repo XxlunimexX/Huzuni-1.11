@@ -228,6 +228,8 @@ public interface Entity extends Identifiable, Nameable {
 
 	boolean isRiding();
 
+	String getCurrentBiome();
+
 	enum CollisionType {
 		HORIZONTAL, VERTICAL, BOTH
 	}

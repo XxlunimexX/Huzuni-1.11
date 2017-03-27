@@ -148,17 +148,17 @@ public class Projectiles extends BasicMod implements Renderer {
             AxisAlignedBB boundingBox = new AxisAlignedBB(x - size, y - size, z - size, x + size, y + size, z + size);
 
             List<Entity> entities = mc.world.getEntitiesWithinAABBExcludingEntity(mc.player, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
-            for (int index = 0; index < entities.size(); ++index) {Entity entity = entities.get(index);
-                if (entity.canBeCollidedWith() && entity != mc.player) {
-                    AxisAlignedBB entityBoundingBox = entity.getEntityBoundingBox().expand(0.3D, 0.3D, 0.3D);
-                    RayTraceResult entityCollision = entityBoundingBox.calculateIntercept(present, future);
-                    if (entityCollision != null) {
-                        hasLanded = true;
-                        isEntity = true;
-                        collision = entityCollision;
-                    }
-                }
-            }
+			for (Entity entity : entities) {
+				if (entity.canBeCollidedWith() && entity != mc.player) {
+					AxisAlignedBB entityBoundingBox = entity.getEntityBoundingBox().expand(0.3D, 0.3D, 0.3D);
+					RayTraceResult entityCollision = entityBoundingBox.calculateIntercept(present, future);
+					if (entityCollision != null) {
+						hasLanded = true;
+						isEntity = true;
+						collision = entityCollision;
+					}
+				}
+			}
             
 	    	x += motionX;
             y += motionY;

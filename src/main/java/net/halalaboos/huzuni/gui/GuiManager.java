@@ -55,7 +55,6 @@ public class GuiManager {
 		widgetManager.addWidget(new CoordinatesWidget(widgetManager).setGlue(ScreenGlue.BOTTOM_AND_LEFT));
 		widgetManager.addWidget(new CompassWidget(widgetManager).setGlue(ScreenGlue.CENTER_TOP));
 		widgetManager.addWidget(new FPSWidget(widgetManager));
-		widgetManager.addWidget(new MinimapWidget(widgetManager).setGlue(ScreenGlue.BOTTOM_AND_RIGHT));
 		widgetManager.addWidget(new BiomeWidget(widgetManager));
 		widgetManager.addWidget(new TimeWidget(widgetManager));
 		widgetManager.addWidget(new ArmorStatusWidget(widgetManager).setGlue(ScreenGlue.CENTER_RIGHT).setEnabled(true));

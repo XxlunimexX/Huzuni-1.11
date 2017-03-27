@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.mc.mixin;
 
-import net.halalaboos.huzuni.mod.visual.Nametags;
+import net.halalaboos.mcwrapper.api.MCWrapperHooks;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 									double x, double y, double z,
 									String name, double distanceSq,
 									CallbackInfo ci) {
-		if (Nametags.INSTANCE.isEnabled()) {
+		if (!MCWrapperHooks.renderNames) {
 			ci.cancel();
 		}
 	}

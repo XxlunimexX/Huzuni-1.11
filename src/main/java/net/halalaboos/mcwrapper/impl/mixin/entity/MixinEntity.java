@@ -1,6 +1,7 @@
 package net.halalaboos.mcwrapper.impl.mixin.entity;
 
 import net.halalaboos.mcwrapper.api.entity.Entity;
+import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.halalaboos.mcwrapper.api.util.math.Rotation;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
@@ -12,7 +13,9 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.MoverType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.chunk.Chunk;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -72,6 +75,8 @@ import java.util.UUID;
 	@Shadow public abstract EnumFacing getHorizontalFacing();
 
 	@Shadow public abstract void setPositionAndUpdate(double x, double y, double z);
+
+	@Shadow public abstract BlockPos getPosition();
 
 	private AABB aabb;
 
@@ -304,6 +309,13 @@ import java.util.UUID;
 	@Override
 	public int getEntityListId() {
 		return EntityList.getID((Class<? extends net.minecraft.entity.Entity>)(Object)getClass());
+	}
+
+	@Override
+	public String getCurrentBiome() {
+		Chunk currentChunk = world.getChunkFromBlockCoords(Convert.to(getLocation().toInt()));
+		return currentChunk.getBiome(new BlockPos(MathUtils.floor(posX) & 15, posY, MathUtils.floor(posZ) & 15),
+				world.getBiomeProvider()).getBiomeName();
 	}
 
 	@Override

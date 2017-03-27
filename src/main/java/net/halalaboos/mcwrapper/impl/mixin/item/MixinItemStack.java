@@ -16,6 +16,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Mixin(net.minecraft.item.ItemStack.class)
 public abstract class MixinItemStack implements ItemStack {
@@ -39,6 +42,8 @@ public abstract class MixinItemStack implements ItemStack {
 	@Shadow @Nullable public abstract NBTTagCompound getTagCompound();
 
 	@Shadow public abstract void setTagCompound(@Nullable NBTTagCompound nbt);
+
+	@Shadow @Nullable public abstract NBTTagList getEnchantmentTagList();
 
 	private Minecraft mc = Minecraft.getMinecraft();
 
@@ -121,10 +126,25 @@ public abstract class MixinItemStack implements ItemStack {
 		}
 	}
 
+	@Override
+	public List<String> getEnchants() {
+		if (getEnchantmentTagList() == null) return null;
+		ArrayList<String> out = new ArrayList<>();
+		NBTTagList enchantments = getEnchantmentTagList();
+		for (int i = 0; i < enchantments.tagCount(); i++) {
+			NBTTagCompound compound = enchantments.getCompoundTagAt(i);
+			if (Enchantment.getEnchantmentByID(compound.getByte("id")) != null) {
+				String name = Enchantment.getEnchantmentByID(compound.getByte("id")).getTranslatedName(compound.getByte("lvl")).substring(0, 4) + " " + compound.getByte("lvl");
+				out.add(name);
+			}
+		}
+		return out;
+	}
+
 	private Enchantment get(String name) {
 		for (Enchantment enchantment : Enchantment.REGISTRY) {
 			String translatedName = I18n.translateToLocal(enchantment.getName());
-			if (translatedName.equalsIgnoreCase(name)
+			if (enchantment.getName().equals(name) || translatedName.equalsIgnoreCase(name)
 					|| translatedName.replaceAll(" ", "").equalsIgnoreCase(name)) {
 				return enchantment;
 			}

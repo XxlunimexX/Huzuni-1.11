@@ -3,6 +3,8 @@ package net.halalaboos.mcwrapper.api.item;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.attribute.Nameable;
 
+import java.util.List;
+
 public interface ItemStack extends Nameable {
 
 	/**
@@ -30,6 +32,8 @@ public interface ItemStack extends Nameable {
 	float getStrength(int x, int y, int z);
 
 	void addEnchant(String enchantmentName, short level);
+
+	List<String> getEnchants();
 
 	static Builder getBuilder() {
 		return MCWrapper.getAdapter().getBuilder(Builder.class);
