@@ -12,29 +12,30 @@ import net.halalaboos.mcwrapper.api.MCWrapper;
  * <p>This class isn't as clean as an Enum would be, but uses of this class are much cleaner as a result
  * of taking this approach.</p>
  */
+@SuppressWarnings("WeakerAccess")
 public class BlockTypes {
 
 	public static final Block AIR;
 	public static final Block STONE;
-	public static final Block GRASS; //TODO - Make a class for this Block
+	public static final Block GRASS;
 	public static final Block DIRT;
 	public static final Block COBBLESTONE;
 	public static final Block PLANKS;
 	public static final Block SAPLING;
 	public static final Block BEDROCK;
-	public static final Block FLOWING_WATER; //TODO - Make a class for this Block
-	public static final Block WATER; //TODO - Make a class for this Block
-	public static final Block FLOWING_LAVA; //TODO - Make a class for this Block
-	public static final Block LAVA; //TODO - Make a class for this Block
-	public static final Block SAND; //TODO - Make a class for this Block
+	public static final Block FLOWING_WATER;
+	public static final Block WATER;
+	public static final Block FLOWING_LAVA;
+	public static final Block LAVA;
+	public static final Block SAND;
 	public static final Block GRAVEL;
 	public static final Block GOLD_ORE;
 	public static final Block IRON_ORE;
 	public static final Block COAL_ORE;
 	public static final Block LOG;
 	public static final Block LOG2;
-	public static final Block LEAVES; //TODO - Make a class for this Block
-	public static final Block LEAVES2; //TODO - Make a class for this Block
+	public static final Block LEAVES;
+	public static final Block LEAVES2;
 	public static final Block SPONGE;
 	public static final Block GLASS;
 	public static final Block LAPIS_ORE;
@@ -45,33 +46,33 @@ public class BlockTypes {
 	public static final Block BED;
 	public static final Block GOLDEN_RAIL;
 	public static final Block DETECTOR_RAIL;
-	public static final Block STICKY_PISTON; //TODO - Make a class for this Block
+	public static final Block STICKY_PISTON;
 	public static final Block WEB;
-	public static final Block TALLGRASS; //TODO - Make a class for this Block
-	public static final Block DEADBUSH; //TODO - Make a class for this Block
-	public static final Block PISTON; //TODO - Make a class for this Block
-	public static final Block PISTON_HEAD; //TODO - Make a class for this Block
+	public static final Block TALLGRASS;
+	public static final Block DEADBUSH;
+	public static final Block PISTON;
+	public static final Block PISTON_HEAD;
 	public static final Block WOOL;
-	public static final Block PISTON_EXTENSION; //TODO - Make a class for this Block
-	public static final Block YELLOW_FLOWER; //TODO - Make a class for this Block
-	public static final Block RED_FLOWER; //TODO - Make a class for this Block
-	public static final Block BROWN_MUSHROOM; //TODO - Make a class for this Block
-	public static final Block RED_MUSHROOM; //TODO - Make a class for this Block
+	public static final Block PISTON_EXTENSION;
+	public static final Block YELLOW_FLOWER;
+	public static final Block RED_FLOWER;
+	public static final Block BROWN_MUSHROOM;
+	public static final Block RED_MUSHROOM;
 	public static final Block GOLD_BLOCK;
 	public static final Block IRON_BLOCK;
-	public static final Block DOUBLE_STONE_SLAB; //TODO - Make a class for this Block
-	public static final Block STONE_SLAB; //TODO - Make a class for this Block
+	public static final Block DOUBLE_STONE_SLAB;
+	public static final Block STONE_SLAB;
 	public static final Block BRICK_BLOCK;
 	public static final Block TNT;
 	public static final Block BOOKSHELF;
 	public static final Block MOSSY_COBBLESTONE;
 	public static final Block OBSIDIAN;
 	public static final Block TORCH;
-	public static final Block FIRE; //TODO - Make a class for this Block
+	public static final Block FIRE;
 	public static final Block MOB_SPAWNER;
 	public static final Block OAK_STAIRS;
-	public static final Block CHEST; //TODO - Make a class for this Block
-	public static final Block REDSTONE_WIRE; //TODO - Make a class for this Block
+	public static final Block CHEST;
+	public static final Block REDSTONE_WIRE;
 	public static final Block DIAMOND_ORE;
 	public static final Block DIAMOND_BLOCK;
 	public static final Block CRAFTING_TABLE;
@@ -80,19 +81,19 @@ public class BlockTypes {
 	public static final Block FURNACE;
 	public static final Block LIT_FURNACE;
 	public static final Block STANDING_SIGN;
-	public static final Block OAK_DOOR; //TODO - Make a class for this Block
-	public static final Block SPRUCE_DOOR; //TODO - Make a class for this Block
-	public static final Block BIRCH_DOOR; //TODO - Make a class for this Block
-	public static final Block JUNGLE_DOOR; //TODO - Make a class for this Block
-	public static final Block ACACIA_DOOR; //TODO - Make a class for this Block
-	public static final Block DARK_OAK_DOOR; //TODO - Make a class for this Block
+	public static final Block OAK_DOOR;
+	public static final Block SPRUCE_DOOR;
+	public static final Block BIRCH_DOOR;
+	public static final Block JUNGLE_DOOR;
+	public static final Block ACACIA_DOOR;
+	public static final Block DARK_OAK_DOOR;
 	public static final Block LADDER;
 	public static final Block RAIL;
 	public static final Block STONE_STAIRS;
 	public static final Block WALL_SIGN;
 	public static final Block LEVER;
 	public static final Block STONE_PRESSURE_PLATE;
-	public static final Block IRON_DOOR; //TODO - Make a class for this Block
+	public static final Block IRON_DOOR;
 	public static final Block WOODEN_PRESSURE_PLATE;
 	public static final Block REDSTONE_ORE;
 	public static final Block LIT_REDSTONE_ORE;
@@ -102,9 +103,9 @@ public class BlockTypes {
 	public static final Block SNOW_LAYER;
 	public static final Block ICE;
 	public static final Block SNOW;
-	public static final Block CACTUS; //TODO - Make a class for this Block
+	public static final Block CACTUS;
 	public static final Block CLAY;
-	public static final Block REEDS; //TODO - Make a class for this Block
+	public static final Block REEDS;
 	public static final Block JUKEBOX;
 	public static final Block OAK_FENCE;
 	public static final Block SPRUCE_FENCE;
@@ -116,11 +117,11 @@ public class BlockTypes {
 	public static final Block NETHERRACK;
 	public static final Block SOUL_SAND;
 	public static final Block GLOWSTONE;
-	public static final Block PORTAL; //TODO - Make a class for this Block
+	public static final Block PORTAL;
 	public static final Block LIT_PUMPKIN;
 	public static final Block CAKE;
-	public static final Block UNPOWERED_REPEATER; //TODO - Make a class for this Block
-	public static final Block POWERED_REPEATER; //TODO - Make a class for this Block
+	public static final Block UNPOWERED_REPEATER;
+	public static final Block POWERED_REPEATER;
 	public static final Block TRAPDOOR;
 	public static final Block MONSTER_EGG;
 	public static final Block STONEBRICK;
@@ -140,7 +141,7 @@ public class BlockTypes {
 	public static final Block ACACIA_FENCE_GATE;
 	public static final Block BRICK_STAIRS;
 	public static final Block STONE_BRICK_STAIRS;
-	public static final Block MYCELIUM; //TODO - Make a class for this Block
+	public static final Block MYCELIUM;
 	public static final Block WATERLILY;
 	public static final Block NETHER_BRICK;
 	public static final Block NETHER_BRICK_FENCE;
@@ -148,44 +149,44 @@ public class BlockTypes {
 	public static final Block NETHER_WART;
 	public static final Block ENCHANTING_TABLE;
 	public static final Block BREWING_STAND;
-	public static final Block CAULDRON; //TODO - Make a class for this Block
+	public static final Block CAULDRON;
 	public static final Block END_PORTAL;
 	public static final Block END_PORTAL_FRAME;
 	public static final Block END_STONE;
 	public static final Block DRAGON_EGG;
 	public static final Block REDSTONE_LAMP;
 	public static final Block LIT_REDSTONE_LAMP;
-	public static final Block DOUBLE_WOODEN_SLAB; //TODO - Make a class for this Block
-	public static final Block WOODEN_SLAB; //TODO - Make a class for this Block
+	public static final Block DOUBLE_WOODEN_SLAB;
+	public static final Block WOODEN_SLAB;
 	public static final Block COCOA;
 	public static final Block SANDSTONE_STAIRS;
 	public static final Block EMERALD_ORE;
 	public static final Block ENDER_CHEST;
-	public static final Block TRIPWIRE_HOOK; //TODO - Make a class for this Block
+	public static final Block TRIPWIRE_HOOK;
 	public static final Block TRIPWIRE;
 	public static final Block EMERALD_BLOCK;
 	public static final Block SPRUCE_STAIRS;
 	public static final Block BIRCH_STAIRS;
 	public static final Block JUNGLE_STAIRS;
 	public static final Block COMMAND_BLOCK;
-	public static final Block BEACON; //TODO - Make a class for this Block
+	public static final Block BEACON;
 	public static final Block COBBLESTONE_WALL;
 	public static final Block FLOWER_POT;
 	public static final Block CARROTS;
 	public static final Block POTATOES;
 	public static final Block WOODEN_BUTTON;
-	public static final Block SKULL; //TODO - Make a class for this Block
+	public static final Block SKULL;
 	public static final Block ANVIL;
 	public static final Block TRAPPED_CHEST;
 	public static final Block LIGHT_WEIGHTED_PRESSURE_PLATE;
 	public static final Block HEAVY_WEIGHTED_PRESSURE_PLATE;
-	public static final Block UNPOWERED_COMPARATOR; //TODO - Make a class for this Block
-	public static final Block POWERED_COMPARATOR; //TODO - Make a class for this Block
-	public static final Block DAYLIGHT_DETECTOR; //TODO - Make a class for this Block
-	public static final Block DAYLIGHT_DETECTOR_INVERTED; //TODO - Make a class for this Block
+	public static final Block UNPOWERED_COMPARATOR;
+	public static final Block POWERED_COMPARATOR;
+	public static final Block DAYLIGHT_DETECTOR;
+	public static final Block DAYLIGHT_DETECTOR_INVERTED;
 	public static final Block REDSTONE_BLOCK;
 	public static final Block QUARTZ_ORE;
-	public static final Block HOPPER; //TODO - Make a class for this Block
+	public static final Block HOPPER;
 	public static final Block QUARTZ_BLOCK;
 	public static final Block QUARTZ_STAIRS;
 	public static final Block ACTIVATOR_RAIL;
@@ -201,17 +202,17 @@ public class BlockTypes {
 	public static final Block ACACIA_STAIRS;
 	public static final Block DARK_OAK_STAIRS;
 	public static final Block SLIME_BLOCK;
-	public static final Block DOUBLE_PLANT; //TODO - Make a class for this Block
-	public static final Block STAINED_GLASS; //TODO - Make a class for this Block
-	public static final Block STAINED_GLASS_PANE; //TODO - Make a class for this Block
+	public static final Block DOUBLE_PLANT;
+	public static final Block STAINED_GLASS;
+	public static final Block STAINED_GLASS_PANE;
 	public static final Block PRISMARINE;
 	public static final Block SEA_LANTERN;
 	public static final Block STANDING_BANNER;
 	public static final Block WALL_BANNER;
 	public static final Block RED_SANDSTONE;
 	public static final Block RED_SANDSTONE_STAIRS;
-	public static final Block DOUBLE_STONE_SLAB2; //TODO - Make a class for this Block
-	public static final Block STONE_SLAB2; //TODO - Make a class for this Block
+	public static final Block DOUBLE_STONE_SLAB2;
+	public static final Block STONE_SLAB2;
 	public static final Block END_ROD;
 	public static final Block CHORUS_PLANT;
 	public static final Block CHORUS_FLOWER;
