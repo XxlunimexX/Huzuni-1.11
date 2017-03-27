@@ -23,6 +23,7 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 import static org.lwjgl.opengl.GL11.glLineWidth;
 import static org.lwjgl.opengl.GL11.glPolygonOffset;
 
+// TODO: tag renderer for each entity. Modular approach for each tag for each entity type, as entities will have their own information with their own displays.
 public class Nametags extends BasicMod implements RenderManager.Renderer {
 
 	private final Toggleable armor = new Toggleable("Armor", "Render player armor above their heads");
