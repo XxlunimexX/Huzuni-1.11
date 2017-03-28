@@ -3,6 +3,8 @@ package net.halalaboos.mcwrapper.impl.mixin.item;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.item.Item;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
+import net.halalaboos.mcwrapper.impl.Convert;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -53,8 +55,8 @@ public abstract class MixinItemStack implements ItemStack {
 	}
 
 	@Override
-	public float getStrength(int x, int y, int z) {
-		return getStrVsBlock(mc.world.getBlockState(new BlockPos(x, y, z)));
+	public float getStrength(Vector3i pos) {
+		return getStrVsBlock(mc.world.getBlockState(Convert.to(pos)));
 	}
 
 	@Override

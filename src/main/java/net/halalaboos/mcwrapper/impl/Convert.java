@@ -2,6 +2,7 @@ package net.halalaboos.mcwrapper.impl;
 
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.util.DigAction;
+import net.halalaboos.mcwrapper.api.util.Face;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.client.Minecraft;
@@ -11,6 +12,7 @@ import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionUtils;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -54,6 +56,14 @@ public class Convert {
 
 	public static CPacketPlayerDigging.Action to(DigAction action) {
 		return CPacketPlayerDigging.Action.values()[action.ordinal()];
+	}
+
+	public static DigAction from(CPacketPlayerDigging.Action action) {
+		return DigAction.values()[action.ordinal()];
+	}
+
+	public static Face from(EnumFacing facing) {
+		return Face.values()[facing.ordinal()];
 	}
 
 	//Only used for some Mixins, don't use this for anything outside of the impl package!!

@@ -60,6 +60,7 @@
     "network.MixinNetHandlerPlayClient",
     "network.packet.MixinPacket",
     "network.packet.client.MixinPacketChatMessage",
+    "network.packet.client.MixinPacketDigging",
     "network.packet.client.MixinPacketPlayer",
     "network.packet.client.MixinPacketUseEntity",
     "network.packet.client.MixinPacketTabComplete",

@@ -8,4 +8,7 @@ public interface PlayerInventory {
 
 	ItemStack getArmorStack(int slot);
 
+	int getCurrentSlot();
+
+	void setCurrentSlot(int slot);
 }

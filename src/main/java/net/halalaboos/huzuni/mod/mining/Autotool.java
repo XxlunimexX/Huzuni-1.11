@@ -8,15 +8,17 @@ import net.halalaboos.huzuni.api.task.HotbarTask;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.mcwrapper.api.client.GameKeybind;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
+import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
 import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.network.packet.client.DiggingPacket;
 import net.halalaboos.mcwrapper.api.network.packet.client.UseEntityPacket;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.network.play.client.CPacketPlayerDigging;
-import net.minecraft.util.math.BlockPos;
+import net.halalaboos.mcwrapper.api.util.DigAction;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import org.lwjgl.input.Keyboard;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getController;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getSettings;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
@@ -38,7 +40,7 @@ public class Autotool extends BasicMod {
 		protected boolean isValid(ItemStack itemStack) {
 			if (itemStack != null) {
 				if (digging && hasBlock()) {
-					return itemStack.getStrength(position.getX(), position.getY(), position.getZ()) > 0.055555556F;
+					return itemStack.getStrength(position) > 0.055555556F;
 				} else if (weapon.isEnabled() && !digging && hasEntity()) {
 					//TODO
 					return false;
@@ -52,11 +54,8 @@ public class Autotool extends BasicMod {
 		protected boolean compare(ItemStack currentItem, ItemStack newItem) {
 			if (newItem != null) {
 				if (digging) {
-					int x = position.getX();
-					int y = position.getY();
-					int z = position.getZ();
-					float currentHardness = currentItem.getStrength(x, y, z);
-					float newHardness = newItem.getStrength(x, y, z);
+					float currentHardness = currentItem.getStrength(position);
+					float newHardness = newItem.getStrength(position);
 					return currentHardness < newHardness;
 				} else {
 					return false;
@@ -69,8 +68,7 @@ public class Autotool extends BasicMod {
 	
 	private boolean digging = false;
 	private Living entity = null;
-	private IBlockState blockState = null;
-	private BlockPos position = null;
+	private Vector3i position = null;
 	
 	public Autotool() {
 		super("Auto tool", "Switches to the best tool in your hotbar when mining", Keyboard.KEY_J);
@@ -89,13 +87,12 @@ public class Autotool extends BasicMod {
 	}
 
 	private void onPacket(PacketSendEvent event) {
-		if (event.getPacket() instanceof CPacketPlayerDigging) {
-			CPacketPlayerDigging packet = (CPacketPlayerDigging) event.getPacket();
-			if (!mc.playerController.isInCreativeMode() && packet.getAction() == CPacketPlayerDigging.Action.START_DESTROY_BLOCK) {
+		if (event.getPacket() instanceof DiggingPacket) {
+			DiggingPacket packet = (DiggingPacket) event.getPacket();
+			if (getController().getGameType() != GameType.CREATIVE && packet.getDigAction() == DigAction.START) {
 				this.digging = true;
 				this.entity = null;
-				this.position = packet.getPosition();
-				this.blockState = mc.world.getBlockState(this.position);
+				this.position = packet.getLocation();
 				huzuni.hotbarManager.requestTask(this, hotbarTask);
 			}
 		} else if (event.getPacket() instanceof UseEntityPacket) {
@@ -105,7 +102,6 @@ public class Autotool extends BasicMod {
 				if (entity instanceof Living) {
 					this.digging = false;
 					this.position = null;
-					this.blockState = null;
 					this.entity = (Living)entity;
 					timer.reset();
 					huzuni.hotbarManager.requestTask(this, hotbarTask);
@@ -116,7 +112,6 @@ public class Autotool extends BasicMod {
 
 	private void onUpdate(PreMotionUpdateEvent event) {
 		if (!getSettings().isKeyDown(GameKeybind.ATTACK) && digging) {
-			this.blockState = null;
 			this.position = null;
 			this.digging = false;
 			huzuni.hotbarManager.withdrawTask(hotbarTask);
@@ -131,7 +126,7 @@ public class Autotool extends BasicMod {
      * @return True if the auto tool has a block.
      * */
 	private boolean hasBlock() {
-		return blockState != null && position != null;
+		return position != null;
 	}
 
 	/**

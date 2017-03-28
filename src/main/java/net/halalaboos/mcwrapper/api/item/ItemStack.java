@@ -3,6 +3,7 @@ package net.halalaboos.mcwrapper.api.item;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.attribute.Nameable;
 import net.halalaboos.mcwrapper.api.block.Block;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public interface ItemStack extends Nameable {
 	//TEMP
 	void render3D(int x, int y);
 
-	float getStrength(int x, int y, int z);
+	float getStrength(Vector3i pos);
 
 	void addEnchant(String enchantmentName, short level);
 
