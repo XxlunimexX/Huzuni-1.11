@@ -18,9 +18,7 @@ import net.minecraft.client.renderer.GlStateManager;
 
 import java.awt.*;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getTextRenderer;
+import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 import static org.lwjgl.opengl.GL11.glLineWidth;
 
 /**
@@ -146,9 +144,9 @@ public class Waypoints extends Mod implements Renderer {
 					scale = 1D;
 				if (lines.isEnabled())
 					huzuni.renderManager.addLine((float)renderPos.getX(), (float)renderPos.getY(), (float)renderPos.getZ(), (float) color.getRed() / 255F, (float) color.getGreen() / 255F, (float) color.getBlue() / 255F, opacity.getValue() / 100F);
-				GlStateManager.pushMatrix();
+				getGLStateManager().pushMatrix();
 				GLUtils.prepareBillboarding((float)renderPos.getX(), (float)renderPos.getY(), (float)renderPos.getZ(), true);
-				GlStateManager.scale(scale, scale, scale);
+				getGLStateManager().scale(scale, scale, scale);
 				location.bindTexture();
 				GLUtils.glColor(color, opacity.getValue() / 100F);
 				String renderName = waypoint.getName() + (distance.isEnabled() ? " (" + ((int) waypoint.getDistance()) + ")" : "");
@@ -157,11 +155,11 @@ public class Waypoints extends Mod implements Renderer {
 					if (renderIcon.isEnabled())
 						location.render(-16F, -16F - (huzuni.guiFontRenderer.getStringHeight(renderName)) * 2F, 32, 32);
 					if (background.isEnabled()) {
-						GlStateManager.disableTexture2D();
+						getGLStateManager().disableTexture2D();
 						GLUtils.glColor(0F, 0F, 0F, opacity.getValue() / 100F);
 						GLUtils.drawBorderRect(-width / 2 - 2, -2, width / 2 + 2, 10, 2F);
 						GLUtils.glColor(1F, 1F, 1F, opacity.getValue() / 100F);
-						GlStateManager.enableTexture2D();
+						getGLStateManager().enableTexture2D();
 					}
 					huzuni.guiFontRenderer.drawStringWithShadow(renderName, -width / 2, -2, 0xFFFFFF);
 				} else {
@@ -170,17 +168,17 @@ public class Waypoints extends Mod implements Renderer {
 						location.render(-16F, -16F - (getTextRenderer().getHeight()) * 2F, 32, 32);
 					
 					if (background.isEnabled()) {
-						GlStateManager.disableTexture2D();
+						getGLStateManager().disableTexture2D();
 						GLUtils.glColor(0F, 0F, 0F, opacity.getValue() / 100F);
 						GLUtils.drawBorderRect(-width / 2 - 2, -2, width / 2 + 2, 10, 2F);
 						GLUtils.glColor(1F, 1F, 1F, opacity.getValue() / 100F);
-						GlStateManager.enableTexture2D();
+						getGLStateManager().enableTexture2D();
 					}
 					getTextRenderer().render(renderName, -width / 2, 0, 0xFFFFFF, true);
-			        GlStateManager.disableAlpha();
+			        getGLStateManager().disableAlpha();
 				}
-				GlStateManager.disableTexture2D();
-				GlStateManager.popMatrix();
+				getGLStateManager().disableTexture2D();
+				getGLStateManager().popMatrix();
 			}
 		}
 		glLineWidth(huzuni.settings.lineSize.getValue());

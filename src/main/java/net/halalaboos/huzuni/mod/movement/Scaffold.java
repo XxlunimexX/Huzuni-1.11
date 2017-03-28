@@ -14,6 +14,8 @@ import net.minecraft.util.math.Vec3i;
 
 /**
  * Places blocks underneath the player to allow them to walk across large areas which have no blocks.
+ *
+ * TODO: Port to MCWrapper
  * */
 public class Scaffold extends BasicMod {
 

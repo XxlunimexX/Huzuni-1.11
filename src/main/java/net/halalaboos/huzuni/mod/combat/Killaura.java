@@ -27,6 +27,8 @@ import org.lwjgl.input.Keyboard;
 
 import java.util.Random;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
+
 /**
  * Automatically attacks entities after passing a series of tests.
  * */
@@ -260,7 +262,7 @@ public class Killaura extends BasicMod implements Renderer {
      * Renders the entity selection texture.
      * */
 	private void renderEntitySelection(float partialTicks, EntityLivingBase entity, float r, float g, float b) {
-		GlStateManager.pushMatrix();
+		getGLStateManager().pushMatrix();
 		float renderX = (float) (MathUtils.interpolate(entity.prevPosX, entity.posX, partialTicks) - mc.getRenderManager().viewerPosX);
 		float renderY = (float) (MathUtils.interpolate(entity.prevPosY, entity.posY, partialTicks) - mc.getRenderManager().viewerPosY);
 		float renderZ = (float) (MathUtils.interpolate(entity.prevPosZ, entity.posZ, partialTicks) - mc.getRenderManager().viewerPosZ);
@@ -268,8 +270,8 @@ public class Killaura extends BasicMod implements Renderer {
 		GLUtils.glColor(r, g, b, 1F);
 		select.bindTexture();
 		select.render(-16F, -16F, 32, 32);
-		GlStateManager.disableTexture2D();
-		GlStateManager.popMatrix();
+		getGLStateManager().disableTexture2D();
+		getGLStateManager().popMatrix();
 	}
 
 	private void onMouseClick(MouseEvent event) {

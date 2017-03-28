@@ -66,28 +66,12 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Shadow public PlayerControllerMP playerController;
 	@Shadow private RenderManager renderManager;
 	@Shadow public FontRenderer fontRenderer;
-
-	@Shadow
-	public abstract boolean isUnicode();
-
-	@Shadow
-	@Nullable
-	public abstract NetHandlerPlayClient getConnection();
-
-	@Shadow
-	public abstract IResourceManager getResourceManager();
-
-	@Shadow
-	public abstract void displayGuiScreen(@Nullable GuiScreen guiScreenIn);
-
-	@Shadow
-	@Final
-	public File mcDataDir;
-
-	@Shadow
-	@Nullable
-	private net.minecraft.entity.Entity renderViewEntity;
-
+	@Shadow public abstract boolean isUnicode();
+	@Shadow @Nullable public abstract NetHandlerPlayClient getConnection();
+	@Shadow public abstract IResourceManager getResourceManager();
+	@Shadow public abstract void displayGuiScreen(@Nullable GuiScreen guiScreenIn);
+	@Shadow @Final public File mcDataDir;
+	@Shadow @Nullable private net.minecraft.entity.Entity renderViewEntity;
 	@Shadow public RenderGlobal renderGlobal;
 
 	@Inject(method = "run()V", at = @At(value = "INVOKE",

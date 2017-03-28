@@ -1,11 +1,11 @@
 package net.halalaboos.huzuni.meme;
 
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
-import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.image.BufferedImage;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 import static org.lwjgl.opengl.GL11.GL_NEAREST;
 import static org.lwjgl.opengl.GL11.GL_REPEAT;
 
@@ -31,7 +31,7 @@ public class Meme {
     public void bindTexture() {
         if (!hasTexture())
             generateTexture();
-        GlStateManager.bindTexture(texId);
+        getGLStateManager().bindTexture(texId);
     }
 
 	/**

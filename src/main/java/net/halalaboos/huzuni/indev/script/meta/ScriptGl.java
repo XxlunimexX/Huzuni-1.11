@@ -3,14 +3,14 @@ package net.halalaboos.huzuni.indev.script.meta;
 import net.halalaboos.huzuni.indev.gui.impl.BasicFontRenderer;
 import net.halalaboos.huzuni.indev.gui.render.FontRenderer;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 
-import java.awt.*;
-
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 
 /**
  * Wrapper rendering class used by scripts. <br/>
@@ -83,9 +83,9 @@ public final class ScriptGl {
      * Draws a rectangle within the x, y, x1, and y1 positions.
      * */
     public void rect(int x, int y, int x1, int y1) {
-        GlStateManager.disableTexture2D();
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        getGLStateManager().disableTexture2D();
+        getGLStateManager().enableBlend();
+        getGLStateManager().blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         VertexBuffer vertexBuffer = tessellator.getBuffer();
         vertexBuffer.begin(GL_QUADS, DefaultVertexFormats.POSITION);
         vertexBuffer.pos(x, y1, 0F).endVertex();
@@ -93,6 +93,6 @@ public final class ScriptGl {
         vertexBuffer.pos(x1, y, 0F).endVertex();
         vertexBuffer.pos(x, y, 0F).endVertex();
         tessellator.draw();
-        GlStateManager.enableTexture2D();
+        getGLStateManager().enableTexture2D();
     }
 }

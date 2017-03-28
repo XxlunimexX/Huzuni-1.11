@@ -36,12 +36,8 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 	@Shadow private String serverBrand;
 	@Shadow @Final public NetHandlerPlayClient connection;
 	@Shadow public abstract boolean isHandActive();
-
-	@Shadow
-	public abstract void onUpdateWalkingPlayer();
-
-	@Shadow
-	protected abstract void updateAutoJump(float p_189810_1_, float p_189810_2_);
+	@Shadow public abstract void onUpdateWalkingPlayer();
+	@Shadow protected abstract void updateAutoJump(float p_189810_1_, float p_189810_2_);
 
 	@Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
 	public void sendChatMessage(String message, CallbackInfo ci) {

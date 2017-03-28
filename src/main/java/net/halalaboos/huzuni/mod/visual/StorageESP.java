@@ -16,9 +16,7 @@ import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Keyboard;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
+import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
 /**
  * Renders meshes over tile entities within the world.
@@ -87,7 +85,7 @@ public class StorageESP extends BasicMod implements Renderer {
 
 	@Override
 	public void render(float partialTicks) {
-		for (net.halalaboos.mcwrapper.api.block.tileentity.TileEntity tileEntity : getWorld().getTileEntities()) {
+		for (TileEntity tileEntity : getWorld().getTileEntities()) {
 			Vector3d cam = getMinecraft().getCamera();
 			Vector3d renderPos = tileEntity.getPosition().toDouble().sub(cam);
 			float renderX = (float) (renderPos.getX());
@@ -103,8 +101,8 @@ public class StorageESP extends BasicMod implements Renderer {
 				if (this.lines.isEnabled()) {
 					huzuni.renderManager.addLine(renderX + 0.5F, renderY, renderZ + 0.5F, 1F, chest.getType() == Chest.ChestType.TRAP ? 0F : 1F, 0F, alpha);
 				}
-				GlStateManager.pushMatrix();
-				GlStateManager.translate(renderX, renderY, renderZ);
+				getGLStateManager().pushMatrix();
+				getGLStateManager().translate(renderX, renderY, renderZ);
 				if (chest.getAdjacentXPos() != null) {
 					if (boxes.isEnabled()) {
 						colorChest(chest, alpha);
@@ -139,7 +137,7 @@ public class StorageESP extends BasicMod implements Renderer {
 						normal.render();
 					}
 				}
-				GlStateManager.popMatrix();
+				getGLStateManager().popMatrix();
 			}
 			if (tileEntity instanceof EnderChest || tileEntity instanceof EnchantingTable) renderBox(tileEntity, 1F, 0.1F, 1F);
 			if (tileEntity instanceof Furnace) renderBox(tileEntity, 0.25F, 0.25F, 0.25F);
@@ -158,7 +156,7 @@ public class StorageESP extends BasicMod implements Renderer {
 	/**
      * Renders a box with the given r, g, b values over the given tile entity.
      * */
-	private void renderBox(net.halalaboos.mcwrapper.api.block.tileentity.TileEntity tileEntity, float r, float g, float b) {
+	private void renderBox(TileEntity tileEntity, float r, float g, float b) {
 		float dist = (float) getPlayer().getDistanceTo(tileEntity.getPosition().toDouble()) / 128;
 		float alpha = dist > 0.25F ? 0.25F : dist;
 		float renderX = (float) (tileEntity.getPosition().getX() - mc.getRenderManager().viewerPosX);
@@ -167,8 +165,8 @@ public class StorageESP extends BasicMod implements Renderer {
 		if (this.lines.isEnabled()) {
 			huzuni.renderManager.addLine(renderX + 0.5F, renderY, renderZ + 0.5F, r, g, b, fade.isEnabled() ? alpha : 0.25F);
 		}
-		GlStateManager.pushMatrix();
-		GlStateManager.translate(renderX, renderY, renderZ);
+		getGLStateManager().pushMatrix();
+		getGLStateManager().translate(renderX, renderY, renderZ);
 		if (boxes.isEnabled()) {
 			GLUtils.glColor(r, g, b, fade.isEnabled() ? alpha : 0.25F);
 			normal.setOpaque(true);
@@ -179,6 +177,6 @@ public class StorageESP extends BasicMod implements Renderer {
 			normal.setOpaque(false);
 			normal.render();
 		}
-		GlStateManager.popMatrix();
+		getGLStateManager().popMatrix();
 	}
 }

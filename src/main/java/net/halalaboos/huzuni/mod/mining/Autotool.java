@@ -22,6 +22,8 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**
  * Automatically switches to the best tool needed for the player's given situation.
+ *
+ * TODO: Make this like it was before
  * */
 public class Autotool extends BasicMod {
 	

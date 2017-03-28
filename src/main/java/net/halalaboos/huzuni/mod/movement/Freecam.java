@@ -12,6 +12,8 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 
 /**
  * Allows the player to fly freely from their body and explore the world.
+ *
+ * TODO: Port to MCWrapper
  * */
 public class Freecam extends BasicMod {
 	

@@ -13,6 +13,8 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
  * Steals items from within a chest once the chest was opened.
+ *
+ * TODO: Port to MCWrapper
  * */
 public class Cheststealer extends BasicMod {
 		

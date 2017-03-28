@@ -15,6 +15,8 @@ import net.minecraft.util.math.BlockPos;
 
 /**
  * Breaks all one-hit blocks.
+ *
+ * TODO: Port to MCWrapper
  * */
 public class Smasher extends BasicMod {
 	

@@ -35,6 +35,8 @@ import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
 
 /**
  * Renders the trajectory of any throwable item held by the player along with the projectiles within the air.
+ *
+ * TODO: Port to MCWrapper
  * */
 public class Projectiles extends BasicMod implements Renderer {
 

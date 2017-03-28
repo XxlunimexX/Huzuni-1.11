@@ -27,8 +27,12 @@ import net.minecraft.util.math.RayTraceResult;
 import java.io.File;
 import java.util.List;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
+
 /**
  * Places blocks based on templates.
+ *
+ * TODO: Port to MCWrapper
  * */
 public final class Replica extends BasicMod implements Renderer {
 
@@ -199,11 +203,11 @@ public final class Replica extends BasicMod implements Renderer {
 		float renderX = (float) (x - mc.getRenderManager().viewerPosX);
 		float renderY = (float) (y - mc.getRenderManager().viewerPosY);
 		float renderZ = (float) (z - mc.getRenderManager().viewerPosZ);
-		GlStateManager.pushMatrix();
-		GlStateManager.translate(renderX, renderY, renderZ);
+		getGLStateManager().pushMatrix();
+		getGLStateManager().translate(renderX, renderY, renderZ);
 		GLUtils.glColor(1F, 1F, 1F, 0.2F);
 		box.render();
-		GlStateManager.popMatrix();
+		getGLStateManager().popMatrix();
 	}
 
 	/*
