@@ -4,6 +4,9 @@ import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.util.DigAction;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -51,5 +54,15 @@ public class Convert {
 
 	public static CPacketPlayerDigging.Action to(DigAction action) {
 		return CPacketPlayerDigging.Action.values()[action.ordinal()];
+	}
+
+	//Only used for some Mixins, don't use this for anything outside of the impl package!!
+	public static EntityPlayerSP player() {
+		return Minecraft.getMinecraft().player;
+	}
+
+	//Only used for some Mixins, don't use this for anything outside of the impl package!!
+	public static WorldClient world() {
+		return Minecraft.getMinecraft().world;
 	}
 }

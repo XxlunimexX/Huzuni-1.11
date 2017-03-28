@@ -9,7 +9,7 @@ public class EventManager {
 	/**
 	 * Contains all of the registered {@link Event Events} and a list of their {@link Subscriber Subscribers}.
 	 */
-	private Map<Class<? extends Event>, List<Subscriber>> eventMap = new HashMap<>();
+	private Map<Class<? extends Event>, HashSet<Subscriber>> eventMap = new HashMap<>();
 
 	/**
 	 * Subscribes the specified {@link Subscriber} to the target {@link Event} class.
@@ -19,7 +19,7 @@ public class EventManager {
 	 * @param <T> The Event
 	 */
 	public <T extends Event> void subscribe(Class<T> event, Subscriber<T> subscriber) {
-		eventMap.computeIfAbsent(event, k -> new ArrayList<>()).add(subscriber);
+		eventMap.computeIfAbsent(event, k -> new HashSet<>()).add(subscriber);
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class EventManager {
 	 * @param <T> The Event
 	 */
 	public <T extends Event> void unsubscribe(Class<T> event, Subscriber<T> subscriber) {
-		eventMap.computeIfAbsent(event, k -> new ArrayList<>()).remove(subscriber);
+		eventMap.computeIfAbsent(event, k -> new HashSet<>()).remove(subscriber);
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class EventManager {
 	@SuppressWarnings("unchecked")
 	public <T extends Event> T publish(T event) {
 		//Get all of the subscribers that are subscribed to the event
-		Collection<Subscriber> subscribers = eventMap.get(event.getClass());
+		HashSet<Subscriber> subscribers = eventMap.get(event.getClass());
 
 		//If the list of subscribers isn't empty...
 		if (subscribers != null) {

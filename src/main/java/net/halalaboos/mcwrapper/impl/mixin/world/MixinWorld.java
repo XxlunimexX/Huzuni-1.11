@@ -24,6 +24,8 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 
+import static net.halalaboos.mcwrapper.impl.Convert.player;
+
 @SuppressWarnings("unchecked")
 @Mixin(net.minecraft.world.World.class) public abstract class MixinWorld implements World {
 
@@ -80,12 +82,12 @@ import java.util.List;
 	//this might be broken... lol
 	@Override
 	public Collection<Entity> getEntitiesInBox(AABB aabb) {
-		return ((Collection<Entity>)(Object)getEntitiesWithinAABBExcludingEntity(Minecraft.getMinecraft().player, Convert.to(aabb)));
+		return ((Collection<Entity>)(Object)getEntitiesWithinAABBExcludingEntity(player(), Convert.to(aabb)));
 	}
 
 	@Override
 	public boolean isOffsetBBEmpty(Vector3d offset) {
-		EntityPlayerSP playerSP = Minecraft.getMinecraft().player;
+		EntityPlayerSP playerSP = player();
 		return getCollisionBoxes(playerSP, playerSP.getEntityBoundingBox().offset(offset.getX(), offset.getY(), offset.getZ())).isEmpty();
 	}
 
@@ -96,12 +98,12 @@ import java.util.List;
 
 	@Override
 	public void sendBreakProgress(Vector3i pos, int progress) {
-		sendBlockBreakProgress(Minecraft.getMinecraft().player.getEntityId(), Convert.to(pos), progress);
+		sendBlockBreakProgress(player().getEntityId(), Convert.to(pos), progress);
 	}
 
 	@Override
 	public float getRelativeHardness(Vector3i pos) {
 		IBlockState state = getBlockState(Convert.to(pos));
-		return state.getPlayerRelativeBlockHardness(Minecraft.getMinecraft().player, (net.minecraft.world.World)(Object)this, Convert.to(pos));
+		return state.getPlayerRelativeBlockHardness(player(), (net.minecraft.world.World)(Object)this, Convert.to(pos));
 	}
 }

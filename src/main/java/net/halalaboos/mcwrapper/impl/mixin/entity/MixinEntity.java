@@ -78,6 +78,12 @@ import java.util.UUID;
 
 	@Shadow public abstract BlockPos getPosition();
 
+	@Shadow protected boolean pushOutOfBlocks(double x, double y, double z) {return true;}
+
+	@Shadow public boolean isEntityInsideOpaqueBlock() { return false; }
+
+	@Shadow public boolean noClip;
+
 	private AABB aabb;
 
 	@Inject(method = "setEntityBoundingBox", at = @At("HEAD"))

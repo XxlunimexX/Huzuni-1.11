@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.mc.mixin;
+package net.halalaboos.mcwrapper.impl.mixin.client;
 
 import net.halalaboos.mcwrapper.api.MCWrapperHooks;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -7,7 +7,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(net.minecraft.client.renderer.entity.RenderPlayer.class) public class MixinRenderPlayer {
+@Mixin(net.minecraft.client.renderer.entity.RenderPlayer.class)
+public class MixinRenderPlayer {
 
 	@Inject(method = "renderEntityName", at = @At("HEAD"), cancellable = true)
 	protected void renderEntityName(AbstractClientPlayer entityIn,

@@ -20,6 +20,7 @@
     "block.types.MixinBlockFarmland",
     "block.types.MixinBlockCrops",
     "client.MixinGameSettings",
+    "client.MixinRenderPlayer",
     "client.MixinPlayerControllerMP",
     "client.gui.MixinFontRenderer",
     "client.gui.MixinGuiNewChat",
@@ -70,6 +71,7 @@
     "network.packet.server.MixinPacketCollectItem",
     "potion.MixinPotion",
     "potion.MixinPotionEffect",
-    "world.MixinWorld"
+    "world.MixinWorld",
+    "world.MixinWorldClient"
   ]
 }

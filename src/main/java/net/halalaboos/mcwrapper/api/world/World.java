@@ -60,4 +60,8 @@ public interface World {
 	void sendBreakProgress(Vector3i pos, int progress);
 
 	float getRelativeHardness(Vector3i pos);
+
+	Player spawnCopiedPlayer(int entityID, Player target);
+
+	void removeEntity(int entityID);
 }
