@@ -5,12 +5,17 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Mode;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.PlaceTask;
+import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**
  * Places blocks underneath the player to allow them to walk across large areas which have no blocks.
@@ -95,4 +100,15 @@ public class Scaffold extends BasicMod {
 		return null;
 	}
 
+	//todo - use this instead
+	private Vector3i getFirst(Vector3i dir) {
+		for (int i = 0; i <= ((int) placeDistance.getValue()); i++) {
+			Vector3i pos = new Vector3i(getPlayer().getX() + dir.getX() * i, getPlayer().getY() - 1, getPlayer().getZ() + dir.getZ() * i);
+			Vector3i before = new Vector3i(getPlayer().getX() + dir.getX() * (i - 1), getPlayer().getY() - 1, getPlayer().getZ() + dir.getZ() * (i - 1));
+			if (getWorld().blockExists(pos) && !getWorld().blockExists(before)) {
+				return before;
+			}
+		}
+		return null;
+	}
 }

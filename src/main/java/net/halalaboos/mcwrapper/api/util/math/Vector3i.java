@@ -15,9 +15,9 @@ public class Vector3i {
 	}
 
 	public Vector3i(double x, double y, double z) {
-		this.x = (int)x;
-		this.y = (int)y;
-		this.z = (int)z;
+		this.x = MathUtils.floor(x);
+		this.y = MathUtils.floor(y);
+		this.z = MathUtils.floor(z);
 	}
 
 	public Vector3i(Vector3d vec) {

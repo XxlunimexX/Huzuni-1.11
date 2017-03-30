@@ -90,6 +90,10 @@ public class MathUtils {
 		return input;
 	}
 
+	public static int abs(int input) {
+		return input >= 0 ? input : -input;
+	}
+
 	private static class Sin {
 		static final float[] table = new float[SIN_COUNT];
 

@@ -29,8 +29,8 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
  * */
 public class Autotool extends BasicMod {
 	
-	public final Toggleable weapon = new Toggleable("Swap weapon", "Swaps to the best weapon when in combat.");
-	public final Value combatTime = new Value("Combat time", " ms", 100F, 1000F, 5000F, 50F, "Time required to pass until no longer considered in combat.");
+	private final Toggleable weapon = new Toggleable("Swap weapon", "Swaps to the best weapon when in combat.");
+	private final Value combatTime = new Value("Combat time", " ms", 100F, 1000F, 5000F, 50F, "Time required to pass until no longer considered in combat.");
 
 	private final Timer timer = new Timer();
 

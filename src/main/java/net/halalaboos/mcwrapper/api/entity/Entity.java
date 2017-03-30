@@ -3,6 +3,7 @@ package net.halalaboos.mcwrapper.api.entity;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.attribute.Identifiable;
 import net.halalaboos.mcwrapper.api.attribute.Nameable;
+import net.halalaboos.mcwrapper.api.util.Face;
 import net.halalaboos.mcwrapper.api.util.math.Rotation;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
@@ -229,6 +230,11 @@ public interface Entity extends Identifiable, Nameable {
 	boolean isRiding();
 
 	String getCurrentBiome();
+
+	/**
+	 * @return The Entity's (horizontal) {@link Face} direction.
+	 */
+	Face getFace();
 
 	enum CollisionType {
 		HORIZONTAL, VERTICAL, BOTH

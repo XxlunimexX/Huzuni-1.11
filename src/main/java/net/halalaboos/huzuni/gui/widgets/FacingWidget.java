@@ -1,6 +1,9 @@
 package net.halalaboos.huzuni.gui.widgets;
 
 import net.halalaboos.huzuni.api.gui.WidgetManager;
+import net.halalaboos.mcwrapper.api.util.Face;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 public class FacingWidget extends BackgroundWidget {
 		
@@ -11,27 +14,10 @@ public class FacingWidget extends BackgroundWidget {
 	@Override
 	public void renderMenu(int x, int y, int width, int height) {
 		super.renderMenu(x, y, width, height);
-        String facing = "Invalid";
-        switch (mc.player.getHorizontalFacing()) {
-            case NORTH:
-                facing = "Towards negative Z";
-                break;
-
-            case SOUTH:
-                facing = "Towards positive Z";
-                break;
-
-            case WEST:
-                facing = "Towards negative X";
-                break;
-
-            case EAST:
-                facing = "Towards positive X";
-		default:
-			break;
-        }
-        theme.drawStringWithShadow(facing, x, y, 0xFFFFFF);
-		this.setWidth(theme.getStringWidth(facing) + 2);
-		this.setHeight(theme.getStringHeight(facing));
+		Face face = getPlayer().getFace();
+		String text = face.getDirection() + " (" + face.getInfo() + ")";
+        theme.drawStringWithShadow(text, x, y, 0xFFFFFF);
+		this.setWidth(theme.getStringWidth(text) + 2);
+		this.setHeight(theme.getStringHeight(text));
 	}
 }

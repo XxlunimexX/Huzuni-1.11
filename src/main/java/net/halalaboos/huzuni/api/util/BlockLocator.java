@@ -1,11 +1,13 @@
 package net.halalaboos.huzuni.api.util;
 
+import net.halalaboos.mcwrapper.api.block.Block;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getController;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
  * Finds the closest block within a radius from the player position, starting with the blocks the player is facing.
@@ -29,7 +31,7 @@ public abstract class BlockLocator {
 		BlockPos closestPosition = null;
 		EnumFacing closestFace = null;
 		double closestDistance = 0;
-		Vec3i directionVector = mc.player.getHorizontalFacing().getDirectionVec();
+		Vector3i directionVector = getPlayer().getFace().getDirectionVector();
 		int xIncrement = directionVector.getX() != 0 ? directionVector.getX() : 1;
 		int zIncrement = directionVector.getZ() != 0 ? directionVector.getZ() : 1;
 		
@@ -38,7 +40,7 @@ public abstract class BlockLocator {
 				for (double k = -(radius * zIncrement); check(k, (radius * zIncrement), directionVector.getZ() < 0); k += zIncrement) {
 					if (i == 0 && j >= -1 && j <= mc.player.getEyeHeight() && k == 0)
 						continue;
-					BlockPos position = new BlockPos(mc.player.posX + i, mc.player.posY + j, mc.player.posZ + k);
+					BlockPos position = new BlockPos(getPlayer().getX() + i, getPlayer().getY() + j, getPlayer().getZ() + k);
 					double distance = MathUtils.getDistance(position);
 					if (isWithinDistance(distance) && isValidBlock(position)) {
 						EnumFacing face = getFace(position);

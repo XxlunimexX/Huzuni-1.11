@@ -1,6 +1,7 @@
 package net.halalaboos.mcwrapper.impl.mixin.entity;
 
 import net.halalaboos.mcwrapper.api.entity.Entity;
+import net.halalaboos.mcwrapper.api.util.Face;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.halalaboos.mcwrapper.api.util.math.Rotation;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
@@ -336,5 +337,10 @@ import java.util.UUID;
 	public boolean isCollided(CollisionType type) {
 		return type == CollisionType.HORIZONTAL ? isCollidedHorizontally :
 				type == CollisionType.VERTICAL ? isCollidedVertically : isCollided;
+	}
+
+	@Override
+	public Face getFace() {
+		return Convert.from(getHorizontalFacing());
 	}
 }

@@ -64,9 +64,13 @@ public class Vector3d {
 	}
 
 	public Vector3d add(Vector3d vec) {
-		this.x += vec.x;
-		this.y += vec.y;
-		this.z += vec.z;
+		return add(vec.x, vec.y, vec.z);
+	}
+
+	public Vector3d add(double x, double y, double z) {
+		this.x += x;
+		this.y += y;
+		this.z += z;
 		return this;
 	}
 
