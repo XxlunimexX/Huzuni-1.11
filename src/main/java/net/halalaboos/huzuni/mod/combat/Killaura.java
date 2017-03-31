@@ -184,7 +184,6 @@ public class Killaura extends BasicMod implements Renderer {
      * Attacks the facing or selected entity.
      * */
 	private void triggerBot() {
-		//todo - make sure this works
 		Optional<Entity> mousedEntity = getMinecraft().getMousedEntity();
 		if (mousedEntity.isPresent()) {
 			Entity entity = mousedEntity.get();
