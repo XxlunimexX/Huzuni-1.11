@@ -1,7 +1,10 @@
 package net.halalaboos.mcwrapper.api.client;
 
+import net.halalaboos.mcwrapper.api.entity.living.Living;
+import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
+import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;
 
 /**
@@ -96,4 +99,8 @@ public interface ClientPlayer extends Player {
 	 * where you're not sending motion updates, such as something like a Freecam mod.
 	 */
 	void setNoClip(boolean noClip);
+
+	float calculateDamage(Living target, ItemStack item, float cooldown);
+
+	boolean isGameType(GameType type);
 }

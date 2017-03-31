@@ -116,4 +116,6 @@ public interface MinecraftClient {
 	Optional<Result> getMouseResult();
 
 	Proxy getProxy();
+
+	Optional<Entity> getMousedEntity();
 }

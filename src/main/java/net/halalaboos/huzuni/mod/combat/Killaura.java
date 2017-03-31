@@ -8,25 +8,25 @@ import net.halalaboos.huzuni.api.node.Node;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.LookTask;
-import net.halalaboos.huzuni.api.util.EntityTracker;
-import net.halalaboos.huzuni.api.util.MathUtils;
-import net.halalaboos.huzuni.api.util.MinecraftUtils;
-import net.halalaboos.huzuni.api.util.Timer;
+import net.halalaboos.huzuni.api.util.*;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
+import net.halalaboos.mcwrapper.api.entity.Entity;
+import net.halalaboos.mcwrapper.api.entity.living.Living;
+import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
+import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.event.input.MouseEvent;
 import net.halalaboos.mcwrapper.api.event.player.PostMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.util.enums.MouseButton;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.EnumHand;
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import org.lwjgl.input.Keyboard;
 
+import java.util.Optional;
 import java.util.Random;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
+import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
 /**
  * Automatically attacks entities after passing a series of tests.
@@ -66,7 +66,7 @@ public class Killaura extends BasicMod implements Renderer {
 	
 	private final Random random = new Random();
 	
-	private EntityLivingBase entity, selectedEntity, pickedEntity;
+	private Living entity, selectedEntity, pickedEntity;
 		
 	private float randomizedSpeed, randomizedStrength;
 	
@@ -121,7 +121,7 @@ public class Killaura extends BasicMod implements Renderer {
 	private void onPreUpdate(PreMotionUpdateEvent event) {
 		if (!huzuni.lookManager.hasPriority(this))
 			return;
-		if (mc.player.isSpectator() || mc.player.isDead) {
+		if (getPlayer().isGameType(GameType.SPECTATOR) || getPlayer().isDead()) {
 			tracker.reset();
 			tracker.setEntity(null);
 			huzuni.lookManager.withdrawTask(lookTask);
@@ -130,7 +130,7 @@ public class Killaura extends BasicMod implements Renderer {
 		if (priority.getSelected() == 0) {
 			entity = MinecraftUtils.getClosestEntity(reach.getValue(), 2.5F, invisibles.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled(), checkAge.isEnabled());
 		} else if (priority.getSelected() == 1) {
-			entity = MinecraftUtils.getClosestEntityToPlayer(mc.player, reach.getValue(), 2.5F, invisibles.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled(), checkAge.isEnabled());
+			entity = MinecraftUtils.getClosestEntityToPlayer(getPlayer(), reach.getValue(), 2.5F, invisibles.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled(), checkAge.isEnabled());
 		} else if (priority.getSelected() == 2) {
 			this.pickAndVerifyEntity();
 			this.triggerBot();
@@ -184,10 +184,14 @@ public class Killaura extends BasicMod implements Renderer {
      * Attacks the facing or selected entity.
      * */
 	private void triggerBot() {
-		if (mc.objectMouseOver != null) {
-			Entity entity = mc.objectMouseOver.entityHit;
-			if (entity instanceof EntityLivingBase && MinecraftUtils.checkType(entity, invisibles.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled()) && MinecraftUtils.isWithinDistance((EntityLivingBase) entity, reach.getValue()) && MinecraftUtils.checkTeam((EntityLivingBase) entity) && !huzuni.friendManager.isFriend(entity.getName())) {
-				this.entity = (EntityLivingBase) entity;
+		//todo - make sure this works
+		Optional<Entity> mousedEntity = getMinecraft().getMousedEntity();
+		if (mousedEntity.isPresent()) {
+			Entity entity = mousedEntity.get();
+			if (entity instanceof Living && MinecraftUtils.checkType(entity, invisibles.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled())
+					&& MinecraftUtils.isWithinDistance((Living) entity, reach.getValue())
+					&& MinecraftUtils.checkTeam((Living) entity) && !huzuni.friendManager.isFriend(entity.name())) {
+				this.entity = (Living) entity;
 				if (selection.isEnabled() && hasSelectedEntity()) {
 					if (isSelectedEntity(this.entity))
 						attackEntity();
@@ -215,19 +219,19 @@ public class Killaura extends BasicMod implements Renderer {
 	}
 	
 	private void attackEntity() {
-		float cooldown = mc.player.getCooledAttackStrength(0.0F);
+		float cooldown = getPlayer().getAttackStrength();
 		float accuracyPercent = accuracy.getValue() / 100F;
 		if (((timer.hasReach((int) (1000F / (speedRandomization.isEnabled() ? randomizedSpeed : this.speed.getValue()))) && (cooldown >= (strengthRandomization.isEnabled() ? (randomizedStrength / 100F) : (strength.getValue() / 100F)))) || calculateSmartAttack())) {
 			if (accuracyPercent >= random.nextFloat()) {
 				if (interact.isEnabled())
-					mc.playerController.interactWithEntity(mc.player, entity, mc.objectMouseOver, EnumHand.MAIN_HAND);
+					getController().interactWith(entity, Hand.MAIN);
 				else
-					mc.playerController.attackEntity(mc.player, entity);
+					getController().attack(entity);
 				calculateRandomization();
 				hitOrMiss = null;
 			} else
 				hitOrMiss = "Miss";
-			mc.player.swingArm(EnumHand.MAIN_HAND);
+			getPlayer().swingItem(Hand.MAIN);
 			timer.reset();
 		}
 	}
@@ -237,8 +241,8 @@ public class Killaura extends BasicMod implements Renderer {
      * */
 	private boolean calculateSmartAttack() {
 		if (this.smartAttack.isEnabled()) {
-			float playerDamage = MinecraftUtils.calculatePlayerDamage(entity, mc.player.getHeldItemMainhand());
-			if (playerDamage >= entity.getHealth())
+			float playerDamage = MinecraftUtils.calculatePlayerDamage(entity, getPlayer().getHeldItem(Hand.MAIN));
+			if (playerDamage >= entity.getHealthData().getCurrentHealth())
 				return true;
 		}
 		return false;
@@ -249,23 +253,24 @@ public class Killaura extends BasicMod implements Renderer {
 	public void render(float partialTicks) {
 		if (selection.isEnabled()) {
 			if (entity != null && isSelectedEntity(entity))
-				renderEntitySelection(partialTicks, selectedEntity, 1F, 0F, 0F);
+				renderEntitySelection(selectedEntity, 1F, 0F, 0F);
 			else if (hasSelectedEntity())
-				renderEntitySelection(partialTicks, selectedEntity, 0F, 1F, 0F);
+				renderEntitySelection(selectedEntity, 0F, 1F, 0F);
 			else if (pickedEntity != null)
-				renderEntitySelection(partialTicks, pickedEntity, 1F, 1F, 0F);
+				renderEntitySelection(pickedEntity, 1F, 1F, 0F);
 		}
 	}
 
 	/**
      * Renders the entity selection texture.
      * */
-	private void renderEntitySelection(float partialTicks, EntityLivingBase entity, float r, float g, float b) {
+	private void renderEntitySelection(Living entity, float r, float g, float b) {
 		getGLStateManager().pushMatrix();
-		float renderX = (float) (MathUtils.interpolate(entity.prevPosX, entity.posX, partialTicks) - mc.getRenderManager().viewerPosX);
-		float renderY = (float) (MathUtils.interpolate(entity.prevPosY, entity.posY, partialTicks) - mc.getRenderManager().viewerPosY);
-		float renderZ = (float) (MathUtils.interpolate(entity.prevPosZ, entity.posZ, partialTicks) - mc.getRenderManager().viewerPosZ);
-		GLUtils.prepareBillboarding(renderX, renderY + (entity.height / 2F), renderZ, false);
+		Vector3d renderPos = entity.getRenderPosition();
+		float renderX = (float)renderPos.getX();
+		float renderY = (float)renderPos.getY();
+		float renderZ = (float)renderPos.getZ();
+		GLUtils.prepareBillboarding(renderX, renderY + (entity.getHeight() / 2F), renderZ, false);
 		GLUtils.glColor(r, g, b, 1F);
 		select.bindTexture();
 		select.render(-16F, -16F, 32, 32);
@@ -307,23 +312,23 @@ public class Killaura extends BasicMod implements Renderer {
 	/**
      * @return True if the entity is the selected entity.
      * */
-	private boolean isSelectedEntity(EntityLivingBase entity) {
+	private boolean isSelectedEntity(Living entity) {
 		return selectedEntity == entity;
 	}
 
 	/**
      * Invoked when the entity is no longer selected.
      * */
-	private void onSelectedRemoved(EntityLivingBase entity) {
+	private void onSelectedRemoved(Living entity) {
 		if (entity != null)
-			huzuni.addNotification(NotificationType.ERROR, this, 5000, entity.getName() + " is no longer selected!");
+			huzuni.addNotification(NotificationType.ERROR, this, 5000, entity.name() + " is no longer selected!");
 	}
 
     /***
      * Invoked when the entity is selected.
      */
-	private void onSelectedAdded(EntityLivingBase entity) {
-		huzuni.addNotification(NotificationType.CONFIRM, this, 5000, entity.getName() + " is now selected!");
+	private void onSelectedAdded(Living entity) {
+		huzuni.addNotification(NotificationType.CONFIRM, this, 5000, entity.name() + " is now selected!");
 	}
 
 }

@@ -5,6 +5,7 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.LookTask;
+import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.MinecraftUtilsNew;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
@@ -48,7 +49,7 @@ public class Bowaimbot extends BasicMod {
 				huzuni.lookManager.withdrawTask(lookTask);
 				return;
 			}
-			target = MinecraftUtilsNew.getClosestEntity(reach.getValue(), 2.5F, invisible.isEnabled(),
+			target = MinecraftUtils.getClosestEntity(reach.getValue(), 2.5F, invisible.isEnabled(),
 					mobs.isEnabled(), animals.isEnabled(), players.isEnabled(), checkAge.isEnabled());
 			if (target == null)
 				return;

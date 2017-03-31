@@ -2,6 +2,7 @@ package net.halalaboos.mcwrapper.impl.mixin.client;
 
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.client.Controller;
+import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.event.player.BlockDigEvent;
@@ -21,6 +22,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -45,6 +47,10 @@ public abstract class MixinPlayerControllerMP implements Controller {
 	@Shadow public abstract EnumActionResult processRightClickBlock(EntityPlayerSP player, WorldClient worldIn, BlockPos pos, EnumFacing direction, Vec3d vec, EnumHand hand);
 
 	@Shadow public abstract net.minecraft.item.ItemStack windowClick(int windowId, int slotId, int mouseButton, net.minecraft.inventory.ClickType type, EntityPlayer player);
+
+	@Shadow public abstract EnumActionResult interactWithEntity(EntityPlayer player, net.minecraft.entity.Entity target, RayTraceResult ray, EnumHand hand);
+
+	@Shadow public abstract void attackEntity(EntityPlayer playerIn, net.minecraft.entity.Entity targetEntity);
 
 	private BlockDigEvent blockDigEvent;
 
@@ -120,5 +126,15 @@ public abstract class MixinPlayerControllerMP implements Controller {
 	@Override
 	public ItemStack clickSlot(int windowId, int slot, int mouseButton, ClickType type) {
 		return Convert.from(windowClick(windowId, slot, mouseButton, Convert.to(type), Convert.player()));
+	}
+
+	@Override
+	public ActionResult interactWith(Entity target, Hand hand) {
+		return Convert.from(interactWithEntity(Convert.player(), (net.minecraft.entity.Entity)target, Convert.mouseOver(), Convert.to(hand)));
+	}
+
+	@Override
+	public void attack(Entity target) {
+		attackEntity(Convert.player(), (net.minecraft.entity.Entity)target);
 	}
 }

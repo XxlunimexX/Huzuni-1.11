@@ -8,4 +8,5 @@ public abstract class MixinAbstractClientPlayer extends MixinEntityPlayer {
 
 	@Shadow public abstract boolean isSpectator();
 
+	@Shadow public abstract boolean isCreative();
 }

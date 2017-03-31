@@ -99,11 +99,24 @@ public class Convert {
 
 	//Only used for some Mixins, don't use this for anything outside of the impl package!!
 	public static EntityPlayerSP player() {
-		return Minecraft.getMinecraft().player;
+		return mc().player;
 	}
 
 	//Only used for some Mixins, don't use this for anything outside of the impl package!!
 	public static WorldClient world() {
-		return Minecraft.getMinecraft().world;
+		return mc().world;
 	}
+
+	public static RayTraceResult mouseOver() {
+		return mc().objectMouseOver;
+	}
+
+	private static Minecraft mc() {
+		return Minecraft.getMinecraft();
+	}
+
+	public static net.minecraft.item.ItemStack to(ItemStack stack) {
+		return (net.minecraft.item.ItemStack)(Object)stack;
+	}
+
 }

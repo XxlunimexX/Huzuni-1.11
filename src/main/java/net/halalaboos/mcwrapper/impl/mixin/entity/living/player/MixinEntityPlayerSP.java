@@ -1,19 +1,30 @@
 package net.halalaboos.mcwrapper.impl.mixin.entity.living.player;
 
+import com.google.common.collect.Multimap;
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
+import net.halalaboos.mcwrapper.api.entity.living.Living;
+import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.event.player.MoveEvent;
 import net.halalaboos.mcwrapper.api.event.player.PostMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
+import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;
+import net.halalaboos.mcwrapper.impl.Convert;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MoverType;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.init.MobEffects;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.network.play.client.CPacketChatMessage;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -26,6 +37,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Collection;
 
 @Mixin(net.minecraft.client.entity.EntityPlayerSP.class)
 public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer implements ClientPlayer {
@@ -206,4 +219,53 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 	}
 
 	private boolean pushable = true;
+
+	@Override
+	public float calculateDamage(Living target, ItemStack weapon, float cooldown) {
+		EntityLivingBase entity = (EntityLivingBase) target;
+		net.minecraft.item.ItemStack item = Convert.to(weapon);
+		float attackAttribute = (float) getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+		if (item != null) {
+			Multimap<String, AttributeModifier> attributes = item.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
+			Collection<AttributeModifier> attackModifier = attributes.get(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+			for (AttributeModifier modifier : attackModifier) {
+				attackAttribute += modifier.getAmount();
+			}
+
+			float enchantModifier = EnchantmentHelper.getModifierForCreature(item, entity.getCreatureAttribute());
+			attackAttribute *= (0.2F + cooldown * cooldown * 0.8F);
+			enchantModifier *= cooldown;
+			if (attackAttribute > 0.0F || enchantModifier > 0.0F) {
+				boolean hasKnockback = false;
+				boolean hasCritical = false;
+				hasCritical = hasKnockback && fallDistance > 0.0F && !onGround && !isOnLadder() && !isInWater() && !isPotionActive(MobEffects.BLINDNESS) && !isRiding();
+				hasCritical = hasCritical && !isSprinting();
+				if (hasCritical) {
+					attackAttribute *= 1.5F;
+				}
+				attackAttribute += enchantModifier;
+
+				attackAttribute = getDamageAfterPotion(attackAttribute, (float) entity.getTotalArmorValue());
+				attackAttribute = Math.max(attackAttribute - entity.getAbsorptionAmount(), 0.0F);
+				return attackAttribute;
+			} else
+				return 0F;
+		}
+		return attackAttribute;
+	}
+
+	private float getDamageAfterPotion(float damage, float enchantLevel) {
+		float f = net.halalaboos.mcwrapper.api.util.math.MathUtils.clamp(enchantLevel, 0.0F, 20.0F);
+		return damage * (1.0F - f / 25.0F);
+	}
+
+	@Override
+	public boolean isGameType(GameType type) {
+		switch (type) {
+			case CREATIVE: return isCreative();
+			case SPECTATOR: return isSpectator();
+			default:
+				return type == MCWrapper.getController().getGameType();
+		}
+	}
 }
