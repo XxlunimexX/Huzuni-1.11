@@ -3,7 +3,7 @@ package net.halalaboos.mcwrapper.api;
 import net.halalaboos.mcwrapper.api.event.input.KeyboardEvent;
 import net.halalaboos.mcwrapper.api.event.input.MouseEvent;
 import net.halalaboos.mcwrapper.api.event.world.WorldLoadEvent;
-import net.halalaboos.mcwrapper.api.util.MouseButton;
+import net.halalaboos.mcwrapper.api.util.enums.MouseButton;
 import net.halalaboos.mcwrapper.api.world.World;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getEventManager;

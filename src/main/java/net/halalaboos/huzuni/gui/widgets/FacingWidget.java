@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.gui.widgets;
 
 import net.halalaboos.huzuni.api.gui.WidgetManager;
-import net.halalaboos.mcwrapper.api.util.Face;
+import net.halalaboos.mcwrapper.api.util.enums.Face;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 

@@ -5,7 +5,7 @@ import net.halalaboos.huzuni.api.gui.components.tree.TreeComponentFactory;
 import net.halalaboos.huzuni.api.node.Node;
 import net.halalaboos.huzuni.gui.tree.components.TeamComponent;
 import net.halalaboos.mcwrapper.api.entity.Entity;
-import net.halalaboos.mcwrapper.api.util.TextColor;
+import net.halalaboos.mcwrapper.api.util.enums.TextColor;
 
 import java.io.IOException;
 

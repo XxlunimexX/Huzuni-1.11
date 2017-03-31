@@ -1,6 +1,6 @@
 package net.halalaboos.mcwrapper.api.event.input;
 
-import net.halalaboos.mcwrapper.api.util.MouseButton;
+import net.halalaboos.mcwrapper.api.util.enums.MouseButton;
 import net.halalaboos.tukio.Event;
 
 /**

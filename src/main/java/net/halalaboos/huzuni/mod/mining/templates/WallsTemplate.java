@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.mod.mining.templates;
 
-import net.halalaboos.mcwrapper.api.util.Face;
+import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
 import java.util.List;

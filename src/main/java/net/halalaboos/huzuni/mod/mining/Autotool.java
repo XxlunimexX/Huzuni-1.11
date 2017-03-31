@@ -14,7 +14,7 @@ import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.network.packet.client.DiggingPacket;
 import net.halalaboos.mcwrapper.api.network.packet.client.UseEntityPacket;
-import net.halalaboos.mcwrapper.api.util.DigAction;
+import net.halalaboos.mcwrapper.api.util.enums.DigAction;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import org.lwjgl.input.Keyboard;
 

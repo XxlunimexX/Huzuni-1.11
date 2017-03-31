@@ -10,8 +10,15 @@ public abstract class MixinContainer implements Container {
 
 	@Shadow public abstract net.minecraft.inventory.Slot getSlot(int slotId);
 
+	@Shadow public int windowId;
+
 	@Override
 	public Slot getSlotAt(int index) {
 		return ((Slot) getSlot(index));
+	}
+
+	@Override
+	public int getId() {
+		return windowId;
 	}
 }

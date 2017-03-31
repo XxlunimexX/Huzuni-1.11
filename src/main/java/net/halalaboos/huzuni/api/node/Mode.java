@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.api.node;
 
 import com.google.gson.JsonObject;
-import net.halalaboos.mcwrapper.api.util.TextColor;
+import net.halalaboos.mcwrapper.api.util.enums.TextColor;
 
 import java.io.IOException;
 import java.util.Arrays;

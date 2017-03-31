@@ -1,8 +1,8 @@
 package net.halalaboos.mcwrapper.impl.mixin.network.packet.client;
 
 import net.halalaboos.mcwrapper.api.network.packet.client.DiggingPacket;
-import net.halalaboos.mcwrapper.api.util.DigAction;
-import net.halalaboos.mcwrapper.api.util.Face;
+import net.halalaboos.mcwrapper.api.util.enums.DigAction;
+import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.halalaboos.mcwrapper.impl.Convert;
 import net.halalaboos.mcwrapper.impl.mixin.network.packet.MixinPacket;

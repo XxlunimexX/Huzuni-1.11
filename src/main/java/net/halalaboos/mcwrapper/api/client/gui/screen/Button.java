@@ -1,6 +1,6 @@
 package net.halalaboos.mcwrapper.api.client.gui.screen;
 
-import net.halalaboos.mcwrapper.api.util.MouseButton;
+import net.halalaboos.mcwrapper.api.util.enums.MouseButton;
 
 import java.util.function.BiFunction;
 

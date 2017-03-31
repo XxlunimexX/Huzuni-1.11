@@ -12,7 +12,7 @@ import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.gui.containers.SettingsContainer;
 import net.halalaboos.huzuni.gui.tree.components.TeamComponent;
-import net.halalaboos.mcwrapper.api.util.TextColor;
+import net.halalaboos.mcwrapper.api.util.enums.TextColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;

@@ -1,6 +1,6 @@
 package net.halalaboos.mcwrapper.api.util.math;
 
-import net.halalaboos.mcwrapper.api.util.Face;
+import net.halalaboos.mcwrapper.api.util.enums.Face;
 
 public class Vector3i {
 

@@ -6,7 +6,7 @@ import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.mcwrapper.api.event.player.BlockDigEvent;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
-import net.halalaboos.mcwrapper.api.util.DigAction;
+import net.halalaboos.mcwrapper.api.util.enums.DigAction;
 import org.lwjgl.input.Keyboard;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getController;

@@ -9,4 +9,6 @@ public interface Container {
 	default ItemStack getStack(int index) {
 		return getSlotAt(index).getItem();
 	}
+
+	int getId();
 }

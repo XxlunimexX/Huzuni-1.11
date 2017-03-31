@@ -2,11 +2,13 @@ package net.halalaboos.huzuni.api.task;
 
 import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.api.util.Timer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.inventory.ClickType;
+import net.halalaboos.mcwrapper.api.util.enums.ClickType;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getController;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
  * Handles window clicks and applies a delay between each window click.
@@ -37,7 +39,7 @@ public class ClickTask extends BasicTask {
                 if (click.length > 3)
                     clickSlot(click[0], click[1], click[2], click[3]);
                 else
-                    clickSlot(Minecraft.getMinecraft().player.inventoryContainer.windowId, click[0], click[1], click[2]);
+                    clickSlot(getPlayer().getInventoryContainer().getId(), click[0], click[1], click[2]);
                 clickData.remove(click);
                 timer.reset();
             }
@@ -49,7 +51,7 @@ public class ClickTask extends BasicTask {
      * Performs the slot click.
      * */
     private void clickSlot(int windowId, int slot, int mouse, int shift) {
-        Minecraft.getMinecraft().playerController.windowClick(windowId, slot, mouse, shift == 0 ? ClickType.PICKUP : ClickType.QUICK_MOVE, Minecraft.getMinecraft().player);
+        getController().clickSlot(windowId, slot, mouse, shift == 0 ? ClickType.PICKUP : ClickType.QUICK_MOVE);
     }
 
     /**

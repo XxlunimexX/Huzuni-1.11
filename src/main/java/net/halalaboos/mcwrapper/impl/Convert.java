@@ -1,9 +1,10 @@
 package net.halalaboos.mcwrapper.impl;
 
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
-import net.halalaboos.mcwrapper.api.util.ActionResult;
-import net.halalaboos.mcwrapper.api.util.DigAction;
-import net.halalaboos.mcwrapper.api.util.Face;
+import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.util.enums.ActionResult;
+import net.halalaboos.mcwrapper.api.util.enums.DigAction;
+import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.halalaboos.mcwrapper.api.util.math.Result;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
@@ -11,6 +12,7 @@ import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -85,6 +87,14 @@ public class Convert {
 
 	public static ActionResult from(EnumActionResult result) {
 		return ActionResult.values()[result.ordinal()];
+	}
+
+	public static ClickType to(net.halalaboos.mcwrapper.api.util.enums.ClickType type) {
+		return ClickType.values()[type.ordinal()];
+	}
+
+	public static ItemStack from(net.minecraft.item.ItemStack stack) {
+		return (ItemStack)(Object)stack;
 	}
 
 	//Only used for some Mixins, don't use this for anything outside of the impl package!!

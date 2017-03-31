@@ -10,7 +10,7 @@ import net.halalaboos.mcwrapper.api.event.network.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.network.packet.client.PlayerAbilitiesPacket;
 import net.halalaboos.mcwrapper.api.network.packet.client.TabCompletePacket;
-import net.halalaboos.mcwrapper.api.util.MouseButton;
+import net.halalaboos.mcwrapper.api.util.enums.MouseButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.server.SPacketPlayerAbilities;
 import net.minecraft.util.math.RayTraceResult;

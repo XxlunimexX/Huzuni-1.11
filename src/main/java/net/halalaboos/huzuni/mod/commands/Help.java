@@ -4,7 +4,7 @@ import net.halalaboos.huzuni.api.mod.BasicCommand;
 import net.halalaboos.huzuni.api.mod.Command;
 import net.halalaboos.huzuni.api.util.StringUtils;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
-import net.halalaboos.mcwrapper.api.util.TextColor;
+import net.halalaboos.mcwrapper.api.util.enums.TextColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.event.ClickEvent;

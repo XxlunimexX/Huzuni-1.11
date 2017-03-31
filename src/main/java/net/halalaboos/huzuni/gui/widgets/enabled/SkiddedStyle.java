@@ -5,7 +5,7 @@ import net.halalaboos.huzuni.api.gui.Theme;
 import net.halalaboos.huzuni.api.gui.widget.Glue;
 import net.halalaboos.huzuni.api.mod.BasicKeybind;
 import net.halalaboos.huzuni.api.mod.Mod;
-import net.halalaboos.mcwrapper.api.util.TextColor;
+import net.halalaboos.mcwrapper.api.util.enums.TextColor;
 
 /**
  * The skidded style.

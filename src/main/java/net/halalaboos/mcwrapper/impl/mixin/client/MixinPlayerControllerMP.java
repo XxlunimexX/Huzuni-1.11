@@ -5,8 +5,10 @@ import net.halalaboos.mcwrapper.api.client.Controller;
 import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.event.player.BlockDigEvent;
-import net.halalaboos.mcwrapper.api.util.ActionResult;
-import net.halalaboos.mcwrapper.api.util.Face;
+import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.util.enums.ActionResult;
+import net.halalaboos.mcwrapper.api.util.enums.ClickType;
+import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.halalaboos.mcwrapper.impl.Convert;
@@ -26,7 +28,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerControllerMP.class)
@@ -42,6 +43,8 @@ public abstract class MixinPlayerControllerMP implements Controller {
 	@Shadow public abstract boolean onPlayerDestroyBlock(BlockPos pos);
 
 	@Shadow public abstract EnumActionResult processRightClickBlock(EntityPlayerSP player, WorldClient worldIn, BlockPos pos, EnumFacing direction, Vec3d vec, EnumHand hand);
+
+	@Shadow public abstract net.minecraft.item.ItemStack windowClick(int windowId, int slotId, int mouseButton, net.minecraft.inventory.ClickType type, EntityPlayer player);
 
 	private BlockDigEvent blockDigEvent;
 
@@ -112,5 +115,10 @@ public abstract class MixinPlayerControllerMP implements Controller {
 		EnumActionResult result = processRightClickBlock(Convert.player(), Convert.world(), Convert.to(pos),
 				Convert.to(direction), Convert.to(vec), Convert.to(hand));
 		return Convert.from(result);
+	}
+
+	@Override
+	public ItemStack clickSlot(int windowId, int slot, int mouseButton, ClickType type) {
+		return Convert.from(windowClick(windowId, slot, mouseButton, Convert.to(type), Convert.player()));
 	}
 }

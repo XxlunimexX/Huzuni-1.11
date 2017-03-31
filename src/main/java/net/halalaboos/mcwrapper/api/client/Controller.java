@@ -2,8 +2,10 @@ package net.halalaboos.mcwrapper.api.client;
 
 import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
-import net.halalaboos.mcwrapper.api.util.ActionResult;
-import net.halalaboos.mcwrapper.api.util.Face;
+import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.util.enums.ActionResult;
+import net.halalaboos.mcwrapper.api.util.enums.ClickType;
+import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
@@ -83,4 +85,6 @@ public interface Controller {
 	boolean onBlockDestroy(Vector3i blockPosition);
 
 	ActionResult rightClickBlock(Vector3i pos, Face direction, Vector3d vec, Hand hand);
+
+	ItemStack clickSlot(int windowId, int slot, int mouseButton, ClickType type);
 }

@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.api.util;
 
 import net.halalaboos.mcwrapper.api.block.Block;
-import net.halalaboos.mcwrapper.api.util.Face;
+import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.EnumFacing;

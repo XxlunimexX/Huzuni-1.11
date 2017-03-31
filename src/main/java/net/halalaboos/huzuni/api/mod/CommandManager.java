@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.api.mod;
 
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
-import net.halalaboos.mcwrapper.api.util.TextColor;
+import net.halalaboos.mcwrapper.api.util.enums.TextColor;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

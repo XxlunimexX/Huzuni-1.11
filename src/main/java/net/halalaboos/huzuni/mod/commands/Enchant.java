@@ -3,7 +3,7 @@ package net.halalaboos.huzuni.mod.commands;
 import net.halalaboos.huzuni.api.mod.BasicCommand;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.item.Enchantment;
-import net.halalaboos.mcwrapper.api.util.TextColor;
+import net.halalaboos.mcwrapper.api.util.enums.TextColor;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getAdapter;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getController;

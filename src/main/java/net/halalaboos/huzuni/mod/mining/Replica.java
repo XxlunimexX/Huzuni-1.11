@@ -15,8 +15,8 @@ import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.huzuni.mod.mining.templates.*;
 import net.halalaboos.mcwrapper.api.event.input.MouseEvent;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
-import net.halalaboos.mcwrapper.api.util.Face;
-import net.halalaboos.mcwrapper.api.util.MouseButton;
+import net.halalaboos.mcwrapper.api.util.enums.Face;
+import net.halalaboos.mcwrapper.api.util.enums.MouseButton;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.halalaboos.mcwrapper.api.util.math.Result;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
@@ -107,7 +107,6 @@ public final class Replica extends BasicMod implements Renderer {
 
 	private void onUpdate(PreMotionUpdateEvent event) {
 		if (placeTask.hasBlock() && placeTask.isWithinDistance() && !placeTask.shouldResetBlock()) {
-
 			placeTask.setPlaceDelay((int) placeDelay.getValue());
 			placeTask.setReset(silent.isEnabled());
 			huzuni.lookManager.requestTask(this, placeTask);
@@ -139,7 +138,6 @@ public final class Replica extends BasicMod implements Renderer {
 			if (closestPosition != null) {
 				Vector3i pos = closestPosition.offset(closestFace);
 				Face face = closestFace.getOppositeFace();
-				System.out.println(pos + " " + face);
 				placeTask.setBlock(pos, face);
 				placeTask.setPlaceDelay((int) placeDelay.getValue());
 				placeTask.setReset(silent.isEnabled());

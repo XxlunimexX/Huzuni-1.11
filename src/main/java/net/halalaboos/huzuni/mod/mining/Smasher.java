@@ -7,7 +7,7 @@ import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.MineTask;
 import net.halalaboos.huzuni.api.util.BlockLocator;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
-import net.halalaboos.mcwrapper.api.util.Face;
+import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getController;

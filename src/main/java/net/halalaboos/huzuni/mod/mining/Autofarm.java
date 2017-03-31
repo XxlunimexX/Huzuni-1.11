@@ -14,7 +14,7 @@ import net.halalaboos.mcwrapper.api.block.types.Crops;
 import net.halalaboos.mcwrapper.api.block.types.Farmland;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.event.world.WorldLoadEvent;
-import net.halalaboos.mcwrapper.api.util.Face;
+import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.halalaboos.mcwrapper.impl.Convert;
 import net.minecraft.block.BlockCrops;

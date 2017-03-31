@@ -2,7 +2,7 @@ package net.halalaboos.mcwrapper.impl.guiscreen;
 
 import net.halalaboos.mcwrapper.api.client.gui.screen.Button;
 import net.halalaboos.mcwrapper.api.client.gui.screen.Screen;
-import net.halalaboos.mcwrapper.api.util.MouseButton;
+import net.halalaboos.mcwrapper.api.util.enums.MouseButton;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 

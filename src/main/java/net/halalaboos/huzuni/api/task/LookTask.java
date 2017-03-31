@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.api.task;
 
 import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
-import net.halalaboos.mcwrapper.api.util.Face;
+import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;

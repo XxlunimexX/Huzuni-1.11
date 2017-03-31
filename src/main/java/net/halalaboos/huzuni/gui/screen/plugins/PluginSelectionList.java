@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.gui.screen.plugins;
 
 import net.halalaboos.huzuni.api.plugin.PluginData;
-import net.halalaboos.mcwrapper.api.util.TextColor;
+import net.halalaboos.mcwrapper.api.util.enums.TextColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.renderer.Tessellator;
