@@ -4,9 +4,7 @@ import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.attribute.Identifiable;
 import net.halalaboos.mcwrapper.api.attribute.Nameable;
 import net.halalaboos.mcwrapper.api.util.Face;
-import net.halalaboos.mcwrapper.api.util.math.Rotation;
-import net.halalaboos.mcwrapper.api.util.math.Vector3d;
-import net.halalaboos.mcwrapper.api.util.math.AABB;
+import net.halalaboos.mcwrapper.api.util.math.*;
 import net.halalaboos.mcwrapper.api.world.Fluid;
 import net.halalaboos.mcwrapper.api.world.World;
 
@@ -21,6 +19,10 @@ public interface Entity extends Identifiable, Nameable {
 	 * The location of the Entity in the world.
 	 */
 	Vector3d getLocation();
+
+	default Vector3i getBlockPosition() {
+		return new Vector3i(getLocation());
+	}
 
 	/**
 	 * Sets the Entity's location.
@@ -86,6 +88,13 @@ public interface Entity extends Identifiable, Nameable {
 	 * The distance to the position.
 	 */
 	double getDistanceTo(Vector3d pos);
+
+	/**
+	 * The distance to the position.
+	 */
+	default int getDistanceTo(Vector3i pos) {
+		return MathUtils.ceil(getDistanceTo(pos.toDouble()));
+	}
 
 	/**
 	 * The remaining time the Entity is immune to damage.

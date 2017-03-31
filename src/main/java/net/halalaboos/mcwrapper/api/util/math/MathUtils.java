@@ -44,6 +44,10 @@ public class MathUtils {
 		return BIG_ENOUGH_INT - (int)(BIG_ENOUGH_FLOOR - value);
 	}
 
+	public static int ceil(double value) {
+		return BIG_ENOUGH_INT - (int)(BIG_ENOUGH_FLOOR - value);
+	}
+
 	public static float sqrt(float value) {
 		return (float)Math.sqrt((double)value);
 	}

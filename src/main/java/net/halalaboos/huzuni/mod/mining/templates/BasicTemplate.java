@@ -1,8 +1,8 @@
 package net.halalaboos.huzuni.mod.mining.templates;
 
 import com.google.gson.*;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
+import net.halalaboos.mcwrapper.api.util.Face;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
 import java.io.File;
 import java.io.FileReader;
@@ -43,15 +43,15 @@ public class BasicTemplate implements Template {
 	}
 
 	@Override
-	public boolean insideBlock(BlockPos position) {
+	public boolean insideBlock(Vector3i position) {
 		return false;
 	}
 
 	@Override
-	public void generate(List<BlockPos> outputPositions, EnumFacing face, BlockPos... positions) {
-		int xOffset = face.rotateY().getDirectionVec().getX();
-		int zOffset = face.rotateY().getDirectionVec().getZ();
-		BlockPos origin = positions[0];
+	public void generate(List<Vector3i> outputPositions, Face face, Vector3i... positions) {
+		int xOffset = face.rotateY().getDirectionVector().getX();
+		int zOffset = face.rotateY().getDirectionVector().getZ();
+		Vector3i origin = positions[0];
 		for (int i = 0; i < vertices.length; i += 2) {
 			outputPositions.add(origin.add(xOffset * vertices[i], vertices[i + 1], zOffset * vertices[i]));
 		}

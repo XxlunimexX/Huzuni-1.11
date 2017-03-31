@@ -11,10 +11,14 @@ import net.halalaboos.mcwrapper.api.client.gui.screen.Screen;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.network.NetworkHandler;
 import net.halalaboos.mcwrapper.api.network.ServerInfo;
+import net.halalaboos.mcwrapper.api.util.Face;
 import net.halalaboos.mcwrapper.api.util.ResourcePath;
 import net.halalaboos.mcwrapper.api.util.Resolution;
+import net.halalaboos.mcwrapper.api.util.math.Result;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.halalaboos.mcwrapper.api.world.World;
+import net.halalaboos.mcwrapper.impl.Convert;
 import net.halalaboos.mcwrapper.impl.OnePointElevenAdapter;
 import net.halalaboos.mcwrapper.impl.guiscreen.GuiScreenWrapper;
 import net.minecraft.client.Minecraft;
@@ -32,6 +36,7 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Timer;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentString;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -73,6 +78,8 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Shadow @Final public File mcDataDir;
 	@Shadow @Nullable private net.minecraft.entity.Entity renderViewEntity;
 	@Shadow public RenderGlobal renderGlobal;
+
+	@Shadow public RayTraceResult objectMouseOver;
 
 	@Inject(method = "run()V", at = @At(value = "INVOKE",
 			target = "Lnet/minecraft/client/Minecraft;init()V",
@@ -229,5 +236,23 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Override
 	public net.halalaboos.mcwrapper.api.client.GameSettings getSettings() {
 		return (net.halalaboos.mcwrapper.api.client.GameSettings)gameSettings;
+	}
+
+	@Override
+	public Vector3i getMouseVector() {
+		return Convert.from(objectMouseOver.getBlockPos());
+	}
+
+	@Override
+	public Face getMouseFace() {
+		return Convert.from(objectMouseOver.sideHit);
+	}
+
+	@Override
+	public Optional<Result> getMouseResult() {
+		if (objectMouseOver == null) {
+			return Optional.empty();
+		}
+		return Optional.of(Convert.from(objectMouseOver));
 	}
 }

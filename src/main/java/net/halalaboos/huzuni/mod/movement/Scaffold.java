@@ -5,12 +5,11 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Mode;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.PlaceTask;
-import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
+import net.halalaboos.mcwrapper.api.util.Face;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 
@@ -58,8 +57,8 @@ public class Scaffold extends BasicMod {
 			switch (mode.getSelected()) {
 				case 0:
 					if (!mc.player.movementInput.sneak && (mc.player.movementInput.moveForward != 0 || mc.player.movementInput.moveStrafe != 0)) {
-						EnumFacing face = mc.player.getHorizontalFacing();
-						BlockPos position = getFirstBlock(face.getDirectionVec());
+						Face face = getPlayer().getFace();
+						Vector3i position = getFirstBlock(face.getDirectionVector());
 						if (position != null) {
 							placeTask.setBlock(position, face);
 							huzuni.lookManager.requestTask(this, placeTask);
@@ -70,10 +69,10 @@ public class Scaffold extends BasicMod {
 					break;
 				case 1:
 					if (!mc.player.onGround && mc.player.movementInput.jump && mc.player.motionY > 0) {
-						BlockPos position = new BlockPos(mc.player.posX, MathUtils.floor(mc.player.posY - 2), mc.player.posZ);
-						BlockPos above = new BlockPos(mc.player.posX, MathUtils.floor(mc.player.posY - 1), mc.player.posZ);
-						if (mc.world.getBlockState(position).getBlock() != Blocks.AIR && mc.world.getBlockState(above).getBlock() == Blocks.AIR) {
-							placeTask.setBlock(position, EnumFacing.UP);
+						Vector3i position = new Vector3i(getPlayer().getX(), MathUtils.floor(getPlayer().getY() - 2), getPlayer().getZ());
+						Vector3i above = new Vector3i(getPlayer().getX(), MathUtils.floor(getPlayer().getY() - 1), getPlayer().getZ());
+						if (getWorld().blockExists(position) && !getWorld().blockExists(above)) {
+							placeTask.setBlock(position, Face.UP);
 							huzuni.lookManager.requestTask(this, placeTask);
 						} else
 							huzuni.lookManager.withdrawTask(placeTask);
@@ -101,7 +100,7 @@ public class Scaffold extends BasicMod {
 	}
 
 	//todo - use this instead
-	private Vector3i getFirst(Vector3i dir) {
+	private Vector3i getFirstBlock(Vector3i dir) {
 		for (int i = 0; i <= ((int) placeDistance.getValue()); i++) {
 			Vector3i pos = new Vector3i(getPlayer().getX() + dir.getX() * i, getPlayer().getY() - 1, getPlayer().getZ() + dir.getZ() * i);
 			Vector3i before = new Vector3i(getPlayer().getX() + dir.getX() * (i - 1), getPlayer().getY() - 1, getPlayer().getZ() + dir.getZ() * (i - 1));

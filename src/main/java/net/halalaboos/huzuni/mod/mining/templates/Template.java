@@ -1,8 +1,8 @@
 package net.halalaboos.huzuni.mod.mining.templates;
 
 import net.halalaboos.huzuni.api.node.Nameable;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
+import net.halalaboos.mcwrapper.api.util.Face;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
 import java.util.List;
 
@@ -24,13 +24,13 @@ public interface Template extends Nameable {
     /**
      * @return True if this position does not need to be offset by the face value (i.e. the block placement packet will use the actual block position rather than what is expected from the client.)
      * */
-	boolean insideBlock(BlockPos position);
+	boolean insideBlock(Vector3i position);
 	
 //	boolean isValidPlacement(EnumFacing face, BlockPos position, int point);
 
     /**
      * Generates and appends block positions to the given output.
      * */
-	void generate(List<BlockPos> outputPositions, EnumFacing face, BlockPos... positions);
+	void generate(List<Vector3i> outputPositions, Face face, Vector3i... positions);
 	
 }

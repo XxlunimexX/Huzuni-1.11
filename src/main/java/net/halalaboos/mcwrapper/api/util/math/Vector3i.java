@@ -1,5 +1,7 @@
 package net.halalaboos.mcwrapper.api.util.math;
 
+import net.halalaboos.mcwrapper.api.util.Face;
+
 public class Vector3i {
 
 	private int x;
@@ -67,11 +69,15 @@ public class Vector3i {
 		return this;
 	}
 
-	public Vector3i add(Vector3i vec) {
-		this.x += vec.x;
-		this.y += vec.y;
-		this.z += vec.z;
+	public Vector3i add(int x, int y, int z) {
+		this.x += x;
+		this.y += y;
+		this.z += z;
 		return this;
+	}
+
+	public Vector3i add(Vector3i vec) {
+		return add(vec.x, vec.y, vec.z);
 	}
 
 	public Vector3i sub(int amount) {
@@ -86,6 +92,15 @@ public class Vector3i {
 		this.y -= vec.y;
 		this.z -= vec.z;
 		return this;
+	}
+
+	public Vector3i up() {
+		this.y += 1;
+		return this;
+	}
+
+	public Vector3i offset(Face face) {
+		return this.add(face.getOffsetX(), face.getOffsetY(), face.getOffsetZ());
 	}
 
 	public Vector3i copy() {
@@ -121,5 +136,10 @@ public class Vector3i {
 
 	public Vector3d toDouble() {
 		return new Vector3d(this.x, this.y, this.z);
+	}
+
+	@Override
+	public String toString() {
+		return x + ", " + y + ", " + z;
 	}
 }

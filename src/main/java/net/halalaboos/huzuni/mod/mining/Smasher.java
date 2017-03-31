@@ -6,12 +6,13 @@ import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.MineTask;
 import net.halalaboos.huzuni.api.util.BlockLocator;
-import net.halalaboos.huzuni.api.util.MathUtils;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
+import net.halalaboos.mcwrapper.api.util.Face;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getController;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**
  * Breaks all one-hit blocks.
@@ -31,14 +32,13 @@ public class Smasher extends BasicMod {
 	private final BlockLocator blockLocator = new BlockLocator() {
 
 		@Override
-		protected boolean isValidBlock(BlockPos position) {
-			IBlockState blockState = mc.world.getBlockState(position);
-			return blockState.getBlock() != Blocks.AIR && blockState.getPlayerRelativeBlockHardness(mc.player, mc.world, position) >= 1F && MathUtils.getDistance(position) < mc.playerController.getBlockReachDistance();
+		protected boolean isValidBlock(Vector3i position) {
+			return getWorld().blockExists(position) && getWorld().getRelativeHardness(position) >= 1F && getPlayer().getDistanceTo(position) < getController().getBlockReach();
 		}
 
 		@Override
-		protected EnumFacing getFace(BlockPos position) {
-			return EnumFacing.UP;
+		protected Face getFace(Vector3i position) {
+			return Face.UP;
 		}
 		
 	};

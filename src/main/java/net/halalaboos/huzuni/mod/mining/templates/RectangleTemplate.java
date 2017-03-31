@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.mod.mining.templates;
 
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
+import net.halalaboos.mcwrapper.api.util.Face;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
 import java.util.List;
 
@@ -28,12 +28,12 @@ public class RectangleTemplate implements Template {
 	}
 	
 	@Override
-	public boolean insideBlock(BlockPos position) {
+	public boolean insideBlock(Vector3i position) {
 		return false;
 	}
 
 	@Override
-	public void generate(List<BlockPos> outputPositions, EnumFacing face, BlockPos... positions) {
+	public void generate(List<Vector3i> outputPositions, Face face, Vector3i... positions) {
 		if (positions[0].equals(positions[1]))
 			return;
 		int incrementX = positions[0].getX() <= positions[1].getX() ? 1 : -1;
@@ -42,7 +42,7 @@ public class RectangleTemplate implements Template {
 		for (int i = positions[0].getX(); check(i, positions[1].getX(), positions[0].getX() > positions[1].getX()); i += incrementX) {
 			for (int j = positions[0].getY(); check(j, positions[1].getY(), positions[0].getY() > positions[1].getY()); j += incrementY) {
 				for (int k = positions[0].getZ(); check(k, positions[1].getZ(), positions[0].getZ() > positions[1].getZ()); k += incrementZ) {
-					outputPositions.add(new BlockPos(i, j, k));
+					outputPositions.add(new Vector3i(i, j, k));
 				}
 			}
 		}

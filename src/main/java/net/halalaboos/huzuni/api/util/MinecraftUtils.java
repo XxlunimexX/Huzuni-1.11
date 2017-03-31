@@ -11,7 +11,11 @@ import net.halalaboos.mcwrapper.api.entity.living.Monster;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.potion.Potion;
 import net.halalaboos.mcwrapper.api.potion.PotionEffect;
+import net.halalaboos.mcwrapper.api.util.Face;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
+import net.halalaboos.mcwrapper.api.util.math.Result;
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -35,9 +39,11 @@ import net.minecraft.util.math.Vec3d;
 
 import java.net.Proxy;
 import java.util.Collection;
+import java.util.Optional;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**
  * Easy to use functions that calculate blah blah blah relating to Minecraft.
@@ -361,13 +367,16 @@ public final class MinecraftUtils {
 	/**
 	 * Raytraces to find a face on the block that can be seen by the player.
 	 * */
-	public static EnumFacing findFace(BlockPos position) {
-		if (mc.world.getBlockState(position).getBlock() != Blocks.AIR) {
-			for (EnumFacing face : EnumFacing.values()) {
-				Vec3d playerVec = new Vec3d(mc.player.posX, mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
-				Vec3d blockVec = new Vec3d(position.getX() + 0.5F + (float) (face.getDirectionVec().getX()) / 2F, position.getY() + 0.5F + (float) (face.getDirectionVec().getY()) / 2F, position.getZ() + 0.5F + (float) (face.getDirectionVec().getZ()) / 2F);
-				RayTraceResult raytraceResult = mc.world.rayTraceBlocks(playerVec, blockVec);
-				if (raytraceResult == null || raytraceResult.typeOfHit == RayTraceResult.Type.MISS) {
+	public static Face findFace(Vector3i position) {
+		if (getWorld().blockExists(position)) {
+			for (Face face : Face.values()) {
+				Vector3d player = getPlayer().getLocation().addY(getPlayer().getEyeHeight());
+				Vector3i faceVec = face.getDirectionVector();
+				Vector3d block = new Vector3d(position.getX() + 0.5F + (float) (faceVec.getX()) / 2F,
+						position.getY() + 0.5F + (float) (faceVec.getY()) / 2F,
+						position.getZ() + 0.5F + (float) (faceVec.getZ()) / 2F);
+				Optional<Result> result = getWorld().getResult(player, block);
+				if (!result.isPresent() || result.get() == Result.MISS) {
 					return face;
 				}
 			}
@@ -387,6 +396,28 @@ public final class MinecraftUtils {
 				Vec3d blockVec = new Vec3d(otherPosition.getX() + 0.5F + (float) (otherFace.getDirectionVec().getX()) / 2F, otherPosition.getY() + 0.5F + (float) (otherFace.getDirectionVec().getY()) / 2F, otherPosition.getZ() + 0.5F + (float) (otherFace.getDirectionVec().getZ()) / 2F);
 				RayTraceResult raytraceResult = mc.world.rayTraceBlocks(playerVec, blockVec);
 				if (raytraceResult == null || raytraceResult.typeOfHit == RayTraceResult.Type.MISS) {
+					return face;
+				}
+			}
+		}
+		return null;
+	}
+	/**
+	 * Finds the face of the first adjacent block that can be seen by the player.
+	 * */
+	public static Face getAdjacent(Vector3i position) {
+		for (Face face : Face.values()) {
+			Vector3i otherPosition = position.offset(face);
+			if (getWorld().blockExists(otherPosition)) {
+				Face otherFace = face.getOppositeFace();
+				Vector3d player = getPlayer().getLocation().addY(getPlayer().getEyeHeight());
+
+				Vector3i faceVec = otherFace.getDirectionVector();
+				Vector3d block = new Vector3d(otherPosition.getX() + 0.5F + (float) (faceVec.getX()) / 2F,
+						otherPosition.getY() + 0.5F + (float) (faceVec.getY()) / 2F,
+						otherPosition.getZ() + 0.5F + (float) (faceVec.getZ()) / 2F);
+				Optional<Result> result = getWorld().getResult(player, block);
+				if (!result.isPresent() || result.get() == Result.MISS) {
 					return face;
 				}
 			}

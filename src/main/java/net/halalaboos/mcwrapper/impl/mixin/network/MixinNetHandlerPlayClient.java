@@ -7,16 +7,14 @@ import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.network.NetworkHandler;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;
 import net.halalaboos.mcwrapper.api.util.DigAction;
+import net.halalaboos.mcwrapper.api.util.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.halalaboos.mcwrapper.impl.Convert;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.CPacketAnimation;
-import net.minecraft.network.play.client.CPacketClientStatus;
-import net.minecraft.network.play.client.CPacketPlayerDigging;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
+import net.minecraft.network.play.client.*;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import org.spongepowered.asm.mixin.Final;
@@ -87,5 +85,10 @@ public abstract class MixinNetHandlerPlayClient implements NetworkHandler {
 	@Override
 	public void sendSwing(Hand hand) {
 		sendPacket(new CPacketAnimation(Convert.to(hand)));
+	}
+
+	@Override
+	public void sendTryUseItemOnBlock(Vector3i pos, Face face, Hand hand, float faceX, float faceY, float faceZ) {
+		sendPacket(new CPacketPlayerTryUseItemOnBlock(Convert.to(pos), Convert.to(face), Convert.to(hand), faceX, faceY, faceZ));
 	}
 }

@@ -1,27 +1,18 @@
 package net.halalaboos.huzuni.api.task;
 
 import net.halalaboos.huzuni.api.node.Nameable;
-import net.halalaboos.huzuni.api.util.MathUtils;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
+import net.halalaboos.mcwrapper.api.util.ActionResult;
+import net.halalaboos.mcwrapper.api.util.Face;
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.CPacketAnimation;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getController;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
+import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
 /**
  * Look task which simulates block placement server-sided.
@@ -30,9 +21,9 @@ public class PlaceTask extends LookTask {
 	
 	protected final Timer timer = new Timer();
 	
-	protected EnumFacing face;
+	protected Face face;
 	
-	protected BlockPos position;
+	protected Vector3i position;
 			
 	protected int placeDelay = 100;
 	
@@ -43,7 +34,7 @@ public class PlaceTask extends LookTask {
 		addDependency("off_interact");
 	}
 	
-	public PlaceTask(Nameable handler, BlockPos position, EnumFacing face) {
+	public PlaceTask(Nameable handler, Vector3i position, Face face) {
 		super(handler, position.getX(), position.getY(), position.getZ());
 		addDependency("off_interact");
 		this.position = position;
@@ -67,15 +58,15 @@ public class PlaceTask extends LookTask {
 		if (timer.hasReach(placeDelay) && hasBlock() && shouldRotate() && !Freecam.INSTANCE.isEnabled()) {
 			super.onPostUpdate();
 			if (isWithinDistance()) {
-				mc.getConnection().sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
+				getMinecraft().getNetworkHandler().sendSwing(Hand.MAIN);
 				if (naturalPlacement) {
-					if (mc.playerController.processRightClickBlock(mc.player, mc.world, position, face, new Vec3d((float) face.getDirectionVec().getX() / 2F, (float) face.getDirectionVec().getY() / 2F, (float) face.getDirectionVec().getZ() / 2F), EnumHand.MAIN_HAND) != EnumActionResult.FAIL) {
+					if (getController().rightClickBlock(position, face, new Vector3d((float) face.getDirectionVector().getX() / 2F, (float) face.getDirectionVector().getY() / 2F, (float) face.getDirectionVector().getZ() / 2F), Hand.MAIN) != ActionResult.FAIL) {
 						if (shouldResetBlock()) {
 							reset();
 						}
 					}
 				} else {
-					mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(position, face, EnumHand.MAIN_HAND, (float) face.getDirectionVec().getX() / 2F, (float) face.getDirectionVec().getY() / 2F, (float) face.getDirectionVec().getZ() / 2F));					
+					getMinecraft().getNetworkHandler().sendTryUseItemOnBlock(position, face, Hand.MAIN, (float) face.getDirectionVector().getX() / 2F, (float) face.getDirectionVector().getY() / 2F, (float) face.getDirectionVector().getZ() / 2F);
 				}
 				timer.reset();
 			}
@@ -117,10 +108,6 @@ public class PlaceTask extends LookTask {
 		return getWorld().getBlock(new Vector3i(position.getX(), position.getY(), position.getZ()));
 	}
 	
-	protected IBlockState getBlockState() {
-		return mc.world.getBlockState(position);
-	}
-	
 	public int getPlaceDelay() {
 		return placeDelay;
 	}
@@ -133,14 +120,14 @@ public class PlaceTask extends LookTask {
 	 * @return True if the position is within the player's reach distance.
 	 * */
 	public boolean isWithinDistance() {
-		return MathUtils.getDistance(position) < getController().getBlockReach();
+		return getPlayer().getDistanceTo(position) < getController().getBlockReach();
 	}
 
 	/**
 	 * @return True if the block at our placement location is not air.
 	 * */
 	public boolean shouldResetBlock() {
-		return mc.world.getBlockState(position.offset(face)).getMaterial() != Material.AIR;
+		return getWorld().blockExists(position.offset(face));
 	}
 	
 	public void cancelPlacing() {
@@ -149,7 +136,7 @@ public class PlaceTask extends LookTask {
 		}
 	}
 	
-	public void setBlock(BlockPos position, EnumFacing face) {
+	public void setBlock(Vector3i position, Face face) {
 		this.position = position;
 		this.face = face;
 		if (position != null && face != null)

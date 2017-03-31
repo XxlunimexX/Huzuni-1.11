@@ -8,7 +8,6 @@ import net.halalaboos.huzuni.api.node.Mode;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.PlaceTask;
-import net.halalaboos.huzuni.api.util.MathUtils;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.gl.Box;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
@@ -16,18 +15,18 @@ import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.huzuni.mod.mining.templates.*;
 import net.halalaboos.mcwrapper.api.event.input.MouseEvent;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
+import net.halalaboos.mcwrapper.api.util.Face;
 import net.halalaboos.mcwrapper.api.util.MouseButton;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
+import net.halalaboos.mcwrapper.api.util.math.Result;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.util.math.RayTraceResult;
 
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
+import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
 /**
  * Places blocks based on templates.
@@ -108,19 +107,20 @@ public final class Replica extends BasicMod implements Renderer {
 
 	private void onUpdate(PreMotionUpdateEvent event) {
 		if (placeTask.hasBlock() && placeTask.isWithinDistance() && !placeTask.shouldResetBlock()) {
+
 			placeTask.setPlaceDelay((int) placeDelay.getValue());
 			placeTask.setReset(silent.isEnabled());
 			huzuni.lookManager.requestTask(this, placeTask);
 		} else {
 			huzuni.lookManager.withdrawTask(placeTask);
-			BlockPos closestPosition = null;
-			EnumFacing closestFace = null;
+			Vector3i closestPosition = null;
+			Face closestFace = null;
 			double closestDistance = 0;
 			for (int i = 0; i < templateBuilder.getPositions().size(); i++) {
-				BlockPos position = templateBuilder.getPositions().get(i);
-				double distance = MathUtils.getDistance(position);
-				if (distance < mc.playerController.getBlockReachDistance() && !mc.player.getPosition().equals(position)) {
-					EnumFacing face = MinecraftUtils.getAdjacent(position);
+				Vector3i position = templateBuilder.getPositions().get(i);
+				double distance = getPlayer().getDistanceTo(position);
+				if (distance < getController().getBlockReach() && !getPlayer().getBlockPosition().equals(position)) {
+					Face face = MinecraftUtils.getAdjacent(position);
 					if (face != null) {
 						if (closestPosition != null) {
 							if (distance < closestDistance) {
@@ -137,7 +137,10 @@ public final class Replica extends BasicMod implements Renderer {
 				}
 			}
 			if (closestPosition != null) {
-				placeTask.setBlock(closestPosition.offset(closestFace), closestFace.getOpposite());
+				Vector3i pos = closestPosition.offset(closestFace);
+				Face face = closestFace.getOppositeFace();
+				System.out.println(pos + " " + face);
+				placeTask.setBlock(pos, face);
 				placeTask.setPlaceDelay((int) placeDelay.getValue());
 				placeTask.setReset(silent.isEnabled());
 				huzuni.lookManager.requestTask(this, placeTask);
@@ -148,10 +151,11 @@ public final class Replica extends BasicMod implements Renderer {
 
 	private void onMouseClicked(MouseEvent event) {
 		if (event.getButton() == MouseButton.RIGHT) {
-			if (mc.objectMouseOver != null) {
-				if (mc.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK) {
+			Optional<Result> result = getMinecraft().getMouseResult();
+			if (result.isPresent()) {
+				if (result.get() == Result.BLOCK) {
 					if (!templateBuilder.hasPositions()) {
-						templateBuilder.addSelection(mc.objectMouseOver.getBlockPos(), mc.objectMouseOver.sideHit);
+						templateBuilder.addSelection(getMinecraft().getMouseVector(), getMinecraft().getMouseFace()	);
 					}
 				}
 			}
@@ -167,12 +171,12 @@ public final class Replica extends BasicMod implements Renderer {
 	public void render(float partialTicks) {
 		if (!templateBuilder.hasPositions()) {
 			if (templateBuilder.canPreview() && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK) {
-				renderPreview(mc.objectMouseOver.getBlockPos(), mc.objectMouseOver.sideHit);
+				renderPreview(getMinecraft().getMouseVector(), getMinecraft().getMouseFace());
 			}
 		} else {
 			for (int i = 0; i < templateBuilder.getPositions().size(); i++) {
-				BlockPos position = templateBuilder.getPositions().get(i);
-				if (mc.world.getBlockState(position).getBlock() != Blocks.AIR) {
+				Vector3i position = templateBuilder.getPositions().get(i);
+				if (getWorld().blockExists(position)) {
 					templateBuilder.getPositions().remove(position);
 					if (templateBuilder.getPositions().isEmpty()) {
 						huzuni.addNotification(NotificationType.CONFIRM, this, 5000, "Finished!");
@@ -187,15 +191,14 @@ public final class Replica extends BasicMod implements Renderer {
 	/**
 	 * Renders a preview of the current template with the next position being the position provided.
 	 * */
-	public void renderPreview(BlockPos position, EnumFacing face) {
-		List<BlockPos> previewPositions = templateBuilder.getPreview(position, face);
-		for (int i = 0; i < previewPositions.size(); i++) {
-			BlockPos previewPosition = previewPositions.get(i);
+	public void renderPreview(Vector3i position, Face face) {
+		List<Vector3i> previewPositions = templateBuilder.getPreview(position, face);
+		for (Vector3i previewPosition : previewPositions) {
 			renderBox(previewPosition);
 		}
 	}
 
-	private void renderBox(BlockPos position) {
+	private void renderBox(Vector3i position) {
 		renderBox(position.getX(), position.getY(), position.getZ());
 	}
 

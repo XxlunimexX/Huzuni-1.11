@@ -1,9 +1,12 @@
 package net.halalaboos.mcwrapper.impl;
 
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
+import net.halalaboos.mcwrapper.api.util.ActionResult;
 import net.halalaboos.mcwrapper.api.util.DigAction;
 import net.halalaboos.mcwrapper.api.util.Face;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
+import net.halalaboos.mcwrapper.api.util.math.Result;
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -11,11 +14,13 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.potion.PotionUtils;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 
 /**
  * Utility for quickly converting MCWrapper data classes to the Minecraft ones, or vice-versa.
@@ -64,6 +69,22 @@ public class Convert {
 
 	public static Face from(EnumFacing facing) {
 		return Face.values()[facing.ordinal()];
+	}
+
+	public static EnumFacing to(Face face) {
+		return EnumFacing.values()[face.ordinal()];
+	}
+
+	public static Vec3d to(Vector3d vec) {
+		return new Vec3d(vec.getX(), vec.getY(), vec.getZ());
+	}
+
+	public static Result from(RayTraceResult result) {
+		return Result.values()[result.typeOfHit.ordinal()];
+	}
+
+	public static ActionResult from(EnumActionResult result) {
+		return ActionResult.values()[result.ordinal()];
 	}
 
 	//Only used for some Mixins, don't use this for anything outside of the impl package!!

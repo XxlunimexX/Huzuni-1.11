@@ -1,6 +1,7 @@
 package net.halalaboos.huzuni.api.util;
 
 import net.halalaboos.mcwrapper.api.block.Block;
+import net.halalaboos.mcwrapper.api.util.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.EnumFacing;
@@ -18,9 +19,9 @@ public abstract class BlockLocator {
 	
 	private boolean distanceCheck = true;
 	
-	private BlockPos position;
+	private Vector3i position;
 	
-	private EnumFacing face;
+	private Face face;
 	
 	/**
 	 * @return True if a block could be located within the radius.
@@ -28,8 +29,8 @@ public abstract class BlockLocator {
 	 * @param ignoreFace When true, the {@link EnumFacing} given from the {@link getFace( EnumFacing )} function will be not be checked if null.
 	 * */
 	public boolean locateClosest(float radius, boolean ignoreFace) {
-		BlockPos closestPosition = null;
-		EnumFacing closestFace = null;
+		Vector3i closestPosition = null;
+		Face closestFace = null;
 		double closestDistance = 0;
 		Vector3i directionVector = getPlayer().getFace().getDirectionVector();
 		int xIncrement = directionVector.getX() != 0 ? directionVector.getX() : 1;
@@ -40,10 +41,10 @@ public abstract class BlockLocator {
 				for (double k = -(radius * zIncrement); check(k, (radius * zIncrement), directionVector.getZ() < 0); k += zIncrement) {
 					if (i == 0 && j >= -1 && j <= mc.player.getEyeHeight() && k == 0)
 						continue;
-					BlockPos position = new BlockPos(getPlayer().getX() + i, getPlayer().getY() + j, getPlayer().getZ() + k);
-					double distance = MathUtils.getDistance(position);
+					Vector3i position = new Vector3i(getPlayer().getX() + i, getPlayer().getY() + j, getPlayer().getZ() + k);
+					double distance = getPlayer().getDistanceTo(position);
 					if (isWithinDistance(distance) && isValidBlock(position)) {
-						EnumFacing face = getFace(position);
+						Face face = getFace(position);
 						if (face != null || ignoreFace) {
 							if (closestPosition != null) {
 								if (distance < closestDistance) {
@@ -77,14 +78,14 @@ public abstract class BlockLocator {
 	}
 	
 	/**
-	 * @return True if the {@link Block} located at the {@link BlockPos} is considered 'valid'.
+	 * @return True if the {@link Block} located at the {@link Vector3i} is considered 'valid'.
 	 * */
-	protected abstract boolean isValidBlock(BlockPos position);
+	protected abstract boolean isValidBlock(Vector3i position);
 	
 	/**
-	 * @return The {@link EnumFacing} needed for the {@link BlockPos}
+	 * @return The {@link Face} needed for the {@link BlockPos}
 	 * */
-	protected abstract EnumFacing getFace(BlockPos position);
+	protected abstract Face getFace(Vector3i position);
 	
 	/**
 	 * @return True if the {@code distance} is less than the block reach distance.
@@ -109,11 +110,11 @@ public abstract class BlockLocator {
 		this.distanceCheck = distanceCheck;
 	}
 
-	public BlockPos getPosition() {
+	public Vector3i getPosition() {
 		return position;
 	}
 
-	public EnumFacing getFace() {
+	public Face getFace() {
 		return face;
 	}
 

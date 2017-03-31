@@ -2,8 +2,8 @@ package net.halalaboos.huzuni.api.task;
 
 import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
+import net.halalaboos.mcwrapper.api.util.Face;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
@@ -92,8 +92,8 @@ public class LookTask extends BasicTask {
 	/**
 	 * Sets the rotations to view the given block position at the face given.
 	 * */
-	public void setRotations(BlockPos position, EnumFacing face) {
-		float[] rotations = MinecraftUtils.getRotationsNeeded(position.getX() + 0.5F + (float) (face.getDirectionVec().getX()) / 2F, position.getY() + 0.5F + (float) (face.getDirectionVec().getY()) / 2F, position.getZ() + 0.5F + (float) (face.getDirectionVec().getZ()) / 2F);
+	public void setRotations(Vector3i position, Face face) {
+		float[] rotations = MinecraftUtils.getRotationsNeeded(position.getX() + 0.5F + (float) (face.getDirectionVector().getX()) / 2F, position.getY() + 0.5F + (float) (face.getDirectionVector().getY()) / 2F, position.getZ() + 0.5F + (float) (face.getDirectionVector().getZ()) / 2F);
 		this.yaw = rotations[0];
 		this.pitch = rotations[1];
 	}

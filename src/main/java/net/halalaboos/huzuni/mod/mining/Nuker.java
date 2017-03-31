@@ -11,14 +11,15 @@ import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.mcwrapper.api.event.input.MouseEvent;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.event.world.WorldLoadEvent;
+import net.halalaboos.mcwrapper.api.util.Face;
 import net.halalaboos.mcwrapper.api.util.MouseButton;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import org.lwjgl.input.Keyboard;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**
  * TODO: Port to MCWrapper
@@ -38,13 +39,12 @@ public final class Nuker extends BasicMod {
 	private final BlockLocator blockLocator = new BlockLocator() {
 
 		@Override
-		protected boolean isValidBlock(BlockPos position) {
-			IBlockState blockState = mc.world.getBlockState(position);
-			return blockState.getBlock() != Blocks.AIR && blockState.getBlock() == type;
+		protected boolean isValidBlock(Vector3i position) {
+			return getWorld().blockExists(position) && getWorld().getBlock(position) == type;
 		}
 
 		@Override
-		protected EnumFacing getFace(BlockPos position) {
+		protected Face getFace(Vector3i position) {
 			return MinecraftUtils.findFace(position);
 		}
 		

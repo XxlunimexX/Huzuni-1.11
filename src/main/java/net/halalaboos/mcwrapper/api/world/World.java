@@ -6,10 +6,12 @@ import net.halalaboos.mcwrapper.api.block.tileentity.TileEntity;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
+import net.halalaboos.mcwrapper.api.util.math.Result;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Represents a World in the game.
@@ -64,4 +66,8 @@ public interface World {
 	Player spawnCopiedPlayer(int entityID, Player target);
 
 	void removeEntity(int entityID);
+
+	int getBlockMeta(Vector3i pos);
+
+	Optional<Result> getResult(Vector3d playerVector, Vector3d pos);
 }

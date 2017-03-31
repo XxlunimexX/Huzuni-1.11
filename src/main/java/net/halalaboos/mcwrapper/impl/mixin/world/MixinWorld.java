@@ -5,17 +5,19 @@ import net.halalaboos.mcwrapper.api.block.tileentity.TileEntity;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
+import net.halalaboos.mcwrapper.api.util.math.Result;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.halalaboos.mcwrapper.api.world.World;
 import net.halalaboos.mcwrapper.impl.Convert;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -23,6 +25,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import static net.halalaboos.mcwrapper.impl.Convert.player;
 
@@ -43,6 +46,8 @@ import static net.halalaboos.mcwrapper.impl.Convert.player;
 	public abstract List<AxisAlignedBB> getCollisionBoxes(@Nullable net.minecraft.entity.Entity entityIn, AxisAlignedBB aabb);
 
 	@Shadow public abstract void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress);
+
+	@Shadow @Nullable public abstract net.minecraft.util.math.RayTraceResult rayTraceBlocks(Vec3d start, Vec3d end);
 
 	@Override
 	public void setToAir(Vector3i pos) {
@@ -105,5 +110,20 @@ import static net.halalaboos.mcwrapper.impl.Convert.player;
 	public float getRelativeHardness(Vector3i pos) {
 		IBlockState state = getBlockState(Convert.to(pos));
 		return state.getPlayerRelativeBlockHardness(player(), (net.minecraft.world.World)(Object)this, Convert.to(pos));
+	}
+
+	@Override
+	public int getBlockMeta(Vector3i pos) {
+		IBlockState state = getBlockState(Convert.to(pos));
+		return state.getBlock().getMetaFromState(state);
+	}
+
+	@Override
+	public Optional<Result> getResult(Vector3d start, Vector3d end) {
+		RayTraceResult result = rayTraceBlocks(Convert.to(start), Convert.to(end));
+		if (result == null) {
+			return Optional.empty();
+		}
+		return Optional.of(Convert.from(result));
 	}
 }

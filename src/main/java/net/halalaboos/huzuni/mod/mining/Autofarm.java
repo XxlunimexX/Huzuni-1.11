@@ -14,17 +14,16 @@ import net.halalaboos.mcwrapper.api.block.types.Crops;
 import net.halalaboos.mcwrapper.api.block.types.Farmland;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.event.world.WorldLoadEvent;
+import net.halalaboos.mcwrapper.api.util.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
+import net.halalaboos.mcwrapper.impl.Convert;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockDirt;
-import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.BlockGrass;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.*;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**
@@ -64,30 +63,30 @@ public final class Autofarm extends BasicMod {
 		
 		@Override
 		public boolean shouldResetBlock() {
-			IBlockState blockState = getBlockState();
 			Block block = getBlock();
-			return mode.getSelected() == 3 ? !isDirt(block) : (mode.getSelected() == 2 ? blockState.getBlock().getMetaFromState(blockState) >= ((BlockCrops) blockState.getBlock()).getMaxAge() : super.shouldResetBlock());
+			return mode.getSelected() == 3 ? !isDirt(block) : (mode.getSelected() == 2 ? getWorld().getBlockMeta(position) >= ((Crops) block).getMaxAge() : super.shouldResetBlock());
 		}
 	};
 	
 	private final BlockLocator blockLocator = new BlockLocator() {
 
 		@Override
-		protected boolean isValidBlock(BlockPos position) {
-			IBlockState blockState = mc.world.getBlockState(position);
+		protected boolean isValidBlock(Vector3i position) {
+			IBlockState blockState = mc.world.getBlockState(Convert.to(position)); //TODO - REMOVE THIS!
 			Block block = getWorld().getBlock(new Vector3i(position.getX(), position.getY(), position.getZ()));
 			switch (mode.getSelected()) {
 				case 0:
 					if (isCrop(block)) {
-						Crops crops = (Crops) blockState.getBlock();
+						Crops crops = (Crops) block;
 						int age = crops.getAge(new Vector3i(position.getX(), position.getY(), position.getZ()));
 						return age >= crops.getMaxAge();
 					}
 					break;
 				case 1:
-					return isFarmland(block) && !(mc.world.getBlockState(position.up()).getBlock() instanceof Crops);
+					return isFarmland(block) && !(getWorld().getBlock(position.up()) instanceof Crops);
 				case 2:
 					if (isCrop(block)) {
+						//TODO
 						BlockCrops crops = (BlockCrops) blockState.getBlock();
 						int age = crops.getMetaFromState(blockState);
 						return age < crops.getMaxAge();
@@ -100,14 +99,14 @@ public final class Autofarm extends BasicMod {
 		}
 
 		@Override
-		protected EnumFacing getFace(BlockPos position) {
+		protected Face getFace(Vector3i position) {
 			switch (mode.getSelected()) {
 				case 0:
 				case 2:
-					return mc.player.getHorizontalFacing().getOpposite();
+					return getPlayer().getFace().getOppositeFace();
 				case 1:
 				case 3:
-					return EnumFacing.UP;
+					return Face.UP;
 			}
 			return null;
 		}

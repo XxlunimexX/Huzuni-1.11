@@ -15,7 +15,7 @@ public class FacingWidget extends BackgroundWidget {
 	public void renderMenu(int x, int y, int width, int height) {
 		super.renderMenu(x, y, width, height);
 		Face face = getPlayer().getFace();
-		String text = face.getDirection() + " (" + face.getInfo() + ")";
+		String text = face.getName() + " (" + face.getInfo() + ")";
         theme.drawStringWithShadow(text, x, y, 0xFFFFFF);
 		this.setWidth(theme.getStringWidth(text) + 2);
 		this.setHeight(theme.getStringHeight(text));

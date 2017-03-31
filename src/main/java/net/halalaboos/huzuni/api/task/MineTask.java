@@ -6,9 +6,8 @@ import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.util.DigAction;
+import net.halalaboos.mcwrapper.api.util.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
@@ -19,7 +18,7 @@ public class MineTask extends LookTask {
 	
 	protected final Timer timer = new Timer();
 	
-	protected EnumFacing face;
+	protected Face face;
 	
 	protected Vector3i position;
 		
@@ -37,7 +36,7 @@ public class MineTask extends LookTask {
 	@Override
 	public void onPreUpdate() {
 		if (timer.hasReach(mineDelay) && hasBlock() && !Freecam.INSTANCE.isEnabled()) {
-			this.setRotations(new BlockPos(position.getX(), position.getY(), position.getZ()), face); //TODO - IMPORTANT!
+			this.setRotations(position, face);
 			super.onPreUpdate();
 		}
 	}
@@ -155,7 +154,7 @@ public class MineTask extends LookTask {
 	 *
 	 * TODO - Change param to Vector3i
 	 * */
-	public void setBlock(BlockPos position, EnumFacing face) {
+	public void setBlock(Vector3i position, Face face) {
 		this.position = position == null ? Vector3i.ZERO : new Vector3i(position.getX(), position.getY(), position.getZ());
 		this.face = face;
 		if (position != null && face != null)
