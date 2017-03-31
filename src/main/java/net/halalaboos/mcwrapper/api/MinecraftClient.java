@@ -19,6 +19,7 @@ import net.halalaboos.mcwrapper.api.world.World;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.Proxy;
 import java.util.Optional;
 
 /**
@@ -113,4 +114,6 @@ public interface MinecraftClient {
 	Face getMouseFace();
 
 	Optional<Result> getMouseResult();
+
+	Proxy getProxy();
 }

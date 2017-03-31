@@ -1,8 +1,6 @@
 package net.halalaboos.huzuni.api.util;
 
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;

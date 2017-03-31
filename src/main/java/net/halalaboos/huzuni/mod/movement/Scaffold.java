@@ -9,9 +9,6 @@ import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
@@ -88,18 +85,6 @@ public class Scaffold extends BasicMod {
 		}
 	}
 
-	private BlockPos getFirstBlock(Vec3i direction) {
-		for (int i = 0; i <= (int) placeDistance.getValue(); i++) {
-			BlockPos position = new BlockPos(mc.player.posX + direction.getX() * i, mc.player.posY - 1, mc.player.posZ + direction.getZ() * i);
-			BlockPos before = new BlockPos(mc.player.posX + direction.getX() * (i - 1), mc.player.posY - 1, mc.player.posZ + direction.getZ() * (i - 1));
-			if (mc.world.getBlockState(position).getBlock() == Blocks.AIR && mc.world.getBlockState(before).getBlock() != Blocks.AIR) {
-				return before;
-			}
-		}
-		return null;
-	}
-
-	//todo - use this instead
 	private Vector3i getFirstBlock(Vector3i dir) {
 		for (int i = 0; i <= ((int) placeDistance.getValue()); i++) {
 			Vector3i pos = new Vector3i(getPlayer().getX() + dir.getX() * i, getPlayer().getY() - 1, getPlayer().getZ() + dir.getZ() * i);

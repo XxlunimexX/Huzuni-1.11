@@ -2,7 +2,6 @@ package net.halalaboos.huzuni.render;
 
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
-import net.minecraft.client.gui.Gui;
 
 /**
  * Renders particles
@@ -11,7 +10,7 @@ import net.minecraft.client.gui.Gui;
  * @version 1.0
  * @since 1/5/14
  */
-public class ParticleRenderer extends Gui {
+public class ParticleRenderer {
 
     private int width, height;
     

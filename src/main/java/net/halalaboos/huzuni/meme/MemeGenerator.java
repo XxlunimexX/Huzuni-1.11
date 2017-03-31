@@ -2,7 +2,6 @@ package net.halalaboos.huzuni.meme;
 
 import com.google.gson.*;
 import net.halalaboos.huzuni.Huzuni;
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.HttpUtil;
 import org.apache.logging.log4j.Level;
 
@@ -10,6 +9,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 
 /**
  * Gathers urls for memes using the meme generator api.
@@ -45,7 +46,7 @@ public class MemeGenerator extends Thread {
 	public void run() {
 		try {
 			Gson gson = new GsonBuilder().create();
-			JsonObject object = gson.fromJson(HttpUtil.postMap(new URL(String.format(memeType, memeTypeIndex, memeTypeAmount)), new HashMap<String, Object>(), false, Minecraft.getMinecraft().getProxy()).trim(), JsonObject.class);
+			JsonObject object = gson.fromJson(HttpUtil.postMap(new URL(String.format(memeType, memeTypeIndex, memeTypeAmount)), new HashMap<>(), false, getMinecraft().getProxy()).trim(), JsonObject.class);
 			
 			JsonArray array = object.get("result").getAsJsonArray();
 			List<String> memes = new ArrayList<>();
@@ -58,7 +59,7 @@ public class MemeGenerator extends Thread {
 
 			List<String> memeURLS = new ArrayList<>();
 			for (String meme : memes) {
-				JsonObject memeObject = gson.fromJson(HttpUtil.postMap(new URL(String.format(actualMeme, memeIndex, memeAmount, meme)), new HashMap<String, Object>(), false, Minecraft.getMinecraft().getProxy()).trim(), JsonObject.class);
+				JsonObject memeObject = gson.fromJson(HttpUtil.postMap(new URL(String.format(actualMeme, memeIndex, memeAmount, meme)), new HashMap<>(), false, getMinecraft().getProxy()).trim(), JsonObject.class);
 				JsonArray resultArray = memeObject.get("result").getAsJsonArray();
 				for (JsonElement element : resultArray) {
 					JsonElement urlElement = element.getAsJsonObject().get("instanceImageUrl");

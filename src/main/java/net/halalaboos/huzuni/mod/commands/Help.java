@@ -103,6 +103,7 @@ public final class Help extends BasicCommand {
 		return MathUtils.ceil((float) (huzuni.commandManager.getCommands().size() - 1) / (float) COMMAND_PER_PAGE - 0);
 	}
 
+	//TODO - MCWrapper
 	private TextComponentString getPageMessage(int wantedPage, int pages) {
 		String text = String.format("%s--- %sShowing help page %d of %d (%shelp <page>)%s ---", TextColor.GOLD, TextColor.GRAY, wantedPage, pages, huzuni.commandManager.getCommandPrefix(), TextColor.GOLD);
 		TextComponentString output = new TextComponentString(text);

@@ -40,9 +40,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentString;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -51,9 +49,11 @@ import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.Proxy;
 import java.util.Optional;
 
 @Mixin(net.minecraft.client.Minecraft.class)
+@Implements(@Interface(iface = MinecraftClient.class, prefix = "api$"))
 public abstract class MixinMinecraft implements MinecraftClient {
 
 	@Shadow private int rightClickDelayTimer;
@@ -80,6 +80,8 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Shadow public RenderGlobal renderGlobal;
 
 	@Shadow public RayTraceResult objectMouseOver;
+
+	@Shadow @Final private Proxy proxy;
 
 	@Inject(method = "run()V", at = @At(value = "INVOKE",
 			target = "Lnet/minecraft/client/Minecraft;init()V",
@@ -254,5 +256,10 @@ public abstract class MixinMinecraft implements MinecraftClient {
 			return Optional.empty();
 		}
 		return Optional.of(Convert.from(objectMouseOver));
+	}
+
+	@Intrinsic
+	public Proxy api$getProxy() {
+		return proxy;
 	}
 }

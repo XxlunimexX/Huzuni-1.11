@@ -2,7 +2,6 @@ package net.halalaboos.huzuni.indev.gui.impl;
 
 import net.halalaboos.huzuni.api.node.Nameable;
 import net.halalaboos.huzuni.indev.gui.Toolbox;
-import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
@@ -23,12 +22,12 @@ public class BasicToolbox implements Toolbox {
 
     @Override
     public int getMouseX() {
-        return (Mouse.getX() * getWidth() / Minecraft.getMinecraft().displayWidth);
+        return (Mouse.getX() * getWidth() / getMinecraft().getScreenResolution().width);
     }
 
     @Override
     public int getMouseY() {
-        return (getHeight() - Mouse.getY() * getHeight() / Minecraft.getMinecraft().displayHeight - 1);
+        return (getHeight() - Mouse.getY() * getHeight() / getMinecraft().getScreenResolution().height - 1);
     }
 
     @Override
