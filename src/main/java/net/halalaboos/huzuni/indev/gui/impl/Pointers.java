@@ -14,10 +14,6 @@ public enum Pointers implements Nameable {
     COLOR_ENABLED_TEXT("color_enabled_text", "Color used for enabled text within the GUI"),
     COLOR_DISABLED_TEXT("color_disabled_text", "Color used for disabled text within the GUI."),
     FONT_TOOLTIP("font_tooltip", "Font used within tooltips."),
-    FONT_TITLE("font_title", "Font used for titles."),
-    FONT_DESCRIPTION("font_description", "Font used for descriptions."),
-    FONT_TEXTFIELD("font_textfield", "Font used for textfields."),
-    FONT_GLOBAL("font_global", "Font used globally within the game."),
     IMAGE_ARROW("image_arrow", "Image used for the arrow of the combo box.");
 
     private final String name, description;

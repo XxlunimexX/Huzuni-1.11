@@ -40,6 +40,8 @@ public class GuiTestScreen  extends HuzuniScreen {
 
     private final BasicToolbox toolbox = new BasicToolbox();
 
+    private final FontData globalFont, titleFont, descriptionFont, textfieldFont;
+
     private final ContainerManager manager;
 
     private Container settings;
@@ -49,12 +51,11 @@ public class GuiTestScreen  extends HuzuniScreen {
     public GuiTestScreen() {
         super();
         // Apply the fonts to the tool box.
-        FontData globalFont = huzuni.resourceCreator.create("font", FONT_GLOBAL.getName(), "RobotoCondensed-Regular.ttf", Font.PLAIN, 18);
+        globalFont = huzuni.resourceCreator.create("font", "font_global", "RobotoCondensed-Regular.ttf", Font.PLAIN, 18);
+        titleFont = huzuni.resourceCreator.create("font", "font_title", "RobotoCondensed-Bold.ttf", Font.BOLD, 48);
+        descriptionFont = huzuni.resourceCreator.create("font", "font_description", "RobotoCondensed-Italic.ttf", Font.ITALIC, 16);
+        textfieldFont = huzuni.resourceCreator.create("font", "font_textfield","RobotoCondensed-Italic.ttf", Font.ITALIC, 20);
         toolbox.put(FONT_TOOLTIP, globalFont);
-        toolbox.put(FONT_GLOBAL, globalFont);
-        toolbox.put(FONT_TITLE, huzuni.resourceCreator.create("font", FONT_TITLE.getName(), "RobotoCondensed-Bold.ttf", Font.BOLD, 48));
-        toolbox.put(FONT_DESCRIPTION, huzuni.resourceCreator.create("font", FONT_DESCRIPTION.getName(), "RobotoCondensed-Italic.ttf", Font.ITALIC, 16));
-        toolbox.put(FONT_TEXTFIELD, huzuni.resourceCreator.create("font", FONT_TEXTFIELD.getName(),"RobotoCondensed-Italic.ttf", Font.ITALIC, 20));
         toolbox.put(IMAGE_ARROW, huzuni.resourceCreator.create("image", IMAGE_ARROW.getName(), "arrow.png"));
 
         // Apply a random color pack to the tool box.
@@ -94,7 +95,7 @@ public class GuiTestScreen  extends HuzuniScreen {
         // Populate the scrollable container with the mods of huzuni.
         for (Mod mod : huzuni.modManager.getMods()) {
             Button button = new ModButton(mod, this);
-            button.setFont(toolbox.get(FONT_GLOBAL));
+            button.setFont(globalFont);
             button.setHeight(20);
             modsList.add(button);
         }
@@ -163,11 +164,11 @@ public class GuiTestScreen  extends HuzuniScreen {
         settings.clear();
 
         // Create the title label.
-        Label title = new Label("title", mod.getName(), toolbox.get(FONT_TITLE), new Color(218, 218, 218));
+        Label title = new Label("title", mod.getName(), titleFont, new Color(218, 218, 218));
         title.setPosition(10, 10);
         settings.add(title);
 
-        Label description = new Label("description", mod.getDescription(), toolbox.get(FONT_DESCRIPTION), new Color(118, 118, 118));
+        Label description = new Label("description", mod.getDescription(), descriptionFont, new Color(118, 118, 118));
         description.setPosition(10, 40);
         settings.add(description);
 
@@ -194,11 +195,11 @@ public class GuiTestScreen  extends HuzuniScreen {
 
             // Create a check box for the toggleable.
             if (child instanceof Toggleable) {
-                component = new ToggleableCheckbox((Toggleable) child, toolbox.get(FONT_GLOBAL));
+                component = new ToggleableCheckbox((Toggleable) child, globalFont);
 
                 // Create value container for each value.
             } else if (child instanceof Value) {
-                component = new ValueContainer((Value) child, toolbox.get(FONT_GLOBAL), toolbox.get(FONT_DESCRIPTION));
+                component = new ValueContainer((Value) child, globalFont, descriptionFont);
 
                 // If we have JUST a node.
             } else if (child.getClass().isAssignableFrom(Node.class)) {
@@ -213,19 +214,19 @@ public class GuiTestScreen  extends HuzuniScreen {
 
                 // Create the string node container for string nodes.
             } else if (child instanceof StringNode) {
-                component = new StringNodeContainer((StringNode) child, toolbox.get(FONT_GLOBAL), toolbox.get(FONT_TEXTFIELD));
+                component = new StringNodeContainer((StringNode) child, globalFont, textfieldFont);
 
                 // Create the color node container for color nodes.
             } else if (child instanceof ColorNode) {
-                component = new ColorNodeContainer((ColorNode) child, toolbox.get(FONT_GLOBAL), toolbox.get(FONT_TEXTFIELD));
+                component = new ColorNodeContainer((ColorNode) child, globalFont, textfieldFont);
 
                 // Create the item list container for item lists.
             } else if (child instanceof ItemList) {
-                component = new ItemListContainer((ItemList) child, toolbox.get(FONT_GLOBAL));
+                component = new ItemListContainer((ItemList) child, globalFont);
 
                 // Create the mode dropdown for modes.
             }  else if (child instanceof Mode) {
-                component = new ModeContainer((Mode) child, toolbox.get(FONT_GLOBAL));
+                component = new ModeContainer((Mode) child, globalFont);
             }
 
             // If the node had a component made for it, we position it and either decrement or increment the y position.
