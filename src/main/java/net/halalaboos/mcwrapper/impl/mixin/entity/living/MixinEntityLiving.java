@@ -7,6 +7,8 @@ import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.potion.PotionEffect;
 import net.halalaboos.mcwrapper.impl.Convert;
 import net.halalaboos.mcwrapper.impl.mixin.entity.MixinEntity;
+import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.EnumHand;
 import org.spongepowered.asm.mixin.*;
@@ -17,6 +19,10 @@ import java.util.Map;
 @Mixin(net.minecraft.entity.EntityLivingBase.class)
 @Implements(@Interface(iface = Living.class, prefix = "api$"))
 public abstract class MixinEntityLiving extends MixinEntity implements Living {
+
+	@Shadow public abstract IAttributeInstance getEntityAttribute(IAttribute attribute);
+
+	@Shadow public abstract boolean isPotionActive(Potion potionIn);
 
 	@Shadow public abstract float getHealth();
 	@Shadow public abstract float getMaxHealth();

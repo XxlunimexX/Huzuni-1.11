@@ -258,6 +258,11 @@ public abstract class MixinMinecraft implements MinecraftClient {
 		return Optional.of(Convert.from(objectMouseOver));
 	}
 
+	public Optional<Entity> getMousedEntity() {
+		if (objectMouseOver.entityHit == null) return Optional.empty();
+		return Optional.of((Entity)objectMouseOver.entityHit);
+	}
+
 	@Intrinsic
 	public Proxy api$getProxy() {
 		return proxy;

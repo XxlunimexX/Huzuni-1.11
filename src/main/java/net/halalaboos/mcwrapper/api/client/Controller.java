@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.api.client;
 
+import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
@@ -87,4 +88,9 @@ public interface Controller {
 	ActionResult rightClickBlock(Vector3i pos, Face direction, Vector3d vec, Hand hand);
 
 	ItemStack clickSlot(int windowId, int slot, int mouseButton, ClickType type);
+
+	ActionResult interactWith(Entity target, Hand hand);
+
+	void attack(Entity target);
+
 }

@@ -7,6 +7,7 @@ import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.ClickTask;
 import net.halalaboos.huzuni.api.task.HotbarTask;
 import net.halalaboos.huzuni.api.task.LookTask;
+import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.MinecraftUtilsNew;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
@@ -116,7 +117,7 @@ public class Autopotion extends BasicMod {
 			int newPotion = getUseablePotion();
 			if (newPotion != -1) {
 				ItemStack itemStack = getPlayer().getPlayerInventory().getStack(newPotion);
-				if (MinecraftUtilsNew.isShiftable(itemStack)) {
+				if (MinecraftUtils.isShiftable(itemStack)) {
 					if (clickTask.containsClick(newPotion, 0, 1))
 						timer.reset();
 					else if (timer.hasReach((int) swapDelay.getValue())) {
