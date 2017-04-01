@@ -95,8 +95,7 @@ public class Vector3i {
 	}
 
 	public Vector3i up() {
-		this.y += 1;
-		return this;
+		return new Vector3i(this.x, this.y + 1, this.z);
 	}
 
 	public Vector3i offset(Face face) {

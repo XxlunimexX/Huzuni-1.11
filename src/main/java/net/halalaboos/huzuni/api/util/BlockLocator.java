@@ -39,7 +39,7 @@ public abstract class BlockLocator {
 		for (double i = -(radius * xIncrement); check(i, (radius * xIncrement), directionVector.getX() < 0); i += xIncrement) {
 			for (double j = -radius; j < radius; j++) {
 				for (double k = -(radius * zIncrement); check(k, (radius * zIncrement), directionVector.getZ() < 0); k += zIncrement) {
-					if (i == 0 && j >= -1 && j <= mc.player.getEyeHeight() && k == 0)
+					if (i == 0 && j >= -1 && j <= getPlayer().getEyeHeight() && k == 0)
 						continue;
 					Vector3i position = new Vector3i(getPlayer().getX() + i, getPlayer().getY() + j, getPlayer().getZ() + k);
 					double distance = getPlayer().getDistanceTo(position);

@@ -37,6 +37,11 @@ public interface ItemStack extends Nameable {
 
 	List<String> getEnchants();
 
+	/**
+	 * Returns the Item's metadata.
+	 */
+	int getData();
+
 	static Builder getBuilder() {
 		return MCWrapper.getAdapter().getBuilder(Builder.class);
 	}

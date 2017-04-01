@@ -47,6 +47,8 @@ public abstract class MixinItemStack implements ItemStack {
 
 	@Shadow @Nullable public abstract NBTTagList getEnchantmentTagList();
 
+	@Shadow public abstract int getMetadata();
+
 	private Minecraft mc = Minecraft.getMinecraft();
 
 	@Override
@@ -152,6 +154,11 @@ public abstract class MixinItemStack implements ItemStack {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int getData() {
+		return getMetadata();
 	}
 
 	private net.minecraft.item.ItemStack getMCItemStack() {

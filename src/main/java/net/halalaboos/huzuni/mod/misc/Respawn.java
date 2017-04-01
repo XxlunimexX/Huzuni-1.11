@@ -17,10 +17,12 @@ public class Respawn extends BasicMod {
 		this.setCategory(Category.MISC);
 		setAuthor("brudin");
 		subscribe(PacketReadEvent.class, event -> {
+			//We're going to be using the HealthUpdatePacket rather than checking our health every tick.
 			if (event.getPacket() instanceof HealthUpdatePacket) {
 				HealthUpdatePacket packet = (HealthUpdatePacket)event.getPacket();
-				if (packet.getHearts() > 0.0F)
-					return;
+				//If we're not dead, then don't do anything
+				if (packet.getHearts() > 0.0F) return;
+				//Otherwise, send the respawn status packet
 				getMinecraft().getNetworkHandler().sendRespawn();
 			}
 		});

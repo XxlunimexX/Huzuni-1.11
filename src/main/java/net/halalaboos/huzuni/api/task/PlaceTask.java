@@ -5,12 +5,12 @@ import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
+import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.util.enums.ActionResult;
 import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
@@ -92,14 +92,14 @@ public class PlaceTask extends LookTask {
 	 * @return True if the item held is required to continue block placement.
 	 * */
 	protected boolean hasRequiredItem(ItemStack item) {
-		return item.getItem() instanceof ItemBlock;
+		return item.getItemType() instanceof ItemBlock;
 	}
 
 	/**
 	 * @return True if the player should face the position.
 	 * */
 	protected boolean shouldRotate() {
-		return getPlayer().getHeldItem(Hand.MAIN) != null && isWithinDistance();
+		return getPlayer().getHeldItem(Hand.MAIN) != null && hasRequiredItem(getPlayer().getHeldItem(Hand.MAIN)) && isWithinDistance();
 	}
 
 	protected void reset() {
@@ -142,8 +142,10 @@ public class PlaceTask extends LookTask {
 	public void setBlock(Vector3i position, Face face) {
 		this.position = position;
 		this.face = face;
-		if (position != null && face != null)
+		if (position != null && face != null) {
+			System.out.println("SETTING! " + position.toString());
 			this.setRotations(position, face);
+		}
 	}
 
 	public boolean hasBlock() {
