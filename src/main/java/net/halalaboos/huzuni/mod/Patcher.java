@@ -26,7 +26,7 @@ public class Patcher {
 
 	private boolean shouldHideFlying = true;
 
-	private final Huzuni huzuni = Huzuni.INSTANCE;
+	private final Huzuni huzuni;
 
 	/**
 	 * PATCHER isn't really a mod, but moreso a way to prevent the client from sending things that
@@ -36,7 +36,9 @@ public class Patcher {
 	 * 	prevent client from sending server fly state (ez)
 	 */
 
-	public Patcher() {}
+	public Patcher(Huzuni huzuni) {
+		this.huzuni = huzuni;
+	}
 
 	public void init() {
 		getEventManager().subscribe(MouseEvent.class, event -> {

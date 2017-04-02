@@ -47,7 +47,7 @@ public enum Huzuni {
 
 	public static final Logger LOGGER = LogManager.getLogger("Huzuni");
 
-	private final Patcher patcher = new Patcher();
+	private final Patcher patcher = new Patcher(this);
 
 	public final PluginManager pluginManager = new PluginManager();
 

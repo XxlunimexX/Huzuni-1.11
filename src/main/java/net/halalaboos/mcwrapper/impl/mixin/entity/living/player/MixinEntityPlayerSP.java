@@ -124,7 +124,9 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 		event.setMotionZ(z);
 		MCWrapper.getEventManager().publish(event);
 		super.move(type, event.getMotionX(), event.getMotionY(), event.getMotionZ());
-		this.updateAutoJump((float)(this.posX - d0), (float)(this.posZ - d1));
+		if (!noClip) {
+			this.updateAutoJump((float)(this.posX - d0), (float)(this.posZ - d1));
+		}
 	}
 
 	@Override

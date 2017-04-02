@@ -15,10 +15,16 @@ public interface GLState {
 		glTranslated(x, y, z);
 	}
 
+	/**
+	 * Creates a new matrix.
+	 */
 	default void pushMatrix() {
 		glPushMatrix();
 	}
 
+	/**
+	 * Removes (or 'pops') the matrix.
+	 */
 	default void popMatrix() {
 		glPopMatrix();
 	}
@@ -65,11 +71,11 @@ public interface GLState {
 	void disablePolygonOffset();
 
 	/**
-	 * Sets the scale for rendering.
+	 * Scales the current matrix by the specified amount.
 	 *
-	 * @param x The x-scale
-	 * @param y The y-scale
-	 * @param z The z-scale
+	 * @param x The amount to scale the x-axis.
+	 * @param y The amount to scale the y-axis.
+	 * @param z The amount to scale the z-axis.
 	 */
 	default void scale(double x, double y, double z) {
 		GL11.glScaled(x, y, z);
