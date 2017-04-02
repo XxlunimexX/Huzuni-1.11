@@ -18,11 +18,14 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.input.Keyboard;
+import pw.knx.feather.tessellate.GrowingTess;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
-import static org.lwjgl.opengl.GL11.GL_LINES;
-import static org.lwjgl.opengl.GL11.GL_LINE_LOOP;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_COLOR_ARRAY;
+import static org.lwjgl.opengl.GL11.glEnableClientState;
 
 /**
  * Renders meshes around entities which have been selected.
@@ -30,8 +33,6 @@ import static org.lwjgl.opengl.GL11.GL_LINE_LOOP;
 public class ESP extends BasicMod implements Renderer {
 
 	private final Box[] box = new Box[0xFFFFF];
-
-	private final Tessellator tessellator = Tessellator.getInstance();
 
 	public final Toggleable players = new Toggleable("Players", "Traces to players"),
 			mobs = new Toggleable("Mobs", "Traces to mobs"),
@@ -44,6 +45,8 @@ public class ESP extends BasicMod implements Renderer {
 	public final Value opacity = new Value("Opacity", "%", 0F, 50F, 100F, 1F, "Opacity of the icon");
 
 	public final Mode<String> mode = new Mode<String>("Mode", "Style the entities will be rendered with", "None", "Hitboxes", "Rectangle", "Lines");
+
+	private final GrowingTess tessellator = new GrowingTess(4);
 
 	public ESP() {
 		super("ESP", "Render boxes/lines to and around entities within the world", Keyboard.KEY_B);
@@ -71,13 +74,13 @@ public class ESP extends BasicMod implements Renderer {
 		for (Entity e : getWorld().getEntities()) {
 			if (e instanceof Living) {
 				Living entity = (Living)e;
-				if (entity == MCWrapper.getPlayer() || entity.isDead() || !MinecraftUtils.checkType(entity,
+				if (entity == getPlayer() || entity.isDead() || !MinecraftUtils.checkType(entity,
 						invisibles.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled()) ||
 						(properties.isEnabled() && !MinecraftUtils.checkProperties(entity)) ||
 						(checkAge.isEnabled() && !MinecraftUtils.checkAge(entity)))
 					continue;
 				Vector3d renderPos = entity.getRenderPosition();
-				float distance = (float)MCWrapper.getPlayer().getDistanceTo(entity);
+				float distance = (float) getPlayer().getDistanceTo(entity);
 				int entityId = entity.getEntityListId();
 				if (entityId < 0) entityId = 420;
 				boolean friend = huzuni.friendManager.isFriend(entity.name());
@@ -95,24 +98,34 @@ public class ESP extends BasicMod implements Renderer {
 				} else if (mode.getSelected() == 2) {
 					getGLStateManager().pushMatrix();
 					getGLStateManager().translate(renderPos.getX(), renderPos.getY(), renderPos.getZ());
-					getGLStateManager().rotate(-MCWrapper.getPlayer().getRotation().yaw, 0F, 1F, 0F);
+					getGLStateManager().rotate(-getPlayer().getRotation().yaw, 0F, 1F, 0F);
 					float width = (float) (entity.getBoundingBox().max.getX() - entity.getBoundingBox().min.getX()),
 							height = (float) (entity.getBoundingBox().max.getY() - entity.getBoundingBox().min.getY());
-					VertexBuffer vertexBuffer = tessellator.getBuffer();
-					vertexBuffer.begin(GL_LINE_LOOP, DefaultVertexFormats.POSITION);
-					vertexBuffer.pos(-width, 0, 0F).endVertex();
-					vertexBuffer.pos(-width, height, 0F).endVertex();
-					vertexBuffer.pos(width, height, 0F).endVertex();
-					vertexBuffer.pos(width, 0, 0F).endVertex();
-					tessellator.draw();
+
+					tessellator.color(0, 1, 0F, 1F)
+							.vertex(-width, 0, 0F).vertex(-width, height, 0F)
+							.vertex(width, height, 0F).vertex(width, 0, 0F);
+
+					glEnableClientState(GL_VERTEX_ARRAY);
+					glEnableClientState(GL_COLOR_ARRAY);
+					tessellator.bind().pass(GL_LINE_LOOP);
+					tessellator.pass(GL_LINES).reset();
+					glDisableClientState(GL_VERTEX_ARRAY);
+					glDisableClientState(GL_COLOR_ARRAY);
 					getGLStateManager().popMatrix();
 				} else if (mode.getSelected() == 3) {
-					GLUtils.glColor(1F, distance / 64F, 0F, 1F);
-					VertexBuffer renderer = tessellator.getBuffer();
-					renderer.begin(GL_LINES, DefaultVertexFormats.POSITION);
-					renderer.pos(renderPos.getX(), renderPos.getY(), renderPos.getZ()).endVertex();
-					renderer.pos(renderPos.getX(), renderPos.getY() + entity.getHeight(), renderPos.getZ()).endVertex();
-					tessellator.draw();
+					float x = (float)renderPos.getX();
+					float y = (float)renderPos.getY();
+					float z = (float)renderPos.getZ();
+					tessellator.color(1F, distance / 64F, 0F, 1F)
+							.vertex(x, y, z).vertex(x, y + entity.getHeight(), z);
+
+					glEnableClientState(GL_VERTEX_ARRAY);
+					glEnableClientState(GL_COLOR_ARRAY);
+					tessellator.bind().pass(GL_LINES);
+					tessellator.pass(GL_LINES).reset();
+					glDisableClientState(GL_VERTEX_ARRAY);
+					glDisableClientState(GL_COLOR_ARRAY);
 				}
 			}
 		}

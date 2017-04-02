@@ -4,10 +4,8 @@ import net.halalaboos.huzuni.gui.screen.HuzuniSettingsMenu;
 import net.halalaboos.mcwrapper.api.event.render.HUDRenderEvent;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL32;
+import pw.knx.feather.tessellate.GrowingTess;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -30,6 +28,8 @@ public final class RenderManager {
 	private List<float[]> lines = new ArrayList<>();
 	
 	private final Huzuni huzuni;
+
+	private final GrowingTess lineTess = new GrowingTess(4);
 	
 	public RenderManager(Huzuni huzuni) {
 		this.huzuni = huzuni;
@@ -93,17 +93,21 @@ public final class RenderManager {
      * Renders the lines which have been added.
      * */
 	public void renderLines() {
-		Tessellator tessellator = Tessellator.getInstance();
-    	VertexBuffer vertexBuffer = tessellator.getBuffer();
-    	vertexBuffer.begin(GL_LINES, DefaultVertexFormats.POSITION_COLOR);
 		Vector3d start = new Vector3d(0, 0, 1)
 				.rotatePitch(-(float) Math.toRadians(getPlayer().getPitch()))
 				.rotateYaw(-(float) Math.toRadians(getPlayer().getYaw()));
 		for (float[] point : lines) {
-	    	vertexBuffer.pos(start.getX(), start.getY() + Minecraft.getMinecraft().player.getEyeHeight(), start.getZ()).color(point[3], point[4], point[5], point[6]).endVertex();
-	    	vertexBuffer.pos(point[0], point[1], point[2]).color(point[3], point[4], point[5], point[6]).endVertex();
+			lineTess.color(point[3], point[4], point[5], point[6])
+					.vertex((float)start.getX(), (float)start.getY() + getPlayer().getEyeHeight(), (float)start.getZ())
+					.vertex(point[0], point[1], point[2]);
 		}
-    	tessellator.draw();
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_COLOR_ARRAY);
+		lineTess.bind().pass(GL_LINES);
+		getGLStateManager().lineWidth(huzuni.settings.lineSize.getValue());
+		lineTess.pass(GL_LINES).reset();
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
     	lines.clear();
 	}
 

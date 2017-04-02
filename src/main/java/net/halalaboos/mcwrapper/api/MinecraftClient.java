@@ -118,4 +118,6 @@ public interface MinecraftClient {
 	Proxy getProxy();
 
 	Optional<Entity> getMousedEntity();
+
+	Vector3d getPlayerView();
 }

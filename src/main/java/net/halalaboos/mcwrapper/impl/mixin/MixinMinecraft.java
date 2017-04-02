@@ -267,4 +267,9 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	public Proxy api$getProxy() {
 		return proxy;
 	}
+
+	@Override
+	public Vector3d getPlayerView() {
+		return new Vector3d(renderManager.playerViewX, renderManager.playerViewY, 0);
+	}
 }

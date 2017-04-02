@@ -21,6 +21,7 @@ import net.halalaboos.mcwrapper.api.event.player.PostMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.util.enums.MouseButton;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
+import net.minecraft.entity.EntityLivingBase;
 import org.lwjgl.input.Keyboard;
 
 import java.util.Optional;

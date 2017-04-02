@@ -107,4 +107,10 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 	@Shadow
 	public boolean canBePushed() {return true;}
 
+	@Shadow protected boolean dead;
+
+	@Override
+	public boolean isDead() {
+		return dead;
+	}
 }

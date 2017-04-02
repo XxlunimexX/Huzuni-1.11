@@ -130,12 +130,12 @@ public final class GLUtils {
 		float scale = 0.016666668F * 1.6F;
 		glTranslatef(x, y, z);
 		glNormal3f(0.0F, 1.0F, 0.0F);
-		glRotated(-getMinecraft().getCamera().getY(), 0.0F, 1.0F, 0.0F);
+		glRotated(-getMinecraft().getPlayerView().getY(), 0.0F, 1.0F, 0.0F);
 		if (modifyPitch) {
 			if (getSettings().getThirdPersonSetting() == 2) {
-				glRotated(-getMinecraft().getCamera().getX(), 1.0F, 0.0F, 0.0F);
+				glRotated(-getMinecraft().getPlayerView().getX(), 1.0F, 0.0F, 0.0F);
 			} else {
-				glRotated(getMinecraft().getCamera().getX(), 1.0F, 0.0F, 0.0F);
+				glRotated(getMinecraft().getPlayerView().getX(), 1.0F, 0.0F, 0.0F);
 			}
 		}
 		glScalef(-scale, -scale, scale);
