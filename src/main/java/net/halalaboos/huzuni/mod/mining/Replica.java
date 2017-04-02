@@ -168,7 +168,7 @@ public final class Replica extends BasicMod implements Renderer {
 	@Override
 	public void render(float partialTicks) {
 		if (!templateBuilder.hasPositions()) {
-			if (templateBuilder.canPreview() && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK) {
+			if (templateBuilder.canPreview() && getMinecraft().getMouseResult().isPresent() && getMinecraft().getMouseResult().get() == Result.BLOCK) {
 				renderPreview(getMinecraft().getMouseVector(), getMinecraft().getMouseFace());
 			}
 		} else {
@@ -201,9 +201,9 @@ public final class Replica extends BasicMod implements Renderer {
 	}
 
 	private void renderBox(int x, int y, int z) {
-		float renderX = (float) (x - mc.getRenderManager().viewerPosX);
-		float renderY = (float) (y - mc.getRenderManager().viewerPosY);
-		float renderZ = (float) (z - mc.getRenderManager().viewerPosZ);
+		float renderX = (float) (x - getMinecraft().getCamera().getX());
+		float renderY = (float) (y - getMinecraft().getCamera().getY());
+		float renderZ = (float) (z - getMinecraft().getCamera().getZ());
 		getGLStateManager().pushMatrix();
 		getGLStateManager().translate(renderX, renderY, renderZ);
 		GLUtils.glColor(1F, 1F, 1F, 0.2F);

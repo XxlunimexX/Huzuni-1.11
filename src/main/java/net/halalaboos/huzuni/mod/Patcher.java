@@ -4,6 +4,7 @@ import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.huzuni.mod.movement.Flight;
 import net.halalaboos.huzuni.mod.movement.Freecam;
+import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.event.input.MouseEvent;
 import net.halalaboos.mcwrapper.api.event.network.PacketReadEvent;
@@ -11,11 +12,11 @@ import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.network.packet.client.PlayerAbilitiesPacket;
 import net.halalaboos.mcwrapper.api.network.packet.client.TabCompletePacket;
 import net.halalaboos.mcwrapper.api.util.enums.MouseButton;
-import net.minecraft.client.Minecraft;
+import net.halalaboos.mcwrapper.api.util.math.Result;
 import net.minecraft.network.play.server.SPacketPlayerAbilities;
-import net.minecraft.util.math.RayTraceResult;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getEventManager;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 
 /**
  * @since 5:05 PM on 3/21/2015
@@ -40,16 +41,17 @@ public class Patcher {
 	public void init() {
 		getEventManager().subscribe(MouseEvent.class, event -> {
 			if (event.getButton() == MouseButton.MIDDLE) {
-				if (Minecraft.getMinecraft().objectMouseOver != null) {
-					RayTraceResult result = Minecraft.getMinecraft().objectMouseOver;
-					if (result.typeOfHit == RayTraceResult.Type.ENTITY && result.entityHit instanceof Player) {
-						if (huzuni.friendManager.isFriend(result.entityHit.getName())) {
-							huzuni.addChatMessage(String.format("Removed %s as a friend.", result.entityHit.getName()));
-							huzuni.friendManager.removeFriend(result.entityHit.getName());
+				if (getMinecraft().getMouseResult().isPresent() && getMinecraft().getMousedEntity().isPresent()) {
+					Result result = getMinecraft().getMouseResult().get();
+					Entity entity = getMinecraft().getMousedEntity().get();
+					if (result == Result.ENTITY && entity instanceof Player) {
+						if (huzuni.friendManager.isFriend(entity.name())) {
+							huzuni.addChatMessage(String.format("Removed %s as a friend.", entity.name()));
+							huzuni.friendManager.removeFriend(entity.name());
 							huzuni.friendManager.save();
 						} else {
-							huzuni.friendManager.addFriend(result.entityHit.getName());
-							huzuni.addChatMessage(String.format("Added %s as a friend.", result.entityHit.getName()));
+							huzuni.friendManager.addFriend(entity.name());
+							huzuni.addChatMessage(String.format("Added %s as a friend.", entity.name()));
 							huzuni.friendManager.save();
 						}
 					}
