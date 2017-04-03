@@ -41,4 +41,8 @@ public class HealthData {
 	public float getAbsorptionAmount() {
 		return absorptionAmount;
 	}
+
+	public float getHealthPercentage() {
+		return currentHealth / maxHealth;
+	}
 }

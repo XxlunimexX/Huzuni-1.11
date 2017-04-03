@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.mod.visual;
+package net.halalaboos.huzuni.mod.visual.nametags;
 
 import net.halalaboos.huzuni.RenderManager;
 import net.halalaboos.huzuni.api.mod.BasicMod;
@@ -7,6 +7,9 @@ import net.halalaboos.huzuni.api.node.Mode;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
+import net.halalaboos.huzuni.mod.visual.nametags.provider.render.ArmorRenderProvider;
+import net.halalaboos.huzuni.mod.visual.nametags.provider.text.HealthTextProvider;
+import net.halalaboos.huzuni.mod.visual.nametags.provider.text.PingTextProvider;
 import net.halalaboos.mcwrapper.api.MCWrapperHooks;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
@@ -85,6 +88,10 @@ public class Nametags extends BasicMod implements RenderManager.Renderer {
 	 */
 	private final Mode<String> healthMode = new Mode<>("Health", "Style the health will be rendered", "None", "Numerical", "Percentage");
 
+	private HealthTextProvider healthProvider;
+	private PingTextProvider pingProvider;
+	private ArmorRenderProvider armorProvider;
+
 	public Nametags() {
 		super("Nametags", "Render custom nameplates over entities", Keyboard.KEY_P);
 		this.setAuthor("brudin");
@@ -95,6 +102,10 @@ public class Nametags extends BasicMod implements RenderManager.Renderer {
 		enchants.setEnabled(true);
 		scale.setEnabled(true);
 		healthMode.setSelectedItem(2);
+
+		this.healthProvider = new HealthTextProvider(healthMode);
+		this.pingProvider = new PingTextProvider(ping);
+		this.armorProvider = new ArmorRenderProvider(armor, enchants);
 	}
 
 	@Override
@@ -154,8 +165,11 @@ public class Nametags extends BasicMod implements RenderManager.Renderer {
 		//Prevents the nameplate from getting too small, and also locks the scale if scaling is disabled
 		if (scale < 1D || !this.scale.isEnabled()) scale = 1;
 
+		String health = healthProvider.isEnabled() ? " " + healthProvider.getText(player) : "";
+		String ping = pingProvider.isEnabled() ? " " + pingProvider.getText(player) : "";
+
 		//The text to render on the nameplate.  Includes the name, health (if enabled), and ping (if enabled)
-		String text = huzuni.friendManager.getAlias(player.name()) + getHealth(player) + getPing(player);
+		String text = huzuni.friendManager.getAlias(player.name()) + health + ping;
 		//The width of the name, for centering and sizing the background rectangle.
 		int width = getTextRenderer().getWidth(text);
 		renderPlate(player, pos, scale, width, color, text);
@@ -187,125 +201,8 @@ public class Nametags extends BasicMod implements RenderManager.Renderer {
 		//Render the text, centered
 		getTextRenderer().render(text, -width / 2, 0, color, true);
 		//Render armor if it is enabled
-		if (armor.isEnabled()) renderItems(player, -4);
+		if (armorProvider.isEnabled()) armorProvider.render(player, 0, -4);
 		getGLStateManager().popMatrix();
-	}
-
-	/**
-	 * Renders the specified Player's items, as well as enchants if the option for either are enabled.
-	 *
-	 * @param player The target Player
-	 * @param rY The y position to start rendering (renderY)
-	 */
-	private void renderItems(Player player, float rY) {
-		int totalItems = 0;
-		glPolygonOffset(1.0F, -2000000.0F);
-		getGLStateManager().enablePolygonOffset();
-		getGLStateManager().enableDepth();
-		getGLStateManager().depthMask(true);
-		getGLStateManager().pushMatrix();
-		for (int i = 0; i < 4; i++)
-			totalItems++;
-		totalItems++;
-		int itemSize = 18, center = (-itemSize / 2), halfTotalSize = ((totalItems * itemSize) / 2 - itemSize) + (itemSize / 2), count = 0;
-		if (player.getHeldItem(Hand.MAIN).isPresent()) {
-			draw3dItem(player.getHeldItem(Hand.MAIN).get(), (center - halfTotalSize) + itemSize * count + 2, (int) rY - 16);
-			if (enchants.isEnabled())
-				renderEnchantments(player.getHeldItem(Hand.MAIN).get(), (center - halfTotalSize) + itemSize * count + 2, (int) rY - 16, 0.5F);
-			count++;
-		}
-		for (int i = 4; i > 0; i--) {
-			ItemStack armor = player.getPlayerInventory().getArmorStack(i - 1);
-			draw3dItem(armor, (center - halfTotalSize) + itemSize * count, (int) rY - 16);
-			if (enchants.isEnabled())
-				renderEnchantments(armor, (center - halfTotalSize) + itemSize * count, (int) rY - 16, 0.5F);
-			count++;
-		}
-		getGLStateManager().popMatrix();
-		getGLStateManager().disablePolygonOffset();
-		getGLStateManager().disableDepth();
-		getGLStateManager().depthMask(false);
-	}
-
-	private void draw3dItem(ItemStack itemStack, int x, int y) {
-		if (itemStack == null) return;
-		itemStack.render3D(x, y);
-	}
-
-	/**
-	 * Renders the name/level of all of the enchantments on the specified {@link ItemStack}
-	 *
-	 * @param item The item to obtain the list of enchants from
-	 * @param x The x-position to render the text
-	 * @param y The y-position to render the text
-	 * @param scale The scale of the text
-	 */
-	private void renderEnchantments(ItemStack item, float x, float y, float scale) {
-		float scaleInverse = 1F / scale, increment = 10F / scaleInverse;
-		//Check if the item has any enchants
-		if (item.getEnchants() != null) {
-			//Loop through the enchants
-			for (int i = 0; i < item.getEnchants().size(); i++) {
-				//Get the name of the enchantment to render
-				String name = item.getEnchants().get(i);
-
-				//Setup rendering and draw the text
-				getGLStateManager().pushMatrix();
-				getGLStateManager().scale(scale, scale, scale);
-				getTextRenderer().render(name, x * scaleInverse, ((int) y + (increment * i)) * scaleInverse, 0xFFFFFF);
-				getGLStateManager().popMatrix();
-			}
-		}
-	}
-
-	/**
-	 * Returns the specified Player's ping, used to see their connection to the server.  The ping is displayed in
-	 * the format of "{@code # ms}" and colored based on how good or bad their connection is.
-	 *
-	 * @return The ping
-	 */
-	private String getPing(Player player) {
-		//Return nothing if ping isn't enabled.
-		if (!this.ping.isEnabled()) return "";
-		Optional<PlayerInfo> playerInfo = getMinecraft().getNetworkHandler().getInfo(player.getUUID());
-		//Check if the playerinfo for this player exists.
-		if (playerInfo.isPresent()) {
-			//Get the raw ping value
-			int ping = playerInfo.get().getPing();
-			//Color the ping based on how good/bad it is
-			TextColor pingFormat = getFormatted(ping >= 100 && ping < 150, ping >= 150 && ping < 200, ping >= 200);
-			//Return the formatted ping
-			return " " + pingFormat + ping + "ms";
-		}
-		return "";
-	}
-
-	/**
-	 * Used to get the health of the specified Player to display on the nameplate, based on the current
-	 * {@link #healthMode health mode}.
-	 *
-	 * @return The Player's health.
-	 */
-	private String getHealth(Player player) {
-		//Obtain the health percentage by dividing the current health by the max health.
-		float healthPercentage = player.getHealthData().getCurrentHealth() / player.getHealthData().getMaxHealth();
-		//The color to render the health with
-		TextColor healthFormat = getFormatted(healthPercentage > 0.5 && healthPercentage < 0.75, healthPercentage > 0.25 && healthPercentage <= 0.5, healthPercentage <= 0.25);
-		return healthMode.getSelected() == 1 ? " " + healthFormat + String.format("%.2f", player.getHealthData().getCurrentHealth()) : healthMode.getSelected() == 2 ? " " + healthFormat + (int) (healthPercentage * 100) + "%" : "";
-	}
-
-	/**
-	 * When rendering information such as ping or health, the text will be colored using this method.  If none of the
-	 * conditions are met, then it will return {@link TextColor#GREEN}.
-	 *
-	 * @param yellow If the color should be yellow
-	 * @param orange If the color should be gold/orange
-	 * @param red If the color should be red
-	 *
-	 * @return The color
-	 */
-	private TextColor getFormatted(boolean yellow, boolean orange, boolean red) {
-		return yellow ? TextColor.YELLOW : orange ? TextColor.GOLD : red ? TextColor.RED : TextColor.GREEN;
 	}
 
 	/**
