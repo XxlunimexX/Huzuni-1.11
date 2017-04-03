@@ -208,10 +208,12 @@ public class Nametags extends BasicMod implements RenderManager.Renderer {
 			totalItems++;
 		totalItems++;
 		int itemSize = 18, center = (-itemSize / 2), halfTotalSize = ((totalItems * itemSize) / 2 - itemSize) + (itemSize / 2), count = 0;
-		draw3dItem(player.getHeldItem(Hand.MAIN), (center - halfTotalSize) + itemSize * count + 2, (int) rY - 16);
-		if (enchants.isEnabled())
-			renderEnchantments(player.getHeldItem(Hand.MAIN), (center - halfTotalSize) + itemSize * count + 2, (int) rY - 16, 0.5F);
-		count++;
+		if (player.getHeldItem(Hand.MAIN).isPresent()) {
+			draw3dItem(player.getHeldItem(Hand.MAIN).get(), (center - halfTotalSize) + itemSize * count + 2, (int) rY - 16);
+			if (enchants.isEnabled())
+				renderEnchantments(player.getHeldItem(Hand.MAIN).get(), (center - halfTotalSize) + itemSize * count + 2, (int) rY - 16, 0.5F);
+			count++;
+		}
 		for (int i = 4; i > 0; i--) {
 			ItemStack armor = player.getPlayerInventory().getArmorStack(i - 1);
 			draw3dItem(armor, (center - halfTotalSize) + itemSize * count, (int) rY - 16);

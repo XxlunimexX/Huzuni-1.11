@@ -53,7 +53,8 @@ public class Bowaimbot extends BasicMod {
 					mobs.isEnabled(), animals.isEnabled(), players.isEnabled(), checkAge.isEnabled());
 			if (target == null)
 				return;
-			int use = getPlayer().getHeldItem(Hand.MAIN).getMaxUseTicks() - getPlayer().getItemUseTicks();
+
+			int use = getPlayer().getHeldItem(Hand.MAIN).get().getMaxUseTicks() - getPlayer().getItemUseTicks();
 			float progress = use / 20.0F;
 			progress = (progress * progress + progress * 2.0F) / 3.0F;
 			if (progress >= 1.0F)
@@ -74,9 +75,9 @@ public class Bowaimbot extends BasicMod {
      * @return True if the player is using a bow.
      * */
 	private boolean isUsingBow() {
-		if (getPlayer().getHeldItem(Hand.MAIN) != null) {
+		if (getPlayer().getHeldItem(Hand.MAIN).isPresent()) {
 			if (getPlayer().isUsingItem()) {
-				Item item = getPlayer().getHeldItem(Hand.MAIN).getItemType();
+				Item item = getPlayer().getHeldItem(Hand.MAIN).get().getItemType();
 				if (!(item instanceof Throwable))
 					return false;
 				if (item instanceof Bow) {

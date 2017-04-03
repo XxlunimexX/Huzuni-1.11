@@ -9,12 +9,14 @@ import net.halalaboos.mcwrapper.impl.Convert;
 import net.halalaboos.mcwrapper.impl.mixin.entity.MixinEntity;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.EnumHand;
 import org.spongepowered.asm.mixin.*;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 @Mixin(net.minecraft.entity.EntityLivingBase.class)
 @Implements(@Interface(iface = Living.class, prefix = "api$"))
@@ -60,8 +62,11 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 	}
 
 	@Override
-	public ItemStack getHeldItem(Hand hand) {
-		return (ItemStack)(Object)getHeldItem(EnumHand.values()[hand.ordinal()]);
+	public Optional<ItemStack> getHeldItem(Hand hand) {
+		if (getHeldItem(Convert.to(hand)).isEmpty()) {
+			return Optional.empty();
+		}
+		return Optional.of((Convert.from(getHeldItem(Convert.to(hand)))));
 	}
 
 	@Override
@@ -108,9 +113,15 @@ public abstract class MixinEntityLiving extends MixinEntity implements Living {
 	public boolean canBePushed() {return true;}
 
 	@Shadow protected boolean dead;
+	@Shadow @Final protected static DataParameter<Byte> HAND_STATES;
 
 	@Override
 	public boolean isDead() {
 		return dead;
+	}
+
+	@Override
+	public Hand getCurrentHand() {
+		return (this.dataManager.get(HAND_STATES) & 2) > 0 ? Hand.OFF : Hand.MAIN;
 	}
 }

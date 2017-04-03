@@ -93,6 +93,10 @@ public class Convert {
 		return ClickType.values()[type.ordinal()];
 	}
 
+	public static Hand from(EnumHand hand) {
+		return Hand.values()[hand.ordinal()];
+	}
+
 	public static ItemStack from(net.minecraft.item.ItemStack stack) {
 		return (ItemStack)(Object)stack;
 	}

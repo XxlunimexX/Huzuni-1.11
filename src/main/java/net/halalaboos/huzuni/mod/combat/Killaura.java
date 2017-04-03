@@ -241,9 +241,11 @@ public class Killaura extends BasicMod implements Renderer {
      * */
 	private boolean calculateSmartAttack() {
 		if (this.smartAttack.isEnabled()) {
-			float playerDamage = MinecraftUtils.calculatePlayerDamage(entity, getPlayer().getHeldItem(Hand.MAIN));
-			if (playerDamage >= entity.getHealthData().getCurrentHealth())
-				return true;
+			if (getPlayer().getHeldItem(Hand.MAIN).isPresent()) {
+				float playerDamage = MinecraftUtils.calculatePlayerDamage(entity, getPlayer().getHeldItem(Hand.MAIN).get());
+				if (playerDamage >= entity.getHealthData().getCurrentHealth())
+					return true;
+			}
 		}
 		return false;
 	}

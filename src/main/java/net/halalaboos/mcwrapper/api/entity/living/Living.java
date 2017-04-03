@@ -8,6 +8,7 @@ import net.halalaboos.mcwrapper.api.potion.Potion;
 import net.halalaboos.mcwrapper.api.potion.PotionEffect;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface Living extends Entity {
 
@@ -30,7 +31,7 @@ public interface Living extends Entity {
 	 * @param hand On versions older than 1.9, it doesn't matter what hand is used.
 	 * @return The {@link ItemStack} in the specified hand.
 	 */
-	ItemStack getHeldItem(Hand hand);
+	Optional<ItemStack> getHeldItem(Hand hand);
 
 	/**
 	 * When an Entity is attacked, they are given a brief amount of invulnerability.  This represents the maximum time
@@ -82,4 +83,10 @@ public interface Living extends Entity {
 	 * @param potion The potion to remove.
 	 */
 	void removeEffect(Potion potion);
+
+	/**
+	 * Returns the active {@link Hand}.  For example, if you have a Bow in one hand and Food in another, and held right
+	 * click, using this would be an easy way of seeing what hand is being used.
+	 */
+	Hand getCurrentHand();
 }

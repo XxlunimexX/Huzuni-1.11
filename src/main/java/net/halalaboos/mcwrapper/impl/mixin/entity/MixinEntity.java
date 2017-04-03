@@ -12,6 +12,7 @@ import net.halalaboos.mcwrapper.impl.Convert;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.MoverType;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -85,6 +86,7 @@ import java.util.UUID;
 
 	@Shadow public boolean noClip;
 
+	@Shadow protected EntityDataManager dataManager;
 	private AABB aabb;
 
 	@Inject(method = "setEntityBoundingBox", at = @At("HEAD"))

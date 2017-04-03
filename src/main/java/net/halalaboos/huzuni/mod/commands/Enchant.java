@@ -31,12 +31,12 @@ public class Enchant extends BasicCommand {
 			huzuni.addChatMessage("You must be in creative mode to use this command!");
 			return;
 		}
-		if (getPlayer().getHeldItem(Hand.MAIN) == null) {
+		if (getPlayer().getHeldItem(Hand.MAIN).isPresent()) {
 			huzuni.addChatMessage("You must be holding an item to enchant!");
 			return;
 		}
 		if (args != null) {
-			getPlayer().getHeldItem(Hand.MAIN).addEnchant(args[0], ((short) Integer.parseInt(args[1])));
+			getPlayer().getHeldItem(Hand.MAIN).get().addEnchant(args[0], ((short) Integer.parseInt(args[1])));
 			huzuni.addChatMessage("Enchantment added!");
 			return;
 		}
@@ -44,7 +44,7 @@ public class Enchant extends BasicCommand {
 		int enchantmentCount = 0;
 		for (Enchantment enchantment : getAdapter().getEnchantmentRegistry().getEnchants()) {
 			if (enchantment != null) {
-				getPlayer().getHeldItem(Hand.MAIN).addEnchant(enchantment.name(), (short)1000);
+				getPlayer().getHeldItem(Hand.MAIN).get().addEnchant(enchantment.name(), (short)1000);
 				enchantmentCount++;
 			}
 		}

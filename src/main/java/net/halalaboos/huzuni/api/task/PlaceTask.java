@@ -99,7 +99,7 @@ public class PlaceTask extends LookTask {
 	 * @return True if the player should face the position.
 	 * */
 	protected boolean shouldRotate() {
-		return getPlayer().getHeldItem(Hand.MAIN) != null && hasRequiredItem(getPlayer().getHeldItem(Hand.MAIN)) && isWithinDistance();
+		return getPlayer().getHeldItem(Hand.MAIN).isPresent() && hasRequiredItem(getPlayer().getHeldItem(Hand.MAIN).get()) && isWithinDistance();
 	}
 
 	protected void reset() {
