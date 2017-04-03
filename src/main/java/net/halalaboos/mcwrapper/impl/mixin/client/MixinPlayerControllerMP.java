@@ -52,6 +52,8 @@ public abstract class MixinPlayerControllerMP implements Controller {
 
 	@Shadow public abstract void attackEntity(EntityPlayer playerIn, net.minecraft.entity.Entity targetEntity);
 
+	@Shadow public abstract EnumActionResult processRightClick(EntityPlayer player, World worldIn, EnumHand hand);
+
 	private BlockDigEvent blockDigEvent;
 
 	@Inject(method = "onPlayerDamageBlock", at = @At(value = "FIELD", target = "Lnet/minecraft/client/multiplayer/PlayerControllerMP;curBlockDamageMP:F", ordinal = 0, shift = At.Shift.BEFORE))
@@ -136,5 +138,10 @@ public abstract class MixinPlayerControllerMP implements Controller {
 	@Override
 	public void attack(Entity target) {
 		attackEntity(Convert.player(), (net.minecraft.entity.Entity)target);
+	}
+
+	@Override
+	public ActionResult rightClick(Hand hand) {
+		return Convert.from(processRightClick(Convert.player(), Convert.world(), Convert.to(hand)));
 	}
 }

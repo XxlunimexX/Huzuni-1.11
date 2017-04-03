@@ -83,6 +83,8 @@ public abstract class MixinMinecraft implements MinecraftClient {
 
 	@Shadow @Final private Proxy proxy;
 
+	@Shadow @Nullable public GuiScreen currentScreen;
+
 	@Inject(method = "run()V", at = @At(value = "INVOKE",
 			target = "Lnet/minecraft/client/Minecraft;init()V",
 			shift = At.Shift.AFTER))
@@ -271,5 +273,10 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Override
 	public Vector3d getPlayerView() {
 		return new Vector3d(renderManager.playerViewX, renderManager.playerViewY, 0);
+	}
+
+	@Override
+	public boolean isScreenOpen() {
+		return currentScreen != null;
 	}
 }

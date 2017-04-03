@@ -11,8 +11,12 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getAdapter;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
- * Applies the night vision potion effect with a duration of 1,000,000 to the player.
- * */
+ * Applies the 'Night Vision' {@link PotionEffect} to the player to make the world brighter.
+ *
+ * @author b
+ *
+ * TODO: Different bright modes, such as gamma, lightmap, etc.
+ */
 public class Brightness extends BasicMod {
 		
 	private Potion nightVision;
@@ -21,12 +25,16 @@ public class Brightness extends BasicMod {
 		super("Brightness", "Light up your world as you recieve the night vision potion effect", Keyboard.KEY_C);
 		setAuthor("brudin");
 		this.setCategory(Category.VISUAL);
+		//This is done every tick in case a situation happens where the Player's potion effects are cleared.
 		subscribe(PostMotionUpdateEvent.class, event -> {
 			int duration = 1000000;
+			//Get the night vision potion instance from the potion registry
 			if (nightVision == null) {
 				nightVision = getAdapter().getPotionRegistry().getPotion("night_vision");
 			}
+			//Create an effect based on the potion
 			PotionEffect effect = PotionEffect.from(nightVision, duration, 1, true, false);
+			//Apply the effect
 			getPlayer().addEffect(effect);
 		});
 	}

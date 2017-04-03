@@ -5,6 +5,7 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.mcwrapper.api.event.player.PostMotionUpdateEvent;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getInput;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
@@ -22,7 +23,7 @@ public class Fastladder extends BasicMod {
 		subscribe(PostMotionUpdateEvent.class, event -> {
 			float multiplier = speed.getValue();
 			//If we are climbing and moving forward
-			if (getPlayer().isClimbing() && getPlayer().getForwardMovement() != 0) {
+			if (getPlayer().isClimbing() && getInput().getForward() != 0) {
 				//Set the velocity's y-value to the player-set speed
 				getPlayer().setVelocity(getPlayer().getVelocity().setY(multiplier));
 			}

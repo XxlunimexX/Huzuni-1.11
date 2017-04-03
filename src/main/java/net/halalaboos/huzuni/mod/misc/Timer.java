@@ -20,7 +20,7 @@ public class Timer extends BasicMod {
 		setAuthor("brudin");
 		addChildren(speed);
 		subscribe(PreMotionUpdateEvent.class, event -> {
-			if (mc.currentScreen == null) {
+			if (!getMinecraft().isScreenOpen()) {
 				//If we don't have a screen open, change the speed
 				getMinecraft().setTimerSpeed(speed.getValue());
 			} else {

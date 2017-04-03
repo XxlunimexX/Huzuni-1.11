@@ -9,14 +9,10 @@ import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.gl.Box;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
-import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.input.Keyboard;
 import pw.knx.feather.tessellate.GrowingTess;
 
@@ -34,7 +30,7 @@ public class ESP extends BasicMod implements Renderer {
 
 	private final Box[] box = new Box[0xFFFFF];
 
-	public final Toggleable players = new Toggleable("Players", "Traces to players"),
+	private final Toggleable players = new Toggleable("Players", "Traces to players"),
 			mobs = new Toggleable("Mobs", "Traces to mobs"),
 			animals = new Toggleable("Animals", "Traces to animals"),
 			invisibles = new Toggleable("Invisible", "Trace to invisible entities"),
@@ -42,9 +38,9 @@ public class ESP extends BasicMod implements Renderer {
 			properties = new Toggleable("Properties", "Ignores players without properties"),
 			checkAge = new Toggleable("Check age", "Check the age of the entity before rendering");
 
-	public final Value opacity = new Value("Opacity", "%", 0F, 50F, 100F, 1F, "Opacity of the icon");
+	private final Value opacity = new Value("Opacity", "%", 0F, 50F, 100F, 1F, "Opacity of the icon");
 
-	public final Mode<String> mode = new Mode<String>("Mode", "Style the entities will be rendered with", "None", "Hitboxes", "Rectangle", "Lines");
+	private final Mode<String> mode = new Mode<String>("Mode", "Style the entities will be rendered with", "None", "Hitboxes", "Rectangle", "Lines");
 
 	private final GrowingTess tessellator = new GrowingTess(4);
 

@@ -18,8 +18,11 @@ import org.lwjgl.input.Keyboard;
 import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
 /**
- * Renders meshes over tile entities within the world.
- * */
+ * Renders boxes around the loaded {@link TileEntity tile entities} in the world.  This is useful for finding
+ * hidden chests, since the boxes are not affected by things such as depth.
+ *
+ * @author Halalaboos
+ */
 public class StorageESP extends BasicMod implements Renderer {
 
 	private final Box normal, left, right;
@@ -158,9 +161,10 @@ public class StorageESP extends BasicMod implements Renderer {
 	private void renderBox(TileEntity tileEntity, float r, float g, float b) {
 		float dist = (float) getPlayer().getDistanceTo(tileEntity.getPosition().toDouble()) / 128;
 		float alpha = dist > 0.25F ? 0.25F : dist;
-		float renderX = (float) (tileEntity.getPosition().getX() - mc.getRenderManager().viewerPosX);
-		float renderY = (float) (tileEntity.getPosition().getY() - mc.getRenderManager().viewerPosY);
-		float renderZ = (float) (tileEntity.getPosition().getZ() - mc.getRenderManager().viewerPosZ);
+		Vector3d renderPos = tileEntity.getPosition().toDouble().sub(getMinecraft().getCamera());
+		float renderX = (float) renderPos.getX();
+		float renderY = (float) renderPos.getY();
+		float renderZ = (float) renderPos.getZ();
 		if (this.lines.isEnabled()) {
 			huzuni.renderManager.addLine(renderX + 0.5F, renderY, renderZ + 0.5F, r, g, b, fade.isEnabled() ? alpha : 0.25F);
 		}

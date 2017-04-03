@@ -33,7 +33,7 @@ public class Smasher extends BasicMod {
 
 		@Override
 		protected boolean isValidBlock(Vector3i position) {
-			return getWorld().blockExists(position) && getWorld().getRelativeHardness(position) >= 1F && getPlayer().getDistanceTo(position) < getController().getBlockReach();
+			return getWorld().blockExists(position) && getWorld().getRelativeHardness(position) >= 1F;
 		}
 
 		@Override

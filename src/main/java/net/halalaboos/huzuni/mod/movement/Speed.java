@@ -12,6 +12,7 @@ import net.halalaboos.mcwrapper.api.event.player.MoveEvent;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import org.lwjgl.input.Keyboard;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getInput;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
@@ -63,9 +64,8 @@ public class Speed extends BasicMod {
      * @return True if the player's given circumstances are ideal for modifying movement.
      * */
 	boolean shouldModifyMovement() {
-		ClientPlayer player = getPlayer();
-        return player.getForwardMovement() > 0 && !player.isSneaking()  &&
-				!player.isCollided(Entity.CollisionType.HORIZONTAL) && player.getFood() > 6;
+        return getInput().getForward() > 0 && !getPlayer().isSneaking()  &&
+				!getPlayer().isCollided(Entity.CollisionType.HORIZONTAL) && getPlayer().getFood() > 6;
     }
 
     /**

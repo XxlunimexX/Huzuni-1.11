@@ -10,6 +10,7 @@ import net.halalaboos.huzuni.api.task.ClickTask;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
+import net.halalaboos.mcwrapper.api.item.types.Armor;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Enchantments;
@@ -20,6 +21,9 @@ import net.minecraft.item.ItemStack;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
  * Automatically equips the preferred armor.
@@ -76,7 +80,7 @@ public class Autoarmor extends BasicMod {
 	}
 
 	private void onUpdate(PreMotionUpdateEvent event) {
-		if (mc.currentScreen != null)
+		if (getMinecraft().isScreenOpen())
     		return;
         List<Integer> armors = getArmor();
         for (int i : armors) {
@@ -165,10 +169,10 @@ public class Autoarmor extends BasicMod {
     private List<Integer> getArmor() {
         List<Integer> list = new ArrayList<Integer>();
         for (int o = 9; o < 45; o++) {
-            if (mc.player.inventoryContainer.getSlot(o).getHasStack()) {
-                ItemStack item = mc.player.inventoryContainer.getSlot(o).getStack();
+            if (getPlayer().getInventoryContainer().getSlotAt(o).hasItem()) {
+                net.halalaboos.mcwrapper.api.item.ItemStack item = getPlayer().getInventoryContainer().getSlotAt(o).getItem();
                 if (item != null)
-                    if (item.getItem() instanceof ItemArmor)
+                    if (item.getItemType() instanceof Armor)
                     	list.add(o);
             }
         }

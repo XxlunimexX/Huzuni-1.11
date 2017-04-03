@@ -11,6 +11,7 @@ import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.MinecraftUtilsNew;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
+import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.event.player.PostMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
@@ -18,11 +19,11 @@ import net.halalaboos.mcwrapper.api.item.types.GlassBottle;
 import net.halalaboos.mcwrapper.api.item.types.PotionItem;
 import net.halalaboos.mcwrapper.api.item.types.SplashPotion;
 import net.halalaboos.mcwrapper.api.potion.PotionEffect;
+import net.halalaboos.mcwrapper.api.util.enums.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getAdapter;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
+import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
 /**
  * Automatically uses potions when the health reaches below a threshold. <br/>
@@ -75,7 +76,7 @@ public class Autopotion extends BasicMod {
 	}
 
 	private void onPreUpdate(PreMotionUpdateEvent event) {
-		if (mc.currentScreen != null) return;
+		if (getMinecraft().isScreenOpen()) return;
 		if (health == null) {
 			health = getAdapter().getPotionRegistry().getPotion("instant_health");
 		}
@@ -103,7 +104,7 @@ public class Autopotion extends BasicMod {
 	}
 
 	private void onPostUpdate(PostMotionUpdateEvent event) {
-		if (mc.currentScreen != null) return;
+		if (getMinecraft().isScreenOpen()) return;
 		if (lookTask.isRunning() && hotbarTask.isRunning()) {
 			usePotion();
 		}
@@ -204,8 +205,7 @@ public class Autopotion extends BasicMod {
 	 * Attempts to use a potion.
 	 * */
 	private void usePotion() {
-		EnumHand hand = EnumHand.MAIN_HAND;
-		if (mc.playerController.processRightClick(mc.player, mc.world, hand) == EnumActionResult.SUCCESS) {
+		if (getController().rightClick(Hand.MAIN) == ActionResult.SUCCESS) {
 			huzuni.addNotification(NotificationType.CONFIRM, this, 5000, "Using potion!");
 		}
 	}

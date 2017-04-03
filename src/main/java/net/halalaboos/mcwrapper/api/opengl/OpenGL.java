@@ -6,7 +6,22 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 
 /**
  * All credits go to Flare devs for this idea - just a simple wrapper for GL-related functions with a builder-styled
- * pattern to make things that would take multiple lines instead take only one.  Neat!
+ * pattern to make things that would take multiple lines instead take only one.  For example:
+ * <p>
+ *     <code>
+ *         GL11.glPushMatrix();
+ *         GL11.glEnable(GL11.GL_BLEND);
+ *         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+ *         ...
+ *     </code>
+ * </p>
+ * Would instead be something like:
+ * <p>
+ *     <code>
+ *         GL.push().blend().blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+ *     </code>
+ * </p>
+ * Though if you don't like how that looks, you're also able to just do everything in separate lines too!
  *
  * To use this class, just import {@link #GL} statically, or you could just call {@code OpenGL.GL.xxx} if you don't
  * mind things looking a little messy.
@@ -17,6 +32,10 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
  * TODO: More documentation for the other methods
  */
 public enum OpenGL {
+	/**
+	 * The instance of this class, use this for invoking the methods.  It's recommended to just import this statically
+	 * so you can just type {@code GL.push()} instead of {@code OpenGL.GL.push()}.
+	 */
 	GL;
 
 	/**

@@ -23,22 +23,71 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 import static org.lwjgl.opengl.GL11.glLineWidth;
 import static org.lwjgl.opengl.GL11.glPolygonOffset;
 
-// TODO: tag renderer for each entity. Modular approach for each tag for each entity type, as entities will have their own information with their own displays.
+/**
+ * Renders custom nameplates over Players with more information than vanilla nameplates, such as:
+ * <ul>
+ *     <li>Equipped armor, held item (and enchants)</li>
+ *     <li>Health</li>
+ *     <li>Ping</li>
+ * </ul>
+ * The nameplates are also not affected by things such as lighting or being behind blocks, like the vanilla nameplates
+ * are.
+ *
+ * @author b
+ *
+ * TODO: tag renderer for each entity.
+ * TODO: Modular approach for each tag for each entity type, as entities will have their own information.
+ */
 public class Nametags extends BasicMod implements RenderManager.Renderer {
 
+	/**
+	 * Whether or not the entity's armor should be rendered on the nameplates.
+	 */
 	private final Toggleable armor = new Toggleable("Armor", "Render player armor above their heads");
+
+	/**
+	 * Whether or not the enchants of the armor displayed with {@link #armor} should also display enchants.
+	 */
 	private final Toggleable enchants = new Toggleable("Enchants", "Render player enchantments over their items");
+
+	/**
+	 * Whether or not the entity's ping to the current server should be rendered on the nameplates.
+	 */
 	private final Toggleable ping = new Toggleable("Ping", "Render player ping above their heads");
+
+	/**
+	 * Whether or not nameplates should be rendered for invisible entities.
+	 */
 	private final Toggleable invisibles = new Toggleable("Invisible", "Render nameplates on invisible entities.");
+
+	/**
+	 * Whether or not the nameplates should be scaled based on the distance.  Useful for seeing names from far away.
+	 */
 	private final Toggleable scale = new Toggleable("Scale", "Scale the nameplates as you are further from the player");
 
+	/**
+	 * Sets how transparent the nameplate's background should be.
+	 */
 	private final Value opacity = new Value("Opacity", "%", 0F, 30F, 100F, 1F, "Opacity of the name plate");
+
+	/**
+	 * Sets the scale amount of the nameplate.
+	 */
 	private final Value scaleValue = new Value("Scale Amount", "%", 1F, 2F, 3F, "Amount the name plates will be scaled");
 
+	/**
+	 * Sets the display mode for health.
+	 * <ul>
+	 *     <li><strong>None</strong>: No health information will be displayed.</li>
+	 *     <li><strong>Numerical</strong>: The amount of hearts will be displayed (e.g. '10').</li>
+	 *     <li><strong>Percentage</strong>: The health percentage will be displayed (e.g. '40%').</li>
+	 * </ul>
+	 */
 	private final Mode<String> healthMode = new Mode<>("Health", "Style the health will be rendered", "None", "Numerical", "Percentage");
 
 	public Nametags() {
 		super("Nametags", "Render custom nameplates over entities", Keyboard.KEY_P);
+		this.setAuthor("brudin");
 		this.setCategory(Category.VISUAL);
 		addChildren(armor, enchants, ping, invisibles, scale, healthMode, scaleValue, opacity);
 		this.settings.setDisplayable(false);

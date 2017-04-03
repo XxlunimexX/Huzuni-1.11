@@ -53,6 +53,7 @@ public interface Controller {
 	/**
 	 * Depending on the Player's {@link net.halalaboos.mcwrapper.api.entity.living.player.GameType}, the reach distance
 	 * for breaking blocks will be different.
+	 *
 	 * <p>If the Player is in {@link net.halalaboos.mcwrapper.api.entity.living.player.GameType#CREATIVE}, then
 	 * their reach distance will be 5 blocks.  Otherwise, it'll be 4.5 blocks.</p>
 	 *
@@ -90,6 +91,8 @@ public interface Controller {
 	ItemStack clickSlot(int windowId, int slot, int mouseButton, ClickType type);
 
 	ActionResult interactWith(Entity target, Hand hand);
+
+	ActionResult rightClick(Hand hand);
 
 	void attack(Entity target);
 

@@ -12,8 +12,16 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**
- * Attempts to recast rods when fishing when a bob from a fish was found.
- * */
+ * Automatically fishes for the Player.
+ *
+ * <p>This is done by checking for velocity packets from the server and making sure the Entity that packet is
+ * targeted to is the same as the Player's 'fish' Entity.</p>
+ *
+ * <p>Another approach to this could be by processing sound packets from the server, since specific sounds are
+ * played when the fish hook is 'bobbed'.</p>
+ *
+ * @author b
+ */
 public class Autofish extends BasicMod {
 
 	public Autofish() {

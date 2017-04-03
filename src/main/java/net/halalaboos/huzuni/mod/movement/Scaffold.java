@@ -10,6 +10,7 @@ import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getInput;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
@@ -53,7 +54,7 @@ public class Scaffold extends BasicMod {
 		if (huzuni.lookManager.hasPriority(this) && count <= 0) {
 			switch (mode.getSelected()) {
 				case 0:
-					if (!mc.player.movementInput.sneak && (mc.player.movementInput.moveForward != 0 || mc.player.movementInput.moveStrafe != 0)) {
+					if (!getInput().isSneak() && (getInput().getForward() != 0 || getInput().getStrafe() != 0)) {
 						Face face = getPlayer().getFace();
 						Vector3i position = getFirstBlock(face.getDirectionVector());
 						if (position != null) {
@@ -65,7 +66,7 @@ public class Scaffold extends BasicMod {
 						huzuni.lookManager.withdrawTask(placeTask);
 					break;
 				case 1:
-					if (!mc.player.onGround && mc.player.movementInput.jump && mc.player.motionY > 0) {
+					if (!getPlayer().isOnGround() && getInput().isJump() && getPlayer().getVelocity().getY() > 0) {
 						Vector3i position = new Vector3i(getPlayer().getX(), MathUtils.floor(getPlayer().getY() - 2), getPlayer().getZ());
 						Vector3i above = new Vector3i(getPlayer().getX(), MathUtils.floor(getPlayer().getY() - 1), getPlayer().getZ());
 						if (getWorld().blockExists(position) && !getWorld().blockExists(above)) {

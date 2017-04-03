@@ -120,4 +120,6 @@ public interface MinecraftClient {
 	Optional<Entity> getMousedEntity();
 
 	Vector3d getPlayerView();
+
+	boolean isScreenOpen();
 }

@@ -8,8 +8,11 @@ import net.halalaboos.mcwrapper.api.network.packet.server.HealthUpdatePacket;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 
 /**
- * Respawns the player once their health has reached below 0.
- * */
+ * Automatically respawns the Player when they die.  This is done quick enough that you (hopefully) won't even see
+ * the 'Game Over' screen!
+ *
+ * @author b
+ */
 public class Respawn extends BasicMod {
 	
 	public Respawn() {

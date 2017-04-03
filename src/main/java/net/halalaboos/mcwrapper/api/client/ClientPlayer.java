@@ -30,18 +30,6 @@ public interface ClientPlayer extends Player {
 	void setFlying(boolean flying);
 
 	/**
-	 * When the player is moving forward.
-	 * @return The forward movement value.
-	 */
-	float getForwardMovement();
-
-	/**
-	 * Sets whether or not the player is sneaking.  To avoid method name conflicts with the vanilla sources,
-	 * the name is <code>setSneak</code> rather than something like <code>setSneaking</code>.
-	 */
-	void setSneak(boolean sneak);
-
-	/**
 	 * @return The current server's brand.
 	 */
 	String getBrand();
@@ -103,4 +91,6 @@ public interface ClientPlayer extends Player {
 	float calculateDamage(Living target, ItemStack item, float cooldown);
 
 	boolean isGameType(GameType type);
+
+	Input getInput();
 }
