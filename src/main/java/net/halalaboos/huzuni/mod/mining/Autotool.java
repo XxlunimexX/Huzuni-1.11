@@ -5,6 +5,7 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.task.HotbarTask;
+import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.mcwrapper.api.client.GameKeybind;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
@@ -18,14 +19,10 @@ import net.halalaboos.mcwrapper.api.util.enums.DigAction;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import org.lwjgl.input.Keyboard;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getController;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getSettings;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
+import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
 /**
  * Automatically switches to the best tool needed for the player's given situation.
- *
- * TODO: Make this like it was before
  * */
 public class Autotool extends BasicMod {
 	
@@ -40,12 +37,10 @@ public class Autotool extends BasicMod {
 		protected boolean isValid(ItemStack itemStack) {
 			if (itemStack != null) {
 				if (digging && hasBlock()) {
-					return itemStack.getStrength(position) > 0.055555556F;
-				} else if (weapon.isEnabled() && !digging && hasEntity()) {
-					//TODO
-					return false;
+					return getPlayer().getRelativeHardness(position, itemStack) > 0.05F;
 				} else
-					return false;
+					return weapon.isEnabled() && !digging && hasEntity() &&
+							getPlayer().calculateDamageWithAttackSpeed(entity, itemStack) > 1F;
 			} else
 				return false;
 		}
@@ -54,17 +49,18 @@ public class Autotool extends BasicMod {
 		protected boolean compare(ItemStack currentItem, ItemStack newItem) {
 			if (newItem != null) {
 				if (digging) {
-					float currentHardness = currentItem.getStrength(position);
-					float newHardness = newItem.getStrength(position);
+					float currentHardness = getPlayer().getRelativeHardness(position, currentItem);
+					float newHardness = getPlayer().getRelativeHardness(position, newItem);
 					return currentHardness < newHardness;
 				} else {
-					return false;
+					float currentDamage = getPlayer().calculateDamageWithAttackSpeed(entity, currentItem);
+					float newDamage = getPlayer().calculateDamageWithAttackSpeed(entity, newItem);
+					return currentDamage < newDamage;
 				}
 			} else
 				return false;
 		}
 	};
-
 	
 	private boolean digging = false;
 	private Living entity = null;

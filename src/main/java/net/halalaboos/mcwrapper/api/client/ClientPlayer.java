@@ -6,6 +6,7 @@ import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
 /**
  * Represents the client-side {@link Player}.
@@ -90,7 +91,15 @@ public interface ClientPlayer extends Player {
 
 	float calculateDamage(Living target, ItemStack item, float cooldown);
 
+	float calculateDamageWithAttackSpeed(Living target, ItemStack item);
+
 	boolean isGameType(GameType type);
 
 	Input getInput();
+
+	float getDigStrength(Vector3i position, ItemStack item);
+
+	boolean canHarvestBlock(Vector3i position, ItemStack item);
+
+	float getRelativeHardness(Vector3i position, ItemStack item);
 }

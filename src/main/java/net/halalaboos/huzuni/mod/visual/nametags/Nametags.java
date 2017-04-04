@@ -232,6 +232,8 @@ public class Nametags extends BasicMod implements RenderManager.Renderer {
 			GLUtils.glColor(0F, 0F, 0F, (opacity.getValue()) / 100F);
 			//Render the nameplate background
 			GLUtils.drawBorderRect(-width / 2 - 2, -2, width / 2 + 2, 10, 2F);
+		} else {
+			getGLStateManager().enableTexture2D();
 		}
 		//Reset the color back to white
 		GLUtils.glColor(1F, 1F, 1F, 1F);

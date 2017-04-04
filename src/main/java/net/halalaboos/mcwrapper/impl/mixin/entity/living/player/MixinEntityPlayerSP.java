@@ -14,15 +14,20 @@ import net.halalaboos.mcwrapper.api.event.player.PostMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;
+import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.halalaboos.mcwrapper.impl.Convert;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.network.play.client.CPacketChatMessage;
@@ -246,6 +251,21 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 		return attackAttribute;
 	}
 
+	@Override
+	public float calculateDamageWithAttackSpeed(Living target, ItemStack item) {
+		float attackAttribute = calculateDamage(target, item, 1.0F);
+		if (item != null) {
+			Multimap<String, AttributeModifier> attributes = (Convert.to(item)).getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
+			Collection<AttributeModifier> speedModifier = attributes.get(SharedMonsterAttributes.ATTACK_SPEED.getName());
+			float speedAttribute = (float) getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).getBaseValue();
+			for (AttributeModifier modifier : speedModifier) {
+				speedAttribute += (float) modifier.getAmount();
+				attackAttribute *= speedAttribute;
+			}
+		}
+		return attackAttribute;
+	}
+
 	private float getDamageAfterPotion(float damage, float enchantLevel) {
 		float f = net.halalaboos.mcwrapper.api.util.math.MathUtils.clamp(enchantLevel, 0.0F, 20.0F);
 		return damage * (1.0F - f / 25.0F);
@@ -259,5 +279,45 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 			default:
 				return type == MCWrapper.getController().getGameType();
 		}
+	}
+
+	@Override
+	public float getDigStrength(Vector3i position, ItemStack stack) {
+		net.minecraft.item.ItemStack item = Convert.to(stack);
+		IBlockState state = world.getBlockState(Convert.to(position));
+		float strength = item.getStrVsBlock(state);
+
+		if (strength > 1.0F) {
+			int efficiency = EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, item);
+
+			if (efficiency > 0 && item != null) {
+				strength += (float) (efficiency * efficiency + 1);
+			}
+		}
+
+		if (isInsideOfMaterial(Material.WATER) &&
+				!EnchantmentHelper.getAquaAffinityModifier((EntityPlayerSP)(Object)this)) {
+			strength /= 5.0F;
+		}
+
+		if (!onGround) {
+			strength /= 5.0F;
+		}
+
+		return strength;
+	}
+
+	@Override
+	public boolean canHarvestBlock(Vector3i position, ItemStack item) {
+		net.minecraft.item.ItemStack stack = Convert.to(item);
+		IBlockState state = world.getBlockState(Convert.to(position));
+		return state.getMaterial().isToolNotRequired() || stack != null && stack.canHarvestBlock(state);
+	}
+
+	@Override
+	public float getRelativeHardness(Vector3i position, ItemStack item) {
+		IBlockState blockState = world.getBlockState(Convert.to(position));
+		float blockHardness = blockState.getBlockHardness(world, Convert.to(position));
+		return blockHardness < 0.0F ? 0.0F : (!canHarvestBlock(position, item) ? getDigStrength(position, item) / blockHardness / 100.0F : getDigStrength(position, item) / blockHardness / 30.0F);
 	}
 }

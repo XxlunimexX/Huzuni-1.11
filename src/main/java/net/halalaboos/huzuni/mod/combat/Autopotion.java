@@ -57,7 +57,7 @@ public class Autopotion extends BasicMod {
 	private  net.halalaboos.mcwrapper.api.potion.Potion health;
 
 	public Autopotion() {
-		super("Auto potion", "Automagically move health potions into the hotbar and use potions when the health reaches below a threshold");
+		super("Auto potion", "Automagically uses health potions.");
 		setCategory(Category.COMBAT);
 		setAuthor("Halalaboos");
 		addChildren(swapDelay, useDelay, healthAmount, usePotions);
