@@ -7,32 +7,27 @@ import net.halalaboos.huzuni.api.node.Mode;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
+import net.halalaboos.huzuni.mod.visual.nametags.provider.TagRenderProvider;
+import net.halalaboos.huzuni.mod.visual.nametags.provider.TagTextProvider;
 import net.halalaboos.huzuni.mod.visual.nametags.provider.render.ArmorRenderProvider;
 import net.halalaboos.huzuni.mod.visual.nametags.provider.text.HealthTextProvider;
 import net.halalaboos.huzuni.mod.visual.nametags.provider.text.PingTextProvider;
 import net.halalaboos.mcwrapper.api.MCWrapperHooks;
 import net.halalaboos.mcwrapper.api.entity.Entity;
-import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
-import net.halalaboos.mcwrapper.api.item.ItemStack;
-import net.halalaboos.mcwrapper.api.network.PlayerInfo;
-import net.halalaboos.mcwrapper.api.util.enums.TextColor;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import org.lwjgl.input.Keyboard;
 
-import java.util.Optional;
-
 import static net.halalaboos.mcwrapper.api.MCWrapper.*;
-import static org.lwjgl.opengl.GL11.glLineWidth;
-import static org.lwjgl.opengl.GL11.glPolygonOffset;
 
 /**
  * Renders custom nameplates over Players with more information than vanilla nameplates, such as:
  * <ul>
- *     <li>Equipped armor, held item (and enchants)</li>
- *     <li>Health</li>
- *     <li>Ping</li>
+ *     <li>Equipped armor, held item (and enchants) - via {@link ArmorRenderProvider}</li>
+ *     <li>Health - via {@link HealthTextProvider}</li>
+ *     <li>Ping - via {@link PingTextProvider}</li>
  * </ul>
+ *
  * The nameplates are also not affected by things such as lighting or being behind blocks, like the vanilla nameplates
  * are.
  *
@@ -69,6 +64,13 @@ public class Nametags extends BasicMod implements RenderManager.Renderer {
 	private final Toggleable scale = new Toggleable("Scale", "Scale the nameplates as you are further from the player");
 
 	/**
+	 * Whether or not the text on nameplates should be rendered with a shadow.  While this looks nicer, this also means
+	 * that the text will be rendered twice due to how Minecraft does their font shadowing, which can lead to some
+	 * potential performance issues.
+	 */
+	private final Toggleable shadow = new Toggleable("Shadow", "Whether or not to draw the text with a shadow (slower)");
+
+	/**
 	 * Sets how transparent the nameplate's background should be.
 	 */
 	private final Value opacity = new Value("Opacity", "%", 0F, 30F, 100F, 1F, "Opacity of the name plate");
@@ -88,24 +90,38 @@ public class Nametags extends BasicMod implements RenderManager.Renderer {
 	 */
 	private final Mode<String> healthMode = new Mode<>("Health", "Style the health will be rendered", "None", "Numerical", "Percentage");
 
-	private HealthTextProvider healthProvider;
-	private PingTextProvider pingProvider;
-	private ArmorRenderProvider armorProvider;
+	/**
+	 * Contains all registered text providers, regardless of if they are enabled or not.
+	 *
+	 * These are used to add additional text to the nameplate.
+	 */
+	private final TagTextProvider[] textProviders;
+
+	/**
+	 * Contains all registered render providers, regardless of if they are enabled or not.
+	 *
+	 * Currently, the only implementation of this is the {@link ArmorRenderProvider}
+	 */
+	private final TagRenderProvider[] renderProviders;
 
 	public Nametags() {
 		super("Nametags", "Render custom nameplates over entities", Keyboard.KEY_P);
 		this.setAuthor("brudin");
 		this.setCategory(Category.VISUAL);
-		addChildren(armor, enchants, ping, invisibles, scale, healthMode, scaleValue, opacity);
+		addChildren(armor, enchants, ping, invisibles, scale, shadow, healthMode, scaleValue, opacity);
 		this.settings.setDisplayable(false);
 		armor.setEnabled(true);
 		enchants.setEnabled(true);
 		scale.setEnabled(true);
+		shadow.setEnabled(true);
 		healthMode.setSelectedItem(2);
 
-		this.healthProvider = new HealthTextProvider(healthMode);
-		this.pingProvider = new PingTextProvider(ping);
-		this.armorProvider = new ArmorRenderProvider(armor, enchants);
+		HealthTextProvider healthProvider = new HealthTextProvider(healthMode);
+		PingTextProvider pingProvider = new PingTextProvider(ping);
+		ArmorRenderProvider armorProvider = new ArmorRenderProvider(armor, enchants);
+
+		this.textProviders = new TagTextProvider[] { healthProvider, pingProvider };
+		this.renderProviders = new TagRenderProvider[] { armorProvider };
 	}
 
 	@Override
@@ -131,7 +147,7 @@ public class Nametags extends BasicMod implements RenderManager.Renderer {
 				setupAndRender(player, renderPosition);
 			}
 		}
-		glLineWidth(huzuni.settings.lineSize.getValue());
+		getGLStateManager().lineWidth(huzuni.settings.lineSize.getValue());
 		getGLStateManager().disableTexture2D();
 		getGLStateManager().disableAlpha();
 		MCWrapperHooks.renderNames = false;
@@ -157,22 +173,41 @@ public class Nametags extends BasicMod implements RenderManager.Renderer {
 	 */
 	private void setupAndRender(Player player, Vector3d pos) {
 		//The color of the name
-		int color = getColor(player, huzuni.friendManager.isFriend(player.name()), player.isSneaking());
+		final int color = getColor(player, huzuni.friendManager.isFriend(player.name()), player.isSneaking());
 		//The interpolated distance, smoother scaling
-		double dist = player.getInterpolatedPosition().distanceTo(getPlayer().getInterpolatedPosition());
+		final double dist = player.getInterpolatedPosition().distanceTo(getPlayer().getInterpolatedPosition());
 		//The scale of the nameplate
 		double scale = (dist / 8) / (1.5F + (2F - scaleValue.getValue()));
 		//Prevents the nameplate from getting too small, and also locks the scale if scaling is disabled
 		if (scale < 1D || !this.scale.isEnabled()) scale = 1;
 
-		String health = healthProvider.isEnabled() ? " " + healthProvider.getText(player) : "";
-		String ping = pingProvider.isEnabled() ? " " + pingProvider.getText(player) : "";
-
 		//The text to render on the nameplate.  Includes the name, health (if enabled), and ping (if enabled)
-		String text = huzuni.friendManager.getAlias(player.name()) + health + ping;
+		final String text = getPlateText(player);
 		//The width of the name, for centering and sizing the background rectangle.
-		int width = getTextRenderer().getWidth(text);
+		final int width = getTextRenderer().getWidth(text);
 		renderPlate(player, pos, scale, width, color, text);
+	}
+
+	/**
+	 * Will return the {@link Player#name() Player's name}, as well as display the text provided by the enabled
+	 * {@link #textProviders}.  This is used for the text on the nameplate.
+	 *
+	 * @param player The target Player (this will eventually be for all Living entities)
+	 * @return The nameplate text.
+	 */
+	private String getPlateText(Player player) {
+		final StringBuilder output = new StringBuilder();
+		//Start with the player's name.
+		output.append(huzuni.friendManager.getAlias(player.name()));
+		//Iterate through the enabled text providers
+		for (TagTextProvider textProvider : textProviders) {
+			if (textProvider.isEnabled()) {
+				//If it is enabled, add the text to the plate.
+				output.append(" ").append(textProvider.getText(player));
+			}
+		}
+		//Return our output.
+		return output.toString();
 	}
 
 	/**
@@ -193,15 +228,20 @@ public class Nametags extends BasicMod implements RenderManager.Renderer {
 		if (this.scale.isEnabled()) getGLStateManager().translate(0, -scale, 0); //Move the nameplate based on the size
 
 		//Color the background of the nameplate
-		GLUtils.glColor(0F, 0F, 0F, (opacity.getValue()) / 100F);
-		//Render the nameplate background
-		GLUtils.drawBorderRect(-width / 2 - 2, -2, width / 2 + 2, 10, 2F);
+		if (opacity.getValue() > 0) {
+			GLUtils.glColor(0F, 0F, 0F, (opacity.getValue()) / 100F);
+			//Render the nameplate background
+			GLUtils.drawBorderRect(-width / 2 - 2, -2, width / 2 + 2, 10, 2F);
+		}
 		//Reset the color back to white
 		GLUtils.glColor(1F, 1F, 1F, 1F);
 		//Render the text, centered
-		getTextRenderer().render(text, -width / 2, 0, color, true);
-		//Render armor if it is enabled
-		if (armorProvider.isEnabled()) armorProvider.render(player, 0, -4);
+		getTextRenderer().render(text, -width / 2, 0, color, shadow.isEnabled());
+		for (TagRenderProvider renderProvider : this.renderProviders) {
+			if (renderProvider.isEnabled()) {
+				renderProvider.render(player, 0, -4 /* TODO */);
+			}
+		}
 		getGLStateManager().popMatrix();
 	}
 
