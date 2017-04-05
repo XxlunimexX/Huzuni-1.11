@@ -29,6 +29,7 @@ import pw.knx.feather.tessellate.GrowingTess;
 import java.util.List;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.*;
+import static net.halalaboos.mcwrapper.api.opengl.OpenGL.GL;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.GL_COLOR_ARRAY;
 import static org.lwjgl.opengl.GL11.glEnableClientState;
@@ -175,12 +176,10 @@ public class Projectiles extends BasicMod implements Renderer {
 			}
 		}
 		if (lines.isEnabled()) {
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_COLOR_ARRAY);
+			GL.state(GL_VERTEX_ARRAY, true).state(GL_COLOR_ARRAY, true);
 			projectileTess.bind().pass(GL_LINE_STRIP);
 			projectileTess.pass(GL_LINE_STRIP).reset();
-			glDisableClientState(GL_VERTEX_ARRAY);
-			glDisableClientState(GL_COLOR_ARRAY);
+			GL.state(GL_VERTEX_ARRAY, false).state(GL_COLOR_ARRAY, false);
 		}
 		if (landing.isEnabled()) {
 			getGLStateManager().pushMatrix();
@@ -253,12 +252,10 @@ public class Projectiles extends BasicMod implements Renderer {
 				.vertex(landingSize.getValue(), 0, 0)
 				.vertex(0, 0, 0).vertex(0, 0, landingSize.getValue())
 				.vertex(0, 0, 0);
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_COLOR_ARRAY);
+		GL.state(GL_VERTEX_ARRAY, true).state(GL_COLOR_ARRAY, true);
 		pointTess.bind().pass(GL_LINES);
 		pointTess.pass(GL_LINES).reset();
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_COLOR_ARRAY);
+		GL.state(GL_VERTEX_ARRAY, false).state(GL_COLOR_ARRAY, false);
 		getGLStateManager().rotate(-90, 1, 0, 0);
 		cylinder.setDrawStyle(GLU.GLU_LINE);
 		cylinder.draw(landingSize.getValue(), landingSize.getValue(), 0.1f, 24, 1);

@@ -5,6 +5,7 @@ import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
+import net.halalaboos.mcwrapper.api.client.Input;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
@@ -319,5 +320,10 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 		IBlockState blockState = world.getBlockState(Convert.to(position));
 		float blockHardness = blockState.getBlockHardness(world, Convert.to(position));
 		return blockHardness < 0.0F ? 0.0F : (!canHarvestBlock(position, item) ? getDigStrength(position, item) / blockHardness / 100.0F : getDigStrength(position, item) / blockHardness / 30.0F);
+	}
+
+	@Override
+	public Input getInput() {
+		return (Input)movementInput;
 	}
 }

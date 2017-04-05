@@ -1,3 +1,8 @@
+############################################################
+# This is just to make things a little less time consuming #
+# when this version is ready.                              #
+############################################################
+
 Huzuni 5.1
 ADDITIONS
 + (Not finished) New GUI, which can be displayed by pressing the right-control key.

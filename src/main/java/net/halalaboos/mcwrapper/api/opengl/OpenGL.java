@@ -51,6 +51,11 @@ public enum OpenGL {
 		return this;
 	}
 
+	public OpenGL translate(double x, double y, double z) {
+		GL11.glTranslated(x, y, z);
+		return this;
+	}
+
 	/**
 	 * Sets the line width to the specified {@code width}.
 	 *

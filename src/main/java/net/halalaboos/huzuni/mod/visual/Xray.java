@@ -15,6 +15,8 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 
 /**
  * Shows blocks hidden behind other blocks.
+ *
+ * TODO - Make selection like it was in 1.8x versions
  * */
 public class Xray extends BasicMod {
 	
