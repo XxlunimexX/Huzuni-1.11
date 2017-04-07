@@ -1,6 +1,5 @@
 package net.halalaboos.huzuni.api.util.gl;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -8,6 +7,8 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
+import pw.knx.feather.tessellate.GrowingTess;
+import pw.knx.feather.tessellate.OffsetTess;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -26,16 +27,17 @@ import static org.lwjgl.opengl.GL11.*;
  * Utility class to assist in rendering.
  * */
 public final class GLUtils {
-	
+
 	private static final Tessellator tessellator = Tessellator.getInstance();
 
 	private static final Random random = new Random();
 
 	private GLUtils() {
-		
+
 	}
 
 	public static void drawTextureRect(float x, float y, float width, float height, float u, float v, float t, float s) {
+		//TODO - port
 		VertexBuffer renderer = tessellator.getBuffer();
 		renderer.begin(GL_TRIANGLES, DefaultVertexFormats.POSITION_TEX);
 		renderer.pos(x + width, y, 0F).tex(t, v).endVertex();
@@ -47,24 +49,22 @@ public final class GLUtils {
 		tessellator.draw();
 	}
 
+	private static OffsetTess tess = new OffsetTess(new GrowingTess(4));
+
 	/**
 	 * Renders a simple lined border around the given x, y, x1, and y1 coordinates. 
 	 * */
 	public static void drawBorder(float size, float x, float y, float x1, float y1) {
+		glEnableClientState(GL_VERTEX_ARRAY);
 		glLineWidth(size);
 		getGLStateManager().disableTexture2D();
 		getGLStateManager().enableBlend();
 		getGLStateManager().blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-    	VertexBuffer vertexBuffer = tessellator.getBuffer();
-    	vertexBuffer.begin(GL_LINE_LOOP, DefaultVertexFormats.POSITION);
-    	vertexBuffer.pos(x, y, 0F).endVertex();
-    	vertexBuffer.pos(x, y1, 0F).endVertex();
-    	vertexBuffer.pos(x1, y1, 0F).endVertex();
-    	vertexBuffer.pos(x1, y, 0F).endVertex();
-    	tessellator.draw();
+    	tess.reset().vertex(x, y, 0F).vertex(x, y1, 0F).vertex(x1, y1, 0F).vertex(x1, y, 0F).bind().pass(GL_LINE_LOOP);
 		getGLStateManager().enableTexture2D();
+		glDisableClientState(GL_VERTEX_ARRAY);
 	}
-	
+
 	/**
 	 * Renders a line from the given x, y positions to the second x1, y1 positions.
 	 * */
@@ -73,11 +73,9 @@ public final class GLUtils {
 		getGLStateManager().disableTexture2D();
 		getGLStateManager().enableBlend();
 		getGLStateManager().blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-    	VertexBuffer vertexBuffer = tessellator.getBuffer();
-    	vertexBuffer.begin(GL_LINES, DefaultVertexFormats.POSITION);
-    	vertexBuffer.pos(x, y, 0F).endVertex();
-    	vertexBuffer.pos(x1, y1, 0F).endVertex();
-    	tessellator.draw();
+		glEnableClientState(GL_VERTEX_ARRAY);
+		tess.reset().vertex(x, y, 0F).vertex(x1, y1, 0F).bind().pass(GL_LINES);
+		glDisableClientState(GL_VERTEX_ARRAY);
     	getGLStateManager().enableTexture2D();
 	}
 
@@ -99,19 +97,15 @@ public final class GLUtils {
 	 * Renders a simple rectangle around the given x, y, x1, and y1 coordinates.
 	 * */
 	public static void drawRect(float x, float y, float x1, float y1) {
+		glEnableClientState(GL_VERTEX_ARRAY);
 		getGLStateManager().disableTexture2D();
 		getGLStateManager().enableBlend();
 		getGLStateManager().blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-    	VertexBuffer vertexBuffer = tessellator.getBuffer();
-    	vertexBuffer.begin(GL_QUADS, DefaultVertexFormats.POSITION);
-    	vertexBuffer.pos(x, y1, 0F).endVertex();
-    	vertexBuffer.pos(x1, y1, 0F).endVertex();
-    	vertexBuffer.pos(x1, y, 0F).endVertex();
-    	vertexBuffer.pos(x, y, 0F).endVertex();
-    	tessellator.draw();
+    	tess.reset().vertex(x, y1, 0F).vertex(x1, y1, 0F).vertex(x1, y, 0F).vertex(x, y, 0F).bind().pass(GL_QUADS);
     	getGLStateManager().enableTexture2D();
+		glDisableClientState(GL_VERTEX_ARRAY);
 	}
-	
+
 	/**
 	 * Renders a simple rectangle and line border around the given x, y, x1, and y1 coordinates.
 	 * */
@@ -119,12 +113,12 @@ public final class GLUtils {
 		drawBorder(borderSize, x, y, x1, y1);
 		drawRect(x, y, x1, y1);
 	}
-	
+
 	/**
 	 * Translates and scales to allow for billboarding.
 	 * <br>
 	 * @see <a href= http://www.opengl-tutorial.org/intermediate-tutorials/billboards-particles/billboards/>Billboards</a>
-	 * 
+	 *
 	 * */
 	public static void prepareBillboarding(float x, float y, float z, boolean modifyPitch) {
 		float scale = 0.016666668F * 1.6F;
@@ -140,7 +134,7 @@ public final class GLUtils {
 		}
 		glScalef(-scale, -scale, scale);
 	}
-	
+
 	/**
 	 * @return A {@link Color} object with effects applied to it based on the boolean values given.
 	 * */
