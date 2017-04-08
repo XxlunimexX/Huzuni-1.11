@@ -1,6 +1,9 @@
 package net.halalaboos.mcwrapper.impl.mixin.item;
 
-import net.halalaboos.mcwrapper.api.item.Enchantment;
+import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.item.enchant.Enchantment;
+import net.halalaboos.mcwrapper.impl.Convert;
+import net.minecraft.enchantment.EnchantmentHelper;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(net.minecraft.enchantment.Enchantment.class)
@@ -24,5 +27,10 @@ public abstract class MixinEnchantment implements Enchantment {
 	@Intrinsic
 	public int api$getMaxLevel() {
 		return shadow$getMaxLevel();
+	}
+
+	@Override
+	public int getLevel(ItemStack stack) {
+		return EnchantmentHelper.getEnchantmentLevel((net.minecraft.enchantment.Enchantment)(Object)this, Convert.to(stack));
 	}
 }

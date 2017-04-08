@@ -13,6 +13,8 @@ public abstract class MixinSlot implements Slot {
 	@Shadow public abstract net.minecraft.item.ItemStack getStack();
 	@Shadow public abstract boolean getHasStack();
 
+	@Shadow public int slotNumber;
+
 	@Override
 	public int getIndex() {
 		return slotIndex;
@@ -26,5 +28,10 @@ public abstract class MixinSlot implements Slot {
 	@Override
 	public boolean hasItem() {
 		return getHasStack();
+	}
+
+	@Override
+	public int getSlotNumber() {
+		return slotNumber;
 	}
 }

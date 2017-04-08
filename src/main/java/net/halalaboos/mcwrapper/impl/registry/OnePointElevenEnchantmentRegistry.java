@@ -1,7 +1,9 @@
 package net.halalaboos.mcwrapper.impl.registry;
 
-import net.halalaboos.mcwrapper.api.item.Enchantment;
+import net.halalaboos.mcwrapper.api.item.enchant.Enchantment;
 import net.halalaboos.mcwrapper.api.registry.EnchantmentRegistry;
+import net.halalaboos.mcwrapper.impl.Convert;
+import net.minecraft.init.Enchantments;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
@@ -22,5 +24,20 @@ public class OnePointElevenEnchantmentRegistry implements EnchantmentRegistry {
 			registered = out;
 		}
 		return registered;
+	}
+
+	@Override
+	public Enchantment getEnchant(int id) {
+		return Convert.from(net.minecraft.enchantment.Enchantment.getEnchantmentByID(id));
+	}
+
+	@Override
+	public Enchantment getEnchant(String name) {
+		return Convert.from(net.minecraft.enchantment.Enchantment.REGISTRY.getObject(new ResourceLocation(name)));
+	}
+
+	@Override
+	public int getId(Enchantment enchantment) {
+		return net.minecraft.enchantment.Enchantment.getEnchantmentID(Convert.to(enchantment));
 	}
 }

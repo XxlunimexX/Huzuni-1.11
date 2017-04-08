@@ -88,5 +88,7 @@ public abstract class MixinNetHandlerPlayClient implements NetworkHandler {
 	@Override
 	public void sendTryUseItemOnBlock(Vector3i pos, Face face, Hand hand, float faceX, float faceY, float faceZ) {
 		sendPacket(new CPacketPlayerTryUseItemOnBlock(Convert.to(pos), Convert.to(face), Convert.to(hand), faceX, faceY, faceZ));
+		System.out.println("Attempting to place block!");
+		System.out.println(String.format("Pos %s, Face %s, Hand %s", Convert.to(pos), Convert.to(face), Convert.to(hand)));
 	}
 }

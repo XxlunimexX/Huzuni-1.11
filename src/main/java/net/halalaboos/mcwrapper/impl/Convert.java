@@ -2,6 +2,7 @@ package net.halalaboos.mcwrapper.impl;
 
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.item.enchant.Enchantment;
 import net.halalaboos.mcwrapper.api.util.enums.ActionResult;
 import net.halalaboos.mcwrapper.api.util.enums.DigAction;
 import net.halalaboos.mcwrapper.api.util.enums.Face;
@@ -50,7 +51,7 @@ public class Convert {
 	}
 
 	public static PotionEffect to(net.halalaboos.mcwrapper.api.potion.PotionEffect effect) {
-		return (PotionEffect)(Object)effect;
+		return (PotionEffect) effect;
 	}
 
 	public static Potion to(net.halalaboos.mcwrapper.api.potion.Potion potion) {
@@ -123,4 +124,11 @@ public class Convert {
 		return (net.minecraft.item.ItemStack)(Object)stack;
 	}
 
+	public static Enchantment from(net.minecraft.enchantment.Enchantment enchantment) {
+		return (Enchantment) enchantment;
+	}
+
+	public static net.minecraft.enchantment.Enchantment to(Enchantment enchantment) {
+		return (net.minecraft.enchantment.Enchantment)enchantment;
+	}
 }

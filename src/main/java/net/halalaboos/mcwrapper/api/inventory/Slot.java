@@ -6,6 +6,8 @@ public interface Slot {
 
 	int getIndex();
 
+	int getSlotNumber();
+
 	ItemStack getItem();
 
 	boolean hasItem();
