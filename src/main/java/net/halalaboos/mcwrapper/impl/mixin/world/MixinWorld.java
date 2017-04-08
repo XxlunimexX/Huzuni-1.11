@@ -50,6 +50,8 @@ import static net.halalaboos.mcwrapper.impl.Convert.player;
 
 	@Shadow @Nullable public abstract net.minecraft.util.math.RayTraceResult rayTraceBlocks(Vec3d start, Vec3d end);
 
+	@Shadow @Nullable public abstract RayTraceResult rayTraceBlocks(Vec3d vec31, Vec3d vec32, boolean stopOnLiquid, boolean ignoreBlockWithoutBoundingBox, boolean returnLastUncollidableBlock);
+
 	@Override
 	public void setToAir(Vector3i pos) {
 		setBlockToAir(new BlockPos(pos.getX(), pos.getY(), pos.getZ()));
@@ -122,6 +124,15 @@ import static net.halalaboos.mcwrapper.impl.Convert.player;
 	@Override
 	public Optional<Result> getResult(Vector3d start, Vector3d end) {
 		RayTraceResult result = rayTraceBlocks(Convert.to(start), Convert.to(end));
+		if (result == null) {
+			return Optional.empty();
+		}
+		return Optional.of(Convert.from(result));
+	}
+
+	@Override
+	public Optional<Result> getResult(Vector3d start, Vector3d end, boolean stopOnLiquid, boolean ignoreBlockWithoutBB, boolean lastBlock) {
+		RayTraceResult result = rayTraceBlocks(Convert.to(start), Convert.to(end), stopOnLiquid, ignoreBlockWithoutBB, lastBlock);
 		if (result == null) {
 			return Optional.empty();
 		}

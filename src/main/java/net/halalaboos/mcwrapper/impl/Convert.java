@@ -83,7 +83,12 @@ public class Convert {
 	}
 
 	public static Result from(RayTraceResult result) {
-		return Result.values()[result.typeOfHit.ordinal()];
+		Result out = Result.values()[result.typeOfHit.ordinal()];
+		if (result.sideHit != null) {
+			Face face = Convert.from(result.sideHit);
+			out.setFace(face);
+		}
+		return out;
 	}
 
 	public static ActionResult from(EnumActionResult result) {

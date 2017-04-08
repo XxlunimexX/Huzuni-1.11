@@ -138,4 +138,6 @@ public interface World {
 	 * @return The raytrace result.
 	 */
 	Optional<Result> getResult(Vector3d start, Vector3d end);
+
+	Optional<Result> getResult(Vector3d start, Vector3d end, boolean stopOnLiquid, boolean ignoreBlockWithoutBB, boolean lastBlock);
 }

@@ -2,10 +2,7 @@ package net.halalaboos.mcwrapper.impl.mixin.entity;
 
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.util.enums.Face;
-import net.halalaboos.mcwrapper.api.util.math.MathUtils;
-import net.halalaboos.mcwrapper.api.util.math.Rotation;
-import net.halalaboos.mcwrapper.api.util.math.Vector3d;
-import net.halalaboos.mcwrapper.api.util.math.AABB;
+import net.halalaboos.mcwrapper.api.util.math.*;
 import net.halalaboos.mcwrapper.api.world.Fluid;
 import net.halalaboos.mcwrapper.api.world.World;
 import net.halalaboos.mcwrapper.impl.Convert;
@@ -16,6 +13,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.chunk.Chunk;
 import org.spongepowered.asm.mixin.*;
@@ -26,6 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.UUID;
 
 @Implements(@Interface(iface = Entity.class, prefix = "api$"))
@@ -339,6 +338,17 @@ import java.util.UUID;
 	public boolean isCollided(CollisionType type) {
 		return type == CollisionType.HORIZONTAL ? isCollidedHorizontally :
 				type == CollisionType.VERTICAL ? isCollidedVertically : isCollided;
+	}
+
+	@Override
+	public Optional<Result> calculateIntercept(Vector3d expansion, Vector3d start, Vector3d end) {
+		AxisAlignedBB bb = getEntityBoundingBox();
+		bb.expand(expansion.getX(), expansion.getY(), expansion.getZ());
+		RayTraceResult result = bb.calculateIntercept(Convert.to(start), Convert.to(end));
+		if (result == null) {
+			return Optional.empty();
+		}
+		return Optional.of(Convert.from(result));
 	}
 
 	@Override

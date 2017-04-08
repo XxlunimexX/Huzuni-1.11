@@ -6,6 +6,8 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Toggleable;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
+import net.halalaboos.mcwrapper.api.entity.Entity;
+import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.entity.projectile.Arrow;
 import net.halalaboos.mcwrapper.api.item.Item;
@@ -13,41 +15,34 @@ import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.item.types.Bow;
 import net.halalaboos.mcwrapper.api.item.types.SplashPotion;
 import net.halalaboos.mcwrapper.api.item.types.Throwable;
+import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.halalaboos.mcwrapper.api.util.math.MathUtils;
+import net.halalaboos.mcwrapper.api.util.math.Result;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
-import net.minecraft.block.BlockLiquid;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.*;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
 import org.lwjgl.util.glu.Cylinder;
 import org.lwjgl.util.glu.GLU;
 import pw.knx.feather.tessellate.GrowingTess;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Optional;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 import static net.halalaboos.mcwrapper.api.opengl.OpenGL.GL;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.GL_COLOR_ARRAY;
-import static org.lwjgl.opengl.GL11.glEnableClientState;
 
 /**
  * Renders the trajectory of any throwable item held by the player along with the projectiles within the air.
- *
- * TODO: Port to MCWrapper
  * */
 public class Projectiles extends BasicMod implements Renderer {
 
 	private final Cylinder cylinder = new Cylinder();
 
-	public final Toggleable lines = new Toggleable("Lines", "Render lines showing the projectile of "),
+	private final Toggleable lines = new Toggleable("Lines", "Render lines showing the projectile of "),
 			landing = new Toggleable("Landing", "Render a landing position of each projectile"),
 			arrows = new Toggleable("Arrows", "Show other arrows/items trajectories from other players");
 
-	public final Value landingSize = new Value("Landing size", "", 0.5F, 0.5F, 2F, "Adjust the size of the landing pad");
+	private final Value landingSize = new Value("Landing size", "", 0.5F, 0.5F, 2F, "Adjust the size of the landing pad");
 
 	public Projectiles() {
 		super("Projectiles", "Render a trajectory showing the path of a projectile");
@@ -124,7 +119,7 @@ public class Projectiles extends BasicMod implements Renderer {
 			motionZ *= (mode == 1 ? (velocity * 2) : 1) * getMult(mode);
 		}
 		boolean hasLanded = false, isEntity = false;
-		RayTraceResult collision = null;
+		Result collision = null;
 		float size = mode == 1 ? 0.3F : 0.25F;
 		float gravity = getGravity(mode);
 
@@ -138,24 +133,24 @@ public class Projectiles extends BasicMod implements Renderer {
 		}
 		GLUtils.glColor(0F, 1F, 0F, 1F);
 		for (; !hasLanded && y > 0;) {
-			Vec3d present = new Vec3d(x, y, z);
-			Vec3d future = new Vec3d(x + motionX, y + motionY, z + motionZ);
-			RayTraceResult possibleCollision = mc.world.rayTraceBlocks(present, future, false, true, false);
-			if (possibleCollision != null) {
+			Vector3d present = new Vector3d(x, y, z);
+			Vector3d future = new Vector3d(x + motionX, y + motionY, z + motionZ);
+			Optional<Result> possibleCollision = getWorld().getResult(present, future, false, true, false);
+			if (possibleCollision.isPresent()) {
 				hasLanded = true;
-				collision = possibleCollision;
+				collision = possibleCollision.get();
 			}
-			AxisAlignedBB boundingBox = new AxisAlignedBB(x - size, y - size, z - size, x + size, y + size, z + size);
+			AABB boundingBox = new AABB(x - size, y - size, z - size, x + size, y + size, z + size);
 
-			List<Entity> entities = mc.world.getEntitiesWithinAABBExcludingEntity(mc.player, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
+			Collection<Entity> entities = getWorld().getEntitiesInBox(boundingBox.addVector(new Vector3d(motionX, motionY, motionZ)).grow(1));
+
 			for (Entity entity : entities) {
-				if (entity.canBeCollidedWith() && entity != mc.player) {
-					AxisAlignedBB entityBoundingBox = entity.getEntityBoundingBox().expand(0.3D, 0.3D, 0.3D);
-					RayTraceResult entityCollision = entityBoundingBox.calculateIntercept(present, future);
-					if (entityCollision != null) {
+				if (entity instanceof Living) {
+					Optional<Result> result = entity.calculateIntercept(new Vector3d(0.3D, 0.3D, 0.3D), present, future);
+					if (result.isPresent()) {
 						hasLanded = true;
 						isEntity = true;
-						collision = entityCollision;
+						collision = result.get();
 					}
 				}
 			}
@@ -164,8 +159,8 @@ public class Projectiles extends BasicMod implements Renderer {
 			y += motionY;
 			z += motionZ;
 			float motionAdjustment = 0.99F;
-			if (isInMaterial(boundingBox, Material.WATER))
-				motionAdjustment = 0.8F;
+//			if (isInMaterial(boundingBox, Material.WATER))
+//				motionAdjustment = 0.8F;
 
 			motionX *= motionAdjustment;
 			motionY *= motionAdjustment;
@@ -185,7 +180,7 @@ public class Projectiles extends BasicMod implements Renderer {
 			getGLStateManager().pushMatrix();
 			getGLStateManager().translate(x - cam.getX(), y - cam.getY(), z - cam.getZ());
 			if (collision != null) {
-				switch (collision.sideHit.getIndex()) {
+				switch (collision.getFace().ordinal()) {
 					case 2:
 						getGLStateManager().rotate(90, 1, 0, 0);
 						break;
@@ -265,34 +260,5 @@ public class Projectiles extends BasicMod implements Renderer {
 		pointTess.color(r, g, b, a);
 		projectileTess.color(r, g, b, a);
 		GLUtils.glColor(r, g, b, a);
-	}
-
-	private boolean isInMaterial(AxisAlignedBB axisalignedBB, Material material) {
-		int chunkMinX = MathUtils.floor(axisalignedBB.minX);
-		int chunkMaxX = MathUtils.floor(axisalignedBB.maxX + 1.0D);
-		int chunkMinY = MathUtils.floor(axisalignedBB.minY);
-		int chunkMaxY = MathUtils.floor(axisalignedBB.maxY + 1.0D);
-		int chunkMinZ = MathUtils.floor(axisalignedBB.minZ);
-		int chunkMaxZ = MathUtils.floor(axisalignedBB.maxZ + 1.0D);
-
-		StructureBoundingBox structureBoundingBox = new StructureBoundingBox(chunkMinX, chunkMinY, chunkMinZ, chunkMaxX, chunkMaxY, chunkMaxZ);
-		if (!mc.world.isAreaLoaded(structureBoundingBox)) {
-			return false;
-		} else {
-			boolean isWithin = false;
-			for (int x = chunkMinX; x < chunkMaxX; ++x) {
-				for (int y = chunkMinY; y < chunkMaxY; ++y) {
-					for (int z = chunkMinZ; z < chunkMaxZ; ++z) {
-						IBlockState blockState = mc.world.getBlockState(new BlockPos(x, y, z));
-						if (blockState.getMaterial() == material) {
-							double liquidHeight = (double) ((float) (y + 1) - BlockLiquid.getLiquidHeightPercent(blockState.getValue(BlockLiquid.LEVEL)));
-							if ((double) chunkMaxY >= liquidHeight)
-								isWithin = true;
-						}
-					}
-				}
-			}
-			return isWithin;
-		}
 	}
 }

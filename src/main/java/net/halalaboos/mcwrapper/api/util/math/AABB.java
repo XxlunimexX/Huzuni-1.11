@@ -26,6 +26,26 @@ public class AABB {
 		return offset(new Vector3d(x, y, z));
 	}
 
+	public AABB addVector(Vector3d vec) {
+		double x = vec.getX(), y = vec.getY(), z = vec.getZ();
+		double minX = min.getX(), minY = min.getY(), minZ = min.getZ();
+		double maxX = max.getX(), maxY = max.getY(), maxZ = max.getZ();
+
+		if (x < 0) minX += x; else if (x > 0) maxX += x;
+		if (y < 0) minY += y; else if (y > 0) maxY += y;
+		if (z < 0) minZ += z; else if (z > 0) maxZ += z;
+
+		return new AABB(minX, minY, minZ, maxX, maxY, maxZ);
+	}
+
+	public AABB grow(double x, double y, double z) {
+		return new AABB(this.min.sub(new Vector3d(x, y, z)), this.max.add(new Vector3d(x, y, z)));
+	}
+
+	public AABB grow(double amount) {
+		return this.grow(amount, amount, amount);
+	}
+
 	public String toString() {
 		return "box[" + this.min.getX() + ", " + this.min.getY() + ", " + this.min.getZ() + " -> " + this.max.getX() + ", " + this.max.getY() + ", " + this.max.getZ() + "]";
 	}

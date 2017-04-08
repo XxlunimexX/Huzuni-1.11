@@ -8,6 +8,8 @@ import net.halalaboos.mcwrapper.api.util.math.*;
 import net.halalaboos.mcwrapper.api.world.Fluid;
 import net.halalaboos.mcwrapper.api.world.World;
 
+import java.util.Optional;
+
 public interface Entity extends Identifiable, Nameable {
 
 	/**
@@ -244,6 +246,8 @@ public interface Entity extends Identifiable, Nameable {
 	 * @return The Entity's (horizontal) {@link Face} direction.
 	 */
 	Face getFace();
+
+	Optional<Result> calculateIntercept(Vector3d expansion, Vector3d start, Vector3d end);
 
 	enum CollisionType {
 		HORIZONTAL, VERTICAL, BOTH
