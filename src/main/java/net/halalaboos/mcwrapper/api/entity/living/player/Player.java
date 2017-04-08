@@ -6,6 +6,8 @@ import net.halalaboos.mcwrapper.api.inventory.Container;
 import net.halalaboos.mcwrapper.api.inventory.PlayerInventory;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 
+import java.util.Optional;
+
 /**
  * Represents a Player (humanoid) entity.
  */
@@ -20,7 +22,7 @@ public interface Player extends Living {
 	 * @param slot The slot in the hotbar
 	 * @return The {@link ItemStack} in the specified slot.
 	 */
-	ItemStack getStack(int slot);
+	Optional<ItemStack> getStack(int slot);
 
 	/**
 	 * Many servers spawn 'fake' players for things such as anti-cheating purposes.  This can cause problems with

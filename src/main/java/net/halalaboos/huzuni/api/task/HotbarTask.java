@@ -19,26 +19,28 @@ public abstract class HotbarTask extends BasicTask {
 		ItemStack current = null;
 		int currentSlot = -1;
 		for (int i = 0; i < 9; i++) {
-			ItemStack item = getPlayer().getStack(i);
-			if (current != null) {
-				if (compare(current, item)) {
-					current = item;
-					currentSlot = i;
-				}
-			} else {
-				if (isValid(item)) {
-					current = item;
-					currentSlot = i;
+			if (getPlayer().getStack(i).isPresent()) {
+				ItemStack item = getPlayer().getStack(i).get();
+				if (current != null) {
+					if (compare(current, item)) {
+						current = item;
+						currentSlot = i;
+					}
+				} else {
+					if (isValid(item)) {
+						current = item;
+						currentSlot = i;
+					}
 				}
 			}
 		}
 		slot = currentSlot;
 		if (slot != -1) {
-			if (slot != mc.player.inventory.currentItem) {
-				mc.player.inventory.currentItem = slot;
-				mc.playerController.updateController();
+			if (slot != getPlayer().getPlayerInventory().getCurrentSlot()) {
+				getPlayer().getPlayerInventory().setCurrentSlot(slot);
+				getController().update();
 			} else
-				mc.player.inventory.currentItem = slot;
+				getPlayer().getPlayerInventory().setCurrentSlot(slot);
 		}
 	}
 	
@@ -57,6 +59,6 @@ public abstract class HotbarTask extends BasicTask {
 	}
 	
 	public boolean hasSlot() {
-		return slot != -1 && isValid(getPlayer().getStack(slot));
+		return slot != -1 && getPlayer().getStack(slot).isPresent() && isValid(getPlayer().getStack(slot).get());
 	}
 }

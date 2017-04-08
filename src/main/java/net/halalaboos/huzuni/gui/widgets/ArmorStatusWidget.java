@@ -5,6 +5,8 @@ import net.halalaboos.huzuni.api.gui.widget.Glue;
 import net.halalaboos.mcwrapper.api.inventory.Slot;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 
+import java.util.Optional;
+
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
@@ -72,9 +74,9 @@ public class ArmorStatusWidget extends BackgroundWidget {
 	/**
 	 * Renders the item stack at the given position.
 	 * */
-	private void renderItemStack(ItemStack itemStack, int x, int y) {
-		if (itemStack == null)
+	private void renderItemStack(Optional<ItemStack> stack, int x, int y) {
+		if (!stack.isPresent())
 			return;
-		itemStack.renderInGui(x, y);
+		stack.get().renderInGui(x, y);
 	}
 }

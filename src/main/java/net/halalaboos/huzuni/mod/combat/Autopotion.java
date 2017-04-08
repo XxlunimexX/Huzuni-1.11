@@ -148,8 +148,8 @@ public class Autopotion extends BasicMod {
 	 */
 	private int getUseablePotion() {
 		for (int o = 9; o < 36; o++) {
-			if (getPlayer().getInventoryContainer().getSlotAt(o).hasItem()) {
-				ItemStack item = getPlayer().getInventoryContainer().getSlotAt(o).getItem();
+			if (getPlayer().getInventoryContainer().getSlotAt(o).getItem().isPresent()) {
+				ItemStack item = getPlayer().getInventoryContainer().getSlotAt(o).getItem().get();
 				if (isPotion(item))
 					return o;
 			}
@@ -162,10 +162,10 @@ public class Autopotion extends BasicMod {
 	 * */
 	private int findEmptyPotion() {
 		for (int o = 36; o < 45; o++) {
-			ItemStack item = getPlayer().getInventoryContainer().getSlotAt(o).getItem();
-			if (item.empty())
+			Optional<ItemStack> item = getPlayer().getInventoryContainer().getSlotAt(o).getItem();
+			if (!item.isPresent())
 				return o;
-			else if (item.getItemType() instanceof GlassBottle)
+			else if (item.get().getItemType() instanceof GlassBottle)
 				return o;
 		}
 		return -1;

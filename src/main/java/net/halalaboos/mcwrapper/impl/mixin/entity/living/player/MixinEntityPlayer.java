@@ -6,6 +6,7 @@ import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.inventory.Container;
 import net.halalaboos.mcwrapper.api.inventory.PlayerInventory;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.impl.Convert;
 import net.halalaboos.mcwrapper.impl.mixin.entity.living.MixinEntityLiving;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.player.PlayerCapabilities;
@@ -15,6 +16,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.Optional;
 
 @Mixin(net.minecraft.entity.player.EntityPlayer.class)
 public abstract class MixinEntityPlayer extends MixinEntityLiving implements Player {
@@ -48,8 +51,8 @@ public abstract class MixinEntityPlayer extends MixinEntityLiving implements Pla
 	}
 
 	@Override
-	public ItemStack getStack(int slot) {
-		return (ItemStack)(Object)inventory.getStackInSlot(slot);
+	public Optional<ItemStack> getStack(int slot) {
+		return Convert.getOptional(inventory.getStackInSlot(slot));
 	}
 
 	@Override

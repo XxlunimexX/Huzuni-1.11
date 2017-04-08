@@ -84,27 +84,31 @@ public class Autoarmor extends BasicMod {
         List<Integer> armors = getArmor();
         for (int i : armors) {
             Slot slot = getPlayer().getInventoryContainer().getSlotAt(i);
-            Armor armor = (Armor) slot.getItem().getItemType();
-            if (bestSlot[armor.getType()] != -1) {
-                Slot oldSlot = getPlayer().getInventoryContainer().getSlotAt(bestSlot[armor.getType()]);
-                if (compare(armor, (Armor) oldSlot.getItem().getItemType(), slot.getItem(), oldSlot.getItem())) {
-                	bestSlot[armor.getType()] = i;
-                }
-            } else {
-                Slot wearingSlot = getWearingArmor(armor.getType());
-                if (wearingSlot.hasItem()) {
-                    if (!(wearingSlot.getItem().getItemType() instanceof Armor)) {
-                    	bestSlot[8 - wearingSlot.getSlotNumber()] = i;
-                    } else {
-	                    Armor wearingArmor = (Armor) wearingSlot.getItem().getItemType();
-	                    if (compare(armor, wearingArmor, slot.getItem(), wearingSlot.getItem())) {
-	                    	bestSlot[8 - wearingSlot.getSlotNumber()] = i;
-	                    }
-                    }
-                } else {
-                	bestSlot[8 - wearingSlot.getSlotNumber()] = i;
-                }	
-            }
+            if (slot.getItem().isPresent()) {
+				Armor armor = (Armor) slot.getItem().get().getItemType();
+				if (bestSlot[armor.getType()] != -1) {
+					Slot oldSlot = getPlayer().getInventoryContainer().getSlotAt(bestSlot[armor.getType()]);
+					if (oldSlot.getItem().isPresent()) {
+						if (compare(armor, (Armor) oldSlot.getItem().get().getItemType(), slot.getItem().get(), oldSlot.getItem().get())) {
+							bestSlot[armor.getType()] = i;
+						}
+					}
+				} else {
+					Slot wearingSlot = getWearingArmor(armor.getType());
+					if (wearingSlot.getItem().isPresent()) {
+						if (!(wearingSlot.getItem().get().getItemType() instanceof Armor)) {
+							bestSlot[8 - wearingSlot.getSlotNumber()] = i;
+						} else {
+							Armor wearingArmor = (Armor) wearingSlot.getItem().get().getItemType();
+							if (compare(armor, wearingArmor, slot.getItem().get(), wearingSlot.getItem().get())) {
+								bestSlot[8 - wearingSlot.getSlotNumber()] = i;
+							}
+						}
+					} else {
+						bestSlot[8 - wearingSlot.getSlotNumber()] = i;
+					}
+				}
+			}
         }
         for (int i = 0; i < bestSlot.length; i++) {
         	if (bestSlot[i] != -1) {
@@ -149,7 +153,7 @@ public class Autoarmor extends BasicMod {
 		if (clickTask.containsClick(newArmor, 0, 0))
 			timer.reset();
 		else if (timer.hasReach((int) delay.getValue())) {
-			if (!oldSlot.hasItem()) {
+			if (!oldSlot.getItem().isPresent()) {
 				clickTask.add(newArmor, 0, 0);
 				clickTask.add(oldArmor, 0, 0);
 			} else {
@@ -168,8 +172,8 @@ public class Autoarmor extends BasicMod {
     private List<Integer> getArmor() {
         List<Integer> list = new ArrayList<Integer>();
         for (int o = 9; o < 45; o++) {
-            if (getPlayer().getInventoryContainer().getSlotAt(o).hasItem()) {
-                net.halalaboos.mcwrapper.api.item.ItemStack item = getPlayer().getInventoryContainer().getSlotAt(o).getItem();
+            if (getPlayer().getInventoryContainer().getSlotAt(o).getItem().isPresent()) {
+                net.halalaboos.mcwrapper.api.item.ItemStack item = getPlayer().getInventoryContainer().getSlotAt(o).getItem().get();
                 if (item != null)
                     if (item.getItemType() instanceof Armor)
                     	list.add(o);

@@ -145,6 +145,14 @@ public class Convert {
 		return (Inventory)inventory;
 	}
 
+	/**
+	 * Various methods throughout our API use Optionals in the instance where {@link ItemStack ItemStacks} are returned.
+	 * The reason for this is because in recent versions, ItemStacks are never actually null in most instances.
+	 *
+	 * So for our Mixins, we could either write this code below over and over again for each {@code getItem()} method,
+	 * and then change the {@code stack.isEmpty()} bit to {@code stack == null} for pre 1.11 versions, or instead
+	 * have all of the methods point to this method, which means we'd only have to update one method.
+	 */
 	public static Optional<ItemStack> getOptional(net.minecraft.item.ItemStack stack) {
 		if (stack.isEmpty()) {
 			return Optional.empty();
