@@ -279,4 +279,9 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	public boolean isScreenOpen() {
 		return currentScreen != null;
 	}
+
+	@Override
+	public Object getScreen() {
+		return currentScreen;
+	}
 }

@@ -1,6 +1,7 @@
 package net.halalaboos.mcwrapper.impl;
 
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
+import net.halalaboos.mcwrapper.api.inventory.Inventory;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.item.enchant.Enchantment;
 import net.halalaboos.mcwrapper.api.util.enums.ActionResult;
@@ -14,6 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.inventory.ClickType;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -24,6 +26,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.Optional;
 
 /**
  * Utility for quickly converting MCWrapper data classes to the Minecraft ones, or vice-versa.
@@ -135,5 +139,16 @@ public class Convert {
 
 	public static net.minecraft.enchantment.Enchantment to(Enchantment enchantment) {
 		return (net.minecraft.enchantment.Enchantment)enchantment;
+	}
+
+	public static Inventory from(IInventory inventory) {
+		return (Inventory)inventory;
+	}
+
+	public static Optional<ItemStack> getOptional(net.minecraft.item.ItemStack stack) {
+		if (stack.isEmpty()) {
+			return Optional.empty();
+		}
+		return Optional.of(Convert.from(stack));
 	}
 }

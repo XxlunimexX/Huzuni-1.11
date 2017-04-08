@@ -23,6 +23,8 @@ import net.halalaboos.mcwrapper.api.util.enums.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 
+import java.util.Optional;
+
 import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
 /**
@@ -117,13 +119,15 @@ public class Autopotion extends BasicMod {
 		if (emptySlot != -1) {
 			int newPotion = getUseablePotion();
 			if (newPotion != -1) {
-				ItemStack itemStack = getPlayer().getPlayerInventory().getStack(newPotion);
-				if (MinecraftUtils.isShiftable(itemStack)) {
-					if (clickTask.containsClick(newPotion, 0, 1))
-						timer.reset();
-					else if (timer.hasReach((int) swapDelay.getValue())) {
-						clickTask.add(newPotion, 0, 1);
-						huzuni.addNotification(NotificationType.INFO, this, 5000, "Shift-clicking potion!");
+				if (getPlayer().getPlayerInventory().getStack(newPotion).isPresent()) {
+					ItemStack itemStack = getPlayer().getPlayerInventory().getStack(newPotion).get();
+					if (MinecraftUtils.isShiftable(itemStack)) {
+						if (clickTask.containsClick(newPotion, 0, 1))
+							timer.reset();
+						else if (timer.hasReach((int) swapDelay.getValue())) {
+							clickTask.add(newPotion, 0, 1);
+							huzuni.addNotification(NotificationType.INFO, this, 5000, "Shift-clicking potion!");
+						}
 					}
 				} else {
 					if (clickTask.containsClick(newPotion, 0, 0))
@@ -172,8 +176,8 @@ public class Autopotion extends BasicMod {
 	 * */
 	private int findHotbarPotion() {
 		for (int o = 0; o < 9; o++) {
-			ItemStack item = getPlayer().getPlayerInventory().getStack(o);
-			if (!item.empty() && isPotion(item))
+			Optional<ItemStack> item = getPlayer().getPlayerInventory().getStack(o);
+			if (item.isPresent() && isPotion(item.get()))
 				return o;
 		}
 		return -1;

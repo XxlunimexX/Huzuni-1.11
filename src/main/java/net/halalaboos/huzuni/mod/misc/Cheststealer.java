@@ -4,11 +4,11 @@ import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.task.ClickTask;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
-import net.minecraft.client.gui.inventory.GuiChest;
-import net.minecraft.inventory.ContainerChest;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
+import net.halalaboos.mcwrapper.api.inventory.Inventory;
+import net.halalaboos.mcwrapper.api.inventory.gui.ChestGui;
+import net.halalaboos.mcwrapper.api.item.ItemStack;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
@@ -18,9 +18,9 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
  * */
 public class Cheststealer extends BasicMod {
 		
-	private GuiChest guiChest;
+	private ChestGui guiChest;
 	
-	private IInventory chest;
+	private Inventory chest;
 	
 	private int windowId, index;
 
@@ -41,7 +41,7 @@ public class Cheststealer extends BasicMod {
 
 	private void onPreUpdate(PreMotionUpdateEvent event) {
 		if (huzuni.clickManager.hasPriority(this)) {
-			if (mc.currentScreen instanceof GuiChest) {
+			if (getMinecraft().getScreen() instanceof ChestGui) {
 				if (chest != null && guiChest != null) {
 					if (!clickTask.hasClicks()) {
 						getPlayer().closeWindow();
@@ -50,15 +50,14 @@ public class Cheststealer extends BasicMod {
 						huzuni.clickManager.withdrawTask(clickTask);
 					}
 				} else {
-					guiChest = (GuiChest) mc.currentScreen;
-					chest = ((ContainerChest) guiChest.inventorySlots).getLowerChestInventory();
+					guiChest = (ChestGui) getMinecraft().getScreen();
+					chest = guiChest.getContainer().getLower();
 					index = 0;
-					windowId = guiChest.inventorySlots.windowId;
-					for (; index < chest.getSizeInventory(); index++) {
-						ItemStack item = chest.getStackInSlot(index);
-						if (item.isEmpty())
-							continue;
-						clickTask.add(windowId, index, 0, 1);
+					windowId = guiChest.getContainer().getId();
+					for (; index < chest.getSize(); index++) {
+						if (chest.getStack(index).isPresent()) {
+							clickTask.add(windowId, index, 0, 1);
+						}
 					}
 					huzuni.clickManager.requestTask(this, clickTask);
 				}

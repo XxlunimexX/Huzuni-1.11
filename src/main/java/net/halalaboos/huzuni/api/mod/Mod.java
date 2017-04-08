@@ -6,7 +6,6 @@ import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.node.Node;
 import net.halalaboos.tukio.Event;
 import net.halalaboos.tukio.Subscriber;
-import net.minecraft.client.Minecraft;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,8 +21,6 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getEventManager;
  * Each mod has an id that is assigned upon it's instantiation, meaning it is not always consistent.
  * */
 public class Mod extends Node {
-
-	protected final Minecraft mc = Minecraft.getMinecraft();
 
 	protected final Huzuni huzuni = Huzuni.INSTANCE;
 

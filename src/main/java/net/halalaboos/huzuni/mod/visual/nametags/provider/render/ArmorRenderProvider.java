@@ -7,6 +7,8 @@ import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 
+import java.util.Optional;
+
 import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getTextRenderer;
 import static org.lwjgl.opengl.GL11.glPolygonOffset;
@@ -45,11 +47,13 @@ public class ArmorRenderProvider implements TagRenderProvider {
 			count++;
 		}
 		for (int i = 4; i > 0; i--) {
-			ItemStack armor = player.getPlayerInventory().getArmorStack(i - 1);
-			draw3dItem(armor, (center - halfTotalSize) + itemSize * count, (int) y - 16);
-			if (enchants.isEnabled())
-				renderEnchantments(armor, (center - halfTotalSize) + itemSize * count, (int) y - 16, 0.5F);
-			count++;
+			Optional<ItemStack> optional = player.getPlayerInventory().getArmorStack(i - 1);
+			if (optional.isPresent()) {
+				draw3dItem(optional.get(), (center - halfTotalSize) + itemSize * count, (int) y - 16);
+				if (enchants.isEnabled())
+					renderEnchantments(optional.get(), (center - halfTotalSize) + itemSize * count, (int) y - 16, 0.5F);
+				count++;
+			}
 		}
 		getGLStateManager().popMatrix();
 		getGLStateManager().disablePolygonOffset();

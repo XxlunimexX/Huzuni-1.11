@@ -166,8 +166,8 @@ public final class MinecraftUtils {
 		if (preferedItem.empty())
 			return true;
 		for (int o = 36; o < 45; o++) {
-			if (!getPlayer().getPlayerInventory().getStack(o).empty()) {
-				net.halalaboos.mcwrapper.api.item.ItemStack item = getPlayer().getPlayerInventory().getStack(o);
+			if (getPlayer().getPlayerInventory().getStack(o).isPresent()) {
+				net.halalaboos.mcwrapper.api.item.ItemStack item = getPlayer().getPlayerInventory().getStack(o).get();
 				if (item.getItemType().getId() == preferedItem.getItemType().getId()) {
 					if (item.getSize() + preferedItem.getSize() <= preferedItem.getMaxSize())
 						return true;

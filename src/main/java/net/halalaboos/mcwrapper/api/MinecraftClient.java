@@ -122,4 +122,7 @@ public interface MinecraftClient {
 	Vector3d getPlayerView();
 
 	boolean isScreenOpen();
+
+	Object getScreen();
+
 }
