@@ -1,4 +1,4 @@
-package net.halalaboos.mcwrapper.api.client;
+package net.halalaboos.mcwrapper.api.opengl;
 
 import org.lwjgl.opengl.GL11;
 
@@ -85,4 +85,9 @@ public interface GLState {
 
 	void disableBlend();
 
+	/**
+	 * For now, we will be using Minecraft's tessellator for texture rendering until I get around figuring out
+	 * why Feather's isn't working.  I recommend you don't rely on this method too much.
+	 */
+	void drawTexture(float x, float y, float width, float height, float u, float v, float t, float s);
 }

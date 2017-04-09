@@ -1,7 +1,12 @@
 package net.halalaboos.mcwrapper.impl;
 
-import net.halalaboos.mcwrapper.api.client.GLState;
+import net.halalaboos.mcwrapper.api.opengl.GLState;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+
+import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 
 /**
  * NOTE - THIS IS ACTUALLY NOT REALLY NECESSARY.
@@ -77,5 +82,20 @@ public class GLStateImpl implements GLState {
 	@Override
 	public void disableBlend() {
 		GlStateManager.disableBlend();
+	}
+
+	private final Tessellator tessellator = Tessellator.getInstance();
+
+	@Override
+	public void drawTexture(float x, float y, float width, float height, float u, float v, float t, float s) {
+		VertexBuffer renderer = tessellator.getBuffer();
+		renderer.begin(GL_TRIANGLES, DefaultVertexFormats.POSITION_TEX);
+		renderer.pos(x + width, y, 0F).tex(t, v).endVertex();
+		renderer.pos(x, y, 0F).tex(u, v).endVertex();
+		renderer.pos(x, y + height, 0F).tex(u, s).endVertex();
+		renderer.pos(x, y + height, 0F).tex(u, s).endVertex();
+		renderer.pos(x + width, y + height, 0F).tex(t, s).endVertex();
+		renderer.pos(x + width, y, 0F).tex(t, v).endVertex();
+		tessellator.draw();
 	}
 }

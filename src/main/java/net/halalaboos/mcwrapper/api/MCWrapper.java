@@ -2,6 +2,7 @@ package net.halalaboos.mcwrapper.api;
 
 import net.halalaboos.mcwrapper.api.client.*;
 import net.halalaboos.mcwrapper.api.client.gui.TextRenderer;
+import net.halalaboos.mcwrapper.api.opengl.GLState;
 import net.halalaboos.mcwrapper.api.world.World;
 import net.halalaboos.tukio.EventManager;
 

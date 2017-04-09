@@ -2,7 +2,7 @@ package net.halalaboos.mcwrapper.impl;
 
 import net.halalaboos.mcwrapper.api.MinecraftAdapter;
 import net.halalaboos.mcwrapper.api.MinecraftClient;
-import net.halalaboos.mcwrapper.api.client.GLState;
+import net.halalaboos.mcwrapper.api.opengl.GLState;
 import net.halalaboos.mcwrapper.api.potion.PotionEffect;
 import net.halalaboos.mcwrapper.api.registry.EnchantmentRegistry;
 import net.halalaboos.mcwrapper.api.registry.PotionRegistry;

@@ -1,13 +1,12 @@
 package net.halalaboos.mcwrapper.api;
 
-import net.halalaboos.mcwrapper.api.client.GLState;
+import net.halalaboos.mcwrapper.api.opengl.GLState;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.registry.EnchantmentRegistry;
 import net.halalaboos.mcwrapper.api.registry.PotionRegistry;
 import net.halalaboos.mcwrapper.api.util.Builder;
 import net.halalaboos.mcwrapper.api.registry.BlockRegistry;
 import net.halalaboos.mcwrapper.api.registry.ItemRegistry;
-import net.halalaboos.mcwrapper.api.world.World;
 
 import java.util.function.Supplier;
 

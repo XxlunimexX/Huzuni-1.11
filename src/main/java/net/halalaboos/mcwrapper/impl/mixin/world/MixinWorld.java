@@ -101,7 +101,7 @@ import static net.halalaboos.mcwrapper.impl.Convert.player;
 
 	@Override
 	public boolean blockExists(Vector3i pos) {
-		return getBlockState(Convert.to(pos)).getBlock() != Blocks.AIR;
+		return getBlockState(Convert.to(pos)).getMaterial() != Material.AIR;
 	}
 
 	@Override
