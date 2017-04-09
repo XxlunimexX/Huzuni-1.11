@@ -3,7 +3,6 @@ package net.halalaboos.huzuni.mc;
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.halalaboos.huzuni.mod.visual.Xray;
-import net.minecraft.client.multiplayer.WorldClient;
 
 public final class Wrapper {
 

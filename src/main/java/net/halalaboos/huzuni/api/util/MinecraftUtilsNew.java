@@ -4,7 +4,6 @@ import com.mojang.authlib.Agent;
 import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
-import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.mcwrapper.api.block.BlockTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
@@ -15,6 +14,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 
 import java.net.Proxy;
+
 import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**

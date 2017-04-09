@@ -19,6 +19,15 @@ public class Button {
 		this.id = id;
 	}
 
+	public Button(int id, int x, int y, int width, int height, String text) {
+		this.id = id;
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.text = text;
+	}
+
 	public Button setText(String text) {
 		this.text = text;
 		return this;

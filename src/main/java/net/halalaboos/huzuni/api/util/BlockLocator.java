@@ -3,9 +3,6 @@ package net.halalaboos.huzuni.api.util;
 import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getController;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
@@ -15,8 +12,6 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
  * */
 public abstract class BlockLocator {
 
-	private final Minecraft mc = Minecraft.getMinecraft();
-	
 	private boolean distanceCheck = true;
 	
 	private Vector3i position;
@@ -26,7 +21,7 @@ public abstract class BlockLocator {
 	/**
 	 * @return True if a block could be located within the radius.
 	 * @param radius The radius around the player to check for blocks.
-	 * @param ignoreFace When true, the {@link EnumFacing} given from the {@link getFace( EnumFacing )} function will be not be checked if null.
+	 * @param ignoreFace When true, the {@link Face} given from the {@link getFace( Face )} function will be not be checked if null.
 	 * */
 	public boolean locateClosest(float radius, boolean ignoreFace) {
 		Vector3i closestPosition = null;
@@ -83,7 +78,7 @@ public abstract class BlockLocator {
 	protected abstract boolean isValidBlock(Vector3i position);
 	
 	/**
-	 * @return The {@link Face} needed for the {@link BlockPos}
+	 * @return The {@link Face} needed for the {@link Vector3i}
 	 * */
 	protected abstract Face getFace(Vector3i position);
 	

@@ -2,14 +2,11 @@ package net.halalaboos.huzuni.api.task;
 
 import net.halalaboos.huzuni.api.node.Dependent;
 import net.halalaboos.huzuni.api.node.Nameable;
-import net.minecraft.client.Minecraft;
 
 /**
  * Tasks which occur only when requested to a task manager and only if the task holder who sends the request has the highest priority.
  * */
 public interface Task extends Dependent {
-
-	Minecraft mc = Minecraft.getMinecraft();
 
     /**
      * Invoked when the task has been cancelled (or replaced by another task)

@@ -1,7 +1,6 @@
 package net.halalaboos.huzuni.gui.screen;
 
 import net.halalaboos.huzuni.api.gui.WidgetManager;
-import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.gui.SettingsMenu;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;

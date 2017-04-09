@@ -17,10 +17,10 @@ public class GuiScreenWrapper extends GuiScreen {
 
 	public GuiScreenWrapper(Screen screen) {
 		this.screen = screen;
-		for (Button button : screen.getButtons()) {
-			this.buttonMap.put(new GuiButton(button.getId(), button.getX(), button.getY(), button.getWidth(), button.getHeight(),
-					button.getText()), button);
-		}
+//		for (Button button : screen.()) {
+//			this.buttonMap.put(new GuiButton(button.getId(), button.getX(), button.getY(), button.getWidth(), button.getHeight(),
+//					button.getText()), button);
+//		}
 	}
 
 	@Override

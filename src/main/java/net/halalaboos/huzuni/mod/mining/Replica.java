@@ -20,7 +20,6 @@ import net.halalaboos.mcwrapper.api.util.enums.MouseButton;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.halalaboos.mcwrapper.api.util.math.Result;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
-import net.minecraft.util.math.RayTraceResult;
 
 import java.io.File;
 import java.util.List;

@@ -64,8 +64,6 @@ public enum Huzuni {
 
 	public final WaypointManager waypointManager = new WaypointManager(this);
 
-	public final CapeManager capeManager = new CapeManager(this);
-
 	public final MemeManager memeManager = new MemeManager(this);
 
 	public final TaskManager<LookTask> lookManager = new TaskManager<>("Look Manager", "Manage which mods will prioritize when modifying the player rotation.");
@@ -100,7 +98,6 @@ public enum Huzuni {
 		friendManager.init();
 		keybindManager.init();
 		waypointManager.init();
-		capeManager.init();
 		memeManager.init();
 		settings.init();
 		patcher.init();
@@ -114,14 +111,12 @@ public enum Huzuni {
 		friendManager.setFile(new File(saveFolder, "friends.json"));
 		guiManager.widgetManager.setFile(new File(saveFolder, "widgets.json"));
 		waypointManager.setFile(new File(saveFolder, "waypoints.json"));
-		capeManager.setFile(new File(saveFolder, "capes.json"));
 		pluginManager.setPluginFolder(new File(saveFolder, "plugins"));
 		loadDefaults();
 		pluginManager.init();
 		settings.load();
 		friendManager.load();
 		waypointManager.load();
-		capeManager.load();
 		modManager.load();
 		guiManager.load();
 		new HuzuniUpdater(this).start();
@@ -136,7 +131,6 @@ public enum Huzuni {
 		modManager.save();
 		friendManager.save();
 		waypointManager.save();
-		capeManager.save();
 		guiManager.save();
 		settings.save();
 		pluginManager.save();
