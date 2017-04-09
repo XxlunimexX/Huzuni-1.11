@@ -103,9 +103,8 @@ public final class RenderManager {
 		}
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_COLOR_ARRAY);
-		lineTess.bind().pass(GL_LINES);
 		getGLStateManager().lineWidth(huzuni.settings.lineSize.getValue());
-		lineTess.pass(GL_LINES).reset();
+		lineTess.bind().pass(GL_LINES).reset();
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_COLOR_ARRAY);
     	lines.clear();

@@ -1,10 +1,15 @@
 package net.halalaboos.mcwrapper.api.opengl;
 
+import net.halalaboos.mcwrapper.api.MCWrapper;
 import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.*;
 
-//todo - finish documentation
+/**
+ * Wrapper for Minecraft's OpenGL state manager thing.
+ *
+ * Avoid using this or {@link MCWrapper#getGLStateManager()}, and instead refer to {@link OpenGL#GL} for usage.
+ */
 public interface GLState {
 
 	default void rotate(float angle, float x, float y, float z) {

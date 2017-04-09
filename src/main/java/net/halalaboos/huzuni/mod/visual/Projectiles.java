@@ -172,8 +172,7 @@ public class Projectiles extends BasicMod implements Renderer {
 		}
 		if (lines.isEnabled()) {
 			GL.state(GL_VERTEX_ARRAY, true).state(GL_COLOR_ARRAY, true);
-			projectileTess.bind().pass(GL_LINE_STRIP);
-			projectileTess.pass(GL_LINE_STRIP).reset();
+			projectileTess.bind().pass(GL_LINE_STRIP).reset();
 			GL.state(GL_VERTEX_ARRAY, false).state(GL_COLOR_ARRAY, false);
 		}
 		if (landing.isEnabled()) {

@@ -14,9 +14,7 @@ import net.halalaboos.mcwrapper.api.event.network.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.network.packet.server.HealthUpdatePacket;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import pw.knx.feather.tessellate.GrowingTess;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +22,8 @@ import java.util.List;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
-import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
+import static net.halalaboos.mcwrapper.api.opengl.OpenGL.GL;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Tracks the player's position and renders bread images at each point.
@@ -43,6 +42,8 @@ public class Breadcrumb extends BasicMod implements Renderer {
     public final Toggleable lines = new Toggleable("Lines", "Render lines between each point.");
     public final Toggleable bread = new Toggleable("Bread", "Render the bread icon at each point.");
     public final Toggleable clearOnDeath = new Toggleable("Clear on death", "When enabled, the points will clear when the player dies.");
+
+    private GrowingTess tess = new GrowingTess(4);
 
 	public Breadcrumb() {
 		super("Breadcrumb", "Retrace your steps as bread is placed in your path");
@@ -94,14 +95,13 @@ public class Breadcrumb extends BasicMod implements Renderer {
 		getGLStateManager().disableTexture2D();
 		if (lines.isEnabled()) {
 			GLUtils.glColor(1F, 1F, 1F, opacity.getValue() / 100F);
-			Tessellator tessellator = Tessellator.getInstance();
-	    	VertexBuffer renderer = tessellator.getBuffer();
-	    	renderer.begin(GL_LINE_STRIP, DefaultVertexFormats.POSITION);
 			for (Vector3i position : points) {
 				Vector3d renderPos = position.toDouble().sub(getMinecraft().getCamera());
-		    	renderer.pos(renderPos.getX(), renderPos.getY(), renderPos.getZ()).endVertex();
+		    	tess.vertex(((float) renderPos.getX()), ((float) renderPos.getY()), ((float) renderPos.getZ()));
 			}
-	    	tessellator.draw();
+			GL.state(GL_VERTEX_ARRAY, true);
+	    	tess.bind().pass(GL_LINE_STRIP).reset();
+			GL.state(GL_VERTEX_ARRAY, false);
 		}
 		if (lastPosition.toDouble().distanceTo(getPlayer().getLocation()) >= distance.getValue() && !Freecam.INSTANCE.isEnabled()) {
 			lastPosition = new Vector3i(getPlayer().getLocation());
