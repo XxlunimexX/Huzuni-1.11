@@ -13,12 +13,13 @@ import java.awt.*;
  * */
 public class TextRadarWidget extends BackgroundWidget {
 
-	private final Value distance = new Value("Distance", "", 10F, 130F, 255F, 5F, "Distance required for entities to be rendered.");
+	private final Value distance = new Value("Distance", 10F, 130F, 255F, 5F, "Distance required for entities to be rendered.");
 	private final Value opacity = new Value("Opacity", "%", 10F, 100F, 100F, 1F, "Opacity/transparency of the text.");
+	private final Value maxPlayers = new Value("Maximum Players", 1F, 100F, 100F, 1F, "Maximum amount of players to list on the radar.");
 
 	public TextRadarWidget(WidgetManager menuManager) {
 		super("Text Radar", "Render an old-school text radar", menuManager);
-		this.addChildren(distance, opacity);
+		this.addChildren(distance, opacity, maxPlayers);
 	}
 
 	@Override
@@ -31,17 +32,21 @@ public class TextRadarWidget extends BackgroundWidget {
 			y = y + height - theme.getStringHeight("minimum");
 		ClientPlayer me = MCWrapper.getPlayer();
 		Color textColor = new Color(255, 255, 255, (int)((opacity.getValue() / 100) * 255));
+		int playerCount = 0;
 		for (Player player : MCWrapper.getWorld().getPlayers()) {
 			if (player != me && !player.isNPC()) {
 				double distance = me.getDistanceTo(player);
 				if (distance < this.distance.getValue()) {
-					String text = String.format("%s (%d)", player.name(), (int)distance);
-					int textWidth = theme.getStringWidth(text);
-					theme.drawStringWithShadow(text, getOffsetX(x, x + originalWidth, textWidth), y, textColor.getRGB());
-					height += theme.getStringHeight(text);
-					y += incrementOffset * theme.getStringHeight(text);
-					if (textWidth + 2 > width) {
-						width = textWidth + 2;
+					playerCount++;
+					if (playerCount <= maxPlayers.getValue()) {
+						String text = String.format("%s (%d)", player.name(), (int) distance);
+						int textWidth = theme.getStringWidth(text);
+						theme.drawStringWithShadow(text, getOffsetX(x, x + originalWidth, textWidth), y, textColor.getRGB());
+						height += theme.getStringHeight(text);
+						y += incrementOffset * theme.getStringHeight(text);
+						if (textWidth + 2 > width) {
+							width = textWidth + 2;
+						}
 					}
 				}
 			}

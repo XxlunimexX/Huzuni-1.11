@@ -14,6 +14,7 @@ ADDITIONS
 + Added 'Hit Delay' option to Speedmine, which allows you to change the delay between breaking blocks.
 + Added 'Spacing' option to the Enabled mods widget, allowing you to adjust the spacing between each line
 + Added 'Opacity' option to the Text Radar widget, allowing you to adjust how transparent the text is.
++ Added 'Maximum Players' option to the Text Radar widget, allowing you to adjust how many players to render on the radar.
 
 IMPROVEMENTS
 + Rewrite of all of the mods to remove Minecraft code and instead use our wrapper, meaning faster updates! This means that all versions of the client (1.8, 1.9, 1.10, 1.11, etc. can be updated at the same time!)
