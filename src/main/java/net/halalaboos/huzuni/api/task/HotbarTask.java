@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.api.task;
 
-import net.halalaboos.huzuni.api.node.Nameable;
+import net.halalaboos.huzuni.api.node.attribute.Nameable;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 

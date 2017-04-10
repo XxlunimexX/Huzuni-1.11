@@ -2,8 +2,8 @@ package net.halalaboos.huzuni.mod.combat;
 
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.huzuni.api.node.ItemSelector;
-import net.halalaboos.huzuni.api.node.Toggleable;
+import net.halalaboos.huzuni.api.node.impl.ItemSelector;
+import net.halalaboos.huzuni.api.node.impl.Toggleable;
 import net.halalaboos.huzuni.api.task.EatTask;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.item.types.Food;

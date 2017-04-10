@@ -1,20 +1,6 @@
 package net.halalaboos.huzuni.mod.commands;
 
-import net.halalaboos.huzuni.api.mod.BasicCommand;
-import net.halalaboos.huzuni.indev.gui.impl.ImageCreator;
-import net.halalaboos.mcwrapper.api.MCWrapper;
-import net.halalaboos.mcwrapper.api.block.BlockTypes;
-import net.halalaboos.mcwrapper.api.client.ClientPlayer;
-import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
-import net.halalaboos.mcwrapper.api.item.ItemStack;
-import net.halalaboos.mcwrapper.api.item.ItemTypes;
-import net.halalaboos.mcwrapper.api.potion.Potion;
-import net.halalaboos.mcwrapper.api.potion.PotionEffect;
-import net.halalaboos.mcwrapper.impl.Convert;
-
-import static net.halalaboos.huzuni.indev.gui.impl.Pointers.IMAGE_ARROW;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getAdapter;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
+import net.halalaboos.huzuni.api.mod.command.impl.BasicCommand;
 
 public class Debug extends BasicCommand {
 

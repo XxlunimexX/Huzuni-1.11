@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.indev;
 
 import net.halalaboos.huzuni.indev.gui.FontData;
-import net.halalaboos.huzuni.api.node.ColorNode;
+import net.halalaboos.huzuni.api.node.impl.ColorNode;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.components.Label;
 import net.halalaboos.huzuni.indev.gui.components.TextField;

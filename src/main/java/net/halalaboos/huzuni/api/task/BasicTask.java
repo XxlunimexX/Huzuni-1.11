@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.api.task;
 
-import net.halalaboos.huzuni.api.node.Dependent;
-import net.halalaboos.huzuni.api.node.Nameable;
+import net.halalaboos.huzuni.api.node.attribute.Dependent;
+import net.halalaboos.huzuni.api.node.attribute.Nameable;
 
 import java.util.ArrayList;
 import java.util.List;

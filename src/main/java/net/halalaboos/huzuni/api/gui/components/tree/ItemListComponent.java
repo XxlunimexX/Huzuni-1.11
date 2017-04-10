@@ -1,8 +1,8 @@
 package net.halalaboos.huzuni.api.gui.components.tree;
 
 import net.halalaboos.huzuni.api.gui.Theme;
-import net.halalaboos.huzuni.api.node.ItemList;
-import net.halalaboos.huzuni.api.node.Nameable;
+import net.halalaboos.huzuni.api.node.impl.ItemList;
+import net.halalaboos.huzuni.api.node.attribute.Nameable;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import org.lwjgl.input.Mouse;
 

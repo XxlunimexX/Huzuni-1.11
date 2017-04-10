@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.api.task;
 
-import net.halalaboos.huzuni.api.node.Dependent;
-import net.halalaboos.huzuni.api.node.Nameable;
+import net.halalaboos.huzuni.api.node.attribute.Dependent;
+import net.halalaboos.huzuni.api.node.attribute.Nameable;
 
 /**
  * Tasks which occur only when requested to a task manager and only if the task holder who sends the request has the highest priority.

@@ -2,13 +2,12 @@ package net.halalaboos.huzuni.mod.combat;
 
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.huzuni.api.node.Toggleable;
-import net.halalaboos.huzuni.api.node.Value;
+import net.halalaboos.huzuni.api.node.impl.Toggleable;
+import net.halalaboos.huzuni.api.node.impl.Value;
 import net.halalaboos.huzuni.api.task.ClickTask;
 import net.halalaboos.huzuni.api.task.HotbarTask;
 import net.halalaboos.huzuni.api.task.LookTask;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
-import net.halalaboos.huzuni.api.util.MinecraftUtilsNew;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
@@ -20,8 +19,6 @@ import net.halalaboos.mcwrapper.api.item.types.PotionItem;
 import net.halalaboos.mcwrapper.api.item.types.SplashPotion;
 import net.halalaboos.mcwrapper.api.potion.PotionEffect;
 import net.halalaboos.mcwrapper.api.util.enums.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
 
 import java.util.Optional;
 

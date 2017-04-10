@@ -2,8 +2,8 @@ package net.halalaboos.huzuni.mod.visual;
 
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.huzuni.api.node.ItemSelector;
-import net.halalaboos.huzuni.api.node.Value;
+import net.halalaboos.huzuni.api.node.impl.ItemSelector;
+import net.halalaboos.huzuni.api.node.impl.Value;
 import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.block.BlockTypes;
 import net.halalaboos.mcwrapper.api.block.types.Bush;

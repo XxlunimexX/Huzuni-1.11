@@ -1,8 +1,8 @@
 package net.halalaboos.huzuni.indev;
 
 import net.halalaboos.huzuni.indev.gui.FontData;
-import net.halalaboos.huzuni.api.node.ItemList;
-import net.halalaboos.huzuni.api.node.Nameable;
+import net.halalaboos.huzuni.api.node.impl.ItemList;
+import net.halalaboos.huzuni.api.node.attribute.Nameable;
 import net.halalaboos.huzuni.indev.gui.components.Label;
 import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
 import net.halalaboos.huzuni.indev.gui.layouts.ListLayout;

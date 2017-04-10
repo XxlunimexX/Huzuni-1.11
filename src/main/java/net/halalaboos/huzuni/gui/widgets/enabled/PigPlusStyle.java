@@ -3,7 +3,7 @@ package net.halalaboos.huzuni.gui.widgets.enabled;
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.gui.Theme;
 import net.halalaboos.huzuni.api.gui.widget.Glue;
-import net.halalaboos.huzuni.api.mod.BasicKeybind;
+import net.halalaboos.huzuni.api.mod.keybind.BasicKeybind;
 import net.halalaboos.huzuni.api.mod.Mod;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
 

@@ -1,6 +1,7 @@
-package net.halalaboos.huzuni.api.node;
+package net.halalaboos.huzuni.api.node.impl;
 
 import com.google.gson.JsonObject;
+import net.halalaboos.huzuni.api.node.Node;
 
 import java.awt.*;
 import java.io.IOException;

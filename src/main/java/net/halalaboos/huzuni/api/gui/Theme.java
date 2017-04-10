@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.api.gui;
 
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.gui.components.tree.NodeTreeComponent;
-import net.halalaboos.huzuni.api.node.Nameable;
+import net.halalaboos.huzuni.api.node.attribute.Nameable;
 import net.halalaboos.huzuni.api.node.Node;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.api.util.gl.Texture;

@@ -2,16 +2,14 @@ package net.halalaboos.huzuni.mod.mining;
 
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.huzuni.api.node.Toggleable;
-import net.halalaboos.huzuni.api.node.Value;
+import net.halalaboos.huzuni.api.node.impl.Toggleable;
+import net.halalaboos.huzuni.api.node.impl.Value;
 import net.halalaboos.huzuni.api.task.MineTask;
 import net.halalaboos.huzuni.api.util.BlockLocator;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getController;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**

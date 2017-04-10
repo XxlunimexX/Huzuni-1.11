@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.api.task;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.halalaboos.huzuni.api.node.Nameable;
+import net.halalaboos.huzuni.api.node.attribute.Nameable;
 import net.halalaboos.huzuni.api.node.Node;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 

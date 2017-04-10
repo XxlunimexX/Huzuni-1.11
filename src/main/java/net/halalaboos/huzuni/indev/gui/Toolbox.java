@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.indev.gui;
 
-import net.halalaboos.huzuni.api.node.Nameable;
+import net.halalaboos.huzuni.api.node.attribute.Nameable;
 
 /**
  * Simple utility class used within the components system to perform simple calculations. <br/>

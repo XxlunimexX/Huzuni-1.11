@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.mod.commands;
 
-import net.halalaboos.huzuni.api.mod.BasicCommand;
+import net.halalaboos.huzuni.api.mod.command.impl.BasicCommand;
 
 public final class Add extends BasicCommand {
 

@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.api.mod;
+package net.halalaboos.huzuni.api.mod.command.impl.annotation;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;

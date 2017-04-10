@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.mod.commands;
 
-import net.halalaboos.huzuni.api.mod.BasicCommand;
+import net.halalaboos.huzuni.api.mod.command.impl.BasicCommand;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 

@@ -1,6 +1,8 @@
-package net.halalaboos.huzuni.api.mod;
+package net.halalaboos.huzuni.api.mod.command.impl.annotation;
 
 import net.halalaboos.huzuni.Huzuni;
+import net.halalaboos.huzuni.api.mod.command.Command;
+import net.halalaboos.huzuni.api.mod.command.CommandManager;
 
 import java.lang.reflect.Method;
 

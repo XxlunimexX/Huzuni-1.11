@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.api.node;
+package net.halalaboos.huzuni.api.node.attribute;
 
 import com.google.gson.JsonObject;
 

@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.mod.mining.templates;
 
-import net.halalaboos.huzuni.api.node.Nameable;
+import net.halalaboos.huzuni.api.node.attribute.Nameable;
 import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 

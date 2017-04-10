@@ -32,8 +32,6 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
  * Easy to use functions that calculate blah blah blah relating to Minecraft.
  * */
 public final class MinecraftUtils {
-
-	protected static final Minecraft mc = Minecraft.getMinecraft();
 	
 	private static final Huzuni huzuni = Huzuni.INSTANCE;
 	

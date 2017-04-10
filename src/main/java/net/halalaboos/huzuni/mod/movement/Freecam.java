@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.mod.movement;
 
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.huzuni.api.node.Value;
+import net.halalaboos.huzuni.api.node.impl.Value;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.event.player.MoveEvent;

@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.gui.widgets;
 
 import net.halalaboos.huzuni.api.gui.WidgetManager;
-import net.halalaboos.huzuni.api.node.Toggleable;
+import net.halalaboos.huzuni.api.node.impl.Toggleable;
 
 import java.text.DecimalFormat;
 

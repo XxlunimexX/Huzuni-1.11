@@ -2,11 +2,11 @@ package net.halalaboos.huzuni.mod.visual;
 
 import net.halalaboos.huzuni.RenderManager.Renderer;
 import net.halalaboos.huzuni.WaypointManager.Waypoint;
-import net.halalaboos.huzuni.api.mod.BasicCommand;
+import net.halalaboos.huzuni.api.mod.command.impl.BasicCommand;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.mod.Mod;
-import net.halalaboos.huzuni.api.node.Toggleable;
-import net.halalaboos.huzuni.api.node.Value;
+import net.halalaboos.huzuni.api.node.impl.Toggleable;
+import net.halalaboos.huzuni.api.node.impl.Value;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.halalaboos.mcwrapper.api.event.network.PacketReadEvent;

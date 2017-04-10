@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.mod.commands;
 
-import net.halalaboos.huzuni.api.mod.BasicCommand;
-import net.halalaboos.huzuni.api.mod.BasicKeybind;
+import net.halalaboos.huzuni.api.mod.command.impl.BasicCommand;
+import net.halalaboos.huzuni.api.mod.keybind.BasicKeybind;
 import net.halalaboos.huzuni.api.mod.Mod;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.mcwrapper.api.util.enums.TextColor;

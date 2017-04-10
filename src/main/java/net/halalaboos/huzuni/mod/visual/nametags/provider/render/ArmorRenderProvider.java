@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.mod.visual.nametags.provider.render;
 
-import net.halalaboos.huzuni.api.node.Toggleable;
+import net.halalaboos.huzuni.api.node.impl.Toggleable;
 import net.halalaboos.huzuni.mod.visual.nametags.provider.TagRenderProvider;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;

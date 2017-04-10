@@ -1,12 +1,12 @@
 package net.halalaboos.huzuni.mod.mining;
 
 import net.halalaboos.huzuni.RenderManager.Renderer;
-import net.halalaboos.huzuni.api.mod.BasicCommand;
+import net.halalaboos.huzuni.api.mod.command.impl.BasicCommand;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Mode;
-import net.halalaboos.huzuni.api.node.Toggleable;
-import net.halalaboos.huzuni.api.node.Value;
+import net.halalaboos.huzuni.api.node.impl.Toggleable;
+import net.halalaboos.huzuni.api.node.impl.Value;
 import net.halalaboos.huzuni.api.task.PlaceTask;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.gl.Box;

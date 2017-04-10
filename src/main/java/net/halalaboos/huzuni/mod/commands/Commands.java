@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.mod.commands;
 
-import net.halalaboos.huzuni.api.mod.BasicCommand;
-import net.halalaboos.huzuni.api.mod.Command;
+import net.halalaboos.huzuni.api.mod.command.impl.BasicCommand;
+import net.halalaboos.huzuni.api.mod.command.Command;
 import net.halalaboos.mcwrapper.api.util.enums.TextColor;
 
 /**

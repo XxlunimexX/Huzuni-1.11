@@ -17,6 +17,7 @@
     "block.MixinBlock",
     "block.types.MixinBlockBush",
     "block.types.MixinBlockNetherWart",
+    "block.types.MixinBlockWeb",
     "block.types.MixinBlockStairs",
     "block.types.MixinBlockFarmland",
     "block.types.MixinBlockCrops",

@@ -1,5 +1,7 @@
 package net.halalaboos.huzuni.api.mod;
 
+import net.halalaboos.huzuni.api.mod.keybind.BasicKeybind;
+
 /**
  * Mod which contains a basic keybind that toggles it.
  * */

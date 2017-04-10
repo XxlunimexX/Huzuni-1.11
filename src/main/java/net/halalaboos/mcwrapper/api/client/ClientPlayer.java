@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.api.client;
 
+import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
@@ -72,6 +73,10 @@ public interface ClientPlayer extends Player {
 	 * TODO: Better name
 	 */
 	boolean getItemUseSlowdown();
+
+	boolean isSlowedByBlocks();
+
+	void setSlowedByBlocks(boolean slowedByBlocks);
 
 	/**
 	 * Sets whether or not the Player can be pushed by other {@link net.halalaboos.mcwrapper.api.entity.Entity entities}.

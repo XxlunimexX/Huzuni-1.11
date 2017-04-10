@@ -1,6 +1,8 @@
-package net.halalaboos.huzuni.api.mod;
+package net.halalaboos.huzuni.api.mod.command;
 
 import net.halalaboos.huzuni.Huzuni;
+import net.halalaboos.huzuni.api.mod.command.impl.annotation.AnnotationCommand;
+import net.halalaboos.huzuni.api.mod.command.impl.annotation.CommandPointer;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.mcwrapper.api.util.enums.TextColor;
 

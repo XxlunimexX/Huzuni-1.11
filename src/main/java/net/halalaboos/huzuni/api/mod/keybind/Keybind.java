@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.api.mod;
+package net.halalaboos.huzuni.api.mod.keybind;
 
 /**
  * Holds a key code value and performs an action when pressed.

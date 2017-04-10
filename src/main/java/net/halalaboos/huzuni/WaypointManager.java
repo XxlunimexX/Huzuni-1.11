@@ -1,10 +1,10 @@
 package net.halalaboos.huzuni;
 
 import com.google.gson.JsonObject;
-import net.halalaboos.huzuni.api.node.ColorNode;
-import net.halalaboos.huzuni.api.node.ItemList;
+import net.halalaboos.huzuni.api.node.impl.ColorNode;
+import net.halalaboos.huzuni.api.node.impl.ItemList;
 import net.halalaboos.huzuni.api.node.JsonFileHandler;
-import net.halalaboos.huzuni.api.node.Nameable;
+import net.halalaboos.huzuni.api.node.attribute.Nameable;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.mcwrapper.api.event.world.WorldLoadEvent;

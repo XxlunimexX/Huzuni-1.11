@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.api.task;
 
-import net.halalaboos.huzuni.api.node.Nameable;
+import net.halalaboos.huzuni.api.node.attribute.Nameable;
 import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.halalaboos.mcwrapper.api.entity.living.player.GameType;

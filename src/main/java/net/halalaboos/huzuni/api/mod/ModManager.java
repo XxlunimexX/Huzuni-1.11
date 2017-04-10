@@ -2,9 +2,10 @@ package net.halalaboos.huzuni.api.mod;
 
 import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.Huzuni;
+import net.halalaboos.huzuni.api.mod.keybind.BasicKeybind;
 import net.halalaboos.huzuni.api.node.JsonFileHandler;
 import net.halalaboos.huzuni.api.node.Node;
-import net.halalaboos.huzuni.api.node.organize.AlphabeticalOrganizer;
+import net.halalaboos.huzuni.api.mod.organize.AlphabeticalOrganizer;
 import net.halalaboos.mcwrapper.api.event.input.KeyboardEvent;
 
 import java.io.IOException;

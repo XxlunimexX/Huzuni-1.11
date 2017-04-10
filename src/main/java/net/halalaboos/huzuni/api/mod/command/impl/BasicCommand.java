@@ -1,6 +1,7 @@
-package net.halalaboos.huzuni.api.mod;
+package net.halalaboos.huzuni.api.mod.command.impl;
 
 import net.halalaboos.huzuni.Huzuni;
+import net.halalaboos.huzuni.api.mod.command.Command;
 import net.halalaboos.huzuni.api.util.StringUtils;
 import net.minecraft.client.Minecraft;
 

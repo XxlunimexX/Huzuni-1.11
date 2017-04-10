@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.api.mod;
+package net.halalaboos.huzuni.api.mod.command.impl.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

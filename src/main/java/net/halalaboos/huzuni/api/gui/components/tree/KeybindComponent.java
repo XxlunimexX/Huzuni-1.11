@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.api.gui.components.tree;
 
 import net.halalaboos.huzuni.api.gui.Theme;
-import net.halalaboos.huzuni.api.mod.BasicKeybind;
+import net.halalaboos.huzuni.api.mod.keybind.BasicKeybind;
 
 public class KeybindComponent extends NodeTreeComponent<BasicKeybind> {
 	

@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.indev;
 
 import net.halalaboos.huzuni.indev.gui.FontData;
 import net.halalaboos.huzuni.api.node.Mode;
-import net.halalaboos.huzuni.api.node.Nameable;
+import net.halalaboos.huzuni.api.node.attribute.Nameable;
 import net.halalaboos.huzuni.indev.gui.components.ComboBox;
 
 /**

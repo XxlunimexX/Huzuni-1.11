@@ -2,11 +2,10 @@ package net.halalaboos.huzuni.mod.combat;
 
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.huzuni.api.node.Toggleable;
-import net.halalaboos.huzuni.api.node.Value;
+import net.halalaboos.huzuni.api.node.impl.Toggleable;
+import net.halalaboos.huzuni.api.node.impl.Value;
 import net.halalaboos.huzuni.api.task.LookTask;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
-import net.halalaboos.huzuni.api.util.MinecraftUtilsNew;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;

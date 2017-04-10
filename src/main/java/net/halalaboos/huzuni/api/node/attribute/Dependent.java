@@ -1,7 +1,6 @@
-package net.halalaboos.huzuni.api.node;
+package net.halalaboos.huzuni.api.node.attribute;
 
 /**
- *
  * Created by Brandon Williams on 3/3/2017.
  */
 public interface Dependent {

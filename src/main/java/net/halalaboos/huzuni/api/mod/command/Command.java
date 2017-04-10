@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.api.mod;
+package net.halalaboos.huzuni.api.mod.command;
 
 /**
  * Processes a string input and performs some action.

@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.api.gui.components.tree;
 
 import net.halalaboos.huzuni.api.gui.Theme;
 import net.halalaboos.huzuni.api.gui.components.BasicSlider;
-import net.halalaboos.huzuni.api.node.Value;
+import net.halalaboos.huzuni.api.node.impl.Value;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;

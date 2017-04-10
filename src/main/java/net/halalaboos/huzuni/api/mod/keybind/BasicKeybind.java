@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.api.mod;
+package net.halalaboos.huzuni.api.mod.keybind;
 
 import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.api.node.Node;

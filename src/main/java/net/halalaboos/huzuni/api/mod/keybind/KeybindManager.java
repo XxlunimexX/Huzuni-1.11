@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.api.mod;
+package net.halalaboos.huzuni.api.mod.keybind;
 
 import net.halalaboos.mcwrapper.api.event.input.KeyboardEvent;
 

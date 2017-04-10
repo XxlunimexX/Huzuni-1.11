@@ -2,7 +2,7 @@ package net.halalaboos.huzuni.mod.misc;
 
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.huzuni.api.node.Value;
+import net.halalaboos.huzuni.api.node.impl.Value;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;

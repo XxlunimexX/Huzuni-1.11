@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.node.Node;
-import net.halalaboos.huzuni.api.node.StringNode;
+import net.halalaboos.huzuni.api.node.impl.StringNode;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import org.apache.logging.log4j.Level;
 

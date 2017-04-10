@@ -1,10 +1,11 @@
-package net.halalaboos.huzuni.api.node;
+package net.halalaboos.huzuni.api.node.impl;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.api.gui.components.tree.ItemSelectorComponent;
 import net.halalaboos.huzuni.api.gui.components.tree.TreeComponentFactory;
+import net.halalaboos.huzuni.api.node.Node;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 
 import java.io.IOException;

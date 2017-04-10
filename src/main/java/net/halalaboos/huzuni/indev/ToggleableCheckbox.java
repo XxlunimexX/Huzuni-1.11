@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.indev;
 
 import net.halalaboos.huzuni.indev.gui.FontData;
-import net.halalaboos.huzuni.api.node.Toggleable;
+import net.halalaboos.huzuni.api.node.impl.Toggleable;
 import net.halalaboos.huzuni.indev.gui.components.Checkbox;
 
 /**

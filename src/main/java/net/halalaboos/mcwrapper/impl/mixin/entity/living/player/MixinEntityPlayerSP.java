@@ -45,6 +45,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Collection;
+import java.util.Map;
 
 @Mixin(net.minecraft.client.entity.EntityPlayerSP.class)
 public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer implements ClientPlayer {
@@ -324,4 +325,16 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 	public Input getInput() {
 		return (Input)movementInput;
 	}
+
+	@Override
+	public boolean isSlowedByBlocks() {
+		return this.slowedByBlocks;
+	}
+
+	@Override
+	public void setSlowedByBlocks(boolean slowedByBlocks) {
+		this.slowedByBlocks = slowedByBlocks;
+	}
+
+	private boolean slowedByBlocks = true;
 }

@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni;
 
-import net.halalaboos.huzuni.api.mod.CommandManager;
-import net.halalaboos.huzuni.api.mod.KeybindManager;
+import net.halalaboos.huzuni.api.mod.command.CommandManager;
+import net.halalaboos.huzuni.api.mod.keybind.KeybindManager;
 import net.halalaboos.huzuni.api.mod.Mod;
 import net.halalaboos.huzuni.api.mod.ModManager;
 import net.halalaboos.huzuni.api.plugin.PluginManager;
@@ -12,7 +12,6 @@ import net.halalaboos.huzuni.api.task.TaskManager;
 import net.halalaboos.huzuni.gui.GuiManager;
 import net.halalaboos.huzuni.gui.Notification;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
-import net.halalaboos.huzuni.indev.script.ScriptManager;
 import net.halalaboos.huzuni.meme.MemeManager;
 import net.halalaboos.huzuni.mod.Patcher;
 import net.halalaboos.huzuni.mod.combat.*;

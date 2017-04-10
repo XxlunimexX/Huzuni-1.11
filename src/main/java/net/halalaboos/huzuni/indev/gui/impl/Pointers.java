@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.indev.gui.impl;
 
-import net.halalaboos.huzuni.api.node.Nameable;
+import net.halalaboos.huzuni.api.node.attribute.Nameable;
 
 /**
  * Pointers used by the toolbox. <br/>
