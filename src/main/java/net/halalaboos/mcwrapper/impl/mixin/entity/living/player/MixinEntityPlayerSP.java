@@ -76,12 +76,12 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 
 	@Override
 	protected boolean pushOutOfBlocks(double x, double y, double z) {
-		return !Freecam.INSTANCE.isEnabled() && super.pushOutOfBlocks(x, y, z);
+		return !fakeClip && super.pushOutOfBlocks(x, y, z);
 	}
 
 	@Override
 	public boolean isEntityInsideOpaqueBlock() {
-		return !Freecam.INSTANCE.isEnabled() && super.isEntityInsideOpaqueBlock();
+		return !fakeClip && super.isEntityInsideOpaqueBlock();
 	}
 
 	private PreMotionUpdateEvent preMotion = new PreMotionUpdateEvent();
@@ -101,9 +101,7 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 		huzuni.clickManager.onPreUpdate(preMotion);
 		huzuni.hotbarManager.onPreUpdate(preMotion);
 		huzuni.lookManager.onPreUpdate(preMotion);
-		if (!Freecam.INSTANCE.isEnabled()) {
 			onUpdateWalkingPlayer();
-		}
 		huzuni.lookManager.onPostUpdate();
 		huzuni.hotbarManager.onPostUpdate();
 		huzuni.clickManager.onPostUpdate();

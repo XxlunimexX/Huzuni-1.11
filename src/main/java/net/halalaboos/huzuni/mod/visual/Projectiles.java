@@ -247,8 +247,7 @@ public class Projectiles extends BasicMod implements Renderer {
 				.vertex(0, 0, 0).vertex(0, 0, landingSize.getValue())
 				.vertex(0, 0, 0);
 		GL.state(GL_VERTEX_ARRAY, true).state(GL_COLOR_ARRAY, true);
-		pointTess.bind().pass(GL_LINES);
-		pointTess.pass(GL_LINES).reset();
+		pointTess.bind().pass(GL_LINES).reset();
 		GL.state(GL_VERTEX_ARRAY, false).state(GL_COLOR_ARRAY, false);
 		getGLStateManager().rotate(-90, 1, 0, 0);
 		cylinder.setDrawStyle(GLU.GLU_LINE);

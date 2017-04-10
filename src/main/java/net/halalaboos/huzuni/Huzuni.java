@@ -80,7 +80,7 @@ public enum Huzuni {
 
 	public final ResourceCreator resourceCreator = new ResourceCreator();
 
-	public final ScriptManager scriptManager = new ScriptManager(this);
+//	public final ScriptManager scriptManager = new ScriptManager(this);
 
 	private File saveFolder = null;
 
@@ -101,7 +101,7 @@ public enum Huzuni {
 		memeManager.init();
 		settings.init();
 		patcher.init();
-		scriptManager.init();
+//		scriptManager.init();
 		
 		saveFolder = new File(folder, "huzuni");
 		if (!saveFolder.exists())

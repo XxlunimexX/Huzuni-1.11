@@ -1,14 +1,5 @@
 package net.halalaboos.huzuni.indev.script.loadable;
 
-import net.halalaboos.huzuni.Huzuni;
-import net.halalaboos.huzuni.indev.script.Evaluation;
-import net.halalaboos.huzuni.indev.script.ScriptManager;
-import net.halalaboos.huzuni.indev.script.meta.ScriptMod;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
-import java.io.Reader;
-
 /**
  * Loads mod files. <br/>
  * Created by Brandon Williams on 2/19/2017.

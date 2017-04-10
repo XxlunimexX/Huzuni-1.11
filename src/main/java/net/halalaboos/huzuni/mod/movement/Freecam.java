@@ -4,7 +4,10 @@ import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.Value;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
+import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.event.player.MoveEvent;
+import net.halalaboos.mcwrapper.api.network.packet.client.PlayerPacket;
+import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import org.lwjgl.input.Keyboard;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
@@ -22,24 +25,26 @@ public class Freecam extends BasicMod {
 
 	private boolean oldFlying = false;
     private Player fakePlayer;
-	
+
 	private Freecam() {
 		super("Freecam", "Allows an individual to fly FROM THEIR BODY?", Keyboard.KEY_U);
 		this.setCategory(Category.MOVEMENT);
 		setAuthor("Halalaboos");
 		addChildren(speed);
-		subscribe(MoveEvent.class, event -> {
-			getPlayer().setSprinting(false);
-			Flight.INSTANCE.setEnabled(true);
-			event.setMotionX(event.getMotionX() * speed.getValue());
-			event.setMotionY(event.getMotionY() * speed.getValue());
-			event.setMotionZ(event.getMotionZ() * speed.getValue());
-//			TODO -- Not really super important but will definitely do later.
-// 			if (fakePlayer != null)
-//				fakePlayer.setHealth(mc.player.getHealth());
-//			mc.player.renderArmPitch = 1000;
-//			mc.player.renderArmYaw = 1000;
-		});
+		subscribe(MoveEvent.class, this::onPlayerMove);
+		subscribe(PacketSendEvent.class, this::onPacketSend);
+	}
+
+	private void onPlayerMove(MoveEvent event) {
+		getPlayer().setSprinting(false);
+		Flight.INSTANCE.setEnabled(true);
+		if (fakePlayer != null) {
+			fakePlayer.setVelocity(new Vector3d(event.getMotionX(), event.getMotionY(), event.getMotionZ()));
+		}
+	}
+
+	private void onPacketSend(PacketSendEvent event) {
+		event.setCancelled(event.getPacket() instanceof PlayerPacket);
 	}
 	
 	@Override
