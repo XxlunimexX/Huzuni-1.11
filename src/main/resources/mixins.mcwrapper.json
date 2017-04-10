@@ -16,6 +16,7 @@
     "block.tileentity.MixinTileEntityHopper",
     "block.MixinBlock",
     "block.types.MixinBlockBush",
+    "block.types.MixinBlockNetherWart",
     "block.types.MixinBlockStairs",
     "block.types.MixinBlockFarmland",
     "block.types.MixinBlockCrops",
