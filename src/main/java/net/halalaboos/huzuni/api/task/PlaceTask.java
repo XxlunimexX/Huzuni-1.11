@@ -6,11 +6,11 @@ import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
+import net.halalaboos.mcwrapper.api.item.types.BlockItem;
 import net.halalaboos.mcwrapper.api.util.enums.ActionResult;
 import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
-import net.minecraft.item.ItemBlock;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
@@ -25,9 +25,9 @@ public class PlaceTask extends LookTask {
 
 	protected Vector3i position;
 
-	protected int placeDelay = 100;
+	private int placeDelay = 100;
 
-	protected boolean naturalPlacement = true;
+	private boolean naturalPlacement = true;
 
 	public PlaceTask(Nameable handler) {
 		super(handler);
@@ -57,22 +57,19 @@ public class PlaceTask extends LookTask {
 	public void onPostUpdate() {
 		if (timer.hasReach(placeDelay) && hasBlock() && shouldRotate() && !Freecam.INSTANCE.isEnabled()) {
 			super.onPostUpdate();
-			getMinecraft().getNetworkHandler().sendSwing(Hand.MAIN);
-			if (naturalPlacement) {
-				ActionResult result = getController().rightClickBlock(position, face,
-						new Vector3d((float) face.getDirectionVector().getX() / 2F,
-								(float) face.getDirectionVector().getY() / 2F,
-								(float) face.getDirectionVector().getZ() / 2F), Hand.MAIN);
-
-				if (result != ActionResult.FAIL) {
-					if (shouldResetBlock()) {
-						reset();
+			if (isWithinDistance()) {
+				getMinecraft().getNetworkHandler().sendSwing(Hand.MAIN);
+				if (naturalPlacement) {
+					if (getController().rightClickBlock(position, face, new Vector3d((float) face.getDirectionVector().getX() / 2F, (float) face.getDirectionVector().getY() / 2F, (float) face.getDirectionVector().getZ() / 2F), Hand.MAIN) != ActionResult.FAIL) {
+						if (shouldResetBlock()) {
+							reset();
+						}
 					}
+				} else {
+					getMinecraft().getNetworkHandler().sendTryUseItemOnBlock(position, face, Hand.MAIN, (float) face.getDirectionVector().getX() / 2F, (float) face.getDirectionVector().getY() / 2F, (float) face.getDirectionVector().getZ() / 2F);
 				}
-			} else {
-				getMinecraft().getNetworkHandler().sendTryUseItemOnBlock(position, face, Hand.MAIN, (float) face.getDirectionVector().getX() / 2F, (float) face.getDirectionVector().getY() / 2F, (float) face.getDirectionVector().getZ() / 2F);
+				timer.reset();
 			}
-			timer.reset();
 		}
 	}
 
@@ -92,7 +89,7 @@ public class PlaceTask extends LookTask {
 	 * @return True if the item held is required to continue block placement.
 	 * */
 	protected boolean hasRequiredItem(ItemStack item) {
-		return item.getItemType() instanceof ItemBlock;
+		return item.getItemType() instanceof BlockItem;
 	}
 
 	/**
@@ -108,7 +105,7 @@ public class PlaceTask extends LookTask {
 	}
 
 	protected Block getBlock() {
-		return getWorld().getBlock(position);
+		return getWorld().getBlock(position.offset(face));
 	}
 
 	public int getPlaceDelay() {
@@ -143,7 +140,6 @@ public class PlaceTask extends LookTask {
 		this.position = position;
 		this.face = face;
 		if (position != null && face != null) {
-			System.out.println("SETTING! " + position.toString());
 			this.setRotations(position, face);
 		}
 	}

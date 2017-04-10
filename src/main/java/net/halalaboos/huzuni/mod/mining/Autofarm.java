@@ -17,10 +17,9 @@ import net.halalaboos.mcwrapper.api.event.world.WorldLoadEvent;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.item.ItemTypes;
 import net.halalaboos.mcwrapper.api.item.types.Hoe;
+import net.halalaboos.mcwrapper.api.item.types.Seeds;
 import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
-import net.minecraft.item.ItemSeedFood;
-import net.minecraft.item.ItemSeeds;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
@@ -28,7 +27,7 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 /**
  * Automatically performs farming tasks for the user.
  *
- * TODO: Port to MCWrapper
+ * TODO: Fix bugs
  * */
 public final class Autofarm extends BasicMod {
 	
@@ -57,13 +56,13 @@ public final class Autofarm extends BasicMod {
 	private final PlaceTask placeTask = new PlaceTask(this) {
 		@Override
 		protected boolean hasRequiredItem(ItemStack item) {
-			return mode.getSelected() == 3 ? item.getItemType() instanceof Hoe : mode.getSelected() == 2 ? (item.getItemType() == ItemTypes.DYE && item.getData() == 15) : (item.getItemType() instanceof ItemSeeds || item.getItemType() instanceof ItemSeedFood);
+			return mode.getSelected() == 3 ? item.getItemType() instanceof Hoe : mode.getSelected() == 2 ? (item.getItemType() == ItemTypes.DYE && item.getData() == 15) : (item.getItemType() instanceof Seeds);
 		}
 		
 		@Override
 		public boolean shouldResetBlock() {
 			Block block = getBlock();
-			return mode.getSelected() == 3 ? !isDirt(block) : (mode.getSelected() == 2 ? getWorld().getBlockMeta(position) >= ((Crops) block).getMaxAge() : super.shouldResetBlock());
+			return mode.getSelected() == 3 ? !isDirt(block) : (mode.getSelected() == 2 ? block instanceof Crops && getWorld().getBlockMeta(position) >= ((Crops) block).getMaxAge() : super.shouldResetBlock());
 		}
 	};
 	

@@ -21,7 +21,7 @@ public class Freecam extends BasicMod {
 	
 	public static final Freecam INSTANCE = new Freecam();
 	
-	public final Value speed = new Value("Speed", "", 0.1F, 1F, 10F, "movement speed");
+	public final Value speed = new Value("Speed", 0.1F, 1F, 10F, "movement speed");
 
 	private boolean oldFlying = false;
     private Player fakePlayer;
@@ -38,9 +38,6 @@ public class Freecam extends BasicMod {
 	private void onPlayerMove(MoveEvent event) {
 		getPlayer().setSprinting(false);
 		Flight.INSTANCE.setEnabled(true);
-		if (fakePlayer != null) {
-			fakePlayer.setVelocity(new Vector3d(event.getMotionX(), event.getMotionY(), event.getMotionZ()));
-		}
 	}
 
 	private void onPacketSend(PacketSendEvent event) {

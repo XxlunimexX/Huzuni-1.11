@@ -201,7 +201,7 @@ public class Nametags extends BasicMod implements RenderManager.Renderer {
 		output.append(huzuni.friendManager.getAlias(player.name()));
 		//Iterate through the enabled text providers
 		for (TagTextProvider textProvider : textProviders) {
-			if (textProvider.isEnabled()) {
+			if (textProvider.isEnabled(player)) {
 				//If it is enabled, add the text to the plate.
 				output.append(" ").append(textProvider.getText(player));
 			}
@@ -240,7 +240,7 @@ public class Nametags extends BasicMod implements RenderManager.Renderer {
 		//Render the text, centered
 		getTextRenderer().render(text, -width / 2, 0, color, shadow.isEnabled());
 		for (TagRenderProvider renderProvider : this.renderProviders) {
-			if (renderProvider.isEnabled()) {
+			if (renderProvider.isEnabled(player)) {
 				renderProvider.render(player, 0, -4 /* TODO */);
 			}
 		}

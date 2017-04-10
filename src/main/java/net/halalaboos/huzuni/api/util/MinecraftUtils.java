@@ -5,6 +5,7 @@ import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
 import net.halalaboos.huzuni.Huzuni;
+import net.halalaboos.mcwrapper.api.block.BlockTypes;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.Animal;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
@@ -17,7 +18,9 @@ import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.halalaboos.mcwrapper.api.util.math.Result;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
+import net.halalaboos.mcwrapper.impl.Convert;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Session;
 
 import java.net.Proxy;
@@ -121,21 +124,29 @@ public final class MinecraftUtils {
 	 * Finds the face of the first adjacent block that can be seen by the player.
 	 * */
 	public static Face getAdjacent(Vector3i position) {
-		for (Face face : Face.values()) {
-			Vector3i otherPosition = position.offset(face);
-			if (getWorld().blockExists(otherPosition)) {
-				Face otherFace = face.getOppositeFace();
-				Vector3d player = getPlayer().getLocation().addY(getPlayer().getEyeHeight());
+//		for (Face face : Face.values()) {
+//			Vector3i otherPosition = position.offset(face);
+//			if (getWorld().blockExists(otherPosition)) {
+//				Face otherFace = face.getOppositeFace();
+//				Vector3d player = getPlayer().getLocation().addY(getPlayer().getEyeHeight());
+//
+//				Vector3i faceVec = otherFace.getDirectionVector();
+//				Vector3d block = new Vector3d(otherPosition.getX() + 0.5F + (float) (faceVec.getX()) / 2F,
+//						otherPosition.getY() + 0.5F + (float) (faceVec.getY()) / 2F,
+//						otherPosition.getZ() + 0.5F + (float) (faceVec.getZ()) / 2F);
+//				Optional<Result> result = getWorld().getResult(player, block);
+//				if (!result.isPresent() || result.get() == Result.MISS) {
+//					return face;
+//				}
+//			}
+//		}
+//		return null;
 
-				Vector3i faceVec = otherFace.getDirectionVector();
-				Vector3d block = new Vector3d(otherPosition.getX() + 0.5F + (float) (faceVec.getX()) / 2F,
-						otherPosition.getY() + 0.5F + (float) (faceVec.getY()) / 2F,
-						otherPosition.getZ() + 0.5F + (float) (faceVec.getZ()) / 2F);
-				Optional<Result> result = getWorld().getResult(player, block);
-				if (!result.isPresent() || result.get() == Result.MISS) {
-					return face;
-				}
-			}
+		EnumFacing facing = MinecraftUtilsNew.getAdjacent(Convert.to(position));
+		if (facing != null) {
+			System.out.println(facing.name());
+			System.out.println(Convert.from(facing).name());
+			return Convert.from(facing);
 		}
 		return null;
 	}

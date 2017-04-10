@@ -104,8 +104,7 @@ public class ESP extends BasicMod implements Renderer {
 
 					glEnableClientState(GL_VERTEX_ARRAY);
 					glEnableClientState(GL_COLOR_ARRAY);
-					tessellator.bind().pass(GL_LINE_LOOP);
-					tessellator.pass(GL_LINES).reset();
+					tessellator.bind().pass(GL_LINE_LOOP).reset();
 					glDisableClientState(GL_VERTEX_ARRAY);
 					glDisableClientState(GL_COLOR_ARRAY);
 					getGLStateManager().popMatrix();
@@ -118,8 +117,7 @@ public class ESP extends BasicMod implements Renderer {
 
 					glEnableClientState(GL_VERTEX_ARRAY);
 					glEnableClientState(GL_COLOR_ARRAY);
-					tessellator.bind().pass(GL_LINES);
-					tessellator.pass(GL_LINES).reset();
+					tessellator.bind().pass(GL_LINES).reset();
 					glDisableClientState(GL_VERTEX_ARRAY);
 					glDisableClientState(GL_COLOR_ARRAY);
 				}

@@ -94,7 +94,7 @@ public class ArmorRenderProvider implements TagRenderProvider {
 	}
 
 	@Override
-	public boolean isEnabled() {
+	public boolean isEnabled(Living entity) {
 		return armor.isEnabled();
 	}
 }

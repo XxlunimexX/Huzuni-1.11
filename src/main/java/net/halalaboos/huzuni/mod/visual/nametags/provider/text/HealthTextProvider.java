@@ -43,7 +43,7 @@ public class HealthTextProvider implements TagTextProvider {
 	}
 
 	@Override
-	public boolean isEnabled() {
-		return healthMode.getSelected() > 0;
+	public boolean isEnabled(Living entity) {
+		return healthMode.getSelected() > 0 && entity.getHealthData().getHealthPercentage() < 1;
 	}
 }

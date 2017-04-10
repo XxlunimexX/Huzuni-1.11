@@ -43,7 +43,7 @@ public class PingTextProvider implements TagTextProvider {
 	}
 
 	@Override
-	public boolean isEnabled() {
+	public boolean isEnabled(Living entity) {
 		return ping.isEnabled();
 	}
 }

@@ -95,11 +95,11 @@ public class Vector3i {
 	}
 
 	public Vector3i up() {
-		return new Vector3i(this.x, this.y + 1, this.z);
+		return offset(Face.UP);
 	}
 
 	public Vector3i offset(Face face) {
-		return this.add(face.getOffsetX(), face.getOffsetY(), face.getOffsetZ());
+		return copy().add(face.getOffsetX(), face.getOffsetY(), face.getOffsetZ());
 	}
 
 	public Vector3i copy() {

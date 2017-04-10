@@ -9,35 +9,35 @@ import net.halalaboos.mcwrapper.api.item.ItemStack;
  */
 public abstract class EatTask extends HotbarTask {
 
-    public EatTask(Nameable handler) {
-        super(handler);
-        addDependency("off_interact");
-    }
+	public EatTask(Nameable handler) {
+		super(handler);
+		addDependency("off_interact");
+	}
 
-    @Override
-    public void onTaskCancelled() {
+	@Override
+	public void onTaskCancelled() {
 
-    }
+	}
 
-    @Override
-    protected boolean isValid(ItemStack itemStack) {
-        // Filter out the food items.
-        return itemStack.getItemType() instanceof Food && isValid(itemStack, (Food) itemStack.getItemType());
-    }
+	@Override
+	protected boolean isValid(ItemStack itemStack) {
+		// Filter out the food items.
+		return itemStack.getItemType() instanceof Food && isValid(itemStack, (Food) itemStack.getItemType());
+	}
 
-    /**
-     * @return True if the itemstack and food item is acceptable.
-     * */
-    protected abstract boolean isValid(ItemStack itemStack, Food food);
+	/**
+	 * @return True if the itemstack and food item is acceptable.
+	 */
+	protected abstract boolean isValid(ItemStack itemStack, Food food);
 
-        @Override
-    public void onPreUpdate() {
+	@Override
+	public void onPreUpdate() {
 
-    }
+	}
 
-    @Override
-    public void onPostUpdate() {
+	@Override
+	public void onPostUpdate() {
 
-    }
+	}
 
 }

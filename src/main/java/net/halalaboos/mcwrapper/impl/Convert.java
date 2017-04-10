@@ -11,6 +11,7 @@ import net.halalaboos.mcwrapper.api.util.math.AABB;
 import net.halalaboos.mcwrapper.api.util.math.Result;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -158,5 +159,9 @@ public class Convert {
 			return Optional.empty();
 		}
 		return Optional.of(Convert.from(stack));
+	}
+
+	public static net.halalaboos.mcwrapper.api.block.Block from(Block block) {
+		return (net.halalaboos.mcwrapper.api.block.Block)block;
 	}
 }
