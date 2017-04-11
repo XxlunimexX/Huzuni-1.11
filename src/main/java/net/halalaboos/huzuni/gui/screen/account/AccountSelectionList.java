@@ -1,13 +1,10 @@
 package net.halalaboos.huzuni.gui.screen.account;
 
 import com.mojang.authlib.exceptions.AuthenticationException;
-import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.util.MinecraftUtils;
-import net.halalaboos.huzuni.mc.Reflection;
 import net.halalaboos.mcwrapper.api.util.enums.TextColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
-import net.minecraft.util.Session;
 
 import javax.swing.*;
 import java.util.ArrayList;

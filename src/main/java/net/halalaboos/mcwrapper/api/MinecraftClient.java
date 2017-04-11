@@ -1,7 +1,5 @@
 package net.halalaboos.mcwrapper.api;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.client.Controller;
 import net.halalaboos.mcwrapper.api.client.GameSettings;
@@ -87,6 +85,7 @@ public interface MinecraftClient {
 
 	/**
 	 * Clears the chat.  This doesn't work currently in Huzuni due to the chat gui being different.
+	 * 
 	 * @param sentMessages Whether or not to clear the sent chat messages.
 	 */
 	void clearMessages(boolean sentMessages);
