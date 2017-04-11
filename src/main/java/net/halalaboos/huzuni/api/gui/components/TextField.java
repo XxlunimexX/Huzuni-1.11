@@ -1,6 +1,7 @@
 package net.halalaboos.huzuni.api.gui.components;
 
 import net.halalaboos.huzuni.api.gui.Component;
+import net.halalaboos.huzuni.api.util.Timer;
 
 /**
  * Basic text field component.
@@ -12,26 +13,31 @@ public class TextField extends Component {
 	private final BasicTextField basicTextField = new BasicTextField();
 
 	private String backText;
-	
+
 	private int cursorCounter = 0;
-	
+
+	private Timer timer = new Timer();
+
 	public TextField(String backText, int offsetX, int offsetY, int width) {
 		super(offsetX, offsetY, width, TEXT_HEIGHT);
 		this.backText = backText;
 	}
-	
+
 	@Override
 	public void update() {
 		super.update();
-		cursorCounter++;
+		if (timer.hasReach(10)) {
+			cursorCounter++;
+			timer.reset();
+		}
 	}
-	
+
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
 		super.keyTyped(typedChar, keyCode);
 		basicTextField.keyTyped(typedChar, keyCode);
 	}
-	
+
 	public String getBackText() {
 		return backText;
 	}
@@ -50,7 +56,7 @@ public class TextField extends Component {
 	public BasicTextField getBasicTextField() {
 		return basicTextField;
 	}
-	
+
 	public boolean hasText() {
 		return !basicTextField.getText().isEmpty();
 	}
