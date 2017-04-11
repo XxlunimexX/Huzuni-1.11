@@ -36,13 +36,14 @@ public class MixinGuiMainMenu extends GuiScreen {
 	private final ParticleRenderer particleRenderer = new ParticleRenderer(width, height);
 
 	//Load title texture
-	private final Texture TITLE = new Texture("title.png");
+	private Texture TITLE;
 
 	/**
 	 * Adds the update button.
 	 */
 	@Inject(method = "initGui", at = @At("RETURN"))
 	public void setup(CallbackInfo ci) {
+		TITLE = new Texture("title.png");
 		//Set the size of the particle renderer
 		particleRenderer.updateSize(width, height);
 		String updateText = "A new Huzuni update is available! Click me to download.";

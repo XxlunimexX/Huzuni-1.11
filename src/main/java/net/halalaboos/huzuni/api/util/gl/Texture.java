@@ -1,24 +1,20 @@
 package net.halalaboos.huzuni.api.util.gl;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.ResourceLocation;
+import net.halalaboos.mcwrapper.api.util.ResourcePath;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
-import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 
 /**
  * Simple texture class, originally loaded a bufferedimage from file and stored a texture id like you would expect, but I decided to take advantage of Minecraft's resource shiz.
  * */
 public class Texture {
 	
-	private final ResourceLocation texture;
+	private final ResourcePath texture;
 	
 	public Texture(String textureURL) {
-		texture = new ResourceLocation("huzuni/textures/" + textureURL);
-        Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+		texture = new ResourcePath("huzuni/textures/" + textureURL);
+		getMinecraft().bindTexture(texture);
 	}
 	
 	public void render(float x, float y, float width, float height) {
@@ -27,25 +23,16 @@ public class Texture {
 	
 	public void render(float x, float y, float width, float height, float u, float v, float t, float s) {
 		bindTexture();
-		Tessellator tessellator = Tessellator.getInstance();
-    	VertexBuffer renderer = tessellator.getBuffer();
-    	renderer.begin(GL_TRIANGLES, DefaultVertexFormats.POSITION_TEX);
-    	renderer.pos(x + width, y, 0F).tex(t, v).endVertex();
-    	renderer.pos(x, y, 0F).tex(u, v).endVertex();
-    	renderer.pos(x, y + height, 0F).tex(u, s).endVertex();
-    	renderer.pos(x, y + height, 0F).tex(u, s).endVertex();
-    	renderer.pos(x + width, y + height, 0F).tex(t, s).endVertex();
-    	renderer.pos(x + width, y, 0F).tex(t, v).endVertex();
-    	tessellator.draw();
+    	GLUtils.drawTextureRect(x, y, width, height, u, v, t, s);
 	}
 	
 	public void bindTexture() {
-        Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+		getMinecraft().bindTexture(texture);
 		getGLStateManager().enableTexture2D();
 	}
 	
 	@Override
 	public String toString() {
-		return texture.getResourcePath();
+		return texture.getPath();
 	}
 }

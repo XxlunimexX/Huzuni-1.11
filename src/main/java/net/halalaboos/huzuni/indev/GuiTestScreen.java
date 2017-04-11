@@ -16,7 +16,6 @@ import net.halalaboos.huzuni.indev.gui.impl.BasicToolbox;
 import net.halalaboos.huzuni.indev.gui.layouts.*;
 import net.halalaboos.huzuni.indev.gui.FontData;
 import net.halalaboos.huzuni.indev.gui.layouts.GridLayout;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -27,6 +26,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import static net.halalaboos.huzuni.indev.gui.impl.Pointers.*;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 
 /**
  * Testing the new GUI API. <br/>
@@ -114,7 +114,7 @@ public class GuiTestScreen  extends HuzuniScreen {
         while (updateLimiter.reached())
             manager.update();
         manager.render();
-        GlStateManager.disableBlend();
+        getGLStateManager().disableBlend();
     }
 
     @Override

@@ -4,6 +4,7 @@ import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
 import net.halalaboos.mcwrapper.api.inventory.Inventory;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.item.enchant.Enchantment;
+import net.halalaboos.mcwrapper.api.util.ResourcePath;
 import net.halalaboos.mcwrapper.api.util.enums.ActionResult;
 import net.halalaboos.mcwrapper.api.util.enums.DigAction;
 import net.halalaboos.mcwrapper.api.util.enums.Face;
@@ -23,6 +24,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -163,5 +165,9 @@ public class Convert {
 
 	public static net.halalaboos.mcwrapper.api.block.Block from(Block block) {
 		return (net.halalaboos.mcwrapper.api.block.Block)block;
+	}
+
+	public static ResourceLocation to(ResourcePath path) {
+		return new ResourceLocation(path.getPath());
 	}
 }

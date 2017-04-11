@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
+
 @Mixin(net.minecraft.item.ItemStack.class)
 public abstract class MixinItemStack implements ItemStack {
 
@@ -78,11 +80,11 @@ public abstract class MixinItemStack implements ItemStack {
 
 	@Override
 	public void renderInGui(int x, int y) {
-		GlStateManager.pushMatrix();
+		getGLStateManager().pushMatrix();
 		RenderHelper.enableGUIStandardItemLighting();
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		getGLStateManager().color(1.0F, 1.0F, 1.0F, 1.0F);
 		try {
-			GlStateManager.translate(0.0F, 0.0F, 32.0F);
+			getGLStateManager().translate(0.0F, 0.0F, 32.0F);
 			mc.getRenderItem().zLevel = 200F;
 			mc.getRenderItem().renderItemAndEffectIntoGUI(getMCItemStack(), x, y);
 			mc.getRenderItem().renderItemOverlayIntoGUI(mc.fontRenderer, getMCItemStack(), x, y, "");
@@ -91,7 +93,7 @@ public abstract class MixinItemStack implements ItemStack {
 			e.printStackTrace();
 		}
 		RenderHelper.disableStandardItemLighting();
-		GlStateManager.popMatrix();
+		getGLStateManager().popMatrix();
 	}
 
 	@Override

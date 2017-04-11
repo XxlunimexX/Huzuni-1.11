@@ -32,6 +32,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ResourceLocation;
@@ -85,8 +86,10 @@ public abstract class MixinMinecraft implements MinecraftClient {
 
 	@Shadow @Nullable public GuiScreen currentScreen;
 
-	@Inject(method = "run()V", at = @At(value = "INVOKE",
-			target = "Lnet/minecraft/client/Minecraft;init()V",
+	@Shadow public abstract TextureManager getTextureManager();
+
+	@Inject(method = "init()V", at = @At(value = "FIELD",
+			target = "Lnet/minecraft/client/Minecraft;ingameGUI:Lnet/minecraft/client/gui/GuiIngame;",
 			shift = At.Shift.AFTER))
 	public void initWrapper(CallbackInfo ci) {
 		MCWrapper.setAdapter(new OnePointElevenAdapter((Minecraft)(Object)this));
@@ -204,8 +207,8 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	}
 
 	@Override
-	public InputStream getInputStream(ResourcePath asset) throws IOException {
-		return getResourceManager().getResource(new ResourceLocation(asset.toString())).getInputStream();
+	public InputStream getInputStream(ResourcePath path) throws IOException {
+		return getResourceManager().getResource(new ResourceLocation(path.toString())).getInputStream();
 	}
 
 	@Override
@@ -283,5 +286,10 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Override
 	public Object getScreen() {
 		return currentScreen;
+	}
+
+	@Override
+	public void bindTexture(ResourcePath path) {
+		getTextureManager().bindTexture(Convert.to(path));
 	}
 }

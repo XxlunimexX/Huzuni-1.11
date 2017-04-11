@@ -7,16 +7,16 @@ import java.io.InputStream;
 
 public class ResourcePath {
 
-	private final String DOMAIN;
-	private final String PATH;
+	private final String domain;
+	private final String path;
 
 	/**
 	 * @param domain {@link #getDomain()}
 	 * @param path {@link #getPath()}
 	 */
 	public ResourcePath(String domain, String path) {
-		this.DOMAIN = domain;
-		this.PATH = path;
+		this.domain = domain;
+		this.path = path;
 	}
 
 	public ResourcePath(String path) {
@@ -28,14 +28,14 @@ public class ResourcePath {
 	 * the mod as the domain.
 	 */
 	public String getDomain() {
-		return DOMAIN;
+		return domain;
 	}
 
 	/**
 	 * The path of this asset, where the file itself is.
 	 */
 	public String getPath() {
-		return PATH;
+		return path;
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class ResourcePath {
 
 	@Override
 	public String toString() {
-		return DOMAIN + ":" + PATH;
+		return domain + ":" + path;
 	}
 
 	public InputStream getInputStream() {

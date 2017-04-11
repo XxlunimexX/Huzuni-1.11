@@ -42,7 +42,7 @@ public class OnePointElevenAdapter implements MinecraftAdapter {
 
 	@Override
 	public MinecraftClient getMinecraft() {
-		return mc;
+		return ((MinecraftClient) Minecraft.getMinecraft());
 	}
 
 	@Override
