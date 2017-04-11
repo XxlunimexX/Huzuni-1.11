@@ -84,6 +84,8 @@
     "potion.MixinPotion",
     "potion.MixinPotionEffect",
     "world.MixinWorld",
-    "world.MixinWorldClient"
+    "world.MixinWorldClient",
+    "client.MixinBlockModelRenderer",
+    "client.MixinVisGraph"
   ]
 }

@@ -85,5 +85,8 @@ public final class StringUtils {
 			return false;
 		}
 	}
-	
+
+	public static boolean isAllowd(char c) {
+		return c != 167 && c >= 32 && c != 127;
+	}
 }

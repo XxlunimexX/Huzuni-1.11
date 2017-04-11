@@ -7,7 +7,6 @@ import net.halalaboos.huzuni.api.gui.Theme;
 import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.api.node.Node;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
-import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
@@ -16,8 +15,6 @@ import java.io.IOException;
  * Widgets are movable menus that have their own settings and display their own custom information.
  * */
 public abstract class Widget extends Node {
-	
-	protected static final Minecraft mc = Minecraft.getMinecraft();
 	
 	protected static final Huzuni huzuni = Huzuni.INSTANCE;
 	

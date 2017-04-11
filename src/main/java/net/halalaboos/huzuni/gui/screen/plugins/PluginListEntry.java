@@ -5,6 +5,8 @@ import net.halalaboos.mcwrapper.api.util.enums.TextColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
+
 public class PluginListEntry implements GuiListExtended.IGuiListEntry {
 		
 	private final PluginSelectionList list;
@@ -22,8 +24,8 @@ public class PluginListEntry implements GuiListExtended.IGuiListEntry {
 
 	@Override
 	public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean mouseOver) {
-		Minecraft.getMinecraft().fontRenderer.drawString(TextColor.BOLD + pluginData.getName(), x + 2, y + 1, mouseOver ? 16777120 : 0xFFFFFF);
-		Minecraft.getMinecraft().fontRenderer.drawString("by " + pluginData.getAuthor(), x + 2, y + 12, mouseOver ? 16777120 : 0xFFFFFF);
+		getMinecraft().getTextRenderer().render(TextColor.BOLD + pluginData.getName(), x + 2, y + 1, mouseOver ? 16777120 : 0xFFFFFF, true);
+		getMinecraft().getTextRenderer().render("by " + pluginData.getAuthor(), x + 2, y + 12, mouseOver ? 16777120 : 0xFFFFFF, true);
 	}
 
 	@Override

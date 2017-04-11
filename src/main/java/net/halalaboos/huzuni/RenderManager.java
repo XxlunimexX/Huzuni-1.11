@@ -3,7 +3,6 @@ package net.halalaboos.huzuni;
 import net.halalaboos.huzuni.gui.screen.HuzuniSettingsMenu;
 import net.halalaboos.mcwrapper.api.event.render.HUDRenderEvent;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
-import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL32;
 import pw.knx.feather.tessellate.GrowingTess;
 
@@ -11,9 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getEventManager;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
+import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -36,7 +33,7 @@ public final class RenderManager {
 
 		getEventManager().subscribe(HUDRenderEvent.class, event -> {
 			if (!event.isDebugEnabled()) {
-				if (!(Minecraft.getMinecraft().currentScreen instanceof HuzuniSettingsMenu)) {
+				if (!(getMinecraft().getScreen() instanceof HuzuniSettingsMenu)) {
 					huzuni.guiManager.widgetManager.render();
 					getGLStateManager().disableBlend();
 				}

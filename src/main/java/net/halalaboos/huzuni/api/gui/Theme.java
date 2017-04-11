@@ -6,10 +6,11 @@ import net.halalaboos.huzuni.api.node.attribute.Nameable;
 import net.halalaboos.huzuni.api.node.Node;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.api.util.gl.Texture;
-import net.minecraft.client.Minecraft;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 
 /**
  * Provides render functions for {@link Component}s and {@link Container}s.
@@ -110,7 +111,7 @@ public abstract class Theme implements Nameable {
 		if (huzuni.settings.customFont.isEnabled())
 			huzuni.guiFontRenderer.drawString(text, x, y, color);
 		else
-			Minecraft.getMinecraft().fontRenderer.drawString(text, x, y + 2, color);
+			getMinecraft().getTextRenderer().render(text, x, y + 2, color);
 	}
 
 	/**
@@ -120,7 +121,7 @@ public abstract class Theme implements Nameable {
 		if (huzuni.settings.customFont.isEnabled())
 			huzuni.guiFontRenderer.drawStringWithShadow(text, x, y, color);
 		else
-			Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(text, x, y + 2, color);
+			getMinecraft().getTextRenderer().render(text, x, y + 2, color);
 	}
 	
 	/**
@@ -130,7 +131,7 @@ public abstract class Theme implements Nameable {
 		if (huzuni.settings.customFont.isEnabled())
 			return huzuni.guiFontRenderer.getStringWidth(text);
 		else
-			return Minecraft.getMinecraft().fontRenderer.getStringWidth(text);
+			return getMinecraft().getTextRenderer().getWidth(text);
 		
 	}
 	

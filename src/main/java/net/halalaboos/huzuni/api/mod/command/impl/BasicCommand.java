@@ -3,7 +3,6 @@ package net.halalaboos.huzuni.api.mod.command.impl;
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.mod.command.Command;
 import net.halalaboos.huzuni.api.util.StringUtils;
-import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,8 +12,6 @@ import java.util.List;
  * Basic implementation of the command interface. Allows for sub commands.
  * */
 public abstract class BasicCommand implements Command {
-
-	protected Minecraft mc = Minecraft.getMinecraft();
 	
 	protected static final Huzuni huzuni = Huzuni.INSTANCE;
 	

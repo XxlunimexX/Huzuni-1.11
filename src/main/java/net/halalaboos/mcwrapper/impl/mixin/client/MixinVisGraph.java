@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.mc.mixin;
+package net.halalaboos.mcwrapper.impl.mixin.client;
 
 import net.halalaboos.huzuni.mc.Wrapper;
 import net.minecraft.client.renderer.chunk.SetVisibility;

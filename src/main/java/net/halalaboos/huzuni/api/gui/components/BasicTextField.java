@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.api.gui.components;
 
-import net.minecraft.util.ChatAllowedCharacters;
+import net.halalaboos.huzuni.api.util.StringUtils;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -41,7 +41,7 @@ public class BasicTextField {
 			break;
 
 		default:
-			if (ChatAllowedCharacters.isAllowedCharacter(typedChar)) {
+			if (StringUtils.isAllowd(typedChar)) {
 				this.append(Character.toString(typedChar));
 			}
 			break;

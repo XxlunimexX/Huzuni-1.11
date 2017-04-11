@@ -19,7 +19,6 @@ import net.halalaboos.mcwrapper.api.util.math.Result;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.halalaboos.mcwrapper.impl.Convert;
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Session;
 

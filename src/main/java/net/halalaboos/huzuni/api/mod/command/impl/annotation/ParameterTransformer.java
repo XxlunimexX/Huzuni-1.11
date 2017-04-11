@@ -1,7 +1,8 @@
 package net.halalaboos.huzuni.api.mod.command.impl.annotation;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
+import net.halalaboos.mcwrapper.api.entity.living.player.Player;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**
  * Transforms a string argument into an object. Used for parameters within an annotation command.
@@ -53,16 +54,16 @@ public abstract class ParameterTransformer <T> {
 			};
 	}
 	
-	public static class PlayerTransformer extends ParameterTransformer<EntityPlayer> {
+	public static class PlayerTransformer extends ParameterTransformer<Player> {
 
 		public PlayerTransformer() {
-			super(EntityPlayer.class);
+			super(Player.class);
 		}
 
 		@Override
-		public EntityPlayer transform(String input) {
-			for (EntityPlayer player : Minecraft.getMinecraft().world.playerEntities) {
-				if (player.getName().equalsIgnoreCase(input))
+		public Player transform(String input) {
+			for (Player player : getWorld().getPlayers()) {
+				if (player.name().equalsIgnoreCase(input))
 					return player;
 			}
 			return null;

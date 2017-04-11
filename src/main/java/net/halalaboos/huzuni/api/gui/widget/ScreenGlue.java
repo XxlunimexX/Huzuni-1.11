@@ -1,9 +1,9 @@
 package net.halalaboos.huzuni.api.gui.widget;
 
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
-import net.minecraft.client.Minecraft;
 
 import static net.halalaboos.huzuni.api.util.MinecraftUtils.getPotionY;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
  * Formats the positions of widgets based on the entire screen. <br/>
@@ -97,7 +97,7 @@ public enum ScreenGlue implements Glue {
 		int height = GLUtils.getScreenHeight();
 		switch (y) {
 		case 0:
-			if (!Minecraft.getMinecraft().player.getActivePotionEffects().isEmpty() && x == 0) {
+			if (!getPlayer().getEffects().isEmpty() && x == 0) {
 				widget.setY(getPotionY() + SNAP_PADDING);
 			} else
 				widget.setY(SNAP_PADDING);
