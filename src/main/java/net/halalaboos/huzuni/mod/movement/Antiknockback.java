@@ -32,7 +32,7 @@ public class Antiknockback extends BasicMod {
 	private final Toggleable combat = new Toggleable("Combat mode", "Prevents knockback when only in combat");
 
 	/** The ignored knockback percentage */
-    private final Value percentage = new Value("Percentage", "%", 0F, 80F, 100F, 5F, "Percentage of knockback that will be ignored.");
+    private final Value percentage = new Value("Percentage", "%", 0F, 100F, 100F, 5F, "Percentage of knockback that will be ignored.");
 
 	/** The max time after attacking before the mod decides we aren't in combat */
     private final Value combatTime = new Value("Combat time", " ms", 1000F, 3000F, 10000F, 10F, "Time required to pass until no longer considered in combat");
