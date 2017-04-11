@@ -9,13 +9,12 @@ import net.halalaboos.huzuni.api.node.impl.Value;
 import net.halalaboos.huzuni.settings.KeyOpenMenu;
 import net.halalaboos.huzuni.settings.KeyOpenTest;
 import net.halalaboos.huzuni.settings.Team;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.Session;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
+
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 
 /**
  * Holds the global settings used within the mods. <br/>
@@ -43,7 +42,7 @@ public final class HuzuniSettings extends JsonFileHandler {
 	public final KeyOpenMenu keyOpenMenu = new KeyOpenMenu();
 	public final KeyOpenTest keyOpenTest = new KeyOpenTest();
 
-	private Session lastSession = null;
+	private String[] lastSession = null;
 
 	private String newestVersion = "";
 
@@ -92,8 +91,7 @@ public final class HuzuniSettings extends JsonFileHandler {
 		menuSettings.addChildren(customChat, customFont, huzuni.guiManager.getThemes(), menuColor);
 		minecraftSettings.addChildren(monochromeLighting);
 		try {
-			UUID.fromString(Minecraft.getMinecraft().getSession().getPlayerID());
-			lastSession = Minecraft.getMinecraft().getSession();
+			lastSession = getMinecraft().session().getParams();
 		} catch (Exception e) {
 		}
 	}
@@ -101,13 +99,13 @@ public final class HuzuniSettings extends JsonFileHandler {
 	/**
 	 * Saves session information into a JsonObject
 	 * */
-	private void saveSession(List<JsonObject> objects, Session session) {
+	private void saveSession(List<JsonObject> objects, String[] session) {
 		JsonObject object = new JsonObject();
 		if (session != null) {
-			object.addProperty("username", session.getUsername());
-			object.addProperty("uuid", session.getPlayerID());
-			object.addProperty("token", session.getToken());
-			object.addProperty("sessionId", session.getSessionID());
+			object.addProperty("username", session[0]);
+			object.addProperty("uuid", session[1]);
+			object.addProperty("token", session[2]);
+			object.addProperty("sessionId", session[3]);
 			objects.add(object);
 		}
 	}
@@ -122,7 +120,7 @@ public final class HuzuniSettings extends JsonFileHandler {
 			String uuid = object.get("uuid").getAsString();
 			String token = object.get("token").getAsString();
 			String sessionId = object.get("sessionId").getAsString();
-			lastSession = new Session(name, uuid, token, sessionId);
+			lastSession = new String[] { name, uuid, token, sessionId };
 			return true;
 		}
 		return false;
@@ -132,12 +130,8 @@ public final class HuzuniSettings extends JsonFileHandler {
 		return menuColor.getColor();
 	}
 
-	public Session getLastSession() {
+	public String[] getLastSession() {
 		return lastSession;
-	}
-
-	public void setLastSession(Session lastSession) {
-		this.lastSession = lastSession;
 	}
 
 	public String getNewestVersion() {

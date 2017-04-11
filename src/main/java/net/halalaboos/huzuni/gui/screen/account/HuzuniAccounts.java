@@ -16,6 +16,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
+
 public class HuzuniAccounts extends HuzuniScreen implements GuiYesNoCallback {
 
 	protected final File accountsFile = new File(Huzuni.INSTANCE.getSaveFolder(), "Accounts.txt");
@@ -62,8 +64,8 @@ public class HuzuniAccounts extends HuzuniScreen implements GuiYesNoCallback {
 		switch (button.id) {
 		case 0:
 			if (huzuni.settings.getLastSession() != null) {
-				Reflection.setSession(huzuni.settings.getLastSession());
-				setStatus(TextColor.YELLOW + mc.getSession().getUsername());
+				getMinecraft().session().set(huzuni.settings.getLastSession());
+				setStatus(TextColor.YELLOW + getMinecraft().session().name());
 			}
 			break;
 		case 1:
@@ -72,35 +74,30 @@ public class HuzuniAccounts extends HuzuniScreen implements GuiYesNoCallback {
 			}
 			break;
 		case 2:
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					JFileChooser fileChooser = new JFileChooser();
-					if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-						File selectedFile = fileChooser.getSelectedFile();
-						BufferedReader reader = null;
-						try {
-							reader = new BufferedReader(new FileReader(
-									selectedFile));
-							for (String line; (line = reader.readLine()) != null;) {
-								if (line.contains(":")) {
-									if (!totalAccounts.contains(line))
-										totalAccounts.add(line);
-								}
+			SwingUtilities.invokeLater(() -> {
+				JFileChooser fileChooser = new JFileChooser();
+				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = fileChooser.getSelectedFile();
+					BufferedReader reader = null;
+					try {
+						reader = new BufferedReader(new FileReader(
+								selectedFile));
+						for (String line; (line = reader.readLine()) != null;) {
+							if (line.contains(":")) {
+								if (!totalAccounts.contains(line))
+									totalAccounts.add(line);
 							}
-							selectionList.setAccounts(totalAccounts);
-						} catch (FileNotFoundException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
-						} finally {
-							if (reader != null)
-								try {
-									reader.close();
-								} catch (IOException e) {
-									e.printStackTrace();
-								}
 						}
+						selectionList.setAccounts(totalAccounts);
+					} catch (IOException e) {
+						e.printStackTrace();
+					} finally {
+						if (reader != null)
+							try {
+								reader.close();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
 					}
 				}
 			});

@@ -6,6 +6,7 @@ import net.halalaboos.mcwrapper.api.MCWrapperHooks;
 import net.halalaboos.mcwrapper.api.MinecraftClient;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.client.Controller;
+import net.halalaboos.mcwrapper.api.client.Session;
 import net.halalaboos.mcwrapper.api.client.gui.TextRenderer;
 import net.halalaboos.mcwrapper.api.client.gui.screen.Screen;
 import net.halalaboos.mcwrapper.api.entity.Entity;
@@ -87,6 +88,8 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Shadow @Nullable public GuiScreen currentScreen;
 
 	@Shadow public abstract TextureManager getTextureManager();
+
+	@Shadow @Final private net.minecraft.util.Session session;
 
 	@Inject(method = "init()V", at = @At(value = "FIELD",
 			target = "Lnet/minecraft/client/Minecraft;ingameGUI:Lnet/minecraft/client/gui/GuiIngame;",
@@ -291,5 +294,10 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Override
 	public void bindTexture(ResourcePath path) {
 		getTextureManager().bindTexture(Convert.to(path));
+	}
+
+	@Override
+	public Session session() {
+		return (Session)this.session;
 	}
 }

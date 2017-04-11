@@ -86,6 +86,7 @@
     "world.MixinWorld",
     "world.MixinWorldClient",
     "client.MixinBlockModelRenderer",
-    "client.MixinVisGraph"
+    "client.MixinVisGraph",
+    "client.MixinSession"
   ]
 }

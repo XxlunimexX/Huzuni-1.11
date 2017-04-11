@@ -13,6 +13,8 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
+
 public class AccountSelectionList extends GuiListExtended {
 
 	private final List<AccountListEntry> accounts = new ArrayList<AccountListEntry>();
@@ -63,10 +65,8 @@ public class AccountSelectionList extends GuiListExtended {
 		SwingUtilities.invokeLater(() -> {
 			try {
 				AccountListEntry account = getSelected();
-				Session session = MinecraftUtils.loginToMinecraft(account.getUsername(), account.getPassword());
-				Reflection.setSession(session);
-				Huzuni.INSTANCE.settings.setLastSession(session);
-				screen.setStatus(TextColor.YELLOW + "Success. " + session.getUsername());
+				MinecraftUtils.loginToMinecraft(account.getUsername(), account.getPassword());
+				screen.setStatus(TextColor.YELLOW + "Success. " + getMinecraft().session().name());
 			} catch (AuthenticationException e) {
 				screen.setStatus(TextColor.RED + "Unsuccessful. " + e.getMessage());
 			}

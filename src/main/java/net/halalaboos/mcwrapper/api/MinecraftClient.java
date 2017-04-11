@@ -1,8 +1,11 @@
 package net.halalaboos.mcwrapper.api;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.client.Controller;
 import net.halalaboos.mcwrapper.api.client.GameSettings;
+import net.halalaboos.mcwrapper.api.client.Session;
 import net.halalaboos.mcwrapper.api.client.gui.TextRenderer;
 import net.halalaboos.mcwrapper.api.client.gui.screen.Screen;
 import net.halalaboos.mcwrapper.api.entity.Entity;
@@ -225,4 +228,6 @@ public interface MinecraftClient {
 	 * @param path The path of the texture.
 	 */
 	void bindTexture(ResourcePath path);
+
+	Session session();
 }

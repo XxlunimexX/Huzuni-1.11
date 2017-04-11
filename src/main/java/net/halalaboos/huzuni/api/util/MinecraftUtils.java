@@ -52,13 +52,13 @@ public final class MinecraftUtils {
 	 * Attempts to log into a Minecraft account using the username and password provided.
 	 * @return a {@link Session} class with the account's new session.
 	 * */
-	public static Session loginToMinecraft(String username, String password) throws AuthenticationException {
+	public static void loginToMinecraft(String username, String password) throws AuthenticationException {
 		YggdrasilAuthenticationService authenticationService = new YggdrasilAuthenticationService(Proxy.NO_PROXY, "");
 		YggdrasilUserAuthentication userAuthentication = (YggdrasilUserAuthentication) authenticationService .createUserAuthentication(Agent.MINECRAFT);
 		userAuthentication.setUsername(username);
 		userAuthentication.setPassword(password);
 		userAuthentication.logIn();
-		return new Session(userAuthentication.getSelectedProfile().getName(), userAuthentication.getSelectedProfile().getId().toString(), userAuthentication.getAuthenticatedToken(), "MOJANG" /* we mojang now ;)))*/);
+		getMinecraft().session().set(userAuthentication.getSelectedProfile().getName(), userAuthentication.getSelectedProfile().getId().toString(), userAuthentication.getAuthenticatedToken());
 	}
 
 	/**
