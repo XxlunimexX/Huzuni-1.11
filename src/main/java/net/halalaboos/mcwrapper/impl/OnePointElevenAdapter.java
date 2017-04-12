@@ -4,18 +4,12 @@ import net.halalaboos.mcwrapper.api.MinecraftAdapter;
 import net.halalaboos.mcwrapper.api.MinecraftClient;
 import net.halalaboos.mcwrapper.api.opengl.GLState;
 import net.halalaboos.mcwrapper.api.potion.PotionEffect;
-import net.halalaboos.mcwrapper.api.registry.EnchantmentRegistry;
-import net.halalaboos.mcwrapper.api.registry.PotionRegistry;
+import net.halalaboos.mcwrapper.api.registry.*;
 import net.halalaboos.mcwrapper.api.util.Builder;
 import net.halalaboos.mcwrapper.api.item.ItemStack;
-import net.halalaboos.mcwrapper.api.registry.BlockRegistry;
-import net.halalaboos.mcwrapper.api.registry.ItemRegistry;
 import net.halalaboos.mcwrapper.impl.builder.ItemStackBuilder;
 import net.halalaboos.mcwrapper.impl.builder.PotionEffectBuilder;
-import net.halalaboos.mcwrapper.impl.registry.OnePointElevenBlockRegistry;
-import net.halalaboos.mcwrapper.impl.registry.OnePointElevenEnchantmentRegistry;
-import net.halalaboos.mcwrapper.impl.registry.OnePointElevenItemRegistry;
-import net.halalaboos.mcwrapper.impl.registry.OnePointElevenPotionRegistry;
+import net.halalaboos.mcwrapper.impl.registry.*;
 import net.minecraft.client.Minecraft;
 
 import java.util.IdentityHashMap;
@@ -30,6 +24,7 @@ public class OnePointElevenAdapter implements MinecraftAdapter {
 	private BlockRegistry blockRegistry = new OnePointElevenBlockRegistry();
 	private PotionRegistry potionRegistry = new OnePointElevenPotionRegistry();
 	private EnchantmentRegistry enchantmentRegistry = new OnePointElevenEnchantmentRegistry();
+	private EntityRegistry entityRegistry = new OnePointElevenEntityRegistry();
 
 	private final Map<Class<?>, Supplier<?>> builderMap = new IdentityHashMap<>();
 	private GLStateImpl glState = new GLStateImpl();
@@ -63,6 +58,11 @@ public class OnePointElevenAdapter implements MinecraftAdapter {
 	@Override
 	public EnchantmentRegistry getEnchantmentRegistry() {
 		return this.enchantmentRegistry;
+	}
+
+	@Override
+	public EntityRegistry getEntityRegistry() {
+		return entityRegistry;
 	}
 
 	@Override

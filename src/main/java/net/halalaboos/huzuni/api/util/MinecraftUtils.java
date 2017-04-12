@@ -123,31 +123,31 @@ public final class MinecraftUtils {
 	 * Finds the face of the first adjacent block that can be seen by the player.
 	 * */
 	public static Face getAdjacent(Vector3i position) {
-//		for (Face face : Face.values()) {
-//			Vector3i otherPosition = position.offset(face);
-//			if (getWorld().blockExists(otherPosition)) {
-//				Face otherFace = face.getOppositeFace();
-//				Vector3d player = getPlayer().getLocation().addY(getPlayer().getEyeHeight());
-//
-//				Vector3i faceVec = otherFace.getDirectionVector();
-//				Vector3d block = new Vector3d(otherPosition.getX() + 0.5F + (float) (faceVec.getX()) / 2F,
-//						otherPosition.getY() + 0.5F + (float) (faceVec.getY()) / 2F,
-//						otherPosition.getZ() + 0.5F + (float) (faceVec.getZ()) / 2F);
-//				Optional<Result> result = getWorld().getResult(player, block);
-//				if (!result.isPresent() || result.get() == Result.MISS) {
-//					return face;
-//				}
-//			}
-//		}
-//		return null;
+		for (Face face : Face.values()) {
+			Vector3i otherPosition = position.offset(face);
+			if (getWorld().blockExists(otherPosition)) {
+				Face otherFace = face.getOppositeFace();
+				Vector3d player = getPlayer().getLocation().addY(getPlayer().getEyeHeight());
 
+				Vector3i faceVec = otherFace.getDirectionVector();
+				Vector3d block = new Vector3d(otherPosition.getX() + 0.5F + (float) (faceVec.getX()) / 2F,
+						otherPosition.getY() + 0.5F + (float) (faceVec.getY()) / 2F,
+						otherPosition.getZ() + 0.5F + (float) (faceVec.getZ()) / 2F);
+				Optional<Result> result = getWorld().getResult(player, block);
+				if (!result.isPresent() || result.get() == Result.MISS) {
+					return face;
+				}
+			}
+		}
+		return null;
+/*
 		EnumFacing facing = MinecraftUtilsNew.getAdjacent(Convert.to(position));
 		if (facing != null) {
 			System.out.println(facing.name());
 			System.out.println(Convert.from(facing).name());
 			return Convert.from(facing);
 		}
-		return null;
+		return null;*/
 	}
 
 	public static int getPotionY() {

@@ -39,23 +39,6 @@ public class MinecraftUtilsNew {
 	}
 
 	/**
-	 * Raytraces to find a face on the block that can be seen by the player.
-	 * */
-	public static EnumFacing findFace(BlockPos position) {
-		if (mc.world.getBlockState(position).getBlock() != Blocks.AIR) {
-			for (EnumFacing face : EnumFacing.values()) {
-				Vec3d playerVec = new Vec3d(mc.player.posX, mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
-				Vec3d blockVec = new Vec3d(position.getX() + 0.5F + (float) (face.getDirectionVec().getX()) / 2F, position.getY() + 0.5F + (float) (face.getDirectionVec().getY()) / 2F, position.getZ() + 0.5F + (float) (face.getDirectionVec().getZ()) / 2F);
-				RayTraceResult raytraceResult = mc.world.rayTraceBlocks(playerVec, blockVec);
-				if (raytraceResult == null || raytraceResult.typeOfHit == RayTraceResult.Type.MISS) {
-					return face;
-				}
-			}
-		}
-		return null;
-	}
-
-	/**
 	 * Finds the face of the first adjacent block that can be seen by the player.
 	 * */
 	public static EnumFacing getAdjacent(BlockPos position) {

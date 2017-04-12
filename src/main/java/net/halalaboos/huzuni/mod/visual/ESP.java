@@ -77,8 +77,8 @@ public class ESP extends BasicMod implements Renderer {
 					continue;
 				Vector3d renderPos = entity.getRenderPosition();
 				float distance = (float) getPlayer().getDistanceTo(entity);
-				int entityId = entity.getId();
-				if (entityId < 0) entityId = 420;
+				int entityId = entity.getEntityListId();
+				if (entityId < 0 || entityId == 666) entityId = 420;
 				boolean friend = huzuni.friendManager.isFriend(entity.name());
 				if (lines.isEnabled()) {
 					drawLine(((float) renderPos.getX()), ((float) renderPos.getY()), ((float) renderPos.getZ()), entity, distance, friend);

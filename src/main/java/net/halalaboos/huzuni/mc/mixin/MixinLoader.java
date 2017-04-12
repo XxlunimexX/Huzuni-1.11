@@ -1,5 +1,6 @@
 package net.halalaboos.huzuni.mc.mixin;
 
+import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.minecraft.launchwrapper.ITweaker;
 import net.minecraft.launchwrapper.LaunchClassLoader;
 import org.spongepowered.asm.launch.MixinBootstrap;
@@ -44,6 +45,7 @@ public class MixinLoader implements ITweaker {
 			MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");
 		} catch (ClassNotFoundException e) {
 			System.out.println("Forge not found!");
+			MCWrapper.IS_USING_FORGE = false;
 			e.printStackTrace();
 		}
 	}

@@ -16,6 +16,8 @@ import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
 
+import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
+
 public class HuzuniPlugins extends HuzuniScreen {
 
 	private final SettingsContainer container = new SettingsContainer(0, 0, 0, 0);
@@ -92,8 +94,8 @@ public class HuzuniPlugins extends HuzuniScreen {
 		}
 		
         if (selectionList.hasSelected()) {
-            this.fontRenderer.drawStringWithShadow("Version: " + selectionList.getSelected().getPluginData().getVersion(), 208, 40, 0xFFFFFF);
-        	this.fontRenderer.drawStringWithShadow("Description: " + selectionList.getSelected().getPluginData().getDescription(), 208, 50, 0xFFFFFF);
+			getMinecraft().getTextRenderer().render("Version: " + selectionList.getSelected().getPluginData().getVersion(), 208, 40, 0xFFFFFF);
+			getMinecraft().getTextRenderer().render("Description: " + selectionList.getSelected().getPluginData().getDescription(), 208, 50, 0xFFFFFF);
         	renderContainer(208, 62, width - 208 - 12, height - 62 - 64);
         }
         

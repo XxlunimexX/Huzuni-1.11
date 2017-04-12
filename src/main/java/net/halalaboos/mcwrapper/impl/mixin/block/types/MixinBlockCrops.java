@@ -16,7 +16,7 @@ public abstract class MixinBlockCrops extends MixinBlock implements Crops {
 
 	@Override
 	public int getAge(Vector3i pos) {
-		return getMetaFromState(Minecraft.getMinecraft().world.getBlockState(Convert.to(pos)));
+		return getMetaFromState(Convert.world().getBlockState(Convert.to(pos)));
 	}
 
 	@Intrinsic

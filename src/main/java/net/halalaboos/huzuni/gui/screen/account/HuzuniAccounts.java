@@ -35,7 +35,7 @@ public class HuzuniAccounts extends HuzuniScreen implements GuiYesNoCallback {
 		super();
 		this.parent = parent;
 		totalAccounts = this.readAccounts();
-		status = Minecraft.getMinecraft().getSession().getUsername();
+		status = getMinecraft().session().name();
 	}
 	
 	@Override

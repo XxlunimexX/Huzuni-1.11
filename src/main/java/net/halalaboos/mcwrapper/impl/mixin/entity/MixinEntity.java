@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.impl.mixin.entity;
 
+import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.*;
@@ -7,7 +8,6 @@ import net.halalaboos.mcwrapper.api.world.Fluid;
 import net.halalaboos.mcwrapper.api.world.World;
 import net.halalaboos.mcwrapper.impl.Convert;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.MoverType;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumFacing;
@@ -86,6 +86,8 @@ import java.util.UUID;
 	@Shadow public boolean noClip;
 
 	@Shadow protected EntityDataManager dataManager;
+	@Shadow private int entityId;
+
 	private AABB aabb;
 
 	@Inject(method = "setEntityBoundingBox", at = @At("HEAD"))
@@ -316,7 +318,7 @@ import java.util.UUID;
 
 	@Override
 	public int getEntityListId() {
-		return 1;
+		return MCWrapper.getAdapter().getEntityRegistry().getID((Class<? extends net.minecraft.entity.Entity>)(Object)this.getClass());
 	}
 
 	@Override

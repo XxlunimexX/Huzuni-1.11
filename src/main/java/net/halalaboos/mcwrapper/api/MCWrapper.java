@@ -15,6 +15,8 @@ public class MCWrapper {
 	private static MinecraftAdapter adapter = null;
 	private static EventManager eventManager = null;
 
+	public static boolean IS_USING_FORGE = true;
+
 	public static void setAdapter(MinecraftAdapter adapter) {
 		if (MCWrapper.adapter == null) MCWrapper.adapter = adapter;
 	}
