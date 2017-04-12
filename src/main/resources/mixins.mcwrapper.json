@@ -2,7 +2,7 @@
   "required": true,
   "compatibilityLevel": "JAVA_8",
   "package": "net.halalaboos.mcwrapper.impl.mixin",
-  "refmap": "mixins.huzuni.refmap.json",
+  "refmap": "mixins.mcwrapper.refmap.json",
   "mixins": [
     "MixinMinecraft",
     "block.tileentity.MixinTileEntity",

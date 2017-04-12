@@ -77,12 +77,13 @@ shadowJar {
 }
 
 mixin {
-    add sourceSets.main, "mixins.huzuni.refmap.json"
+    defaultObfuscationEnv notch
+    add sourceSets.main, "mixins.mcwrapper.refmap.json"
 }
 
 reobf {
     shadowJar {
-        mappingType = 'SEARGE'
+        mappingType = 'NOTCH'
         classpath = sourceSets.main.compileClasspath
     }
 }
@@ -92,7 +93,6 @@ build.dependsOn(shadowJar)
 jar {
     manifest {
         attributes(
-                "MixinConfigs": 'mixins.huzuni.json,mixins.mcwrapper.json',
                 "tweakClass": 'org.spongepowered.asm.launch.MixinTweaker',
                 "TweakOrder": 0,
                 'FMLCorePluginContainsFMLMod': 'net.halalaboos.huzuni.mc.mixin.MixinLoader',

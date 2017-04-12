@@ -316,7 +316,7 @@ import java.util.UUID;
 
 	@Override
 	public int getEntityListId() {
-		return EntityList.getID((Class<? extends net.minecraft.entity.Entity>)(Object)getClass());
+		return 1;
 	}
 
 	@Override

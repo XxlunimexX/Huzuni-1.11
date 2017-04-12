@@ -12,7 +12,6 @@ import net.halalaboos.huzuni.api.task.TaskManager;
 import net.halalaboos.huzuni.gui.GuiManager;
 import net.halalaboos.huzuni.gui.Notification;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
-import net.halalaboos.huzuni.meme.MemeManager;
 import net.halalaboos.huzuni.mod.Patcher;
 import net.halalaboos.huzuni.mod.combat.*;
 import net.halalaboos.huzuni.mod.commands.*;
@@ -63,8 +62,6 @@ public enum Huzuni {
 
 	public final WaypointManager waypointManager = new WaypointManager(this);
 
-	public final MemeManager memeManager = new MemeManager(this);
-
 	public final TaskManager<LookTask> lookManager = new TaskManager<>("Look Manager", "Manage which mods will prioritize when modifying the player rotation.");
 
 	public final HotbarManager hotbarManager = new HotbarManager();
@@ -97,7 +94,6 @@ public enum Huzuni {
 		friendManager.init();
 		keybindManager.init();
 		waypointManager.init();
-		memeManager.init();
 		settings.init();
 		patcher.init();
 //		scriptManager.init();

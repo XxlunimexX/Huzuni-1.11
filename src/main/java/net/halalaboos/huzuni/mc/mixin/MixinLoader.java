@@ -1,42 +1,60 @@
 package net.halalaboos.huzuni.mc.mixin;
 
-import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
+import net.minecraft.launchwrapper.ITweaker;
+import net.minecraft.launchwrapper.LaunchClassLoader;
 import org.spongepowered.asm.launch.MixinBootstrap;
+import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.Mixins;
 
-import javax.annotation.Nullable;
-import java.util.Map;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MixinLoader implements IFMLLoadingPlugin {
+public class MixinLoader implements ITweaker {
 
-	public MixinLoader() {
+	private final List<String> args = new ArrayList<>();
+
+	@Override
+	public void acceptOptions(List<String> list, File gameDir, File assetsDir, String profile) {
+		args.addAll(list);
+		if (!args.contains("--version") && profile != null) {
+			this.args.add("--version");
+			this.args.add(profile);
+		}
+		if (!args.contains("--assetsDir") && assetsDir != null) {
+			this.args.add("--assetsDir");
+			this.args.add(assetsDir.getPath());
+		}
+		if (!args.contains("--gameDir") && gameDir != null) {
+			this.args.add("--gameDir");
+			this.args.add(gameDir.getPath());
+		}
+	}
+
+	@Override
+	public void injectIntoClassLoader(LaunchClassLoader classLoader) {
 		MixinBootstrap.init();
 		Mixins.addConfiguration("mixins.mcwrapper.json");
+		/*
+		  Check for Forge's GuiIngame class.  If it is found, then we will tell the Mixin library to use the searge
+		  obfuscation context, since Forge jars are obfuscated differently.
+		 */
+		try {
+			Class.forName("net.minecraftforge.client.GuiIngameForge");
+			MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");
+		} catch (ClassNotFoundException e) {
+			System.out.println("Forge not found!");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public String[] getASMTransformerClass() {
-		return new String[0];
+	public String getLaunchTarget() {
+		return "net.minecraft.client.main.Main";
 	}
 
 	@Override
-	public String getModContainerClass() {
-		return null;
-	}
-
-	@Nullable
-	@Override
-	public String getSetupClass() {
-		return null;
-	}
-
-	@Override
-	public void injectData(Map<String, Object> data) {
-
-	}
-
-	@Override
-	public String getAccessTransformerClass() {
-		return null;
+	public String[] getLaunchArguments() {
+		return args.toArray(new String[args.size()]);
 	}
 }

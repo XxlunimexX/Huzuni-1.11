@@ -91,7 +91,7 @@ public abstract class MixinMinecraft implements MinecraftClient {
 
 	@Shadow @Final private net.minecraft.util.Session session;
 
-	@Inject(method = "init()V", at = @At(value = "FIELD",
+	@Inject(method = "init", at = @At(value = "FIELD",
 			target = "Lnet/minecraft/client/Minecraft;ingameGUI:Lnet/minecraft/client/gui/GuiIngame;",
 			shift = At.Shift.AFTER))
 	public void initWrapper(CallbackInfo ci) {
@@ -99,7 +99,7 @@ public abstract class MixinMinecraft implements MinecraftClient {
 		Huzuni.INSTANCE.start();
 	}
 
-	@Inject(method = "runTickKeyboard()V", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Keyboard;getEventKeyState()Z"))
+	@Inject(method = "runTickKeyboard", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Keyboard;getEventKeyState()Z"))
 	public void onKeyPress(CallbackInfo ci) {
 		if (Keyboard.getEventKeyState()) {
 			int keyCode = Keyboard.getEventKey();
@@ -107,7 +107,7 @@ public abstract class MixinMinecraft implements MinecraftClient {
 		}
 	}
 
-	@Inject(method = "runTickMouse()V", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Mouse;getEventButton()I"))
+	@Inject(method = "runTickMouse", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Mouse;getEventButton()I"))
 	public void onMouseClick(CallbackInfo ci) {
 		if (Mouse.getEventButtonState()) {
 			MCWrapperHooks.mouseClicked(Mouse.getEventButton());
