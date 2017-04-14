@@ -29,6 +29,7 @@ minecraft {
     version = project.forgeVersion
     runDir = "run"
     mappings = project.mcpVersion
+    makeObfSourceJar = false
 }
 
 repositories {
@@ -65,17 +66,6 @@ processResources {
     rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
-
-shadowJar {
-    dependencies {
-        include(dependency('org.spongepowered:mixin'))
-    }
-
-    exclude 'dummyThing'
-    exclude 'LICENSE.txt'
-    classifier = 'full'
-}
-
 mixin {
     defaultObfuscationEnv notch
     add sourceSets.main, "mixins.mcwrapper.refmap.json"
@@ -88,15 +78,24 @@ reobf {
     }
 }
 
+shadowJar {
+    dependencies {
+        include(dependency('org.spongepowered:mixin'))
+    }
+    exclude 'dummyThing'
+    exclude 'LICENSE.txt'
+    classifier = 'full'
+}
+
 build.dependsOn(shadowJar)
 
 jar {
     manifest {
         attributes(
+                "MixinConfigs": 'mixins.mcwrapper.json',
                 "tweakClass": 'org.spongepowered.asm.launch.MixinTweaker',
                 "TweakOrder": 0,
-                'FMLCorePluginContainsFMLMod': 'net.halalaboos.huzuni.mc.mixin.MixinLoader',
-                'FMLAT': 'huzuni_at.cfg')
+                'FMLCorePluginContainsFMLMod': 'net.halalaboos.huzuni.mc.mixin.MixinLoaderForge')
     }
 }
 sourceCompatibility = targetCompatibility = "1.8"

@@ -22,8 +22,6 @@ public final class RenderManager {
 	
 	private final List<Renderer> overlayRenderers = new ArrayList<>();
 	
-	private List<float[]> lines = new ArrayList<>();
-	
 	private final Huzuni huzuni;
 
 	private final GrowingTess lineTess = new GrowingTess(4);
@@ -90,21 +88,12 @@ public final class RenderManager {
      * Renders the lines which have been added.
      * */
 	public void renderLines() {
-		Vector3d start = new Vector3d(0, 0, 1)
-				.rotatePitch(-(float) Math.toRadians(getPlayer().getPitch()))
-				.rotateYaw(-(float) Math.toRadians(getPlayer().getYaw()));
-		for (float[] point : lines) {
-			lineTess.color(point[3], point[4], point[5], point[6])
-					.vertex((float)start.getX(), (float)start.getY() + getPlayer().getEyeHeight(), (float)start.getZ())
-					.vertex(point[0], point[1], point[2]);
-		}
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_COLOR_ARRAY);
 		getGLStateManager().lineWidth(huzuni.settings.lineSize.getValue());
 		lineTess.bind().pass(GL_LINES).reset();
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_COLOR_ARRAY);
-    	lines.clear();
 	}
 
 	/**
@@ -137,7 +126,12 @@ public final class RenderManager {
      * Lines that are rendered between the camera and any given point must be rendered separately from the normal world render function to avoid view-bobbing.
      * */
 	public void addLine(float x, float y, float z, float r, float g, float b, float a) {
-		lines.add(new float[] { x, y, z, r, g, b, a });
+		Vector3d start = new Vector3d(0, 0, 1)
+				.rotatePitch(-(float) Math.toRadians(getPlayer().getPitch()))
+				.rotateYaw(-(float) Math.toRadians(getPlayer().getYaw()));
+		lineTess.color(r, g, b, a)
+				.vertex((float)start.getX(), (float)start.getY() + getPlayer().getEyeHeight(), (float)start.getZ())
+				.vertex(x, y, z);
 	}
 
 	public boolean addWorldRenderer(Renderer renderer) {
