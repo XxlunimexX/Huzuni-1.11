@@ -312,4 +312,28 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	public void setHurtcamEnabled(boolean enabled) {
 		this.hurtcam = enabled;
 	}
+
+	private boolean overlay = true;
+
+	private boolean weather = true;
+
+	@Override
+	public boolean isOverlayEnabled() {
+		return overlay;
+	}
+
+	@Override
+	public boolean isWeatherEnabled() {
+		return weather;
+	}
+
+	@Override
+	public void setWeatherEnabled(boolean enabled) {
+		this.weather = enabled;
+	}
+
+	@Override
+	public void setOverlayEnabled(boolean enabled) {
+		this.overlay = enabled;
+	}
 }

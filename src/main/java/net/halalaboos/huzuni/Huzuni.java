@@ -177,7 +177,8 @@ public enum Huzuni {
 		modManager.addMod(new Retard());
 		modManager.addMod(new NoSlowdown());
 		modManager.addMod(new ChatAnnoy());
-		modManager.addMod(new NoHurtcam());
+		modManager.addMod(new NoEffect());
+		modManager.addMod(new AntiAFK());
 		commandManager.addCommand(new Help());
 		commandManager.addCommand(new Say());
 		commandManager.addCommand(new GetCoords());

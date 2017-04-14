@@ -233,4 +233,12 @@ public interface MinecraftClient {
 	boolean isHurtcamEnabled();
 
 	void setHurtcamEnabled(boolean enabled);
+
+	boolean isOverlayEnabled();
+
+	void setOverlayEnabled(boolean enabled);
+
+	boolean isWeatherEnabled();
+
+	void setWeatherEnabled(boolean enabled);
 }

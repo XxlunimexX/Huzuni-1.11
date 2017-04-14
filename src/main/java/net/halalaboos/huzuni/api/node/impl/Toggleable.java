@@ -26,7 +26,7 @@ public class Toggleable extends Node {
 	public void load(JsonObject json) throws IOException {
 		super.load(json);
 		if (hasNode(json)) {
-			enabled = json.get(getName()).getAsBoolean();
+			setEnabled(json.get(getName()).getAsBoolean());
 		}
 	}
 	
@@ -37,12 +37,15 @@ public class Toggleable extends Node {
 		setEnabled(!enabled);
 	}
 
+	public void onToggle() { }
+
 	public boolean isEnabled() {
 		return enabled;
 	}
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+		onToggle();
 	}
 
 }

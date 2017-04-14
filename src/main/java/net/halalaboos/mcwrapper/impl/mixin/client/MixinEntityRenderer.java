@@ -5,18 +5,20 @@ import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.event.render.HUDRenderEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.ItemRenderer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 
 @Mixin(EntityRenderer.class)
-public class MixinEntityRenderer {
+public abstract class MixinEntityRenderer {
 
 	@Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiIngame;renderGameOverlay(F)V", shift = At.Shift.AFTER))
 	public void dispatchHUDEvent(float partialTicks, long nano, CallbackInfo ci) {
@@ -26,6 +28,20 @@ public class MixinEntityRenderer {
 	@Final
 	@Shadow
 	private Minecraft mc;
+
+	@Redirect(method = "renderWorldPass", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/EntityRenderer;renderRainSnow(F)V"))
+	public void modifyWeather(EntityRenderer entityRenderer, float partialTicks) {
+		if (MCWrapper.getMinecraft().isWeatherEnabled()) {
+			renderRainSnow(partialTicks);
+		}
+	}
+
+	@Redirect(method = "renderHand", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemRenderer;renderOverlays(F)V"))
+	public void modifyOverlays(ItemRenderer itemRenderer, float partialTicks) {
+		if (MCWrapper.getMinecraft().isOverlayEnabled()) {
+			itemRenderer.renderOverlays(partialTicks);
+		}
+	}
 
 	@Inject(method = "renderWorldPass", at = @At(value = "FIELD",
 			target = "Lnet/minecraft/client/renderer/EntityRenderer;renderHand:Z",
@@ -59,6 +75,8 @@ public class MixinEntityRenderer {
 
 	@Shadow private int[] lightmapColors;
 	@Shadow private boolean lightmapUpdateNeeded;
+
+	@Shadow protected abstract void renderRainSnow(float partialTicks);
 
 	@Inject(method = "updateLightmap",
 			at = @At(value = "INVOKE",
