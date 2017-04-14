@@ -37,6 +37,13 @@ public class MixinEntityRenderer {
 		Huzuni.INSTANCE.renderManager.disableGlConstants();
 	}
 
+	@Inject(method = "hurtCameraEffect", at = @At("HEAD"), cancellable = true)
+	private void modifyHurtcam(float partialTicks, CallbackInfo ci) {
+		if (!MCWrapper.getMinecraft().isHurtcamEnabled()) {
+			ci.cancel();
+		}
+	}
+
 	@Shadow
 	private void setupCameraTransform(float partialTicks, int pass) {}
 

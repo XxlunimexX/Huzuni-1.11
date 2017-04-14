@@ -65,6 +65,10 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 			huzuni.commandManager.processCommand(message.substring(huzuni.commandManager.getCommandPrefix().length()));
 			ci.cancel();
 		}
+		if (message.startsWith("~") && message.length() > 1) {
+			this.connection.sendPacket(new CPacketChatMessage(message.substring(1, message.length())));
+			ci.cancel();
+		}
 	}
 
 	@Inject(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/MovementInput;updatePlayerMoveState()V", shift = At.Shift.AFTER))

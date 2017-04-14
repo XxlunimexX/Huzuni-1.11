@@ -300,4 +300,16 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	public Session session() {
 		return (Session)this.session;
 	}
+
+	private boolean hurtcam = true;
+
+	@Override
+	public boolean isHurtcamEnabled() {
+		return hurtcam;
+	}
+
+	@Override
+	public void setHurtcamEnabled(boolean enabled) {
+		this.hurtcam = enabled;
+	}
 }

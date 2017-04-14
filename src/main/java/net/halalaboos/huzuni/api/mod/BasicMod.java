@@ -1,12 +1,16 @@
 package net.halalaboos.huzuni.api.mod;
 
 import net.halalaboos.huzuni.api.mod.keybind.BasicKeybind;
+import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.MinecraftClient;
 
 /**
  * Mod which contains a basic keybind that toggles it.
  * */
 public class BasicMod extends Mod {
-	
+
+	protected MinecraftClient mc = MCWrapper.getMinecraft();
+
 	protected BasicKeybind keybind;
 	
 	public BasicMod(String name, String description) {

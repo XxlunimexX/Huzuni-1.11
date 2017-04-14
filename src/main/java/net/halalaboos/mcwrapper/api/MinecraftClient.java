@@ -229,4 +229,8 @@ public interface MinecraftClient {
 	void bindTexture(ResourcePath path);
 
 	Session session();
+
+	boolean isHurtcamEnabled();
+
+	void setHurtcamEnabled(boolean enabled);
 }
