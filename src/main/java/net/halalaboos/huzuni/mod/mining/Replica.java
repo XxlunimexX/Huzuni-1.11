@@ -1,9 +1,9 @@
 package net.halalaboos.huzuni.mod.mining;
 
 import net.halalaboos.huzuni.RenderManager.Renderer;
-import net.halalaboos.huzuni.api.mod.command.impl.BasicCommand;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
+import net.halalaboos.huzuni.api.mod.command.impl.BasicCommand;
 import net.halalaboos.huzuni.api.node.Mode;
 import net.halalaboos.huzuni.api.node.impl.Toggleable;
 import net.halalaboos.huzuni.api.node.impl.Value;
@@ -148,11 +148,11 @@ public final class Replica extends BasicMod implements Renderer {
 
 	private void onMouseClicked(MouseEvent event) {
 		if (event.getButton() == MouseButton.RIGHT) {
-			Optional<Result> result = getMinecraft().getMouseResult();
+			Optional<Result> result = mc.getMouseResult();
 			if (result.isPresent()) {
 				if (result.get() == Result.BLOCK) {
 					if (!templateBuilder.hasPositions()) {
-						templateBuilder.addSelection(getMinecraft().getMouseVector(), getMinecraft().getMouseFace()	);
+						templateBuilder.addSelection(mc.getMouseVector(), mc.getMouseFace()	);
 					}
 				}
 			}
@@ -167,8 +167,8 @@ public final class Replica extends BasicMod implements Renderer {
 	@Override
 	public void render(float partialTicks) {
 		if (!templateBuilder.hasPositions()) {
-			if (templateBuilder.canPreview() && getMinecraft().getMouseResult().isPresent() && getMinecraft().getMouseResult().get() == Result.BLOCK) {
-				renderPreview(getMinecraft().getMouseVector(), getMinecraft().getMouseFace());
+			if (templateBuilder.canPreview() && mc.getMouseResult().isPresent() && mc.getMouseResult().get() == Result.BLOCK) {
+				renderPreview(mc.getMouseVector(), mc.getMouseFace());
 			}
 		} else {
 			for (int i = 0; i < templateBuilder.getPositions().size(); i++) {
@@ -200,9 +200,9 @@ public final class Replica extends BasicMod implements Renderer {
 	}
 
 	private void renderBox(int x, int y, int z) {
-		float renderX = (float) (x - getMinecraft().getCamera().getX());
-		float renderY = (float) (y - getMinecraft().getCamera().getY());
-		float renderZ = (float) (z - getMinecraft().getCamera().getZ());
+		float renderX = (float) (x - mc.getCamera().getX());
+		float renderY = (float) (y - mc.getCamera().getY());
+		float renderZ = (float) (z - mc.getCamera().getZ());
 		getGLStateManager().pushMatrix();
 		getGLStateManager().translate(renderX, renderY, renderZ);
 		GLUtils.glColor(1F, 1F, 1F, 0.2F);

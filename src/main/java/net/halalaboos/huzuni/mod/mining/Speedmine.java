@@ -10,7 +10,6 @@ import net.halalaboos.mcwrapper.api.util.enums.DigAction;
 import org.lwjgl.input.Keyboard;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getController;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
@@ -61,7 +60,7 @@ public class Speedmine extends BasicMod {
 				//Do the client-side block destroying
 				getController().onBlockDestroy(event.position);
 				//And tell the server we broke the block too
-				getMinecraft().getNetworkHandler().sendDigging(DigAction.COMPLETE, event.position, event.faceOrdinal);
+				mc.getNetworkHandler().sendDigging(DigAction.COMPLETE, event.position, event.faceOrdinal);
 			}
 		});
 		//For applying the hit delay

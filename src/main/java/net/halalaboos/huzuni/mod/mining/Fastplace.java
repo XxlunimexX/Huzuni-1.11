@@ -5,8 +5,6 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.node.impl.Value;
 import net.halalaboos.mcwrapper.api.event.player.PostMotionUpdateEvent;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
-
 /**
  * Allows the Player to place blocks at a faster rate by adjusting Minecraft's right click delay timer to the set
  * speed.
@@ -31,8 +29,8 @@ public class Fastplace extends BasicMod {
 		setAuthor("Halalaboos");
 		subscribe(PostMotionUpdateEvent.class, event -> {
 			float speed = this.speed.getValue();
-			if (getMinecraft().getRightClickDelayTimer() > (4 - (byte) speed))
-				getMinecraft().setRightClickDelayTimer((4 - (byte) speed));
+			if (mc.getRightClickDelayTimer() > (4 - (byte) speed))
+				mc.setRightClickDelayTimer((4 - (byte) speed));
 		});
 	}
 

@@ -8,7 +8,9 @@ import net.halalaboos.huzuni.api.node.Node;
 import net.halalaboos.huzuni.api.node.impl.Toggleable;
 import net.halalaboos.huzuni.api.node.impl.Value;
 import net.halalaboos.huzuni.api.task.LookTask;
-import net.halalaboos.huzuni.api.util.*;
+import net.halalaboos.huzuni.api.util.EntityTracker;
+import net.halalaboos.huzuni.api.util.MinecraftUtils;
+import net.halalaboos.huzuni.api.util.Timer;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.api.util.gl.Texture;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
@@ -184,7 +186,7 @@ public class Killaura extends BasicMod implements Renderer {
      * Attacks the facing or selected entity.
      * */
 	private void triggerBot() {
-		Optional<Entity> mousedEntity = getMinecraft().getMousedEntity();
+		Optional<Entity> mousedEntity = mc.getMousedEntity();
 		if (mousedEntity.isPresent()) {
 			Entity entity = mousedEntity.get();
 			if (entity instanceof Living && MinecraftUtils.checkType(entity, invisibles.isEnabled(), mobs.isEnabled(), animals.isEnabled(), players.isEnabled())

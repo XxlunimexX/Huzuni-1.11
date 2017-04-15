@@ -7,7 +7,6 @@ import net.halalaboos.mcwrapper.api.entity.projectile.FishHook;
 import net.halalaboos.mcwrapper.api.event.network.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.network.packet.server.EntityVelocityPacket;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
@@ -46,9 +45,9 @@ public class Autofish extends BasicMod {
 						//Check if the velocity is the 'bobbing' amount
 						if (velX == 0 && velY < -0.02 && velZ == 0) {
 							//Reel in...
-							getMinecraft().getNetworkHandler().sendUseSwing();
+							mc.getNetworkHandler().sendUseSwing();
 							//Recast the rod!
-							getMinecraft().getNetworkHandler().sendUseSwing();
+							mc.getNetworkHandler().sendUseSwing();
 						}
 					}
 				}

@@ -19,7 +19,6 @@ import net.halalaboos.mcwrapper.api.util.math.Result;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import org.lwjgl.input.Keyboard;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**
@@ -159,11 +158,11 @@ public final class Nuker extends BasicMod {
 		//If we right clicked
 		if (event.getButton() == MouseButton.RIGHT) {
 			//If the result is present (this technically isn't necessary, since 99% of the time it is)
-			if (getMinecraft().getMouseResult().isPresent()) {
+			if (mc.getMouseResult().isPresent()) {
 				//If our mouse is over a Block
-				if (getMinecraft().getMouseResult().get() == Result.BLOCK) {
+				if (mc.getMouseResult().get() == Result.BLOCK) {
 					//Set the Block type to the Block at the moused position
-					this.type = getWorld().getBlock(getMinecraft().getMouseVector());
+					this.type = getWorld().getBlock(mc.getMouseVector());
 					//Cancel mining whatever Block we're mining now
 					mineTask.cancelMining();
 				}

@@ -75,7 +75,7 @@ public class Autopotion extends BasicMod {
 	}
 
 	private void onPreUpdate(PreMotionUpdateEvent event) {
-		if (getMinecraft().isScreenOpen()) return;
+		if (mc.isScreenOpen()) return;
 		if (health == null) {
 			health = getAdapter().getPotionRegistry().getPotion("instant_health");
 		}
@@ -103,7 +103,7 @@ public class Autopotion extends BasicMod {
 	}
 
 	private void onPostUpdate(PostMotionUpdateEvent event) {
-		if (getMinecraft().isScreenOpen()) return;
+		if (mc.isScreenOpen()) return;
 		if (lookTask.isRunning() && hotbarTask.isRunning()) {
 			usePotion();
 		}

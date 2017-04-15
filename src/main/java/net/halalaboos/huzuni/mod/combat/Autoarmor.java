@@ -3,8 +3,8 @@ package net.halalaboos.huzuni.mod.combat;
 import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.api.mod.BasicMod;
 import net.halalaboos.huzuni.api.mod.Category;
-import net.halalaboos.huzuni.api.node.impl.ItemList;
 import net.halalaboos.huzuni.api.node.attribute.Nameable;
+import net.halalaboos.huzuni.api.node.impl.ItemList;
 import net.halalaboos.huzuni.api.node.impl.Value;
 import net.halalaboos.huzuni.api.task.ClickTask;
 import net.halalaboos.huzuni.api.util.Timer;
@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getAdapter;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
@@ -79,7 +78,7 @@ public class Autoarmor extends BasicMod {
 	}
 
 	private void onUpdate(PreMotionUpdateEvent event) {
-		if (getMinecraft().isScreenOpen())
+		if (mc.isScreenOpen())
     		return;
         List<Integer> armors = getArmor();
         for (int i : armors) {

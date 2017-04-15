@@ -22,7 +22,9 @@ import net.halalaboos.mcwrapper.api.util.ResourcePath;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 
 import javax.annotation.Nullable;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -186,7 +188,7 @@ public class ChatAnnoy extends BasicMod {
 	private String getMessage(String category, @Nullable Block block, @Nullable ItemStack itemStack) {
 		if (messageMap.isEmpty()) {
 			try {
-				loadMessages(getMinecraft().getInputStream(new ResourcePath("huzuni/chatannoy.json")));
+				loadMessages(mc.getInputStream(new ResourcePath("huzuni/chatannoy.json")));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -207,10 +209,10 @@ public class ChatAnnoy extends BasicMod {
 	 * Returns a random player's name.  Used for the $PLAYER string(s) in the various messages.
 	 */
 	private String getRandomPlayer() {
-		NetworkHandler networkHandler = getMinecraft().getNetworkHandler();
+		NetworkHandler networkHandler = mc.getNetworkHandler();
 
 		//Checks if you're in singleplayer, then will just return your name
-		if (!getMinecraft().isRemote()) return getPlayer().name();
+		if (!mc.isRemote()) return getPlayer().name();
 
 		//The connected players
 		List<PlayerInfo> list = new ArrayList<>(networkHandler.getPlayers());

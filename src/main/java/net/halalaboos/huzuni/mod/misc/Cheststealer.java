@@ -6,9 +6,7 @@ import net.halalaboos.huzuni.api.task.ClickTask;
 import net.halalaboos.mcwrapper.api.event.player.PreMotionUpdateEvent;
 import net.halalaboos.mcwrapper.api.inventory.Inventory;
 import net.halalaboos.mcwrapper.api.inventory.gui.ChestGui;
-import net.halalaboos.mcwrapper.api.item.ItemStack;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 
 /**
@@ -41,7 +39,7 @@ public class Cheststealer extends BasicMod {
 
 	private void onPreUpdate(PreMotionUpdateEvent event) {
 		if (huzuni.clickManager.hasPriority(this)) {
-			if (getMinecraft().getScreen() instanceof ChestGui) {
+			if (mc.getScreen() instanceof ChestGui) {
 				if (chest != null && guiChest != null) {
 					if (!clickTask.hasClicks()) {
 						getPlayer().closeWindow();
@@ -50,7 +48,7 @@ public class Cheststealer extends BasicMod {
 						huzuni.clickManager.withdrawTask(clickTask);
 					}
 				} else {
-					guiChest = (ChestGui) getMinecraft().getScreen();
+					guiChest = (ChestGui) mc.getScreen();
 					chest = guiChest.getContainer().getLower();
 					index = 0;
 					windowId = guiChest.getContainer().getId();

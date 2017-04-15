@@ -5,8 +5,6 @@ import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.mcwrapper.api.event.network.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.network.packet.server.HealthUpdatePacket;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
-
 /**
  * Automatically respawns the Player when they die.  This is done quick enough that you (hopefully) won't even see
  * the 'Game Over' screen!
@@ -26,7 +24,7 @@ public class Respawn extends BasicMod {
 				//If we're not dead, then don't do anything
 				if (packet.getHearts() > 0.0F) return;
 				//Otherwise, send the respawn status packet
-				getMinecraft().getNetworkHandler().sendRespawn();
+				mc.getNetworkHandler().sendRespawn();
 			}
 		});
 	}
