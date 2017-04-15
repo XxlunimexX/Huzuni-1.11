@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.mod.commands;
 
-import net.halalaboos.huzuni.api.mod.command.impl.BasicCommand;
 import net.halalaboos.huzuni.api.mod.Mod;
+import net.halalaboos.huzuni.api.mod.command.impl.BasicCommand;
 import net.halalaboos.huzuni.gui.Notification.NotificationType;
 import net.halalaboos.mcwrapper.api.util.enums.TextColor;
 
@@ -9,7 +9,6 @@ public final class Toggle extends BasicCommand {
 
 	public Toggle() {
 		super(new String[] { "toggle", "t" }, "Enable/disable mods.");
-		
 	}
 	
 	@Override

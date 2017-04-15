@@ -12,7 +12,6 @@ public final class GetCoords extends BasicCommand {
 	
 	public GetCoords() {
 		super(new String[] { "getcoords", "gc" }, "Copies your current coordinates to your clipboard.");
-		
 	}
 	
 	@Override

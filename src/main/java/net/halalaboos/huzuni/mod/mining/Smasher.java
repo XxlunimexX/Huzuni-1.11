@@ -14,8 +14,6 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**
  * Breaks all one-hit blocks.
- *
- * TODO: Port to MCWrapper
  * */
 public class Smasher extends BasicMod {
 	

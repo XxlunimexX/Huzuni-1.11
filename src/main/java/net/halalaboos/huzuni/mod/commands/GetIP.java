@@ -16,7 +16,6 @@ public final class GetIP extends BasicCommand {
 
 	public GetIP() {
 		super("getip", "Copies the server IP to your clipboard.");
-
 	}
 
 	@Override
