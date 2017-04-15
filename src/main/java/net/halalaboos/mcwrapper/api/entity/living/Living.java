@@ -10,6 +10,12 @@ import net.halalaboos.mcwrapper.api.potion.PotionEffect;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * A Living entity is an entity that has health, can take damage, etc.
+ *
+ * Examples of a Living entity would be {@link Monster monsters}, {@link Animal animals},
+ * {@link net.halalaboos.mcwrapper.api.entity.living.player.Player} players, and so on.
+ */
 public interface Living extends Entity {
 
 	/**

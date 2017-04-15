@@ -104,6 +104,11 @@ public enum OpenGL {
 		return this;
 	}
 
+	/**
+	 * Enables (or disables) {@link GL11#GL_BLEND} depending on the {@code state}.
+	 *
+	 * @param state Whether or not to enable
+	 */
 	public OpenGL blend(boolean state) {
 		if (state) getGLStateManager().enableBlend(); else getGLStateManager().disableBlend();
 		return this;
@@ -114,6 +119,14 @@ public enum OpenGL {
 		return this;
 	}
 
+	/**
+	 * Sets the current RGBA values for rendering.
+	 *
+	 * @param r The red value (0..1)
+	 * @param g The green value (0..1)
+	 * @param b The blue value (0..1)
+	 * @param a The alpha value (0..1)
+	 */
 	public OpenGL color(float r, float g, float b, float a) {
 		getGLStateManager().color(r, g, b, a);
 		return this;

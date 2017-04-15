@@ -1,6 +1,7 @@
 package net.halalaboos.mcwrapper.api.entity;
 
 import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.MinecraftClient;
 import net.halalaboos.mcwrapper.api.attribute.Identifiable;
 import net.halalaboos.mcwrapper.api.attribute.Nameable;
 import net.halalaboos.mcwrapper.api.util.enums.Face;
@@ -194,13 +195,26 @@ public interface Entity extends Identifiable, Nameable {
 	String getCoordinates();
 
 	/**
-	 * @return The Entity's interpolated position, used for rendering.
+	 * In the context of render-related mods that work with target Entity locations, you <i>could</i> just use the
+	 * {@link #getLocation()}, but it won't be as smooth - the positioning of something like a line pointing to
+	 * that location will be a bit choppy.
+	 *
+	 * What this does is return an interpolated version of the Entity's {@link #getLocation()},
+	 * by using the {@link #getPreviousLocation()} and the {@link MinecraftClient#getDelta()}.
+	 *
+	 * @return The Entity's interpolated position.
 	 */
 	default Vector3d getInterpolatedPosition() {
 		float delta = MCWrapper.getMinecraft().getDelta();
 		return getPreviousLocation().add(getLocation().sub(getPreviousLocation()).scale(delta));
 	}
 
+	/**
+	 * Subtracts the {@link #getInterpolatedPosition()} from the {@link MinecraftClient#getCamera() camera's location},
+	 * which returns the render position on the screen.
+	 *
+	 * @return The Entity's render position
+	 */
 	default Vector3d getRenderPosition() {
 		Vector3d cam = MCWrapper.getMinecraft().getCamera();
 		return getInterpolatedPosition().sub(cam);
@@ -236,10 +250,27 @@ public interface Entity extends Identifiable, Nameable {
 	 */
 	AABB getBoundingBox();
 
+	/**
+	 * Whether or not the Entity is collided on the given {@link CollisionType}.
+	 * @param type The collision type, e.g. horizontal/vertical
+	 *
+	 * @return If the Entity is collided
+	 */
 	boolean isCollided(CollisionType type);
 
+	/**
+	 * Whether or not the Entity is currently riding another Entity.
+	 *
+	 * @return If the Entity is riding
+	 */
 	boolean isRiding();
 
+	/**
+	 * Currently, this just provides the name of the biome that the Entity is located in; if there is a need
+	 * for more biome-related data, then this will be a bit more advanced.
+	 *
+	 * @return The current biome's name
+	 */
 	String getCurrentBiome();
 
 	/**
