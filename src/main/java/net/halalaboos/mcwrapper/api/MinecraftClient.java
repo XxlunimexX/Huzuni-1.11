@@ -90,6 +90,13 @@ public interface MinecraftClient {
 	 */
 	void clearMessages(boolean sentMessages);
 
+	/**
+	 * Whether or not the client uses unicode font rendering (used for foreign languages).  This sometimes messes
+	 * up the resolution scaling in {@link Resolution}, which is why we have a getter here to make sure it's enabled
+	 * or not.
+	 *
+	 * @return Whether unicode font rendering is enabled
+	 */
 	boolean useUnicode();
 
 	/**

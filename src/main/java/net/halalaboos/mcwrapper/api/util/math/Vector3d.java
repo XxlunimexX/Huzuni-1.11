@@ -14,6 +14,8 @@ public class Vector3d {
 	/** The z-coordinate of the point */
 	private double z;
 
+	public static final Vector3d ZERO = new Vector3d(0, 0, 0);
+
 	public Vector3d(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
@@ -159,6 +161,13 @@ public class Vector3d {
 		this.y = y;
 		this.z = z;
 		return this;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || !(o instanceof Vector3d)) return false;
+		Vector3d other = (Vector3d)o;
+		return other.x == this.x && other.y == this.y && other.z == this.z;
 	}
 
 	public Vector3i toInt() {

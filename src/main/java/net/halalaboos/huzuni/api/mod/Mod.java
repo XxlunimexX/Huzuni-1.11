@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getEventManager;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
+import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
 /**
  * Node which is used for most features within the client. <br/>
@@ -139,6 +141,10 @@ public class Mod extends Node {
 	 */
 	protected <T extends Event> void subscribe(Class<T> event, Subscriber<T> subscriber) {
 		eventMap.computeIfAbsent(event, k -> new ArrayList<>()).add(subscriber);
+	}
+
+	protected boolean hasWorld() {
+		return getPlayer() != null && getWorld() != null;
 	}
 
 	/**
