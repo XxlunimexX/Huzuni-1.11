@@ -229,16 +229,4 @@ public interface MinecraftClient {
 	void bindTexture(ResourcePath path);
 
 	Session session();
-
-	boolean isHurtcamEnabled();
-
-	void setHurtcamEnabled(boolean enabled);
-
-	boolean isOverlayEnabled();
-
-	void setOverlayEnabled(boolean enabled);
-
-	boolean isWeatherEnabled();
-
-	void setWeatherEnabled(boolean enabled);
 }

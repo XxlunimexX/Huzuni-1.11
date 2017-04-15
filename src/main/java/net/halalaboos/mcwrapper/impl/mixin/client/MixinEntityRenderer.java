@@ -2,6 +2,7 @@ package net.halalaboos.mcwrapper.impl.mixin.client;
 
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.client.ClientEffects;
 import net.halalaboos.mcwrapper.api.event.render.HUDRenderEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -31,14 +32,14 @@ public abstract class MixinEntityRenderer {
 
 	@Redirect(method = "renderWorldPass", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/EntityRenderer;renderRainSnow(F)V"))
 	public void modifyWeather(EntityRenderer entityRenderer, float partialTicks) {
-		if (MCWrapper.getMinecraft().isWeatherEnabled()) {
+		if (ClientEffects.WEATHER.isEnabled()) {
 			renderRainSnow(partialTicks);
 		}
 	}
 
 	@Redirect(method = "renderHand", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemRenderer;renderOverlays(F)V"))
 	public void modifyOverlays(ItemRenderer itemRenderer, float partialTicks) {
-		if (MCWrapper.getMinecraft().isOverlayEnabled()) {
+		if (ClientEffects.OVERLAY.isEnabled()) {
 			itemRenderer.renderOverlays(partialTicks);
 		}
 	}
@@ -55,7 +56,7 @@ public abstract class MixinEntityRenderer {
 
 	@Inject(method = "hurtCameraEffect", at = @At("HEAD"), cancellable = true)
 	private void modifyHurtcam(float partialTicks, CallbackInfo ci) {
-		if (!MCWrapper.getMinecraft().isHurtcamEnabled()) {
+		if (!ClientEffects.HURTCAM.isEnabled()) {
 			ci.cancel();
 		}
 	}
