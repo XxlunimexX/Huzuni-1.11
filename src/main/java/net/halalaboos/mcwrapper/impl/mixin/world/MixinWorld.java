@@ -2,6 +2,7 @@ package net.halalaboos.mcwrapper.impl.mixin.world;
 
 import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.block.tileentity.TileEntity;
+import net.halalaboos.mcwrapper.api.client.ClientEffects;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.util.math.AABB;
@@ -14,7 +15,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -22,6 +22,9 @@ import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -51,6 +54,13 @@ import static net.halalaboos.mcwrapper.impl.Convert.player;
 	@Shadow @Nullable public abstract net.minecraft.util.math.RayTraceResult rayTraceBlocks(Vec3d start, Vec3d end);
 
 	@Shadow @Nullable public abstract RayTraceResult rayTraceBlocks(Vec3d vec31, Vec3d vec32, boolean stopOnLiquid, boolean ignoreBlockWithoutBoundingBox, boolean returnLastUncollidableBlock);
+
+	@Inject(method = "getRainStrength", at = @At("HEAD"), cancellable = true)
+	public void getModifiedRainStrength(float delta, CallbackInfoReturnable<Float> ci) {
+		if (!ClientEffects.WEATHER.isEnabled()) {
+			ci.setReturnValue(0F);
+		}
+	}
 
 	@Override
 	public void setToAir(Vector3i pos) {

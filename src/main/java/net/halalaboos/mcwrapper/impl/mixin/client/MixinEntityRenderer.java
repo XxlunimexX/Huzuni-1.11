@@ -7,6 +7,9 @@ import net.halalaboos.mcwrapper.api.event.render.HUDRenderEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.MobEffects;
+import net.minecraft.potion.Potion;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -30,11 +33,12 @@ public abstract class MixinEntityRenderer {
 	@Shadow
 	private Minecraft mc;
 
-	@Redirect(method = "renderWorldPass", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/EntityRenderer;renderRainSnow(F)V"))
-	public void modifyWeather(EntityRenderer entityRenderer, float partialTicks) {
-		if (ClientEffects.WEATHER.isEnabled()) {
-			renderRainSnow(partialTicks);
+	@Redirect(method = "setupFog", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;isPotionActive(Lnet/minecraft/potion/Potion;)Z"))
+	public boolean modifyBlindness(EntityLivingBase entityLivingBase, Potion potionIn) {
+		if (potionIn == MobEffects.BLINDNESS) {
+			return ClientEffects.BLINDNESS.isEnabled() && entityLivingBase.isPotionActive(MobEffects.BLINDNESS);
 		}
+		return entityLivingBase.isPotionActive(potionIn);
 	}
 
 	@Redirect(method = "renderHand", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemRenderer;renderOverlays(F)V"))
