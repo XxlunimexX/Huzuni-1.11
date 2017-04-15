@@ -7,10 +7,8 @@ import net.halalaboos.mcwrapper.api.entity.living.player.Player;
 import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.event.player.MoveEvent;
 import net.halalaboos.mcwrapper.api.network.packet.client.PlayerPacket;
-import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import org.lwjgl.input.Keyboard;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
 
@@ -62,7 +60,7 @@ public class Freecam extends BasicMod {
 	        	 if (getPlayer() != null)
 					 Flight.INSTANCE.setEnabled(oldFlying);
 	        }
-			getMinecraft().loadRenderers(); //Fixes culling updates
+			mc.loadRenderers(); //Fixes culling updates
 			getPlayer().setNoClip(enabled); //Enable noclip
 		}
     }

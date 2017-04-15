@@ -88,7 +88,7 @@ public class StorageESP extends BasicMod implements Renderer {
 	@Override
 	public void render(float partialTicks) {
 		for (TileEntity tileEntity : getWorld().getTileEntities()) {
-			Vector3d cam = getMinecraft().getCamera();
+			Vector3d cam = mc.getCamera();
 			Vector3d renderPos = tileEntity.getPosition().toDouble().sub(cam);
 			float renderX = (float) (renderPos.getX());
 			float renderY = (float) (renderPos.getY());
@@ -161,7 +161,7 @@ public class StorageESP extends BasicMod implements Renderer {
 	private void renderBox(TileEntity tileEntity, float r, float g, float b) {
 		float dist = (float) getPlayer().getDistanceTo(tileEntity.getPosition().toDouble()) / 128;
 		float alpha = dist > 0.25F ? 0.25F : dist;
-		Vector3d renderPos = tileEntity.getPosition().toDouble().sub(getMinecraft().getCamera());
+		Vector3d renderPos = tileEntity.getPosition().toDouble().sub(mc.getCamera());
 		float renderX = (float) renderPos.getX();
 		float renderY = (float) renderPos.getY();
 		float renderZ = (float) renderPos.getZ();

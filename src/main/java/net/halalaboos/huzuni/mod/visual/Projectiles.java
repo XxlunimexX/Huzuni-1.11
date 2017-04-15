@@ -29,7 +29,6 @@ import java.util.Optional;
 import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 import static net.halalaboos.mcwrapper.api.opengl.OpenGL.GL;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.GL_COLOR_ARRAY;
 
 /**
  * Renders the trajectory of any throwable item held by the player along with the projectiles within the air.
@@ -78,7 +77,7 @@ public class Projectiles extends BasicMod implements Renderer {
 
 			float yaw = getPlayer().getYaw();
 			float pitch = getPlayer().getPitch();
-			Vector3d cam = getMinecraft().getCamera();
+			Vector3d cam = mc.getCamera();
 			double posX = cam.getX() - (double) (MathUtils.cos(yaw / 180.0F * (float) Math.PI) * 0.16F),
 					posY = (cam.getY() + (double) getPlayer().getEyeHeight()) - 0.10000000149011612D,
 					posZ = cam.getZ() - (double) (MathUtils.sin(yaw / 180.0F * (float) Math.PI) * 0.16F),
@@ -108,7 +107,7 @@ public class Projectiles extends BasicMod implements Renderer {
 	private GrowingTess projectileTess = new GrowingTess(4);
 
 	private void renderProjectile(int mode, float velocity, double x, double y, double z, double motionX, double motionY, double motionZ, String text) {
-		Vector3d cam = getMinecraft().getCamera();
+		Vector3d cam = mc.getCamera();
 		if (velocity != -1) {
 			float theta = MathUtils.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
 			motionX /= (double) theta;

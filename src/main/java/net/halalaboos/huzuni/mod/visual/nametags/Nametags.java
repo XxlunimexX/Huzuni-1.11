@@ -160,8 +160,8 @@ public class Nametags extends BasicMod implements RenderManager.Renderer {
 	 * @return Whether or not the nameplate should render
 	 */
 	private boolean shouldRenderTag(Player player) {
-		return getMinecraft().shouldShowGui() && !player.isNPC() && !(invisibles.isEnabled() && player.isInvisible())
-				&& player != getMinecraft().getViewEntity() && !player.isDead();
+		return mc.shouldShowGui() && !player.isNPC() && !(invisibles.isEnabled() && player.isInvisible())
+				&& player != mc.getViewEntity() && !player.isDead();
 	}
 
 	/**

@@ -2,9 +2,9 @@ package net.halalaboos.huzuni.mod.visual;
 
 import net.halalaboos.huzuni.RenderManager.Renderer;
 import net.halalaboos.huzuni.WaypointManager.Waypoint;
-import net.halalaboos.huzuni.api.mod.command.impl.BasicCommand;
 import net.halalaboos.huzuni.api.mod.Category;
 import net.halalaboos.huzuni.api.mod.Mod;
+import net.halalaboos.huzuni.api.mod.command.impl.BasicCommand;
 import net.halalaboos.huzuni.api.node.impl.Toggleable;
 import net.halalaboos.huzuni.api.node.impl.Value;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
@@ -136,9 +136,9 @@ public class Waypoints extends Mod implements Renderer {
 		for (int i = 0; i < huzuni.waypointManager.getWaypoints().size(); i++) {
 			Waypoint waypoint = huzuni.waypointManager.getWaypoints().get(i);
 			if (waypoint.isOnServer()) {
-				Vector3d renderPos = waypoint.getPosition().toDouble().sub(getMinecraft().getCamera());
+				Vector3d renderPos = waypoint.getPosition().toDouble().sub(mc.getCamera());
 				Color color = waypoint.getColor();
-				double scale = (waypoint.getPosition().toDouble().distanceTo(getMinecraft().getCamera()) / 8D) / (1.5F + (2F - scaleValue.getValue()));
+				double scale = (waypoint.getPosition().toDouble().distanceTo(mc.getCamera()) / 8D) / (1.5F + (2F - scaleValue.getValue()));
 				if (scale < 1D || !this.scale.isEnabled())
 					scale = 1D;
 				if (lines.isEnabled())

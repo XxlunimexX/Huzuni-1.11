@@ -4,6 +4,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.node.Node;
+import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.halalaboos.mcwrapper.api.MinecraftClient;
 import net.halalaboos.tukio.Event;
 import net.halalaboos.tukio.Subscriber;
 
@@ -13,9 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getEventManager;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
+import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
 /**
  * Node which is used for most features within the client. <br/>
@@ -23,6 +23,8 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
  * Each mod has an id that is assigned upon it's instantiation, meaning it is not always consistent.
  * */
 public class Mod extends Node {
+
+	protected MinecraftClient mc = MCWrapper.getMinecraft();
 
 	protected final Huzuni huzuni = Huzuni.INSTANCE;
 

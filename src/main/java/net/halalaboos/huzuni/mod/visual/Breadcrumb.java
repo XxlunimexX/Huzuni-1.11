@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
 import static net.halalaboos.mcwrapper.api.opengl.OpenGL.GL;
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
+import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
 
 /**
  * Tracks the player's position and renders bread images at each point.
@@ -82,7 +82,7 @@ public class Breadcrumb extends BasicMod implements Renderer {
 	public void render(float partialTicks) {
 		if (bread.isEnabled()) {
 			for (Vector3i position : points) {
-				Vector3d renderPos = position.toDouble().sub(getMinecraft().getCamera());
+				Vector3d renderPos = position.toDouble().sub(mc.getCamera());
 				GLUtils.glColor(1F, 1F, 1F, opacity.getValue() / 100F);
 				getGLStateManager().pushMatrix();
 				GLUtils.prepareBillboarding(((float) renderPos.getX()), ((float) renderPos.getY()), ((float) renderPos.getZ()), true);
@@ -96,7 +96,7 @@ public class Breadcrumb extends BasicMod implements Renderer {
 		if (lines.isEnabled()) {
 			GLUtils.glColor(1F, 1F, 1F, opacity.getValue() / 100F);
 			for (Vector3i position : points) {
-				Vector3d renderPos = position.toDouble().sub(getMinecraft().getCamera());
+				Vector3d renderPos = position.toDouble().sub(mc.getCamera());
 		    	tess.vertex(((float) renderPos.getX()), ((float) renderPos.getY()), ((float) renderPos.getZ()));
 			}
 			GL.state(GL_VERTEX_ARRAY, true);

@@ -11,8 +11,6 @@ import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.item.ItemTypes;
 import org.lwjgl.input.Keyboard;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
-
 /**
  * Shows blocks hidden behind other blocks.
  *
@@ -93,19 +91,19 @@ public class Xray extends BasicMod {
 	
 	@Override
 	protected void onEnable() {
-		brightness = getMinecraft().getSettings().getGamma();
-		getMinecraft().getSettings().setGamma(1000F);
+		brightness = mc.getSettings().getGamma();
+		mc.getSettings().setGamma(1000F);
 	}
 
 	@Override
 	protected void onDisable() {
-		getMinecraft().getSettings().setGamma(brightness);
+		mc.getSettings().setGamma(brightness);
 	}
 	
 	@Override
 	public void toggle() {
 		super.toggle();
-		getMinecraft().loadRenderers();
+		mc.loadRenderers();
 	}
 	
 	public boolean isEnabled(Block block) {
