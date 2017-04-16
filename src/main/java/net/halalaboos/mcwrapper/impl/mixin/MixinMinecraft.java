@@ -218,7 +218,7 @@ public abstract class MixinMinecraft implements MinecraftClient {
 
 	@Override
 	public void showScreen(Screen screen) {
-		displayGuiScreen(new GuiScreenWrapper(screen));
+		displayGuiScreen(new GuiScreenWrapper(screen, currentScreen));
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package net.halalaboos.huzuni.gui.screen;
 
-import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.gui.SettingsMenu;
 import net.halalaboos.mcwrapper.api.client.gui.screen.Screen;
@@ -12,8 +11,6 @@ import java.io.IOException;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 
 public class HuzuniSettingsMenu extends Screen {
-
-	protected Huzuni huzuni = Huzuni.INSTANCE;
 
 	private final WidgetManager menuManager;
 	

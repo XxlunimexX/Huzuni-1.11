@@ -6,6 +6,7 @@ import net.halalaboos.mcwrapper.api.util.enums.MouseButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import org.lwjgl.input.Keyboard;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,10 +15,14 @@ import java.util.Map;
 public class GuiScreenWrapper extends GuiScreen {
 
 	private Screen screen;
+
+	private GuiScreen parent;
+
 	private Map<GuiButton, Button> buttonMap = new HashMap<>();
 
-	public GuiScreenWrapper(Screen screen) {
+	public GuiScreenWrapper(Screen screen, GuiScreen parent) {
 		this.screen = screen;
+		this.parent = parent;
 //		for (Button button : screen.()) {
 //			this.buttonMap.put(new GuiButton(button.getId(), button.getX(), button.getY(), button.getWidth(), button.getHeight(),
 //					button.getText()), button);
@@ -30,6 +35,8 @@ public class GuiScreenWrapper extends GuiScreen {
 		for (GuiButton button : buttonMap.keySet()) {
 			addButton(button);
 		}
+		screen.width = width;
+		screen.height = height;
 	}
 
 	@Override
@@ -59,6 +66,13 @@ public class GuiScreenWrapper extends GuiScreen {
 	}
 
 	@Override
+	protected void keyTyped(char typedChar, int keyCode) throws IOException {
+		if (keyCode == Keyboard.KEY_ESCAPE) {
+			mc.displayGuiScreen(parent);
+		}
+	}
+
+	@Override
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		screen.handleMouseInput();
@@ -67,6 +81,9 @@ public class GuiScreenWrapper extends GuiScreen {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		super.drawScreen(mouseX, mouseY, partialTicks);
+		if (screen.shouldDrawBackground()) {
+			drawDefaultBackground();
+		}
 		screen.drawScreen(mouseX, mouseY, partialTicks);
 	}
 

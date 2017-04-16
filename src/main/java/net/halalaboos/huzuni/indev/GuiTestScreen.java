@@ -1,6 +1,5 @@
 package net.halalaboos.huzuni.indev;
 
-import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.mod.Mod;
 import net.halalaboos.huzuni.api.node.Mode;
 import net.halalaboos.huzuni.api.node.Node;
@@ -45,8 +44,6 @@ public class GuiTestScreen extends Screen {
     private final FontData globalFont, titleFont, descriptionFont, textfieldFont;
 
     private final ContainerManager manager;
-
-    private Huzuni huzuni = Huzuni.INSTANCE;
 
     private Container settings;
 

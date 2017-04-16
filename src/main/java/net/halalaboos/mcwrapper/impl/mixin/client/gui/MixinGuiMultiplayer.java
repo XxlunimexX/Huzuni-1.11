@@ -1,6 +1,7 @@
 package net.halalaboos.mcwrapper.impl.mixin.client.gui;
 
-import net.halalaboos.huzuni.gui.screen.account.HuzuniAccounts;
+import net.halalaboos.huzuni.gui.screen.account.indev.AccountScreen;
+import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiScreen;
@@ -27,7 +28,7 @@ public class MixinGuiMultiplayer extends GuiScreen {
 	@Inject(method = "actionPerformed", at = @At("HEAD"))
 	public void onClick(GuiButton button, CallbackInfo ci) throws IOException {
 		if (button.id == 400) {
-			mc.displayGuiScreen(new HuzuniAccounts(this));
+			MCWrapper.getMinecraft().showScreen(new AccountScreen());
 		}
 	}
 }

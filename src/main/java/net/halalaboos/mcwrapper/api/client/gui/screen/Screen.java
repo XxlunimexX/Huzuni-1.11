@@ -1,5 +1,6 @@
 package net.halalaboos.mcwrapper.api.client.gui.screen;
 
+import net.halalaboos.huzuni.Huzuni;
 import org.lwjgl.input.Keyboard;
 
 import java.io.IOException;
@@ -7,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Screen {
+
+	protected Huzuni huzuni = Huzuni.INSTANCE;
 
 	private List<Button> buttons = new ArrayList<>();
 
@@ -39,4 +42,14 @@ public class Screen {
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
 	}
+
+	protected void drawBackground() {
+		background = true;
+	}
+
+	public boolean shouldDrawBackground() {
+		return background;
+	}
+
+	private boolean background = false;
 }
