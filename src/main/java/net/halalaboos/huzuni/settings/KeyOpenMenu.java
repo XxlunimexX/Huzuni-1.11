@@ -3,7 +3,7 @@ package net.halalaboos.huzuni.settings;
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.mod.keybind.BasicKeybind;
 import net.halalaboos.huzuni.gui.screen.HuzuniSettingsMenu;
-import net.minecraft.client.Minecraft;
+import net.halalaboos.mcwrapper.api.MCWrapper;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -17,7 +17,7 @@ public class KeyOpenMenu extends BasicKeybind {
 	
 	@Override
 	public void pressed() {
-		Minecraft.getMinecraft().displayGuiScreen(new HuzuniSettingsMenu(Huzuni.INSTANCE.guiManager.widgetManager, Huzuni.INSTANCE.guiManager.settingsMenu));
+		MCWrapper.getMinecraft().showScreen(new HuzuniSettingsMenu(Huzuni.INSTANCE.guiManager.widgetManager, Huzuni.INSTANCE.guiManager.settingsMenu));
 	}
 
 }

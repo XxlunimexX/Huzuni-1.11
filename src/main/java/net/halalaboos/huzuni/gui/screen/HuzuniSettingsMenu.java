@@ -1,7 +1,9 @@
 package net.halalaboos.huzuni.gui.screen;
 
+import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.gui.WidgetManager;
 import net.halalaboos.huzuni.gui.SettingsMenu;
+import net.halalaboos.mcwrapper.api.client.gui.screen.Screen;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -9,7 +11,9 @@ import java.io.IOException;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 
-public class HuzuniSettingsMenu extends HuzuniScreen {
+public class HuzuniSettingsMenu extends Screen {
+
+	protected Huzuni huzuni = Huzuni.INSTANCE;
 
 	private final WidgetManager menuManager;
 	
@@ -34,14 +38,14 @@ public class HuzuniSettingsMenu extends HuzuniScreen {
 	}
 	
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+	public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		settingsMenu.mouseClicked(mouseX, mouseY, mouseButton);
 		if (!settingsMenu.isExpanded())
 			menuManager.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
-	protected void keyTyped(char typedChar, int keyCode) throws IOException {
+	public void keyTyped(char typedChar, int keyCode) throws IOException {
 		super.keyTyped(typedChar, keyCode);
 		if (keyCode != Keyboard.KEY_ESCAPE)
 			settingsMenu.keyTyped(keyCode, typedChar);

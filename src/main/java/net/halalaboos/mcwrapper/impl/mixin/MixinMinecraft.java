@@ -12,9 +12,9 @@ import net.halalaboos.mcwrapper.api.client.gui.screen.Screen;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.network.NetworkHandler;
 import net.halalaboos.mcwrapper.api.network.ServerInfo;
-import net.halalaboos.mcwrapper.api.util.enums.Face;
-import net.halalaboos.mcwrapper.api.util.ResourcePath;
 import net.halalaboos.mcwrapper.api.util.Resolution;
+import net.halalaboos.mcwrapper.api.util.ResourcePath;
+import net.halalaboos.mcwrapper.api.util.enums.Face;
 import net.halalaboos.mcwrapper.api.util.math.Result;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
@@ -90,6 +90,8 @@ public abstract class MixinMinecraft implements MinecraftClient {
 	@Shadow public abstract TextureManager getTextureManager();
 
 	@Shadow @Final private net.minecraft.util.Session session;
+
+	@Shadow public boolean inGameHasFocus;
 
 	@Inject(method = "init", at = @At(value = "FIELD",
 			target = "Lnet/minecraft/client/Minecraft;ingameGUI:Lnet/minecraft/client/gui/GuiIngame;",
@@ -288,6 +290,9 @@ public abstract class MixinMinecraft implements MinecraftClient {
 
 	@Override
 	public Object getScreen() {
+		if (currentScreen instanceof GuiScreenWrapper) {
+			return ((GuiScreenWrapper) currentScreen).getScreen();
+		}
 		return currentScreen;
 	}
 

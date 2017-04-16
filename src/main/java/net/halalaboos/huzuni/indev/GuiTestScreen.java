@@ -1,38 +1,39 @@
 package net.halalaboos.huzuni.indev;
 
+import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.mod.Mod;
-import net.halalaboos.huzuni.api.node.*;
+import net.halalaboos.huzuni.api.node.Mode;
+import net.halalaboos.huzuni.api.node.Node;
 import net.halalaboos.huzuni.api.node.impl.*;
 import net.halalaboos.huzuni.api.util.RateLimiter;
-import net.halalaboos.huzuni.gui.screen.HuzuniScreen;
 import net.halalaboos.huzuni.indev.gui.Component;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.ContainerManager;
+import net.halalaboos.huzuni.indev.gui.FontData;
 import net.halalaboos.huzuni.indev.gui.components.Button;
 import net.halalaboos.huzuni.indev.gui.components.Label;
 import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
 import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
 import net.halalaboos.huzuni.indev.gui.impl.BasicToolbox;
-import net.halalaboos.huzuni.indev.gui.layouts.*;
-import net.halalaboos.huzuni.indev.gui.FontData;
 import net.halalaboos.huzuni.indev.gui.layouts.GridLayout;
-import net.minecraft.util.ResourceLocation;
+import net.halalaboos.huzuni.indev.gui.layouts.ListLayout;
+import net.halalaboos.mcwrapper.api.client.gui.screen.Screen;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import static net.halalaboos.huzuni.indev.gui.impl.Pointers.*;
+import static net.halalaboos.huzuni.indev.gui.impl.Pointers.FONT_TOOLTIP;
+import static net.halalaboos.huzuni.indev.gui.impl.Pointers.IMAGE_ARROW;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
 
 /**
  * Testing the new GUI API. <br/>
  * Created by Brandon Williams on 2/15/2017.
  */
-public class GuiTestScreen  extends HuzuniScreen {
+public class GuiTestScreen extends Screen {
 
     /**
      * Keeps the rate at which the menu is updated to a constant 60 updates/second.
@@ -45,9 +46,9 @@ public class GuiTestScreen  extends HuzuniScreen {
 
     private final ContainerManager manager;
 
-    private Container settings;
+    private Huzuni huzuni = Huzuni.INSTANCE;
 
-    private ResourceLocation blurShader;
+    private Container settings;
 
     public GuiTestScreen() {
         super();
@@ -118,19 +119,19 @@ public class GuiTestScreen  extends HuzuniScreen {
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+	public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         manager.mousePressed(mouseX, mouseY, mouseButton);
     }
 
     @Override
-    protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+    public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
         super.mouseReleased(mouseX, mouseY, mouseButton);
         manager.mouseReleased(mouseX, mouseY, mouseButton);
     }
 
     @Override
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+	public void keyTyped(char typedChar, int keyCode) throws IOException {
         super.keyTyped(typedChar, keyCode);
         manager.keyTyped(typedChar, keyCode);
     }
