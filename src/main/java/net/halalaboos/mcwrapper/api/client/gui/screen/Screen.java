@@ -52,4 +52,8 @@ public class Screen {
 	}
 
 	private boolean background = false;
+
+	public List<Button> getButtons() {
+		return buttons;
+	}
 }

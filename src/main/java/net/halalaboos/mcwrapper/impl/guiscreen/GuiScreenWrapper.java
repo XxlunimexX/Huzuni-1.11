@@ -23,10 +23,10 @@ public class GuiScreenWrapper extends GuiScreen {
 	public GuiScreenWrapper(Screen screen, GuiScreen parent) {
 		this.screen = screen;
 		this.parent = parent;
-//		for (Button button : screen.()) {
-//			this.buttonMap.put(new GuiButton(button.getId(), button.getX(), button.getY(), button.getWidth(), button.getHeight(),
-//					button.getText()), button);
-//		}
+		for (Button button : screen.getButtons()) {
+			this.buttonMap.put(new GuiButton(button.getId(), button.getX(), button.getY(), button.getWidth(), button.getHeight(),
+					button.getText()), button);
+		}
 	}
 
 	@Override
@@ -80,10 +80,10 @@ public class GuiScreenWrapper extends GuiScreen {
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		super.drawScreen(mouseX, mouseY, partialTicks);
 		if (screen.shouldDrawBackground()) {
 			drawDefaultBackground();
 		}
+		super.drawScreen(mouseX, mouseY, partialTicks);
 		screen.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
