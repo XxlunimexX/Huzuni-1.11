@@ -5,23 +5,29 @@
 
 Huzuni 5.1
 ADDITIONS
+-- CLIENT
 + (Not finished) New GUI, which can be displayed by pressing the right-control key.
-+ Added an accuracy slider to Kill Aura which will adjust how accurate the attacks would be, replacing the 'Random misses' option.
+
+-- MODS
 + Added 'Chat annoy', which can be used to annoy people in chat.  In theory, you can add custom messages for it using resource packs!
 + Added 'No slowdown', which will prevent the player from being slowed down when doing things such as eating or blocking.  Also works on ice!
++ Added 'No effect', which allows you to disable hurtcam, fire/pumpkin overlay, and weather!
+
+-- SETTINGS
 + Added 'Water' option to Anti knockback, which prevents water from pushing you.
 + Added 'Entities' option to Anti knockback, which prevents entities from pushing you.
 + Added 'Hit Delay' option to Speedmine, which allows you to change the delay between breaking blocks.
 + Added 'Spacing' option to the Enabled mods widget, allowing you to adjust the spacing between each line
 + Added 'Opacity' option to the Text Radar widget, allowing you to adjust how transparent the text is.
 + Added 'Maximum Players' option to the Text Radar widget, allowing you to adjust how many players to render on the radar.
++ Added an accuracy slider to Kill Aura which will adjust how accurate the attacks would be, replacing the 'Random misses' option.
 
 IMPROVEMENTS
 + Rewrite of all of the mods to remove Minecraft code and instead use our wrapper, meaning faster updates! This means that all versions of the client (1.8, 1.9, 1.10, 1.11, etc. can be updated at the same time!)
 + Various performance boosts for all mods thanks to our new event manager!
 + Renamed 'Auto disconnect' to 'Auto quit'
 + Made the main menu support other additions from other mods such as OptiFine's release info
-+ Fixed nameplates rendering on fake players (as well as kill aura targeting said fake players)
++ Rewrote Nametags, fixed a bug where they would render on fake players.
 + Fixed some coloring issues with ESP's lines.
 
 BUGFIXES
