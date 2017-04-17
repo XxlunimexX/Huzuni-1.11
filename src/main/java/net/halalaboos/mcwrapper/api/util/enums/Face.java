@@ -73,6 +73,10 @@ public enum Face {
 		return this.axis == Axis.Z ? this.direction.getOffset() : 0;
 	}
 
+	public Vector3i getOffsetVector() {
+		return new Vector3i(getOffsetX(), getOffsetY(), getOffsetZ());
+	}
+
 	public Face rotateY() {
 		switch (this) {
 			case NORTH: return EAST;

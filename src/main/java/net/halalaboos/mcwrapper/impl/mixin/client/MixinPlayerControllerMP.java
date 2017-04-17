@@ -122,8 +122,6 @@ public abstract class MixinPlayerControllerMP implements Controller {
 	public ActionResult rightClickBlock(Vector3i pos, Face direction, Vector3d vec, Hand hand) {
 		EnumActionResult result = processRightClickBlock(Convert.player(), Convert.world(), Convert.to(pos),
 				Convert.to(direction), Convert.to(vec), Convert.to(hand));
-		System.out.println(String.format("Pos %s, Face %s, Vec %s, Hand %s", Convert.to(pos),
-				Convert.to(direction), Convert.to(vec), Convert.to(hand)));
 		return Convert.from(result);
 	}
 
