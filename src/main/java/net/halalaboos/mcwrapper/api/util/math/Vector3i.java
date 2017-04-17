@@ -4,9 +4,9 @@ import net.halalaboos.mcwrapper.api.util.enums.Face;
 
 public class Vector3i {
 
-	private int x;
-	private int y;
-	private int z;
+	private final int x;
+	private final int y;
+	private final int z;
 
 	public static final Vector3i ZERO = new Vector3i(0, 0, 0);
 
@@ -34,8 +34,7 @@ public class Vector3i {
 	 * @return The {@link Vector3i} with the given {@code x} added to the current {@link #x}
 	 */
 	public Vector3i addX(int x) {
-		this.x += x;
-		return this;
+		return new Vector3i(this.x + x, this.y, this.z);
 	}
 
 	/**
@@ -46,8 +45,7 @@ public class Vector3i {
 	 * @return The {@link Vector3i} with the given {@code y} added to the current {@link #y}
 	 */
 	public Vector3i addY(int y) {
-		this.y += y;
-		return this;
+		return new Vector3i(this.x, this.y + y, this.z);
 	}
 
 	/**
@@ -58,22 +56,15 @@ public class Vector3i {
 	 * @return The {@link Vector3i} with the given {@code z} added to the current {@link #z}
 	 */
 	public Vector3i addZ(int z) {
-		this.z += z;
-		return this;
+		return new Vector3i(this.x, this.y, this.z + z);
 	}
 
 	public Vector3i add(int amount) {
-		this.x += amount;
-		this.y += amount;
-		this.z += amount;
-		return this;
+		return new Vector3i(this.x + amount, this.y + amount, this.z + amount);
 	}
 
 	public Vector3i add(int x, int y, int z) {
-		this.x += x;
-		this.y += y;
-		this.z += z;
-		return this;
+		return new Vector3i(this.x + x, this.y + y, this.z + z);
 	}
 
 	public Vector3i add(Vector3i vec) {
@@ -81,17 +72,11 @@ public class Vector3i {
 	}
 
 	public Vector3i sub(int amount) {
-		this.x -= amount;
-		this.y -= amount;
-		this.z -= amount;
-		return this;
+		return new Vector3i(this.x - amount, this.y - amount, this.z - amount);
 	}
 
 	public Vector3i sub(Vector3i vec) {
-		this.x -= vec.x;
-		this.y -= vec.y;
-		this.z -= vec.z;
-		return this;
+		return new Vector3i(this.x - vec.x, this.y - vec.y, this.z - vec.z);
 	}
 
 	public Vector3i up() {
@@ -119,18 +104,15 @@ public class Vector3i {
 	}
 
 	public Vector3i setX(int x) {
-		this.x = x;
-		return this;
+		return new Vector3i(x, this.y, this.z);
 	}
 
 	public Vector3i setY(int y) {
-		this.y = y;
-		return this;
+		return new Vector3i(this.x, y, this.z);
 	}
 
 	public Vector3i setZ(int z) {
-		this.z = z;
-		return this;
+		return new Vector3i(this.x, this.y, z);
 	}
 
 	public Vector3d toDouble() {
