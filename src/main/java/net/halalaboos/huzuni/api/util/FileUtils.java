@@ -20,8 +20,8 @@ public final class FileUtils {
 	 * @param file The {@link File} to read from.
 	 * @return A {@link List} of {@link String}s from the {@link File}.
 	 * */
-    public static List<String> readFile(File file) {
-        List<String> tempList = new ArrayList<String>();
+    public static List<String> readFile(File file) throws IOException {
+        List<String> tempList = new ArrayList<>();
 
         BufferedReader reader = null;
         try {
@@ -29,15 +29,9 @@ public final class FileUtils {
             for (String s; (s = reader.readLine()) != null; ) {
                 tempList.add(s);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             if (reader != null)
-                try {
                     reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
         }
         return tempList;
     }
@@ -48,13 +42,13 @@ public final class FileUtils {
      * @return A {@link String} of the contents from the {@link URL}. 
      * */
     public static String readURL(URL url) {
-        String temp = "";
+        StringBuilder temp = new StringBuilder();
 
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new InputStreamReader(url.openConnection().getInputStream()));
             for (String s; (s = reader.readLine()) != null; ) {
-            	temp += s;
+            	temp.append(s);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,7 +60,7 @@ public final class FileUtils {
                     e.printStackTrace();
                 }
         }
-        return temp;
+        return temp.toString();
     }
     
     /**
@@ -75,7 +69,7 @@ public final class FileUtils {
      * @return A {@link List} of {@link String}s of the contents from the {@link URL}. 
      * */
     public static List<String> readURLList(URL url) {
-        List<String> temp = new ArrayList<String>();
+        List<String> temp = new ArrayList<>();
 
         BufferedReader reader = null;
         try {

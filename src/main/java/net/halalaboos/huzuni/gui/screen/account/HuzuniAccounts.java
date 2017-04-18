@@ -159,8 +159,12 @@ public class HuzuniAccounts extends HuzuniScreen implements GuiYesNoCallback {
 
 	public List<String> readAccounts() {
         if (accountsFile.exists()) {
-            return FileUtils.readFile(accountsFile);
-        }
+			try {
+				return FileUtils.readFile(accountsFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
         return new ArrayList<>();
     }
 

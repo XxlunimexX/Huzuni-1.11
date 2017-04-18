@@ -155,7 +155,11 @@ public class AccountScreen extends Screen {
 
 	private List<String> readAccounts() {
 		if (accountsFile.exists()) {
-			return FileUtils.readFile(accountsFile);
+			try {
+				return FileUtils.readFile(accountsFile);
+			} catch (IOException e) {
+				this.status.setText("Unable to load accounts file!");
+			}
 		}
 		return new ArrayList<>();
 	}
