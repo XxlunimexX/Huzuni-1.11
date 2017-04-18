@@ -1,8 +1,18 @@
 package net.halalaboos.huzuni.mod.commands;
 
+import net.halalaboos.huzuni.Huzuni;
+import net.halalaboos.huzuni.api.account.Account;
 import net.halalaboos.huzuni.api.mod.command.impl.BasicCommand;
+import net.halalaboos.huzuni.api.util.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Debug extends BasicCommand {
+
+	private final File accountsFile = new File(Huzuni.INSTANCE.getSaveFolder(), "Accounts.txt");
 
 	public Debug() {
 		super("debug", "Basic debug command for some wrapper things, ignore me!");
@@ -38,5 +48,21 @@ public class Debug extends BasicCommand {
 //		huzuni.addChatMessage(Boolean.toString(huzuni.resourceCreator.create(args[0], args[1])));
 
 //		huzuni.addChatMessage("TEST: " + ItemTypes.from(BlockTypes.DIRT).name());
+		List<String> accounts = readAccounts();
+		for (String s : accounts) {
+			Account account = Huzuni.INSTANCE.accountManager.getAccount(s);
+			Huzuni.INSTANCE.accountManager.addAccount(account);
+		}
+	}
+
+	private List<String> readAccounts() {
+		if (accountsFile.exists()) {
+			try {
+				return FileUtils.readFile(accountsFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return new ArrayList<>();
 	}
 }

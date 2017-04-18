@@ -1,7 +1,7 @@
 package net.halalaboos.huzuni.gui.screen.account.indev;
 
 import net.halalaboos.huzuni.Huzuni;
-import net.halalaboos.huzuni.api.util.FileUtils;
+import net.halalaboos.huzuni.api.account.Account;
 import net.halalaboos.huzuni.api.util.RateLimiter;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.indev.ColorPack;
@@ -19,10 +19,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getGLStateManager;
@@ -36,10 +33,6 @@ public class AccountScreen extends Screen {
 	private final FontData globalFont, titleFont;
 	private ContainerManager manager;
 
-	private final File accountsFile = new File(Huzuni.INSTANCE.getSaveFolder(), "Accounts.txt");
-
-	private List<String> totalAccounts;
-
 	protected Label status;
 
 	public AccountScreen() {
@@ -49,7 +42,6 @@ public class AccountScreen extends Screen {
 		colorPack.apply(toolbox);
 		BasicRenderer renderer = new BasicRenderer(toolbox);
 		manager = new ContainerManager(renderer, toolbox);
-		totalAccounts = this.readAccounts();
 		setPanorama(true);
 	}
 
@@ -83,7 +75,7 @@ public class AccountScreen extends Screen {
 		accountList.setPosition(x, y);
 		accountList.setSize(width, height);
 
-		for (String account : totalAccounts) {
+		for (Account account : Huzuni.INSTANCE.accountManager.getLoadedAccounts()) {
 			Button button = new AccountButton(account, this);
 			button.setFont(globalFont);
 			button.setHeight(20);
@@ -151,16 +143,5 @@ public class AccountScreen extends Screen {
 	@Override
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
-	}
-
-	private List<String> readAccounts() {
-		if (accountsFile.exists()) {
-			try {
-				return FileUtils.readFile(accountsFile);
-			} catch (IOException e) {
-				this.status.setText("Unable to load accounts file!");
-			}
-		}
-		return new ArrayList<>();
 	}
 }

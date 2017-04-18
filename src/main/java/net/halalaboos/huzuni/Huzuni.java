@@ -1,9 +1,11 @@
 package net.halalaboos.huzuni;
 
-import net.halalaboos.huzuni.api.mod.command.CommandManager;
-import net.halalaboos.huzuni.api.mod.keybind.KeybindManager;
+import net.halalaboos.huzuni.api.account.AccountManager;
+import net.halalaboos.huzuni.api.gui.MinecraftFontRenderer;
 import net.halalaboos.huzuni.api.mod.Mod;
 import net.halalaboos.huzuni.api.mod.ModManager;
+import net.halalaboos.huzuni.api.mod.command.CommandManager;
+import net.halalaboos.huzuni.api.mod.keybind.KeybindManager;
 import net.halalaboos.huzuni.api.plugin.PluginManager;
 import net.halalaboos.huzuni.api.task.ClickTask;
 import net.halalaboos.huzuni.api.task.HotbarManager;
@@ -21,7 +23,6 @@ import net.halalaboos.huzuni.mod.misc.chat.ChatAnnoy;
 import net.halalaboos.huzuni.mod.misc.chat.ChatMutator;
 import net.halalaboos.huzuni.mod.movement.*;
 import net.halalaboos.huzuni.mod.visual.*;
-import net.halalaboos.huzuni.api.gui.MinecraftFontRenderer;
 import net.halalaboos.huzuni.mod.visual.nametags.Nametags;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.util.enums.TextColor;
@@ -76,6 +77,8 @@ public enum Huzuni {
 
 	public final ResourceCreator resourceCreator = new ResourceCreator();
 
+	public final AccountManager accountManager = new AccountManager();
+
 //	public final ScriptManager scriptManager = new ScriptManager(this);
 
 	private File saveFolder = null;
@@ -107,9 +110,11 @@ public enum Huzuni {
 		guiManager.widgetManager.setFile(new File(saveFolder, "widgets.json"));
 		waypointManager.setFile(new File(saveFolder, "waypoints.json"));
 		pluginManager.setPluginFolder(new File(saveFolder, "plugins"));
+		accountManager.setFile(new File(saveFolder, "accounts.json"));
 		loadDefaults();
 		pluginManager.init();
 		settings.load();
+		accountManager.load();
 		friendManager.load();
 		waypointManager.load();
 		modManager.load();
@@ -129,6 +134,7 @@ public enum Huzuni {
 		guiManager.save();
 		settings.save();
 		pluginManager.save();
+		accountManager.save();
 	}
 
 	/**
