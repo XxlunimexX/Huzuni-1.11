@@ -1,6 +1,5 @@
 package net.halalaboos.mcwrapper.impl.mixin.client;
 
-import com.google.gson.JsonObject;
 import net.halalaboos.mcwrapper.api.client.Session;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -50,7 +49,11 @@ public abstract class MixinSession implements Session {
 		this._username = params[0];
 		this._playerId = params[1];
 		this._token = params[2];
-		this.sessionType = net.minecraft.util.Session.Type.MOJANG;
+		if (params.length > 3) {
+			this.sessionType = params[3].equals("mojang") ? net.minecraft.util.Session.Type.MOJANG : net.minecraft.util.Session.Type.LEGACY;
+		} else {
+			this.sessionType = net.minecraft.util.Session.Type.MOJANG;
+		}
 	}
 
 	@Override

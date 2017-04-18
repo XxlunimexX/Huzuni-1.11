@@ -56,4 +56,8 @@ public class Screen {
 	public List<Button> getButtons() {
 		return buttons;
 	}
+
+	public boolean isPanorama() {
+		return panorama;
+	}
 }

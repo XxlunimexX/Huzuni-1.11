@@ -20,18 +20,25 @@ public class GuiScreenWrapper extends GuiScreen {
 
 	private Map<GuiButton, Button> buttonMap = new HashMap<>();
 
+	private PanoramaRenderer panoramaRenderer;
+
 	public GuiScreenWrapper(Screen screen, GuiScreen parent) {
 		this.screen = screen;
 		this.parent = parent;
-		for (Button button : screen.getButtons()) {
-			this.buttonMap.put(new GuiButton(button.getId(), button.getX(), button.getY(), button.getWidth(), button.getHeight(),
-					button.getText()), button);
-		}
 	}
 
 	@Override
 	public void initGui() {
 		super.initGui();
+		if (screen.isPanorama()) {
+			panoramaRenderer = new PanoramaRenderer(width, height);
+
+			panoramaRenderer.init();
+		}
+		for (Button button : screen.getButtons()) {
+			this.buttonMap.put(new GuiButton(button.getId(), button.getX(), button.getY(), button.getWidth(), button.getHeight(),
+					button.getText()), button);
+		}
 		for (GuiButton button : buttonMap.keySet()) {
 			addButton(button);
 		}
@@ -80,8 +87,11 @@ public class GuiScreenWrapper extends GuiScreen {
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		if (screen.shouldDrawBackground()) {
+		if (screen.shouldDrawBackground() && !screen.isPanorama()) {
 			drawDefaultBackground();
+		}
+		if (panoramaRenderer != null && screen.isPanorama()) {
+			panoramaRenderer.renderSkybox(partialTicks);
 		}
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		screen.drawScreen(mouseX, mouseY, partialTicks);
@@ -96,6 +106,9 @@ public class GuiScreenWrapper extends GuiScreen {
 	@Override
 	public void updateScreen() {
 		super.updateScreen();
+		if (panoramaRenderer != null && screen.isPanorama()) {
+			panoramaRenderer.panoramaTick();
+		}
 		screen.updateScreen();
 	}
 

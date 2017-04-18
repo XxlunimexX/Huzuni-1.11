@@ -5,7 +5,6 @@ import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
 import net.halalaboos.huzuni.Huzuni;
-import net.halalaboos.mcwrapper.api.block.BlockTypes;
 import net.halalaboos.mcwrapper.api.entity.Entity;
 import net.halalaboos.mcwrapper.api.entity.living.Animal;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
@@ -18,17 +17,13 @@ import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.halalaboos.mcwrapper.api.util.math.Result;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
-import net.halalaboos.mcwrapper.impl.Convert;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Session;
 
 import java.net.Proxy;
 import java.util.Collection;
 import java.util.Optional;
 
-import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getPlayer;
-import static net.halalaboos.mcwrapper.api.MCWrapper.getWorld;
+import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
 /**
  * Easy to use functions that calculate blah blah blah relating to Minecraft.
@@ -58,7 +53,7 @@ public final class MinecraftUtils {
 		userAuthentication.setUsername(username);
 		userAuthentication.setPassword(password);
 		userAuthentication.logIn();
-		getMinecraft().session().set(userAuthentication.getSelectedProfile().getName(), userAuthentication.getSelectedProfile().getId().toString(), userAuthentication.getAuthenticatedToken());
+		getMinecraft().session().set(userAuthentication.getSelectedProfile().getName(), userAuthentication.getSelectedProfile().getId().toString(), userAuthentication.getAuthenticatedToken(), username.contains("@") ? "mojang" : "");
 	}
 
 	/**
