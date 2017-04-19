@@ -4,6 +4,8 @@ import net.halalaboos.huzuni.indev.gui.Component;
 import net.halalaboos.huzuni.indev.gui.actions.Actions;
 import net.halalaboos.huzuni.indev.gui.actions.ClickAction;
 
+import java.util.function.BiFunction;
+
 /**
  * Simple button implementation. <br/>
  * Created by Brandon Williams on 1/15/2017.
@@ -16,6 +18,8 @@ public class Button extends Component {
 
     private boolean pressed = false;
 
+    private BiFunction<Button, ClickAction, Boolean> pressFunction;
+
     public Button(String tag, String text) {
         this(tag, text, false);
     }
@@ -25,16 +29,15 @@ public class Button extends Component {
         this.text = text;
         this.highlight = highlight;
         this.addListener(Actions.MOUSEPRESS, (ClickAction.ClickActionListener) action -> {
-            if (isHovered() && isPointInside(action.x, action.y) && action.buttonId == 0) {
+            if (isHovered() && isPointInside(action.x, action.y)) {
                 pressed = true;
                 return true;
             }
             return false;
         });
         this.addListener(Actions.MOUSERELEASE, (ClickAction.ClickActionListener) action -> {
-            if (pressed && isPointInside(action.x, action.y)) {
+            if (pressed && isPointInside(action.x, action.y) && pressFunction.apply(this, action)) {
                 pressed = false;
-                onPressed();
                 return true;
             }
             pressed = false;
@@ -46,7 +49,12 @@ public class Button extends Component {
     public void update() {
     }
 
-    protected void onPressed() {}
+    /**
+     * Invokes the given function when this button is pressed.
+     * */
+    public void onPressed(BiFunction<Button, ClickAction, Boolean> pressFunction) {
+        this.pressFunction = pressFunction;
+    }
 
     public String getText() {
         return text;

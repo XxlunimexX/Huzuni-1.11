@@ -17,6 +17,7 @@ import java.util.function.BiFunction;
  *
  * This class might not even be necessary and I could be looking over things, which would be pretty normal
  */
+@Deprecated
 public class BruButton extends Button {
 
 	private BiFunction<BruButton, MouseButton, Boolean> clickFunction;
@@ -48,7 +49,4 @@ public class BruButton extends Button {
 	public void onClick(BiFunction<BruButton, MouseButton, Boolean> onClick) {
 		this.clickFunction = onClick;
 	}
-
-	@Override
-	protected final void onPressed() {}
 }

@@ -17,6 +17,7 @@ import net.halalaboos.huzuni.indev.gui.impl.BasicToolbox;
 import net.halalaboos.huzuni.indev.gui.layouts.GridLayout;
 import net.halalaboos.huzuni.indev.gui.layouts.ListLayout;
 import net.halalaboos.mcwrapper.api.client.gui.screen.Screen;
+import net.halalaboos.mcwrapper.api.util.enums.MouseButton;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -93,7 +94,13 @@ public class GuiTestScreen extends Screen {
 
         // Populate the scrollable container with the mods of huzuni.
         for (Mod mod : huzuni.modManager.getMods()) {
-            Button button = new ModButton(mod, this);
+            Button button = new Button("mod", mod.getName());
+            button.onPressed((thisbutton, action) -> {
+                if (MouseButton.getMouseButton(action.buttonId) == MouseButton.LEFT) {
+                    loadMod(mod);
+                }
+                return true;
+            });
             button.setFont(globalFont);
             button.setHeight(20);
             modsList.add(button);

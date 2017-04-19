@@ -27,11 +27,11 @@ public final class GLUtils {
 
 	private static final Random random = new Random();
 
+	private static final OffsetTess tess = new OffsetTess(new GrowingTess(4));
+
 	private GLUtils() {
 
 	}
-
-	private static OffsetTess tess = new OffsetTess(new GrowingTess(4));
 
 	public static void drawTextureRect(float x, float y, float width, float height, float u, float v, float t, float s) {
 		getGLStateManager().drawTexture(x, y, width, height, u, v, t, s);

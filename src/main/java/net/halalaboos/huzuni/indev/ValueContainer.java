@@ -37,23 +37,20 @@ public class ValueContainer extends Container {
         // Set the default dimensions of the slider as well as updating it's percentage to reflect the value node.
         this.slider.setSize(150, 12);
         this.slider.setSliderPercentage((value.getValue() - value.getMinValue()) / (value.getMaxValue() - value.getMinValue()));
-        this.layout();
-    }
+        this.slider.onValueChange((slider1 -> {
+            // Calculate the value the slider's percentage would create (before the minimum value)
+            float calculatedValue = (slider.getSliderPercentage() * (value.getMaxValue() - value.getMinValue()));
 
-    @Override
-    public void update() {
-        // Calculate the value the slider's percentage would create (before the minimum value)
-        float calculatedValue = (slider.getSliderPercentage() * (value.getMaxValue() - value.getMinValue()));
+            // Use the modulus operator to trim the excess value from the slider percentage.
+            this.value.setValue(value.getMinValue() + calculatedValue - (value.getIncrementValue() == -1 ? 0 : calculatedValue % value.getIncrementValue()));
 
-        // Use the modulus operator to trim the excess value from the slider percentage.
-        this.value.setValue(value.getMinValue() + calculatedValue - (value.getIncrementValue() == -1 ? 0 : calculatedValue % value.getIncrementValue()));
+            // Update the slider percentage with the values current value, as it may differ if there were excess value.
+            this.slider.setSliderPercentage((value.getValue() - value.getMinValue()) / (value.getMaxValue() - value.getMinValue()));
 
-        // Update the slider percentage with the values current value, as it may differ if there were excess value.
-        this.slider.setSliderPercentage((value.getValue() - value.getMinValue()) / (value.getMaxValue() - value.getMinValue()));
-
-        // Update the title label to coincide with any value change.
-        this.title.setText(String.format("%s (%.1f%s)", value.getName(), value.getValue(), value.getCarot()));
-        super.update();
+            // Update the title label to coincide with any value change.
+            this.title.setText(String.format("%s (%.1f%s)", value.getName(), value.getValue(), value.getCarot()));
+            return null;
+        }));
         this.layout();
     }
 
