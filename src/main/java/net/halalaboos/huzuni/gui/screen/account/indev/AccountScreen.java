@@ -14,6 +14,7 @@ import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
 import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
 import net.halalaboos.huzuni.indev.gui.impl.BasicToolbox;
 import net.halalaboos.huzuni.indev.gui.layouts.ListLayout;
+import net.halalaboos.huzuni.indev.gui.layouts.PaddedLayout;
 import net.halalaboos.mcwrapper.api.client.gui.screen.Screen;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -28,9 +29,11 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 public class AccountScreen extends Screen {
 
 	private final BasicToolbox toolbox = new BasicToolbox();
+
 	private final RateLimiter updateLimiter = new RateLimiter(TimeUnit.SECONDS, 60);
 
 	private final FontData globalFont, titleFont;
+
 	private ContainerManager manager;
 
 	protected Label status;
@@ -75,7 +78,7 @@ public class AccountScreen extends Screen {
 		accountList.setPosition(x, y);
 		accountList.setSize(width, height);
 
-		for (Account account : Huzuni.INSTANCE.accountManager.getLoadedAccounts()) {
+		for (Account account : Huzuni.INSTANCE.accountManager.getAccounts()) {
 			Button button = new AccountButton(account, this);
 			button.setFont(globalFont);
 			button.setHeight(20);
@@ -85,11 +88,12 @@ public class AccountScreen extends Screen {
 	}
 
 	/**
+	 * TODO: This shouldn't be how we approach our screens. One container should be necessary, will provide a new layout to make this easier.
 	 * Sets up the status container, which is used to render the {@link #status status text} above the account list.
 	 */
 	private Container setupStatusContainer(int x, int y, int width, int height) {
-		Container statusContainer = new ScrollableContainer("info");
-		statusContainer.setLayout(new ListLayout(6, 1));
+		Container statusContainer = new Container("info");
+		statusContainer.setLayout(new PaddedLayout( 6));
 		statusContainer.setPosition(x, y);
 		statusContainer.setSize(width, height);
 		//The default status text will just say you're logged in as whatever your session name is.

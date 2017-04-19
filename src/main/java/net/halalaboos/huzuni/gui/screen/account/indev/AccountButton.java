@@ -1,6 +1,7 @@
 package net.halalaboos.huzuni.gui.screen.account.indev;
 
 import net.halalaboos.huzuni.api.account.Account;
+import net.halalaboos.huzuni.indev.gui.components.Button;
 import net.halalaboos.mcwrapper.api.util.enums.MouseButton;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
@@ -8,17 +9,19 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 /**
  * {@link net.halalaboos.huzuni.indev.gui.components.Button} used for displaying and logging into an {@link Account}.
  */
-public class AccountButton extends BruButton {
+public class AccountButton extends Button {
 
-	private Account account;
-	private AccountScreen screen;
+	private final Account account;
+
+	private final AccountScreen screen;
 
 	AccountButton(Account account, AccountScreen screen) {
 		super("account", account.isHidden() ? "(hidden)" : account.getUsername());
 		this.account = account;
 		this.screen = screen;
 
-		onClick((bruButton, mouseButton) -> {
+		onPressed((button, action) -> {
+			MouseButton mouseButton = MouseButton.getMouseButton(action.buttonId);
 			if (mouseButton == MouseButton.LEFT) {
 				try {
 					account.login();
@@ -28,7 +31,7 @@ public class AccountButton extends BruButton {
 					this.screen.status.setText("Failed to login!");
 				}
 			} else if (mouseButton == MouseButton.RIGHT) {
-				toggleHidden();
+				account.setHidden(!account.isHidden());
 			}
 			updateText();
 			return true;
@@ -37,9 +40,5 @@ public class AccountButton extends BruButton {
 
 	private void updateText() {
 		this.setText(!account.isHidden() ? account.getUsername() : "(hidden)");
-	}
-
-	private void toggleHidden() {
-		account.setHidden(!account.isHidden());
 	}
 }

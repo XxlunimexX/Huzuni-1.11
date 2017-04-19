@@ -4,6 +4,8 @@ import net.halalaboos.huzuni.indev.gui.Component;
 import net.halalaboos.huzuni.indev.gui.actions.Actions;
 import net.halalaboos.huzuni.indev.gui.actions.ClickAction;
 
+import java.util.function.Function;
+
 /**
  * Simple slider implementation. <br/>
  * Created by Brandon Williams on 1/15/2017.
@@ -15,6 +17,8 @@ public class Slider extends Component {
     private float sliderPercentage = 0F;
 
     private boolean sliding = false;
+
+    private Function<Slider, Void> valueChangeFunction;
 
     public Slider(String tag) {
         this(tag, 8);
@@ -31,6 +35,9 @@ public class Slider extends Component {
             return false;
         });
         this.addListener(Actions.MOUSERELEASE, (ClickAction.ClickActionListener) action -> {
+            if (sliding) {
+                valueChangeFunction.apply(this);
+            }
             sliding = false;
             return false;
         });
@@ -78,6 +85,13 @@ public class Slider extends Component {
         float maxPointForRendering = (float) (getWidth() - getBarSize() - SLIDER_PADDING),
                 beginPoint = (SLIDER_PADDING);
         return maxPointForRendering - beginPoint;
+    }
+
+    /**
+     * Invokes the given function when this slider's value changes.
+     * */
+    public void onValueChange(Function<Slider, Void> valueChangeFunction) {
+        this.valueChangeFunction = valueChangeFunction;
     }
 
     public boolean isSliding() {

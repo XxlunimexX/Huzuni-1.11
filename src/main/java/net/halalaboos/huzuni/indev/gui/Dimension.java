@@ -15,6 +15,11 @@ public interface Dimension {
     int getHeight();
 
     /**
+     * Width and height will be adjusted by the scale factor provided.
+     * */
+    void scale(float scale);
+
+    /**
      * @return True if the given x and y position is within this dimension.
      * */
     boolean isPointInside(int x, int y);
