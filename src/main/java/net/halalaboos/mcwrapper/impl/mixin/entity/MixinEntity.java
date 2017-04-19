@@ -357,4 +357,9 @@ import java.util.UUID;
 	public Face getFace() {
 		return Convert.from(getHorizontalFacing());
 	}
+
+	@Override
+	public Vector3i getBlockPosition() {
+		return Convert.from(getPosition());
+	}
 }

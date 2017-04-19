@@ -6,13 +6,13 @@ package net.halalaboos.mcwrapper.api.util.math;
 public class Vector3d {
 
 	/** The x-coordinate of the point */
-	private double x;
+	private final double x;
 
 	/** The y-coordinate of the point */
-	private double y;
+	private final double y;
 
 	/** The z-coordinate of the point */
-	private double z;
+	private final double z;
 
 	public static final Vector3d ZERO = new Vector3d(0, 0, 0);
 
@@ -30,8 +30,7 @@ public class Vector3d {
 	 * @return The {@link Vector3d} with the given {@code x} added to the current {@link #x}
 	 */
 	public Vector3d addX(double x) {
-		this.x += x;
-		return this;
+		return new Vector3d(this.x + x, this.y, this.z);
 	}
 
 	/**
@@ -42,8 +41,7 @@ public class Vector3d {
 	 * @return The {@link Vector3d} with the given {@code y} added to the current {@link #y}
 	 */
 	public Vector3d addY(double y) {
-		this.y += y;
-		return this;
+		return new Vector3d(this.x, this.y + y, this.z);
 	}
 
 	/**
@@ -54,15 +52,11 @@ public class Vector3d {
 	 * @return The {@link Vector3d} with the given {@code z} added to the current {@link #z}
 	 */
 	public Vector3d addZ(double z) {
-		this.z += z;
-		return this;
+		return new Vector3d(this.x, this.y, this.z + z);
 	}
 
 	public Vector3d add(double amount) {
-		this.x += amount;
-		this.y += amount;
-		this.z += amount;
-		return this;
+		return new Vector3d(this.x + amount, this.y + amount, this.z + amount);
 	}
 
 	public Vector3d add(Vector3d vec) {
@@ -70,38 +64,23 @@ public class Vector3d {
 	}
 
 	public Vector3d add(double x, double y, double z) {
-		this.x += x;
-		this.y += y;
-		this.z += z;
-		return this;
+		return new Vector3d(this.x + x, this.y + y, this.z + z);
 	}
 
 	public Vector3d sub(double amount) {
-		this.x -= amount;
-		this.y -= amount;
-		this.z -= amount;
-		return this;
+		return new Vector3d(this.x - amount, this.y - amount, this.z - amount);
 	}
 
 	public Vector3d sub(Vector3d vec) {
-		this.x -= vec.x;
-		this.y -= vec.y;
-		this.z -= vec.z;
-		return this;
+		return new Vector3d(this.x - vec.x, this.y - vec.y, this.z - vec.z);
 	}
 
 	public Vector3d scale(double amount) {
-		this.x *= amount;
-		this.y *= amount;
-		this.z *= amount;
-		return this;
+		return new Vector3d(this.x * amount, this.y * amount, this.z * amount);
 	}
 
 	public Vector3d div(double amount) {
-		this.x /= amount;
-		this.y /= amount;
-		this.z /= amount;
-		return this;
+		return new Vector3d(this.x / amount, this.y / amount, this.z / amount);
 	}
 
 	public double distanceTo(Vector3d target) {
@@ -142,25 +121,19 @@ public class Vector3d {
 	}
 
 	public Vector3d setX(double x) {
-		this.x = x;
-		return this;
+		return new Vector3d(x, this.y ,this.z);
 	}
 
 	public Vector3d setY(double y) {
-		this.y = y;
-		return this;
+		return new Vector3d(this.x, y, this.z);
 	}
 
 	public Vector3d setZ(double z) {
-		this.z = z;
-		return this;
+		return new Vector3d(this.x, this.y, z);
 	}
 
 	public Vector3d set(double x, double y, double z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		return this;
+		return new Vector3d(x, y, z);
 	}
 
 	@Override

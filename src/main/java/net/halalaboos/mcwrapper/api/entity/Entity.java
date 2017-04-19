@@ -23,9 +23,7 @@ public interface Entity extends Identifiable, Nameable {
 	 */
 	Vector3d getLocation();
 
-	default Vector3i getBlockPosition() {
-		return new Vector3i(getLocation());
-	}
+	Vector3i getBlockPosition();
 
 	/**
 	 * Sets the Entity's location.
