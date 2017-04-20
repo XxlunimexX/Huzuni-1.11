@@ -21,6 +21,7 @@ import net.halalaboos.huzuni.mod.mining.*;
 import net.halalaboos.huzuni.mod.misc.*;
 import net.halalaboos.huzuni.mod.misc.chat.ChatAnnoy;
 import net.halalaboos.huzuni.mod.misc.chat.ChatMutator;
+import net.halalaboos.huzuni.mod.misc.chat.ChatTranslator;
 import net.halalaboos.huzuni.mod.movement.*;
 import net.halalaboos.huzuni.mod.visual.*;
 import net.halalaboos.huzuni.mod.visual.nametags.Nametags;
@@ -185,6 +186,7 @@ public enum Huzuni {
 		modManager.addMod(new ChatAnnoy());
 		modManager.addMod(new NoEffect());
 		modManager.addMod(new AntiAFK());
+		modManager.addMod(new ChatTranslator());
 		commandManager.addCommand(new Help());
 		commandManager.addCommand(new Say());
 		commandManager.addCommand(new GetCoords());
