@@ -36,7 +36,8 @@ public abstract class BlockLocator {
 				for (double k = -(radius * zIncrement); check(k, (radius * zIncrement), directionVector.getZ() < 0); k += zIncrement) {
 					if (i == 0 && j >= -1 && j <= getPlayer().getEyeHeight() && k == 0)
 						continue;
-					Vector3i position = new Vector3i(getPlayer().getX() + i, getPlayer().getY() + j, getPlayer().getZ() + k);
+					Vector3i playerPos = getPlayer().getBlockPosition();
+					Vector3i position = new Vector3i(i, j, k).add(playerPos);
 					double distance = getPlayer().getDistanceTo(position);
 					if (isWithinDistance(distance) && isValidBlock(position)) {
 						Face face = getFace(position);

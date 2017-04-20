@@ -116,6 +116,10 @@ public class PlaceTask extends LookTask {
 		this.placeDelay = placeDelay;
 	}
 
+	public Vector3i getPosition() {
+		return position;
+	}
+
 	/**
 	 * @return True if the position is within the player's reach distance.
 	 * */

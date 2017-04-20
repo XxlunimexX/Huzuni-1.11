@@ -7,6 +7,8 @@ public interface Crops extends Block {
 
 	int getAge(Vector3i pos);
 
+	boolean isGrown(Vector3i pos);
+
 	int getMaxAge();
 
 }

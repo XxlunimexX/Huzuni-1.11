@@ -62,7 +62,11 @@ public final class Autofarm extends BasicMod {
 		@Override
 		public boolean shouldResetBlock() {
 			Block block = getBlock();
-			return mode.getSelected() == 3 ? !isDirt(block) : (mode.getSelected() == 2 ? block instanceof Crops && getWorld().getBlockMeta(position) >= ((Crops) block).getMaxAge() : super.shouldResetBlock());
+			if (isCrop(block) && mode.getSelected() == 2) {
+				Crops crops = ((Crops) block);
+				return crops.isGrown(position);
+			}
+			return mode.getSelected() == 3 ? !isDirt(block) : super.shouldResetBlock();
 		}
 	};
 	
@@ -75,8 +79,7 @@ public final class Autofarm extends BasicMod {
 				case 0:
 					if (isCrop(block)) {
 						Crops crops = (Crops) block;
-						int age = crops.getAge(position);
-						return age >= crops.getMaxAge();
+						return crops.isGrown(position);
 					}
 					break;
 				case 1:
