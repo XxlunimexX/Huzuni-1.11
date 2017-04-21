@@ -2,6 +2,7 @@ package net.halalaboos.huzuni.gui.screen.account.indev;
 
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.account.Account;
+import net.halalaboos.huzuni.api.util.MinecraftUtils;
 import net.halalaboos.huzuni.api.util.RateLimiter;
 import net.halalaboos.huzuni.api.util.gl.GLUtils;
 import net.halalaboos.huzuni.indev.ColorPack;
@@ -10,6 +11,7 @@ import net.halalaboos.huzuni.indev.gui.ContainerManager;
 import net.halalaboos.huzuni.indev.gui.FontData;
 import net.halalaboos.huzuni.indev.gui.components.Button;
 import net.halalaboos.huzuni.indev.gui.components.Label;
+import net.halalaboos.huzuni.indev.gui.components.TextField;
 import net.halalaboos.huzuni.indev.gui.containers.ScrollableContainer;
 import net.halalaboos.huzuni.indev.gui.impl.BasicRenderer;
 import net.halalaboos.huzuni.indev.gui.impl.BasicToolbox;
@@ -58,13 +60,60 @@ public class AccountScreen extends Screen {
 		int width = this.width - (padding * 2);
 		int height = this.height / 2;
 
-		Container statusContainer = setupStatusContainer(padding, y, width, 50);
+		Container statusContainer = setupStatusContainer(padding, y, width, 40);
 		ScrollableContainer accountList = setupAccountContainer(padding, y + statusContainer.getHeight(), width, height);
 
 		statusContainer.layout();
 		accountList.layout();
 		manager.add(statusContainer);
 		manager.add(accountList);
+	}
+
+	private Container setupLoginContainer(int x, int y, int width, int height) {
+		ScrollableContainer loginContainer = new ScrollableContainer("login");
+		loginContainer.setLayout(new ListLayout(6, 1));
+		loginContainer.setPosition(x, y);
+		loginContainer.setLayering(false);
+		loginContainer.setSize(width, height);
+
+		TextField username = new TextField("username", "");
+		username.setFont(globalFont);
+		username.setHeight(20);
+		TextField password = new TextField("password", "");
+		password.setFont(globalFont);
+		password.setHeight(20);
+
+		Button login = new Button("login", "Login");
+		login.onPressed((button, action) -> {
+			try {
+				MinecraftUtils.loginToMinecraft(username.getText(), password.getText());
+				Account added = new Account();
+				added.setLoginUser(username.getText());
+				added.setPassword(password.getText());
+				huzuni.accountManager.addAccount(added);
+				status.setText("Logged in: " + getMinecraft().session().name());
+				manager.remove(loginContainer);
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return true;
+			}
+		});
+		login.setFont(globalFont);
+		login.setHeight(20);
+
+		Button close = new Button("cancel", "Cancel");
+		close.onPressed((button, action) -> {
+			manager.remove(loginContainer);
+			return true;
+		});
+		close.setHeight(20);
+		close.setFont(globalFont);
+		loginContainer.add(username);
+		loginContainer.add(password);
+		loginContainer.add(login);
+		loginContainer.add(close);
+		return loginContainer;
 	}
 
 	/**
@@ -128,6 +177,11 @@ public class AccountScreen extends Screen {
 	public void keyTyped(char typedChar, int keyCode) throws IOException {
 		super.keyTyped(typedChar, keyCode);
 		manager.keyTyped(typedChar, keyCode);
+		if (keyCode == Keyboard.KEY_GRAVE) {
+			Container login = setupLoginContainer((width / 2) - 100, (height / 2) - 100, 200, 120);
+			login.layout();
+			manager.add(login);
+		}
 	}
 
 	@Override

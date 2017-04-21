@@ -19,9 +19,9 @@ import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.minecraft.util.Session;
 
-import java.net.Proxy;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.UUID;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.*;
 
@@ -48,7 +48,7 @@ public final class MinecraftUtils {
 	 * @return a {@link Session} class with the account's new session.
 	 * */
 	public static void loginToMinecraft(String username, String password) throws AuthenticationException {
-		YggdrasilAuthenticationService authenticationService = new YggdrasilAuthenticationService(Proxy.NO_PROXY, "");
+		YggdrasilAuthenticationService authenticationService = new YggdrasilAuthenticationService(getMinecraft().getProxy(), UUID.randomUUID().toString());
 		YggdrasilUserAuthentication userAuthentication = (YggdrasilUserAuthentication) authenticationService .createUserAuthentication(Agent.MINECRAFT);
 		userAuthentication.setUsername(username);
 		userAuthentication.setPassword(password);

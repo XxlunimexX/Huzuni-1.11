@@ -77,6 +77,7 @@ public class GuiScreenWrapper extends GuiScreen {
 		if (keyCode == Keyboard.KEY_ESCAPE) {
 			mc.displayGuiScreen(parent);
 		}
+		screen.keyTyped(typedChar, keyCode);
 	}
 
 	@Override
