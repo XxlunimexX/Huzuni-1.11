@@ -276,6 +276,8 @@ public interface Entity extends Identifiable, Nameable {
 	 */
 	Face getFace();
 
+	boolean isOnFire();
+
 	Optional<Result> calculateIntercept(Vector3d expansion, Vector3d start, Vector3d end);
 
 	enum CollisionType {

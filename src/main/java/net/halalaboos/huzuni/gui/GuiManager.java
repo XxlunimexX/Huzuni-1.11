@@ -60,6 +60,7 @@ public class GuiManager {
 		widgetManager.addWidget(new ArmorStatusWidget(widgetManager).setGlue(ScreenGlue.CENTER_RIGHT).setEnabled(true));
 		widgetManager.addWidget(new TextRadarWidget(widgetManager));
 		widgetManager.addWidget(new FacingWidget(widgetManager));
+		widgetManager.addWidget(new FireStatusWidget(widgetManager));
 		settingsMenu.init();
 	}
 

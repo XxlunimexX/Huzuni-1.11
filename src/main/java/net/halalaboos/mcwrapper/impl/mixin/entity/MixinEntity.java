@@ -88,6 +88,10 @@ import java.util.UUID;
 	@Shadow protected EntityDataManager dataManager;
 	@Shadow private int entityId;
 
+	@Shadow private int fire;
+
+	@Shadow public abstract boolean isBurning();
+
 	private AABB aabb;
 
 	@Inject(method = "setEntityBoundingBox", at = @At("HEAD"))
@@ -340,6 +344,11 @@ import java.util.UUID;
 	public boolean isCollided(CollisionType type) {
 		return type == CollisionType.HORIZONTAL ? isCollidedHorizontally :
 				type == CollisionType.VERTICAL ? isCollidedVertically : isCollided;
+	}
+
+	@Override
+	public boolean isOnFire() {
+		return isBurning();
 	}
 
 	@Override
