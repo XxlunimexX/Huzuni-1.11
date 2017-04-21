@@ -95,10 +95,17 @@ public class GuiTestScreen extends Screen {
         // Populate the scrollable container with the mods of huzuni.
         for (Mod mod : huzuni.modManager.getMods()) {
             Button button = new Button("mod", mod.getName());
+            button.setHighlight(mod.isEnabled());
             button.onPressed((thisbutton, action) -> {
-                if (MouseButton.getMouseButton(action.buttonId) == MouseButton.LEFT) {
-                    loadMod(mod);
-                }
+                switch (MouseButton.getMouseButton(action.buttonId)) {
+					case LEFT:
+						loadMod(mod);
+						return true;
+					case RIGHT:
+						mod.toggle();
+						thisbutton.setHighlight(mod.isEnabled());
+						return true;
+				}
                 return true;
             });
             button.setFont(globalFont);
@@ -116,8 +123,7 @@ public class GuiTestScreen extends Screen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        while (updateLimiter.reached())
-            manager.update();
+        while (updateLimiter.reached()) manager.update();
         manager.render();
         getGLStateManager().disableBlend();
     }
