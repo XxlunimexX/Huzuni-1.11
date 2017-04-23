@@ -15,40 +15,41 @@ public abstract class MixinSession implements Session {
 
 	@Mutable
 	@Shadow @Final private net.minecraft.util.Session.Type sessionType;
-	private String _playerId, _token, _username;
+
+	private String fakeId, fakeToken, fakeUsername;
 
 	@Inject(method = "<init>", at = @At("RETURN"))
 	private void onInit(CallbackInfo ci) {
-		this._playerId = playerID;
-		this._token = token;
-		this._username = username;
+		this.fakeId = playerID;
+		this.fakeToken = token;
+		this.fakeUsername = username;
 	}
 
 	@Overwrite
 	public String getPlayerID() {
-		return _playerId;
+		return fakeId;
 	}
 
 	@Overwrite
 	public String getToken() {
-		return _token;
+		return fakeToken;
 	}
 
 	@Overwrite
 	public String getUsername() {
-		return _username;
+		return fakeUsername;
 	}
 
 	@Overwrite
 	public String getSessionID() {
-		return "token:" + this._token + ":" + this._playerId;
+		return "token:" + this.fakeToken + ":" + this.fakeId;
 	}
 
 	@Override
 	public void set(String... params) {
-		this._username = params[0];
-		this._playerId = params[1];
-		this._token = params[2];
+		this.fakeUsername = params[0];
+		this.fakeId = params[1];
+		this.fakeToken = params[2];
 		if (params.length > 3) {
 			this.sessionType = params[3].equals("mojang") ? net.minecraft.util.Session.Type.MOJANG : net.minecraft.util.Session.Type.LEGACY;
 		} else {
@@ -58,11 +59,11 @@ public abstract class MixinSession implements Session {
 
 	@Override
 	public String name() {
-		return _username;
+		return fakeUsername;
 	}
 
 	@Override
 	public String[] getParams() {
-		return new String[] { _username, _playerId, _token, getSessionID() };
+		return new String[] {fakeUsername, fakeId, fakeToken, getSessionID() };
 	}
 }
