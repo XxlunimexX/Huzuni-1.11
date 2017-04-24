@@ -1,6 +1,5 @@
 package net.halalaboos.mcwrapper.api.client;
 
-import net.halalaboos.mcwrapper.api.block.Block;
 import net.halalaboos.mcwrapper.api.entity.living.Living;
 import net.halalaboos.mcwrapper.api.entity.living.player.GameType;
 import net.halalaboos.mcwrapper.api.entity.living.player.Hand;
@@ -84,15 +83,6 @@ public interface ClientPlayer extends Player {
 	void setPushable(boolean pushed);
 
 	boolean isUnderStairs();
-
-	/**
-	 * Sets whether or not the player can clip through blocks.
-	 *
-	 * Keep in mind that in most cases, enabling this is a bad idea since the player will just fall through the world,
-	 * or if you're in a multiplayer server, you'll just get pulled back.  This is only really useful in an instance
-	 * where you're not sending motion updates, such as something like a Freecam mod.
-	 */
-	void setNoClip(boolean noClip);
 
 	float calculateDamage(Living target, ItemStack item, float cooldown);
 

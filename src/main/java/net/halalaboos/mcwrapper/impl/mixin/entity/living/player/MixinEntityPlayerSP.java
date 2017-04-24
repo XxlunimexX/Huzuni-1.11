@@ -2,7 +2,6 @@ package net.halalaboos.mcwrapper.impl.mixin.entity.living.player;
 
 import com.google.common.collect.Multimap;
 import net.halalaboos.huzuni.Huzuni;
-import net.halalaboos.huzuni.mod.movement.Freecam;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.halalaboos.mcwrapper.api.client.ClientPlayer;
 import net.halalaboos.mcwrapper.api.client.Input;
@@ -17,7 +16,6 @@ import net.halalaboos.mcwrapper.api.item.ItemStack;
 import net.halalaboos.mcwrapper.api.network.PlayerInfo;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
 import net.halalaboos.mcwrapper.impl.Convert;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -45,7 +43,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Collection;
-import java.util.Map;
 
 @Mixin(net.minecraft.client.entity.EntityPlayerSP.class)
 public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer implements ClientPlayer {
@@ -79,16 +76,6 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 		}
 	}
 
-	@Override
-	protected boolean pushOutOfBlocks(double x, double y, double z) {
-		return !fakeClip && super.pushOutOfBlocks(x, y, z);
-	}
-
-	@Override
-	public boolean isEntityInsideOpaqueBlock() {
-		return !fakeClip && super.isEntityInsideOpaqueBlock();
-	}
-
 	private PreMotionUpdateEvent preMotion = new PreMotionUpdateEvent();
 	private PostMotionUpdateEvent postMotion = new PostMotionUpdateEvent();
 	private Huzuni huzuni = Huzuni.INSTANCE;
@@ -116,16 +103,8 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 
 	private final MoveEvent event = new MoveEvent(0, 0, 0);
 
-	private boolean fakeClip = false;
-
-	@Override
-	public void setNoClip(boolean noClip) {
-		this.fakeClip = noClip;
-	}
-
 	@Overwrite
 	public void move(MoverType type, double x, double y, double z) {
-		this.noClip = fakeClip || isSpectator();
 		double d0 = this.posX;
 		double d1 = this.posZ;
 		event.setMotionX(x);

@@ -60,4 +60,13 @@ public interface Player extends Living {
 	PlayerInventory getPlayerInventory();
 
 	void setPushedByWater(boolean pushedByWater);
+
+	/**
+	 * Sets whether or not the player can clip through blocks.
+	 *
+	 * Keep in mind that in most cases, enabling this is a bad idea since the player will just fall through the world,
+	 * or if you're in a multiplayer server, you'll just get pulled back.  This is only really useful in an instance
+	 * where you're not sending motion updates, such as something like a Freecam mod.
+	 */
+	void setNoClip(boolean noClip);
 }
