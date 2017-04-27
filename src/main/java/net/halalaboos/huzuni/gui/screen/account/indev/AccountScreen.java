@@ -178,7 +178,7 @@ public class AccountScreen extends Screen {
 		super.keyTyped(typedChar, keyCode);
 		manager.keyTyped(typedChar, keyCode);
 		if (keyCode == Keyboard.KEY_GRAVE) {
-			Container login = setupLoginContainer((width / 2) - 100, (height / 2) - 100, 200, 120);
+			Container login = setupLoginContainer((width / 2) - 100, (height / 2) - 45, 200, 95);
 			login.layout();
 			manager.add(login);
 		}
