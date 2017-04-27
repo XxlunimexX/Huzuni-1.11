@@ -17,7 +17,6 @@ import net.halalaboos.mcwrapper.api.util.math.MathUtils;
 import net.halalaboos.mcwrapper.api.util.math.Result;
 import net.halalaboos.mcwrapper.api.util.math.Vector3d;
 import net.halalaboos.mcwrapper.api.util.math.Vector3i;
-import net.minecraft.util.Session;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -45,7 +44,6 @@ public final class MinecraftUtils {
 	
 	/**
 	 * Attempts to log into a Minecraft account using the username and password provided.
-	 * @return a {@link Session} class with the account's new session.
 	 * */
 	public static void loginToMinecraft(String username, String password) throws AuthenticationException {
 		YggdrasilAuthenticationService authenticationService = new YggdrasilAuthenticationService(getMinecraft().getProxy(), UUID.randomUUID().toString());
@@ -139,14 +137,6 @@ public final class MinecraftUtils {
 			}
 		}
 		return null;
-/*
-		EnumFacing facing = MinecraftUtilsNew.getAdjacent(Convert.to(position));
-		if (facing != null) {
-			System.out.println(facing.name());
-			System.out.println(Convert.from(facing).name());
-			return Convert.from(facing);
-		}
-		return null;*/
 	}
 
 	public static int getPotionY() {
