@@ -94,7 +94,7 @@ jar {
                 "MixinConfigs": 'mixins.mcwrapper.json',
                 "tweakClass": 'org.spongepowered.asm.launch.MixinTweaker',
                 "TweakOrder": 0,
-                'FMLCorePluginContainsFMLMod': 'net.halalaboos.huzuni.mc.mixin.MixinLoaderForge')
+                'FMLCorePluginContainsFMLMod': 'net.halalaboos.mcwrapper.launch.MixinLoaderForge')
     }
 }
 sourceCompatibility = targetCompatibility = "1.8"

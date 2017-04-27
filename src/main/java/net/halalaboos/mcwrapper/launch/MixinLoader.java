@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.mc.mixin;
+package net.halalaboos.mcwrapper.launch;
 
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.minecraft.launchwrapper.ITweaker;

@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.mc.mixin;
+package net.halalaboos.mcwrapper.launch;
 
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
