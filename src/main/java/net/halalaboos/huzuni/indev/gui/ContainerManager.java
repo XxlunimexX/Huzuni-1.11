@@ -119,4 +119,12 @@ public class ContainerManager {
         this.containers.clear();
     }
 
+    public boolean contains(String tag) {
+        for (Container container : this.containers) {
+            if (container.getTag().equals(tag)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

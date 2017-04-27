@@ -11,7 +11,7 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
  */
 public class AccountButton extends Button {
 
-	private final Account account;
+	protected final Account account;
 
 	private final AccountScreen screen;
 
@@ -32,6 +32,9 @@ public class AccountButton extends Button {
 				}
 			} else if (mouseButton == MouseButton.RIGHT) {
 				account.setHidden(!account.isHidden());
+			} else if (mouseButton == MouseButton.MIDDLE) {
+				screen.displayDeleteWarning(this);
+				System.out.println("YO");
 			}
 			updateText();
 			return true;

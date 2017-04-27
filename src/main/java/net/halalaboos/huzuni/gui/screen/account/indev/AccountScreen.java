@@ -30,20 +30,22 @@ import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
 
 public class AccountScreen extends Screen {
 
-	private final BasicToolbox toolbox = new BasicToolbox();
-
 	private final RateLimiter updateLimiter = new RateLimiter(TimeUnit.SECONDS, 60);
 
 	private final FontData globalFont, titleFont;
 
-	private ContainerManager manager;
+	protected ContainerManager manager;
 
-	protected Label status;
+	/**
+	 * The {@link Label} used to display the current logged in user in the format of "Logged in: [username]"
+	 */
+	Label status;
 
 	public AccountScreen() {
 		this.globalFont = huzuni.resourceCreator.create("font", "font_global", "RobotoCondensed-Regular.ttf", Font.PLAIN, 18);
 		this.titleFont = huzuni.resourceCreator.create("font", "font_title", "RobotoCondensed-Bold.ttf", Font.BOLD, 48);
 		ColorPack colorPack = ColorPack.BLUE_GREY;
+		BasicToolbox toolbox = new BasicToolbox();
 		colorPack.apply(toolbox);
 		BasicRenderer renderer = new BasicRenderer(toolbox);
 		manager = new ContainerManager(renderer, toolbox);
@@ -62,11 +64,27 @@ public class AccountScreen extends Screen {
 
 		Container statusContainer = setupStatusContainer(padding, y, width, 40);
 		ScrollableContainer accountList = setupAccountContainer(padding, y + statusContainer.getHeight(), width, height);
+		Container controlsContainer = setupControlsContainer(padding, accountList.getY() + accountList.getHeight(), width, 32);
 
 		statusContainer.layout();
 		accountList.layout();
+		controlsContainer.layout();
 		manager.add(statusContainer);
 		manager.add(accountList);
+		manager.add(controlsContainer);
+	}
+
+	private Container setupControlsContainer(int x, int y, int width, int height) {
+		ScrollableContainer controlsContainer = new ScrollableContainer("controls");
+		controlsContainer.setLayout(new ListLayout(6, 1));
+		controlsContainer.setPosition(x, y);
+		controlsContainer.setSize(width, height);
+		Button addAccount = new Button("add", "Add/Login");
+		addAccount.onPressed((button, action) -> createLoginContainer());
+		addAccount.setFont(globalFont);
+		addAccount.setHeight(20);
+		controlsContainer.add(addAccount);
+		return controlsContainer;
 	}
 
 	private Container setupLoginContainer(int x, int y, int width, int height) {
@@ -116,6 +134,45 @@ public class AccountScreen extends Screen {
 		return loginContainer;
 	}
 
+	boolean displayDeleteWarning(AccountButton accountButton) {
+		//If the alert popup is already displayed, don't do anything
+		if (manager.contains("alert")) return false;
+
+		ScrollableContainer warningContainer = new ScrollableContainer("alert");
+		warningContainer.setLayout(new ListLayout(6, 1));
+		warningContainer.setPosition((width / 2) - 100, (height / 2) - 45);
+		warningContainer.setLayering(false);
+		warningContainer.setSize(200, 65);
+
+		Label confirm = new Label("title", "Delete account \"" + accountButton.account.getUsername() + "\"?");
+		confirm.setFont(globalFont);
+		confirm.setHeight(20);
+
+		Button delete = new Button("delete", "Delete");
+		delete.onPressed((button, action) -> {
+			Account account = accountButton.account;
+			huzuni.accountManager.removeAccount(account);
+			initGui();
+			return true;
+		});
+		delete.setFont(globalFont);
+		delete.setHeight(20);
+
+		Button close = new Button("cancel", "Cancel");
+		close.onPressed((button, action) -> {
+			manager.remove(warningContainer);
+			return true;
+		});
+		close.setHeight(20);
+		close.setFont(globalFont);
+		warningContainer.add(confirm);
+		warningContainer.add(delete);
+		warningContainer.add(close);
+		warningContainer.layout();
+		manager.add(warningContainer);
+		return false;
+	}
+
 	/**
 	 * Sets up the accounts container, which contains a {@link ScrollableContainer} with {@link AccountButton buttons}
 	 * for each account in the {@link #accountsFile}.
@@ -163,13 +220,11 @@ public class AccountScreen extends Screen {
 
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-		super.mouseClicked(mouseX, mouseY, mouseButton);
 		manager.mousePressed(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-		super.mouseReleased(mouseX, mouseY, mouseButton);
 		manager.mouseReleased(mouseX, mouseY, mouseButton);
 	}
 
@@ -177,11 +232,6 @@ public class AccountScreen extends Screen {
 	public void keyTyped(char typedChar, int keyCode) throws IOException {
 		super.keyTyped(typedChar, keyCode);
 		manager.keyTyped(typedChar, keyCode);
-		if (keyCode == Keyboard.KEY_GRAVE) {
-			Container login = setupLoginContainer((width / 2) - 100, (height / 2) - 45, 200, 95);
-			login.layout();
-			manager.add(login);
-		}
 	}
 
 	@Override
@@ -196,6 +246,14 @@ public class AccountScreen extends Screen {
 			if (wheel != 0)
 				manager.mouseWheel(wheel);
 		}
+	}
+
+	private boolean createLoginContainer() {
+		if (manager.contains("login")) return false;
+		Container login = setupLoginContainer((width / 2) - 100, (height / 2) - 45, 200, 95);
+		login.layout();
+		manager.add(login);
+		return true;
 	}
 
 	@Override

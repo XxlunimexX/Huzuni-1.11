@@ -61,6 +61,12 @@ public class AccountManager {
 		}
 	}
 
+	public void removeAccount(Account account) {
+		if (accounts.contains(account)) {
+			accounts.remove(account);
+		}
+	}
+
 	/**
 	 * This method does two things:
 	 *
@@ -114,16 +120,6 @@ public class AccountManager {
 	 * Saves the {@link #accounts} to the {@link #accountsFile}.
 	 */
 	public void save() {
-		//
-		// This has already been done in the load function.
-		//
-//		if (!accountsFile.exists()) {
-//			try {
-//				accountsFile.createNewFile();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
 		try {
 			FileWriter fileWriter = new FileWriter(accountsFile);
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -133,26 +129,6 @@ public class AccountManager {
 			Huzuni.LOGGER.log(Level.ERROR, "Unable to save accounts!");
 		}
 	}
-
-	/**
-	 * Converts the contents of our old {@code Accounts.txt} file to {@link Account} objects to be added to our
-	 * {@link #accountsFile}.  After this, we rename the old file to {@code Accounts-UNUSED.txt}, since we will no
-	 * longer be using these (though some people may not want their accounts deleted for whatever reason).
-	 */
-//	private void convertOldAccounts() {
-//		if (oldAccountsFile.exists()) {
-//			try {
-//				Huzuni.LOGGER.log(Level.INFO, "Converting old Accounts.txt file...");
-//				List<String> oldAccounts = FileUtils.readFile(oldAccountsFile);
-//				for (String s : oldAccounts) {
-//					addAccount(getAccount(s));
-//				}
-//				oldAccountsFile.renameTo(new File(Huzuni.INSTANCE.getSaveFolder(), "Accounts-UNUSED.txt"));
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
 
 	public List<Account> getAccounts() {
 		return accounts;
