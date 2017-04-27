@@ -81,6 +81,7 @@
     "network.packet.server.MixinPacketSpawnObject",
     "network.packet.server.MixinPacketUpdateHealth",
     "network.packet.server.MixinPacketCollectItem",
+    "network.packet.server.MixinSPacketPlayerAbilities",
     "potion.MixinPotion",
     "potion.MixinPotionEffect",
     "world.MixinWorld",

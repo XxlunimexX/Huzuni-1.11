@@ -11,9 +11,9 @@ import net.halalaboos.mcwrapper.api.event.network.PacketReadEvent;
 import net.halalaboos.mcwrapper.api.event.network.PacketSendEvent;
 import net.halalaboos.mcwrapper.api.network.packet.client.PlayerAbilitiesPacket;
 import net.halalaboos.mcwrapper.api.network.packet.client.TabCompletePacket;
+import net.halalaboos.mcwrapper.api.network.packet.server.ServerPlayerAbilitiesPacket;
 import net.halalaboos.mcwrapper.api.util.enums.MouseButton;
 import net.halalaboos.mcwrapper.api.util.math.Result;
-import net.minecraft.network.play.server.SPacketPlayerAbilities;
 
 import static net.halalaboos.mcwrapper.api.MCWrapper.getEventManager;
 import static net.halalaboos.mcwrapper.api.MCWrapper.getMinecraft;
@@ -61,9 +61,9 @@ public class Patcher {
 			}
 		});
 		getEventManager().subscribe(PacketReadEvent.class, event -> {
-			if (event.getPacket() instanceof SPacketPlayerAbilities) {
-				SPacketPlayerAbilities packet = (SPacketPlayerAbilities) event.getPacket();
-				shouldHideFlying = !(packet.isAllowFlying() || packet.isFlying());
+			if (event.getPacket() instanceof ServerPlayerAbilitiesPacket) {
+				ServerPlayerAbilitiesPacket packet = (ServerPlayerAbilitiesPacket) event.getPacket();
+				shouldHideFlying = !(packet.isFlyingAllowed() || packet.isFlying());
 			}
 		});
 		getEventManager().subscribe(PacketSendEvent.class, event -> {
