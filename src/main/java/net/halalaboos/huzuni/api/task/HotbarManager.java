@@ -1,6 +1,6 @@
 package net.halalaboos.huzuni.api.task;
 
-import net.minecraft.client.Minecraft;
+import net.halalaboos.mcwrapper.api.MCWrapper;
 
 /**
  * Task manager which handles only hotbar tasks.
@@ -17,14 +17,14 @@ public class HotbarManager extends TaskManager <HotbarTask> {
 	public boolean requestTask(String taskHolder, HotbarTask task) {
 		boolean request = super.requestTask(taskHolder, task);
 		if (request && task != null && oldSlot == -1)
-			this.oldSlot = Minecraft.getMinecraft().player.inventory.currentItem;
+			this.oldSlot = MCWrapper.getPlayer().getPlayerInventory().getCurrentSlot();
 		return request;
 	}
 	
 	@Override
 	public void withdrawTask(HotbarTask task) {
 		if (getCurrentTask() == task && oldSlot != -1) {
-			Minecraft.getMinecraft().player.inventory.currentItem = oldSlot;
+			MCWrapper.getPlayer().getPlayerInventory().setCurrentSlot(oldSlot);
 			oldSlot = -1;
 		}
 		super.withdrawTask(task);
