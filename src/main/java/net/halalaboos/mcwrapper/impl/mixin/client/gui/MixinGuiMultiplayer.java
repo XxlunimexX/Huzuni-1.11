@@ -1,6 +1,6 @@
 package net.halalaboos.mcwrapper.impl.mixin.client.gui;
 
-import net.halalaboos.huzuni.gui.screen.account.indev.AccountScreen;
+import net.halalaboos.huzuni.gui.screen.account.AccountScreen;
 import net.halalaboos.mcwrapper.api.MCWrapper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMultiplayer;

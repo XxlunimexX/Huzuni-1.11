@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.gui.screen.account.indev;
+package net.halalaboos.huzuni.gui.screen.account;
 
 import net.halalaboos.huzuni.api.account.Account;
 import net.halalaboos.huzuni.indev.gui.components.Button;
@@ -19,6 +19,7 @@ public class AccountButton extends Button {
 		super("account", account.isHidden() ? "(hidden)" : account.getUsername());
 		this.account = account;
 		this.screen = screen;
+		updateText();
 
 		onPressed((button, action) -> {
 			MouseButton mouseButton = MouseButton.getMouseButton(action.buttonId);
@@ -34,7 +35,6 @@ public class AccountButton extends Button {
 				account.setHidden(!account.isHidden());
 			} else if (mouseButton == MouseButton.MIDDLE) {
 				screen.displayDeleteWarning(this);
-				System.out.println("YO");
 			}
 			updateText();
 			return true;
@@ -42,6 +42,6 @@ public class AccountButton extends Button {
 	}
 
 	private void updateText() {
-		this.setText(!account.isHidden() ? account.getUsername() : "(hidden)");
+		this.setText(!account.isHidden() ? account.isCracked() ? account.getUsername() + " (Offline)" : account.getUsername() : "(hidden)");
 	}
 }

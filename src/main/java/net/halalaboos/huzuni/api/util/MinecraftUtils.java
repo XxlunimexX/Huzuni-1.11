@@ -56,6 +56,10 @@ public final class MinecraftUtils {
 		getMinecraft().session().set(userAuthentication.getSelectedProfile().getName(), userAuthentication.getSelectedProfile().getId().toString(), userAuthentication.getAuthenticatedToken(), username.contains("@") ? "mojang" : "");
 	}
 
+	public static void loginOffline(String username) {
+		getMinecraft().session().set(username, "", "", "");
+	}
+
 	/**
      * @return Rotations needed to face the position.
      */

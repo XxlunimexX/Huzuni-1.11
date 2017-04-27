@@ -1,4 +1,4 @@
-package net.halalaboos.huzuni.gui.screen.account.indev;
+package net.halalaboos.huzuni.gui.screen.account;
 
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.account.Account;
@@ -9,6 +9,8 @@ import net.halalaboos.huzuni.indev.ColorPack;
 import net.halalaboos.huzuni.indev.gui.Container;
 import net.halalaboos.huzuni.indev.gui.ContainerManager;
 import net.halalaboos.huzuni.indev.gui.FontData;
+import net.halalaboos.huzuni.indev.gui.actions.Actions;
+import net.halalaboos.huzuni.indev.gui.actions.KeystrokeAction;
 import net.halalaboos.huzuni.indev.gui.components.Button;
 import net.halalaboos.huzuni.indev.gui.components.Label;
 import net.halalaboos.huzuni.indev.gui.components.TextField;
@@ -101,16 +103,27 @@ public class AccountScreen extends Screen {
 		password.setFont(globalFont);
 		password.setHeight(20);
 
-		Button login = new Button("login", "Login");
+		Button login = new Button("login", "Login (Offline)");
 		login.onPressed((button, action) -> {
 			try {
+				//If the password field is empty, assume this is a cracked account
+				if (password.getText().length() == 0 && username.getText().length() > 1) {
+					Account cracked = new Account();
+					cracked.setLoginUser(username.getText());
+					huzuni.accountManager.addAccount(cracked);
+					cracked.login();
+					status.setText("Logged in: " + getMinecraft().session().name());
+					initGui();
+					return true;
+				}
+				//If the account fails to log in, an exception is thrown and the account won't be added.
 				MinecraftUtils.loginToMinecraft(username.getText(), password.getText());
 				Account added = new Account();
 				added.setLoginUser(username.getText());
 				added.setPassword(password.getText());
 				huzuni.accountManager.addAccount(added);
 				status.setText("Logged in: " + getMinecraft().session().name());
-				manager.remove(loginContainer);
+				initGui();
 				return true;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -119,6 +132,16 @@ public class AccountScreen extends Screen {
 		});
 		login.setFont(globalFont);
 		login.setHeight(20);
+
+		//If the password text field has no text, then have the login button display that it'll be added as an offline account
+		password.addListener(Actions.KEYSTROKE, (KeystrokeAction.KeystrokeActionListener) action -> {
+			if (password.getText().length() > 0) {
+				login.setText("Login");
+			} else {
+				login.setText("Login (Offline)");
+			}
+			return false;
+		});
 
 		Button close = new Button("cancel", "Cancel");
 		close.onPressed((button, action) -> {

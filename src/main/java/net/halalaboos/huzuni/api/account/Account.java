@@ -107,15 +107,27 @@ public class Account {
 
 	public final void login() {
 		try {
-			MinecraftUtils.loginToMinecraft(loginUser, password);
+			if (isCracked()) {
+				MinecraftUtils.loginOffline(getUsername());
+			} else {
+				MinecraftUtils.loginToMinecraft(loginUser, password);
+			}
 			this.setUsername(MCWrapper.getMinecraft().session().name());
 		} catch (AuthenticationException e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Whether or not the account is 'cracked', meaning it doesn't have a password and can only be used on
+	 * offline/cracked servers.
+	 */
+	public boolean isCracked() {
+		return password == null || password.length() == 0;
+	}
+
 	@Override
 	public boolean equals(Object o) {
-		return o instanceof Account && ((Account) o).getLoginUser().equalsIgnoreCase(getLoginUser());
+		return o instanceof Account && ((Account) o).getUsername().equalsIgnoreCase(getUsername());
 	}
 }
