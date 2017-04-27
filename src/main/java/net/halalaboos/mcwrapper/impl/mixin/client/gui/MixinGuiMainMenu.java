@@ -2,7 +2,6 @@ package net.halalaboos.mcwrapper.impl.mixin.client.gui;
 
 import net.halalaboos.huzuni.Huzuni;
 import net.halalaboos.huzuni.api.util.gl.Texture;
-import net.halalaboos.huzuni.gui.screen.HuzuniLink;
 import net.halalaboos.huzuni.render.ParticleRenderer;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -39,6 +38,12 @@ public class MixinGuiMainMenu extends GuiScreen {
 	private Texture TITLE;
 
 	/**
+	 * The update button ID is set to the next free ID.  This is to make sure that it isn't assigned to an existing
+	 * button's ID if mods add extra buttons to the main menu.
+	 */
+	private int updateButtonID = 1;
+
+	/**
 	 * Adds the update button.
 	 */
 	@Inject(method = "initGui", at = @At("RETURN"))
@@ -47,9 +52,15 @@ public class MixinGuiMainMenu extends GuiScreen {
 		//Set the size of the particle renderer
 		particleRenderer.updateSize(width, height);
 		String updateText = "A new Huzuni update is available! Click me to download.";
+
+		for (GuiButton button : this.buttonList) {
+			if (button.id == updateButtonID) {
+				updateButtonID++;
+			}
+		}
 		if (Huzuni.INSTANCE.settings.hasUpdate()) {
 			//Add update button if necessary
-			this.buttonList.add(new HuzuniLink(400, 5, 5, fontRenderer.getStringWidth(updateText), 15, updateText));
+			this.buttonList.add(new GuiButton(updateButtonID, 5, 5, fontRenderer.getStringWidth(updateText) + 10, 20, updateText));
 		}
 	}
 
@@ -58,7 +69,7 @@ public class MixinGuiMainMenu extends GuiScreen {
 	 */
 	@Inject(method = "actionPerformed", at = @At("HEAD"))
 	public void onClick(GuiButton button, CallbackInfo ci) throws IOException {
-		if (button.id == 400) {
+		if (button.id == updateButtonID) {
 			try {
 				Desktop.getDesktop().browse(new URL("http://halalaboos.net").toURI());
 			} catch (URISyntaxException e) {
