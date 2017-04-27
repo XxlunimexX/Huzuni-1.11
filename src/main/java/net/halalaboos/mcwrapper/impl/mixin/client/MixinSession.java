@@ -25,21 +25,37 @@ public abstract class MixinSession implements Session {
 		this.fakeUsername = username;
 	}
 
+	/**
+	 * @reason Replaces the player ID with a non-final one.
+	 * @author b
+	 */
 	@Overwrite
 	public String getPlayerID() {
 		return fakeId;
 	}
 
+	/**
+	 * @reason Replaces the token with a non-final one.
+	 * @author b
+	 */
 	@Overwrite
 	public String getToken() {
 		return fakeToken;
 	}
 
+	/**
+	 * @reason Replaces the username with a non-final one.
+	 * @author b
+	 */
 	@Overwrite
 	public String getUsername() {
 		return fakeUsername;
 	}
 
+	/**
+	 * @reason Replaces the session ID with a non-final one.
+	 * @author b
+	 */
 	@Overwrite
 	public String getSessionID() {
 		return "token:" + this.fakeToken + ":" + this.fakeId;

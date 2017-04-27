@@ -32,7 +32,7 @@ public abstract class MixinNetHandlerPlayClient implements NetworkHandler {
 	@Shadow private NetworkManager netManager;
 
 	/**
-	 * Publishes the {@link PacketSendEvent}.
+	 * @reason Publishes the {@link PacketSendEvent}.
 	 *
 	 * @author b
 	 */

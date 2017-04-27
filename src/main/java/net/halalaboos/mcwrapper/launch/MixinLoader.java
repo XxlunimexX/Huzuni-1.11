@@ -1,7 +1,9 @@
 package net.halalaboos.mcwrapper.launch;
 
 import net.halalaboos.mcwrapper.api.MCWrapper;
+import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraft.launchwrapper.ITweaker;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraft.launchwrapper.LaunchClassLoader;
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.launch.MixinTweaker;
@@ -56,14 +58,24 @@ public class MixinLoader implements ITweaker {
 		  obfuscation context, since Forge jars are obfuscated differently.
 		 */
 		Mixins.addConfiguration("mixins.mcwrapper.json");
-		MixinEnvironment.getDefaultEnvironment().setObfuscationContext("notch");
-		try {
-			Class.forName("net.minecraftforge.client.GuiIngameForge");
-		} catch (ClassNotFoundException e) {
+
+		if (hasForge()) {
+			MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");
+			System.out.println("Forge found!");
+		} else {
 			System.out.println("Forge not found!");
 			MCWrapper.IS_USING_FORGE = false;
 		}
 		MixinEnvironment.getDefaultEnvironment().setSide(MixinEnvironment.Side.CLIENT);
+	}
+
+	private boolean hasForge() {
+		for (IClassTransformer transformer : Launch.classLoader.getTransformers()) {
+			if (transformer.getClass().getName().contains("fml")) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

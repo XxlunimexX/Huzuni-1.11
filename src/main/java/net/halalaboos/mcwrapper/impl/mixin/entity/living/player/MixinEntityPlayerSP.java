@@ -103,6 +103,10 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer impl
 
 	private final MoveEvent event = new MoveEvent(0, 0, 0);
 
+	/**
+	 * @reason Dispatches the move event and modifies movement speed
+	 * @author b
+	 */
 	@Overwrite
 	public void move(MoverType type, double x, double y, double z) {
 		double d0 = this.posX;
