@@ -43,7 +43,6 @@
 //                if (!ignoreCommands.isEnabled() || (message.startsWith("/") || message.startsWith(huzuni.commandManager.getCommandPrefix()))) {
 //                    packetChatMessage.setText(Translator.getInstance().translate(message, detectLanguage.isEnabled() ? Translator.getInstance().detect(message) : fromLanguage.getSelectedItem(), toLanguage.getSelectedItem()));
 //                }
-//                packetChatMessage.setText(message);
 //            }
 //        });
 //    }

@@ -84,7 +84,8 @@ public class AccountManager {
 				BufferedReader reader = new BufferedReader(new FileReader(accountsFile));
 				Type type = new TypeToken<List<Account>>(){}.getType();
 				List<Account> accounts = gson.fromJson(reader, type);
-				this.accounts.addAll(accounts);
+				if (accounts != null)
+					this.accounts.addAll(accounts);
 				reader.close();
 			} catch (IOException e) {
 				Huzuni.LOGGER.log(Level.ERROR, "Unable to load accounts!");
